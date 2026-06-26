@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "FISTIK — Шеберхана",
+    "description": "Люкс пісірімдер мен торттар. Жеткізумен тапсырыс."
+  },
+  "nav": {
+    "catalog": "Мәзір",
+    "cart": "Себет",
+    "checkout": "Тапсырыс",
+    "instagram": "Instagram"
+  },
+  "hero": {
+    "tagline": "Махаббатпен дайындалған",
+    "subtitle": "Люкс торттар мен пісірімдер — үйіңізге дейін"
+  },
+  "catalog": {
+    "allCategories": "Барлығы",
+    "empty": "Өнімдер уақытша жоқ.",
+    "addToCart": "Себетке",
+    "added": "Қосылды",
+    "soldOut": "Таусылды",
+    "stockLeft": "{count} дана қалды"
+  },
+  "product": {
+    "back": "Мәзірге оралу",
+    "quantity": "Саны",
+    "addToCart": "Себетке қосу",
+    "viewCart": "Себетке өту",
+    "category": "Категория",
+    "soldOut": "Таусылды",
+    "stockLeft": "{count} дана қалды"
+  },
+  "cart": {
+    "title": "Себетіңіз",
+    "empty": "Себет бос",
+    "emptyCta": "Мәзірді қарау",
+    "subtotal": "Барлығы",
+    "continue": "Тапсырыс беру",
+    "backToMenu": "Мәзірге оралу",
+    "continueShopping": "Тағы тауар қосқыңыз келе ме?",
+    "remove": "Жою",
+    "items": "{count, plural, one {# тауар} other {# тауар}}"
+  },
+  "checkout": {
+    "title": "Тапсырыс беру",
+    "customerName": "Толық аты",
+    "phone": "Телефон нөмірі",
+    "phonePlaceholder": "778 268 17 55",
+    "phoneHint": "Нөміріңізді жазыңыз — (+7) сол жақта дайын. × немесе backspace арқылы өшіріңіз.",
+    "deliveryDate": "Жеткізу күні",
+    "deliveryTimeNotice": "Жеткізу уақыты: Сатушы өкілі тапсырысты растағаннан кейін хабарласып, ыңғайлы уақытты келіседі.",
+    "address": "Жеткізу мекенжайы",
+    "addressStreet": "Көше, аудан, тұрғын үй",
+    "addressStreetPlaceholder": "Мысалы: Карасай Батыр 7А",
+    "buildingNumber": "Үй нөмірі",
+    "floorApartment": "Қабат / пәтер",
+    "addressNotes": "Қосымша мекенжай ақпараты (міндетті емес)",
+    "addressNotesPlaceholder": "Домофон, orientir, т.б.",
+    "cakeText": "Торт мәтіні (міндетті емес)",
+    "notes": "Тапсырыс ескертулері (міндетті емес)",
+    "submit": "WhatsApp арқылы тапсырыс",
+    "submitting": "Өңделуде...",
+    "orderSummary": "Тапсырыс қорытындысы",
+    "total": "Барлығы",
+    "forgotSomething": "Бірдеңе ұмыттыңыз ба?",
+    "backToMenu": "Мәзірге оралу",
+    "errors": {
+      "nameRequired": "Атыңызды енгізіңіз (кемінде 2 әріп)",
+      "phoneRequired": "Дұрыс телефон нөмірін енгізіңіз (10 сан, +7 автоматты)",
+      "dateRequired": "Жеткізу күнін таңдаңыз",
+      "addressStreetRequired": "Мекенжайды енгізіңіз (кемінде 5 әріп)",
+      "buildingRequired": "Үй нөмірі міндетті",
+      "apartmentRequired": "Қабат / пәтер міндетті",
+      "cartEmpty": "Себет бос",
+      "formInvalid": "Қызылмен белgilенген өрістерді толтырыңыз (телефон 10 сан).",
+      "insufficientStock": "Себеттегі кейбір өнімдер таусылды. Мәзірді тексеріп, қайта көріңіз.",
+      "generic": "Қате орын алды. Қайта көріңіз."
+    }
+  },
+  "common": {
+    "loading": "Жүктелуде...",
+    "currency": "Баға"
+  },
+  "footer": {
+    "tagline": "Каскелендегі шеберхана — қолмен жасалған торттар мен пісірімдер.",
+    "phone": "Тел",
+    "instagramCta": "Instagram-ға оралу"
+  }
+}

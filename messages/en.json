@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "FISTIK — Artisan Bakery",
+    "description": "Luxury handcrafted cakes and pastries. Order for delivery."
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "instagram": "Instagram"
+  },
+  "hero": {
+    "tagline": "Handcrafted with passion",
+    "subtitle": "Luxury cakes & pastries delivered to your door"
+  },
+  "catalog": {
+    "allCategories": "All",
+    "empty": "No products available at the moment.",
+    "addToCart": "Add to cart",
+    "added": "Added",
+    "soldOut": "Sold out",
+    "stockLeft": "{count} left"
+  },
+  "product": {
+    "back": "Back to catalog",
+    "quantity": "Quantity",
+    "addToCart": "Add to cart",
+    "viewCart": "View cart",
+    "category": "Category",
+    "soldOut": "Sold out",
+    "stockLeft": "{count} left"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "emptyCta": "Browse catalog",
+    "subtotal": "Subtotal",
+    "continue": "Continue to checkout",
+    "backToMenu": "Back to menu",
+    "continueShopping": "Want to add more items?",
+    "remove": "Remove",
+    "items": "{count, plural, one {# item} other {# items}}"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "customerName": "Full name",
+    "phone": "Phone number",
+    "phonePlaceholder": "778 268 17 55",
+    "phoneHint": "Enter your number — (+7) is shown on the left. Clear with × or Backspace.",
+    "deliveryDate": "Delivery date",
+    "deliveryTimeNotice": "Delivery time: our sales representative will call after order confirmation to agree on a convenient time.",
+    "address": "Delivery address",
+    "addressStreet": "Street, district, building",
+    "addressStreetPlaceholder": "e.g. Karasay Batyr 7A",
+    "buildingNumber": "Building number",
+    "floorApartment": "Floor / apartment",
+    "addressNotes": "Additional address info (optional)",
+    "addressNotesPlaceholder": "Door code, landmark, etc.",
+    "cakeText": "Cake inscription (optional)",
+    "notes": "Order notes (optional)",
+    "submit": "Place order via WhatsApp",
+    "submitting": "Processing...",
+    "orderSummary": "Order summary",
+    "total": "Total",
+    "forgotSomething": "Forgot something?",
+    "backToMenu": "Browse the menu again",
+    "errors": {
+      "nameRequired": "Name is required (min 2 characters)",
+      "phoneRequired": "Enter a valid number (10 digits, +7 added automatically)",
+      "dateRequired": "Please select a delivery date",
+      "addressStreetRequired": "Address is required (min 5 characters)",
+      "buildingRequired": "Building number is required",
+      "apartmentRequired": "Floor / apartment is required",
+      "cartEmpty": "Your cart is empty",
+      "formInvalid": "Please fix the highlighted fields (phone must be 10 digits).",
+      "insufficientStock": "Some items in your cart are sold out. Please review the menu and try again.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "currency": "Price"
+  },
+  "footer": {
+    "tagline": "Artisan bakery in Kaskelen — handcrafted cakes and pastries.",
+    "phone": "Tel",
+    "instagramCta": "Back to Instagram"
+  }
+}

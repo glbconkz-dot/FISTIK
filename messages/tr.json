@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "FISTIK — Butik Fırın",
+    "description": "El yapımı lüks pastalar ve unlu mamuller. Sipariş ve teslimat."
+  },
+  "nav": {
+    "catalog": "Menü",
+    "cart": "Sepet",
+    "checkout": "Sipariş",
+    "instagram": "Instagram"
+  },
+  "hero": {
+    "tagline": "Sevgiyle hazırlanır",
+    "subtitle": "Lüks pastalar ve unlu mamuller — kapınıza kadar"
+  },
+  "catalog": {
+    "allCategories": "Tümü",
+    "empty": "Şu an ürün bulunmuyor.",
+    "addToCart": "Sepete ekle",
+    "added": "Eklendi",
+    "soldOut": "Tükendi",
+    "stockLeft": "{count} adet kaldı"
+  },
+  "product": {
+    "back": "Menüye dön",
+    "quantity": "Adet",
+    "addToCart": "Sepete ekle",
+    "viewCart": "Sepete git",
+    "category": "Kategori",
+    "soldOut": "Tükendi",
+    "stockLeft": "{count} adet kaldı"
+  },
+  "cart": {
+    "title": "Sepetiniz",
+    "empty": "Sepetiniz boş",
+    "emptyCta": "Menüye göz at",
+    "subtotal": "Ara toplam",
+    "continue": "Siparişe devam et",
+    "backToMenu": "Menüye geri dön",
+    "continueShopping": "Alışverişe devam etmek ister misiniz?",
+    "remove": "Kaldır",
+    "items": "{count, plural, one {# ürün} other {# ürün}}"
+  },
+  "checkout": {
+    "title": "Sipariş",
+    "customerName": "Ad soyad",
+    "phone": "Telefon numarası",
+    "phonePlaceholder": "778 268 17 55",
+    "phoneHint": "Sadece numaranızı yazın — (+7) solda hazır. Silmek için × veya geri tuşu.",
+    "deliveryDate": "Teslimat tarihi",
+    "deliveryTimeNotice": "Teslimat saati: Satış temsilcimiz sipariş onayından sonra sizi arayıp uygun saati bildirecek.",
+    "address": "Teslimat adresi",
+    "addressStreet": "Sokak, mahalle, cadde",
+    "addressStreetPlaceholder": "Örn: Карасай Батыр 7А",
+    "buildingNumber": "Bina numarası",
+    "floorApartment": "Kat / daire",
+    "addressNotes": "Adres için ek bilgi (isteğe bağlı)",
+    "addressNotesPlaceholder": "Kapı kodu, orientir, vb.",
+    "cakeText": "Pasta yazısı (isteğe bağlı)",
+    "notes": "Sipariş notu (isteğe bağlı)",
+    "submit": "WhatsApp ile sipariş ver",
+    "submitting": "İşleniyor...",
+    "orderSummary": "Sipariş özeti",
+    "total": "Toplam",
+    "forgotSomething": "Bir şey mi unuttunuz?",
+    "backToMenu": "Menüye geri dön",
+    "errors": {
+      "nameRequired": "Ad gerekli (en az 2 karakter)",
+      "phoneRequired": "Geçerli telefon numarası girin (10 hane, +7 otomatik)",
+      "dateRequired": "Teslimat tarihi seçin",
+      "addressStreetRequired": "Adres girin (en az 5 karakter)",
+      "buildingRequired": "Bina numarası gerekli",
+      "apartmentRequired": "Kat / daire gerekli",
+      "cartEmpty": "Sepetiniz boş",
+      "formInvalid": "Lütfen kırmızı ile işaretli alanları doldurun (telefon 10 hane olmalı).",
+      "insufficientStock": "Sepetteki bazı ürünler tükendi. Menüyü kontrol edip tekrar deneyin.",
+      "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
+    }
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "currency": "Fiyat"
+  },
+  "footer": {
+    "tagline": "Kaskelen'de butik fırın — el yapımı pastalar ve unlu mamuller.",
+    "phone": "Tel",
+    "instagramCta": "Instagram'a dön"
+  }
+}

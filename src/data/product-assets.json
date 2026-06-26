@@ -1,0 +1,315 @@
+[
+  {
+    "slugs": ["eclair-large-pistachio", "eclair-mini-pistachio"],
+    "names": ["фисташковый", "pistachio eclair", "fıstıklı ekler", "фисташка эклер"],
+    "image_url": "/products/eclairs/pistachio.png"
+  },
+  {
+    "slugs": ["eclair-large-hazelnut", "eclair-mini-hazelnut"],
+    "names": ["фундучный", "hazelnut eclair", "fındıklı ekler", "жаңғақ эклер"],
+    "image_url": "/products/eclairs/hazelnut.png"
+  },
+  {
+    "slugs": ["eclair-large-vanilla", "eclair-mini-vanilla"],
+    "names": ["ванильный", "vanilla eclair", "vanilyalı ekler", "ваниль эклер"],
+    "image_url": "/products/eclairs/vanilla.png"
+  },
+  {
+    "slugs": ["eclair-large-mastic", "eclair-mini-mastic"],
+    "names": ["дамла сакызы", "mastic eclair", "damla sakızlı ekler", "damla sakız"],
+    "image_url": "/products/eclairs/mastic.png"
+  },
+  {
+    "slugs": ["eclair-large-strawberry", "eclair-mini-strawberry"],
+    "names": ["клубничный", "strawberry eclair", "çilekli ekler", "құлпынай эклер"],
+    "image_url": "/products/eclairs/strawberry.png"
+  },
+  {
+    "slugs": ["eclair-large-raspberry", "eclair-mini-raspberry"],
+    "names": ["малиновый", "raspberry eclair", "ahududulu ekler", "таңқурай эклер"],
+    "image_url": "/products/eclairs/raspberry.png"
+  },
+  {
+    "slugs": ["eclair-large-cherry", "eclair-mini-cherry"],
+    "names": ["вишневый", "cherry eclair", "vişneli ekler", "шие эклер"],
+    "image_url": "/products/eclairs/cherry.png"
+  },
+  {
+    "slugs": ["eclair-large-pineapple", "eclair-mini-pineapple"],
+    "names": ["анanas", "pineapple eclair", "ananaslı ekler", "анanas эклер"],
+    "image_url": "/products/eclairs/pineapple.png"
+  },
+  {
+    "slugs": ["art-pistachio"],
+    "names": ["арт-десерт фисташка", "art dessert pistachio", "fıstık art tatlı"],
+    "image_url": "/products/art-desserts/pistachio.png"
+  },
+  {
+    "slugs": ["art-lemon"],
+    "names": ["арт-десерт лимон", "art dessert lemon", "limon art tatlı"],
+    "image_url": "/products/art-desserts/lemon.png"
+  },
+  {
+    "slugs": ["art-mango"],
+    "names": ["арт-десерт манго", "art dessert mango", "mango art tatlı"],
+    "image_url": "/products/art-desserts/mango.png"
+  },
+  {
+    "slugs": ["art-coffee"],
+    "names": ["арт-десерт кофе", "art dessert coffee", "kahve art tatlı"],
+    "image_url": "/products/art-desserts/coffee.png"
+  },
+  {
+    "slugs": ["art-heart"],
+    "names": ["арт-десерт сердце", "art dessert heart", "kalpli art tatlı", "жүрек"],
+    "image_url": "/products/art-desserts/heart.png"
+  },
+  {
+    "slugs": ["art-raspberry"],
+    "names": ["арт-десерт малина", "art dessert raspberry", "ahududulu art tatlı", "таңқурай"],
+    "image_url": "/products/art-desserts/raspberry.png"
+  },
+  {
+    "slugs": ["art-blueberry"],
+    "names": ["арт-десерт голубика", "art dessert blueberry", "yaban mersinli art tatlı", "қарақат"],
+    "image_url": "/products/art-desserts/blueberry.png"
+  },
+  {
+    "slugs": ["pistachio-cookies"],
+    "names": ["фисташковые cookies", "pistachio cookies", "fıstıklı kurabiye"],
+    "image_url": "/products/cookies/pistachio-cookies.png"
+  },
+  {
+    "slugs": ["almond-kavala"],
+    "names": ["миндальные кavala", "almond kavala", "badem kavala", "миндаль kavala"],
+    "image_url": "/products/cookies/almond-kavala.png"
+  },
+  {
+    "slugs": ["eskimo-dubai", "eskimo-strawberry", "eskimo-oreo", "eskimo-caramel"],
+    "names": ["эскимо", "eskimo"],
+    "image_url": "/products/cookies/eskimo.png"
+  },
+  {
+    "slugs": ["pie-meat"],
+    "names": ["etli pirog", "meat pie", "етli pirog", "мясной"],
+    "image_url": "/products/pies/meat.png"
+  },
+  {
+    "slugs": ["pie-chicken"],
+    "names": ["tavuklu pirog", "chicken pie", "тауокlu", "курин"],
+    "image_url": "/products/pies/chicken.png"
+  },
+  {
+    "slugs": ["pie-spinach-cheese"],
+    "names": ["ispanak peynirli", "spinach cheese pie", "шпинат", "спанак"],
+    "image_url": "/products/pies/spinach-cheese.png"
+  },
+  {
+    "slugs": ["pie-quark"],
+    "names": ["tvarok pirog", "quark pie", "peynirli pirog", "tvorog"],
+    "image_url": "/products/pies/quark.png"
+  },
+  {
+    "slugs": ["mango-coconut-mousse"],
+    "names": ["mango hindistan cevizi", "mango coconut mousse", "mango hindistan cevizi mousse"],
+    "image_url": "/products/american-cakes/mango-coconut.png",
+    "name_en": "Mango & Coconut Mousse",
+    "name_ru": "Манго и кокосовый мусс",
+    "name_kk": "Манго-кокос муссы",
+    "name_tr": "Mango Hindistan Cevizi Mus",
+    "description_en": "Coconut mousse with mango insert and mango jelly. Light, fresh and tropical.",
+    "description_ru": "Кокосовый мусс с манговой начинкой и манговым желе. Лёгкий, свежий и тропический вкус.",
+    "description_kk": "Кокос муссы, манго начинкасы және манго желесі. Жеңіл, сергек, тропикалық дәм.",
+    "description_tr": "Hindistan cevizi mus, mango dolgusu ve mango jölesi ile hafif, ferah ve tropikal bir lezzet."
+  },
+  {
+    "slugs": ["ferrero-hazelnut-mousse"],
+    "names": ["ferrero findik", "ferrero hazelnut mousse", "ferrero fındık"],
+    "image_url": "/products/american-cakes/ferrero-hazelnut.png",
+    "name_en": "Ferrero Hazelnut Chocolate",
+    "name_ru": "Ferrero с фундуком",
+    "name_kk": "Ferrero фундук муссы",
+    "name_tr": "Ferrero Fındıklı Mus",
+    "description_en": "Chocolate mousse with hazelnut praline and croquant layers. Real Ferrero taste.",
+    "description_ru": "Шоколадный мусс с фундучным пралине и хрустящими слоями. Настоящий вкус Ferrero.",
+    "description_kk": "Фундук praliné және krokan қабаттары бар шоколад муссы. Шынайы Ferrero дәмі.",
+    "description_tr": "Fındık praliné ve krokan katmanlı çikolata mus. Gerçek Ferrero lezzeti."
+  },
+  {
+    "slugs": ["tart-dark-chocolate"],
+    "names": ["темный шоколад", "dark chocolate tart", "bitter çikolatalı tart"],
+    "image_url": "/products/tarts/dark-chocolate.png"
+  },
+  {
+    "slugs": ["tart-berry-mix"],
+    "names": ["ягодный микс", "berry mix tart", "meyveli tart", "жидек микс"],
+    "image_url": "/products/tarts/berry-mix.png"
+  },
+  {
+    "slugs": ["tart-lemon"],
+    "names": ["лимонный", "lemon tart", "limon tart", "лимон тарт"],
+    "image_url": "/products/tarts/lemon.png"
+  },
+  {
+    "slugs": ["tart-pistachio"],
+    "names": ["фисташковый тарт", "pistachio tart", "fıstıklı tart", "фисташка тарт"],
+    "image_url": "/products/tarts/pistachio.png"
+  },
+  {
+    "slugs": ["pack-cherry-brownie"],
+    "category": "packaged-desserts",
+    "names": ["вишневый брауни", "cherry brownie", "vişneli brownie", "шие брауни", "брауни вишневый"],
+    "image_url": "/products/cherry-brownie.png",
+    "name_en": "Cherry Brownie",
+    "name_ru": "Вишневый брауни",
+    "name_kk": "Шие брауни",
+    "name_tr": "Vişneli Brownie",
+    "description_en": "Rich chocolate brownie with deep cocoa and dark chocolate flavor, complemented by a juicy cherry layer. Dense, chewy, and truly chocolatey.",
+    "description_ru": "Насыщенный шоколадный брауни с глубоким вкусом какао и тёмного шоколада, дополненный сочной вишнёвой прослойкой. Плотный, тягучий и по-настоящему шоколадный десерт.",
+    "description_kk": "Какао мен қара шоколадтың терең дәмі бар, шие қабатымен толықтырылған бай шоколад брауни. Тығыз, созылмалы және шынымен шоколадты десерт.",
+    "description_tr": "Yoğun kakao ve bitter çikolata aromalı, sulu vişne katmanlı zengin brownie. Yoğun, yapışkan ve gerçekten çikolatalı bir tatlı."
+  },
+  {
+    "slugs": ["pack-pistachio-raspberry"],
+    "category": "packaged-desserts",
+    "names": ["фисташково-малиновый", "фисташково малиновый", "pistachio raspberry", "fıstıklı ahududulu", "фисташка-малина"],
+    "image_url": "/products/pistachio-raspberry.png",
+    "name_en": "Pistachio Raspberry",
+    "name_ru": "Фисташково-малиновый",
+    "name_kk": "Фисташка-малина",
+    "name_tr": "Fıstıklı Ahududulu",
+    "description_en": "Delicate pistachio sponge, airy cream and soft raspberry layer. Juicy, aromatic and perfectly balanced taste.",
+    "description_ru": "Нежный фисташковый бисквит, воздушный крем и мягкая малиновая прослойка. Сочный, ароматный и идеально сбалансированный вкус.",
+    "description_kk": "Жұмсақ фисташка бисквиті, жеңіл крем және жұмсақ таңқурай қабаты. Шырынды, хош иісті және тамаша теңдестірілген дәм.",
+    "description_tr": "Hafif fıstıklı kek, havadar krema ve yumuşak ahududu katmanı. Sulu, aromatik ve mükemmel dengelenmiş bir lezzet."
+  },
+  {
+    "slugs": ["pack-oreo"],
+    "category": "packaged-desserts",
+    "names": ["oreo"],
+    "exact": true,
+    "image_url": "/products/oreo-dessert.png",
+    "name_en": "Oreo",
+    "name_ru": "Oreo",
+    "name_kk": "Oreo",
+    "name_tr": "Oreo",
+    "description_en": "Delicate dessert with beloved Oreo flavor: creamy texture, chocolate base and cookie pieces in every layer. Rich, harmonious and soft taste.",
+    "description_ru": "Нежный десерт с любимым вкусом Oreo: сливочная текстура, шоколадная основа и кусочки печенья в каждом слое. Насыщенный, гармоничный и мягкий вкус.",
+    "description_kk": "Oreo дәмі бар нәзік десерт: кремді текстура, шоколад негізі және әр қабатта печенье үзінділері. Бай, үйлесімді және жұмсақ дәм.",
+    "description_tr": "Sevilen Oreo lezzetli zarif tatlı: kremamsı doku, çikolatalı taban ve her katmanda bisküvi parçaları. Zengin, uyumlu ve yumuşak bir tat."
+  },
+  {
+    "slugs": ["pack-tiramisu", "american-tiramisu"],
+    "names": ["tiramisu", "тирамису"],
+    "image_url": "/products/packaged-desserts/tiramisu.png"
+  },
+  {
+    "slugs": ["cake-milk-girl"],
+    "names": ["malocni devuska", "milk girl", "süt kızı", "сüt kızı"],
+    "image_url": "/products/classic-cakes/milk-girl.png"
+  },
+  {
+    "slugs": ["borek-meat"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with seasoned meat filling.",
+    "description_ru": "Свежий борек с мясной начинкой.",
+    "description_kk": "Ет начинкасы бар жаңа борек.",
+    "description_tr": "Et dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["borek-chicken"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with chicken filling.",
+    "description_ru": "Свежий борек с куриной начинкой.",
+    "description_kk": "Тауық начинкасы бар жаңа борек.",
+    "description_tr": "Tavuk dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["borek-potato"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with potato filling.",
+    "description_ru": "Свежий борек с картофельной начинкой.",
+    "description_kk": "Картоп начинкасы бар жаңа борек.",
+    "description_tr": "Patates dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["borek-brinza"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with brinza cheese filling.",
+    "description_ru": "Свежий борек с сырной начинкой (брынза).",
+    "description_kk": "Ірімшік начинкасы бар жаңа борек.",
+    "description_tr": "Peynirli (brinza) dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["borek-spinach"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with spinach filling.",
+    "description_ru": "Свежий борек со шпинатной начинкой.",
+    "description_kk": "Спанат начинкасы бар жаңа борек.",
+    "description_tr": "Ispanak dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["borek-lentils"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Fresh borek with lentil filling.",
+    "description_ru": "Свежий борек с начинкой из чечевицы.",
+    "description_kk": "Бұршақ начинкасы бар жаңа борек.",
+    "description_tr": "Mercimek dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["frozen-borek-meat"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with meat filling — bake at home.",
+    "description_ru": "Замороженный борек с мясной начинкой — выпекайте дома.",
+    "description_kk": "Ет начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul etli börek — evde pişirin."
+  },
+  {
+    "slugs": ["frozen-borek-chicken"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with chicken filling — bake at home.",
+    "description_ru": "Замороженный борек с куриной начинкой — выпекайте дома.",
+    "description_kk": "Тауық начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul tavuklu börek — evde pişirin."
+  },
+  {
+    "slugs": ["frozen-borek-potato"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with potato filling — bake at home.",
+    "description_ru": "Замороженный борек с картофельной начинкой — выпекайте дома.",
+    "description_kk": "Картоп начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul patatesli börek — evde pişirin."
+  },
+  {
+    "slugs": ["frozen-borek-brinza"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with cheese filling — bake at home.",
+    "description_ru": "Замороженный борек с сырной начинкой — выпекайте дома.",
+    "description_kk": "Ірімшік начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul peynirli börek — evde pişirin."
+  },
+  {
+    "slugs": ["frozen-borek-spinach"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with spinach filling — bake at home.",
+    "description_ru": "Замороженный борек со шпинатной начинкой — выпекайте дома.",
+    "description_kk": "Спанат начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul ıspanaklı börek — evde pişirin."
+  },
+  {
+    "slugs": ["frozen-borek-lentils"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Frozen semi-finished borek with lentil filling — bake at home.",
+    "description_ru": "Замороженный борек с начинкой из чечевицы — выпекайте дома.",
+    "description_kk": "Бұршақ начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
+    "description_tr": "Yarı mamul mercimekli börek — evde pişirin."
+  },
+  {
+    "slugs": ["kucuk-borek", "sarma-borek"],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Traditional rolled borek — ready to bake.",
+    "description_ru": "Традиционный рулетный борек — готов к выпечке.",
+    "description_kk": "Дайын пісіруге дайын дәстүрлі орама борек.",
+    "description_tr": "Geleneksel sarma börek — pişirmeye hazır."
+  }
+]

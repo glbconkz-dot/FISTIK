@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "FISTIK — Авторская пекарня",
+    "description": "Роскошные торты и выпечка ручной работы. Заказ с доставкой."
+  },
+  "nav": {
+    "catalog": "Каталог",
+    "cart": "Корзина",
+    "checkout": "Оформление",
+    "instagram": "Instagram"
+  },
+  "hero": {
+    "tagline": "Создано с любовью",
+    "subtitle": "Роскошные торты и выпечка с доставкой"
+  },
+  "catalog": {
+    "allCategories": "Все",
+    "empty": "Товары временно недоступны.",
+    "addToCart": "В корзину",
+    "added": "Добавлено",
+    "soldOut": "Нет в наличии",
+    "stockLeft": "Осталось {count} шт."
+  },
+  "product": {
+    "back": "Назад в каталог",
+    "quantity": "Количество",
+    "addToCart": "В корзину",
+    "viewCart": "К корзине",
+    "category": "Категория",
+    "soldOut": "Нет в наличии",
+    "stockLeft": "Осталось {count} шт."
+  },
+  "cart": {
+    "title": "Ваша корзина",
+    "empty": "Корзина пуста",
+    "emptyCta": "Перейти в каталог",
+    "subtotal": "Итого",
+    "continue": "Оформить заказ",
+    "backToMenu": "Вернуться в меню",
+    "continueShopping": "Хотите добавить что-то ещё?",
+    "remove": "Удалить",
+    "items": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товаров}}"
+  },
+  "checkout": {
+    "title": "Оформление заказа",
+    "customerName": "Имя и фамилия",
+    "phone": "Номер телефона",
+    "phonePlaceholder": "778 268 17 55",
+    "phoneHint": "Введите номер — (+7) слева уже указан. Очистить: × или Backspace.",
+    "deliveryDate": "Дата доставки",
+    "deliveryTimeNotice": "Время доставки: менеджер свяжется с вами после подтверждения заказа и согласует удобное время.",
+    "address": "Адрес доставки",
+    "addressStreet": "Улица, район, дом",
+    "addressStreetPlaceholder": "Например: ул. Карасай Батыра 7А",
+    "buildingNumber": "Номер дома",
+    "floorApartment": "Этаж / квартира",
+    "addressNotes": "Дополнительная информация (необязательно)",
+    "addressNotesPlaceholder": "Домофон, ориентир и т.д.",
+    "cakeText": "Надпись на торте (необязательно)",
+    "notes": "Примечания к заказу (необязательно)",
+    "submit": "Заказать через WhatsApp",
+    "submitting": "Обработка...",
+    "orderSummary": "Ваш заказ",
+    "total": "Итого",
+    "forgotSomething": "Что-то забыли?",
+    "backToMenu": "Вернуться в меню",
+    "errors": {
+      "nameRequired": "Укажите имя (минимум 2 символа)",
+      "phoneRequired": "Укажите корректный номер (10 цифр, +7 автоматически)",
+      "dateRequired": "Выберите дату доставки",
+      "addressStreetRequired": "Укажите адрес (минимум 5 символов)",
+      "buildingRequired": "Укажите номер дома",
+      "apartmentRequired": "Укажите этаж / квартиру",
+      "cartEmpty": "Корзина пуста",
+      "formInvalid": "Заполните поля с ошибками (телефон — 10 цифр).",
+      "insufficientStock": "Некоторые товары в корзине закончились. Проверьте меню и попробуйте снова.",
+      "generic": "Произошла ошибка. Попробуйте снова."
+    }
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "currency": "Цена"
+  },
+  "footer": {
+    "tagline": "Авторская пекарня в Каскелене — торты и выпечка ручной работы.",
+    "phone": "Тел",
+    "instagramCta": "Вернуться в Instagram"
+  }
+}
