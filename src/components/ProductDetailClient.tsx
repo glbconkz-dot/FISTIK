@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { QuantitySelector } from '@/components/QuantitySelector';
+import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types';
@@ -18,17 +19,26 @@ interface ProductDetailClientProps {
 
 export function ProductDetailClient({ product, categoryName, locale }: ProductDetailClientProps) {
   const t = useTranslations('product');
+  const isClient = useIsClient();
   const addItem = useCartStore((s) => s.addItem);
+  const cartQty = useCartStore(
+    (s) => s.items.find((i) => i.productId === product.id)?.quantity ?? 0
+  );
+
   const stock = Number(product.stock_quantity ?? 0);
   const outOfStock = stock <= 0;
-  const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
+  const [pickQty, setPickQty] = useState(1);
+
+  const remaining = Math.max(0, stock - (isClient ? cartQty : 0));
+  const atMax = remaining <= 0;
+  const addPerTap = Math.min(pickQty, remaining || pickQty);
 
   const name = getLocalizedName(product, locale);
   const description = getLocalizedDescription(product, locale);
 
-  const handleAdd = () => {
-    if (outOfStock) return;
+  const handleTap = () => {
+    if (!isClient || outOfStock || atMax || addPerTap <= 0) return;
+
     addItem(
       {
         productId: product.id,
@@ -36,12 +46,13 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
         name,
         price: Number(product.price),
         image: product.image_url,
+        stockMax: stock,
       },
-      Math.min(quantity, stock)
+      addPerTap
     );
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
   };
+
+  const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
 
   return (
     <div className="pb-8">
@@ -84,13 +95,19 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
           ) : (
             <>
               <QuantitySelector
-                value={quantity}
-                max={stock}
-                onChange={(next) => setQuantity(Math.max(1, Math.min(stock, next)))}
+                editable
+                value={pickQty}
+                max={remaining > 0 ? remaining : stock}
+                onChange={(next) => setPickQty(Math.max(1, next))}
                 label={t('quantity')}
               />
-              <button type="button" onClick={handleAdd} className="btn-primary flex-1 sm:max-w-xs">
-                {added ? `${t('addToCart')} ✓` : `${t('addToCart')} ×${quantity}`}
+              <button
+                type="button"
+                onClick={handleTap}
+                disabled={!isClient || atMax}
+                className="btn-primary flex min-h-[48px] min-w-[80px] flex-1 items-center justify-center sm:max-w-xs disabled:opacity-50"
+              >
+                <span className="font-semibold tabular-nums">×{displayQty}</span>
               </button>
             </>
           )}

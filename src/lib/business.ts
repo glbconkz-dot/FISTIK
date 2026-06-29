@@ -1,7 +1,10 @@
 import type { Locale } from '@/types';
 
 function getWhatsAppDigits(): string {
-  return (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '77782681755').replace(/\D/g, '');
+  const digits = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '77782681755').replace(/\D/g, '');
+  // Kazakistan: 10 hane gelirse başına 7 ekle
+  if (digits.length === 10) return `7${digits}`;
+  return digits;
 }
 
 function formatKzPhone(digits: string): string {
@@ -73,10 +76,26 @@ export function getBusinessAddress(locale: Locale) {
   return BUSINESS_ADDRESS[locale];
 }
 
+export function getWhatsAppDigitsForLink(): string {
+  return getWhatsAppDigits();
+}
+
+/** Web — footer vb. api.whatsapp.com uygulamayı daha iyi açar */
 export function getWhatsAppLink(message?: string): string {
-  const base = `https://wa.me/${BUSINESS.phoneWhatsApp}`;
+  return buildWhatsAppWebUrl(getWhatsAppDigits(), message);
+}
+
+export function buildWhatsAppWebUrl(phone: string, message?: string): string {
+  const base = `https://api.whatsapp.com/send?phone=${phone}`;
   if (!message) return base;
-  return `${base}?text=${encodeURIComponent(message)}`;
+  return `${base}&text=${encodeURIComponent(message)}`;
+}
+
+/** Mobil — doğrudan WhatsApp uygulaması */
+export function buildWhatsAppAppUrl(phone: string, message?: string): string {
+  const base = `whatsapp://send?phone=${phone}`;
+  if (!message) return base;
+  return `${base}&text=${encodeURIComponent(message)}`;
 }
 
 export function getInstagramLink(): string {

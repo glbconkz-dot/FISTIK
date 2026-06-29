@@ -2,7 +2,8 @@
 
 import { useState, useTransition } from 'react';
 import Image from 'next/image';
-import { upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
+import { useRouter } from 'next/navigation';
+import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
 import type { Category, Product } from '@/types';
 
 interface AdminProductFormProps {
@@ -34,9 +35,13 @@ const FORM_NAMES: Record<LangTab, { name: string; description: string }> = {
 };
 
 export function AdminProductForm({ categories, product }: AdminProductFormProps) {
+  const router = useRouter();
   const [tab, setTab] = useState<LangTab>('tr');
   const [imageUrl, setImageUrl] = useState(product?.image_url ?? '');
   const [uploading, setUploading] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deletePin, setDeletePin] = useState('');
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +86,20 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         },
         product?.id
       );
+    });
+  };
+
+  const handleDelete = () => {
+    if (!product?.id) return;
+    setDeleteError(null);
+    startTransition(async () => {
+      const result = await deleteProduct(product.id, deletePin);
+      if (result.ok) {
+        router.push('/admin/products');
+        router.refresh();
+        return;
+      }
+      setDeleteError(result.error);
     });
   };
 
@@ -180,6 +199,58 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       <button type="submit" className="btn-primary" disabled={isPending || uploading}>
         {isPending ? 'Saving...' : product ? 'Update product' : 'Create product'}
       </button>
+
+      {product ? (
+        <div className="border-t border-border pt-5">
+          {!deleteOpen ? (
+            <button
+              type="button"
+              className="btn-outline border-red-300 text-red-700"
+              onClick={() => setDeleteOpen(true)}
+            >
+              Ürünü sil…
+            </button>
+          ) : (
+            <div className="space-y-3 rounded-xl border border-red-200 bg-red-50 p-4">
+              <p className="text-sm font-medium text-red-900">
+                Silmek için 4 haneli kodu girin (admin şifresi yetmez).
+              </p>
+              <input
+                type="password"
+                inputMode="numeric"
+                maxLength={4}
+                pattern="\d{4}"
+                className="input-field max-w-[8rem] tracking-widest"
+                placeholder="••••"
+                value={deletePin}
+                onChange={(e) => setDeletePin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              />
+              {deleteError ? <p className="text-sm text-red-700">{deleteError}</p> : null}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={isPending || deletePin.length !== 4}
+                  onClick={handleDelete}
+                  className="rounded-full bg-red-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                >
+                  Kalıcı olarak sil
+                </button>
+                <button
+                  type="button"
+                  className="btn-outline text-sm"
+                  onClick={() => {
+                    setDeleteOpen(false);
+                    setDeletePin('');
+                    setDeleteError(null);
+                  }}
+                >
+                  Vazgeç
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : null}
     </form>
   );
 }

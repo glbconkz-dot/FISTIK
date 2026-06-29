@@ -73,6 +73,7 @@
       "apartmentRequired": "Kat / daire gerekli",
       "cartEmpty": "Sepetiniz boş",
       "formInvalid": "Lütfen kırmızı ile işaretli alanları doldurun (telefon 10 hane olmalı).",
+      "saveFailed": "Sipariş kaydedilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
       "insufficientStock": "Sepetteki bazı ürünler tükendi. Menüyü kontrol edip tekrar deneyin.",
       "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
     }

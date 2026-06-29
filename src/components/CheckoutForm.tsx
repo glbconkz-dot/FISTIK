@@ -15,9 +15,9 @@ import {
   normalizeKzPhone,
 } from '@/lib/checkout';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { openWhatsAppUrl } from '@/lib/open-whatsapp';
+import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
-import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useCartStore } from '@/stores/cart';
@@ -53,6 +53,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
   const updateForm = useCheckoutStore((s) => s.updateForm);
   const clearForm = useCheckoutStore((s) => s.clearForm);
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const minDate = getMinDeliveryDate();
 
@@ -104,7 +105,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     return () => subscription.unsubscribe();
   }, [watch, updateForm, hydrated]);
 
-  const onSubmit = (data: CheckoutValues) => {
+  const onSubmit = async (data: CheckoutValues) => {
     if (items.length === 0) {
       setError(t('errors.cartEmpty'));
       return;
@@ -130,8 +131,24 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     };
 
     const cartSnapshot = [...items];
-    const total = cartSnapshot.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
+    setError(null);
+    setSubmitting(true);
+
+    const result = await createOrder(payload, cartSnapshot, locale, {
+      orderNumber,
+      orderPlacedAt,
+    });
+
+    setSubmitting(false);
+
+    if (!result.success) {
+      const key = result.error ?? 'generic';
+      setError(t(`errors.${key}` as 'errors.generic'));
+      return;
+    }
+
+    const total = cartSnapshot.reduce((sum, i) => sum + i.price * i.quantity, 0);
     const message = buildWhatsAppMessage({
       orderNumber,
       orderPlacedAt,
@@ -147,18 +164,9 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
       locale,
     });
 
-    setError(null);
     clearCart();
     clearForm();
-    openWhatsAppUrl(buildWhatsAppUrl(message));
-
-    void createOrder(payload, cartSnapshot, locale, { orderNumber, orderPlacedAt }).then(
-      (result) => {
-        if (!result.success && result.error) {
-          console.warn('Order save failed:', result.error);
-        }
-      }
-    );
+    openWhatsAppWithMessage(message);
   };
 
   const onInvalid = () => {
@@ -290,8 +298,12 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      <button type="submit" className="btn-primary w-full" disabled={items.length === 0}>
-        {t('submit')}
+      <button
+        type="submit"
+        className="btn-primary w-full"
+        disabled={submitting || items.length === 0}
+      >
+        {submitting ? t('submitting') : t('submit')}
       </button>
     </form>
   );

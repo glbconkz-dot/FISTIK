@@ -152,6 +152,40 @@ export async function toggleProductActive(productId: string, isActive: boolean) 
   revalidatePath('/admin/products');
 }
 
+export async function deleteProduct(
+  productId: string,
+  pin: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    await requireAdmin();
+
+    const expectedPin = process.env.PRODUCT_DELETE_PIN?.trim();
+    if (!expectedPin || !/^\d{4}$/.test(expectedPin)) {
+      return {
+        ok: false,
+        error: 'Silme kodu sunucuda ayarlı değil. .env.local → PRODUCT_DELETE_PIN=1234',
+      };
+    }
+
+    if (pin.trim() !== expectedPin) {
+      return { ok: false, error: 'Yanlış silme kodu.' };
+    }
+
+    const supabase = await createClient();
+    const { error } = await supabase.from('products').delete().eq('id', productId);
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath('/admin/products');
+    revalidatePath('/', 'layout');
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Silinemedi' };
+  }
+}
+
 export async function uploadProductImage(formData: FormData): Promise<{ url: string }> {
   await requireAdmin();
   const supabase = await createClient();

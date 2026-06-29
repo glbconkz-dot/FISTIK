@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { QuantitySelector } from '@/components/QuantitySelector';
+import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import type { Locale, Product } from '@/types';
@@ -17,18 +17,30 @@ interface ProductCardProps {
 
 export function ProductCard({ product, locale }: ProductCardProps) {
   const t = useTranslations('catalog');
+  const isClient = useIsClient();
   const addItem = useCartStore((s) => s.addItem);
-  const [quantity, setQuantity] = useState(1);
+  const cartQty = useCartStore(
+    (s) => s.items.find((i) => i.productId === product.id)?.quantity ?? 0
+  );
 
   const stock = Number(product.stock_quantity ?? 0);
   const outOfStock = stock <= 0;
+  const [pickQty, setPickQty] = useState(1);
+
+  const remaining = Math.max(0, stock - (isClient ? cartQty : 0));
+  const atMax = remaining <= 0;
+  const addPerTap = Math.min(pickQty, remaining || pickQty);
+
   const name = getLocalizedName(product, locale);
   const description = getLocalizedDescription(product, locale);
   const showSubtitle =
     product.category_id === 'boreks' || product.category_id === 'frozen-boreks';
 
-  const handleAdd = () => {
-    if (outOfStock) return;
+  const handleTap = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isClient || outOfStock || atMax || addPerTap <= 0) return;
+
     addItem(
       {
         productId: product.id,
@@ -36,10 +48,13 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         name,
         price: Number(product.price),
         image: product.image_url,
+        stockMax: stock,
       },
-      Math.min(quantity, stock)
+      addPerTap
     );
   };
+
+  const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
 
   return (
     <article
@@ -80,25 +95,29 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         </div>
       </Link>
 
-      <div className="flex items-center justify-end gap-2 px-3 pb-3">
+      <div
+        className="flex items-center justify-end gap-2 px-3 pb-3"
+        onClick={(e) => e.stopPropagation()}
+      >
         {outOfStock ? (
           <span className="text-sm font-medium text-muted">{t('soldOut')}</span>
         ) : (
           <>
             <QuantitySelector
               compact
-              value={quantity}
-              max={stock}
-              onChange={(next) => setQuantity(Math.max(1, Math.min(stock, next)))}
+              editable
+              value={pickQty}
+              max={remaining > 0 ? remaining : stock}
+              onChange={(next) => setPickQty(Math.max(1, next))}
             />
             <button
               type="button"
-              onClick={handleAdd}
-              className="flex min-h-[44px] items-center gap-1 rounded-full bg-foreground px-3 text-background touch-manipulation"
+              onClick={handleTap}
+              disabled={!isClient || atMax}
+              className="flex min-h-[44px] min-w-[52px] items-center justify-center rounded-full bg-foreground px-4 text-background touch-manipulation disabled:opacity-50"
               aria-label={t('addToCart')}
             >
-              <Plus className="h-4 w-4 shrink-0" />
-              <span className="text-sm font-semibold tabular-nums">×{quantity}</span>
+              <span className="text-sm font-semibold tabular-nums">×{displayQty}</span>
             </button>
           </>
         )}

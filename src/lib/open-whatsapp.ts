@@ -1,21 +1,44 @@
+import {
+  buildWhatsAppAppUrl,
+  buildWhatsAppWebUrl,
+  getWhatsAppDigitsForLink,
+} from '@/lib/business';
+
+function isMobileDevice(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+}
+
 /**
- * Mobilde WhatsApp açma — form gönderiminde senkron tıklama en güvenilir yol.
+ * Sipariş mesajı ile WhatsApp aç.
+ * Mobilde önce whatsapp:// (uygulama), yoksa api.whatsapp.com.
+ * wa.me kullanılmıyor — çoğu telefonda "uygulama indir" sayfasına düşüyordu.
  */
-export function openWhatsAppUrl(url: string): void {
+export function openWhatsAppWithMessage(message: string): void {
   if (typeof window === 'undefined') return;
 
-  const link = document.createElement('a');
-  link.href = url;
-  link.rel = 'noopener noreferrer';
-  link.style.display = 'none';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const phone = getWhatsAppDigitsForLink();
+  const appUrl = buildWhatsAppAppUrl(phone, message);
+  const webUrl = buildWhatsAppWebUrl(phone, message);
 
-  // Bazı Android tarayıcıları <a> ile açmaz — kısa gecikmeyle yedek
-  window.setTimeout(() => {
-    if (document.visibilityState === 'visible') {
-      window.location.assign(url);
-    }
-  }, 400);
+  if (isMobileDevice()) {
+    window.location.href = appUrl;
+    window.setTimeout(() => {
+      if (document.visibilityState === 'visible') {
+        window.location.href = webUrl;
+      }
+    }, 1200);
+    return;
+  }
+
+  const opened = window.open(webUrl, '_blank', 'noopener,noreferrer');
+  if (!opened) {
+    window.location.href = webUrl;
+  }
+}
+
+/** @deprecated openWhatsAppWithMessage kullanın */
+export function openWhatsAppUrl(url: string): void {
+  if (typeof window === 'undefined') return;
+  window.location.href = url;
 }

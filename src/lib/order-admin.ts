@@ -1,5 +1,5 @@
 import type { Order, OrderStatus } from '@/types';
-import { formatDeliveryTimeLabel, getTodayInStoreTimezone } from '@/lib/order-dates';
+import { formatDeliveryTimeLabel, getTodayInStoreTimezone, STORE_TIMEZONE } from '@/lib/order-dates';
 
 export type OrderSection = OrderStatus;
 
@@ -93,7 +93,38 @@ export function formatDeliverySchedule(order: Order): string {
 
 export function isOrderCreatedToday(order: Order): boolean {
   const today = getTodayInStoreTimezone();
-  return order.created_at.slice(0, 10) === today || order.delivery_date.slice(0, 10) === today;
+  return getOrderDateInStoreTimezone(order.created_at) === today;
+}
+
+export function getOrderDateInStoreTimezone(iso: string): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: STORE_TIMEZONE }).format(new Date(iso));
+}
+
+export function shiftStoreDate(dateStr: string, deltaDays: number): string {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const shifted = new Date(y, m - 1, d + deltaDays);
+  return getTodayInStoreTimezone(shifted);
+}
+
+export function filterOrdersCreatedOnDate(orders: Order[], date: string): Order[] {
+  return orders.filter((o) => getOrderDateInStoreTimezone(o.created_at) === date);
+}
+
+export function filterOrdersCompletedOnDate(orders: Order[], date: string): Order[] {
+  return orders.filter(
+    (o) =>
+      o.status === 'completed' &&
+      o.completed_at &&
+      getOrderDateInStoreTimezone(o.completed_at) === date
+  );
+}
+
+export function filterOrdersCancelledOnDate(orders: Order[], date: string): Order[] {
+  return orders.filter((o) => {
+    if (o.status !== 'cancelled') return false;
+    const when = o.cancelled_at ?? o.created_at;
+    return getOrderDateInStoreTimezone(when) === date;
+  });
 }
 
 export function getAlmatyIsoFromDateAndTime(date: string, time: string): string {

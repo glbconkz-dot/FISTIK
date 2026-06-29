@@ -73,6 +73,7 @@
       "apartmentRequired": "Floor / apartment is required",
       "cartEmpty": "Your cart is empty",
       "formInvalid": "Please fix the highlighted fields (phone must be 10 digits).",
+      "saveFailed": "Order could not be saved. Check your connection and try again.",
       "insufficientStock": "Some items in your cart are sold out. Please review the menu and try again.",
       "generic": "Something went wrong. Please try again."
     }

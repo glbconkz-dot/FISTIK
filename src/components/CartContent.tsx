@@ -65,7 +65,10 @@ export function CartContent() {
                 <button
                   type="button"
                   onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                  className="flex min-h-[44px] min-w-[44px] items-center justify-center touch-manipulation"
+                  disabled={
+                    item.stockMax != null ? item.quantity >= item.stockMax : false
+                  }
+                  className="flex min-h-[44px] min-w-[44px] items-center justify-center touch-manipulation disabled:opacity-40"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>

@@ -74,6 +74,8 @@ export interface CartItem {
   price: number;
   quantity: number;
   image: string;
+  /** Sepete eklenirken kaydedilen stok üst sınırı */
+  stockMax?: number;
 }
 
 export interface CheckoutFormData {

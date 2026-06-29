@@ -94,13 +94,15 @@ async function saveOrderToDatabase(
   locale: Locale,
   total: number,
   preferred?: { orderNumber?: string; orderPlacedAt?: string }
-): Promise<{ orderNumber: string; orderPlacedAt: string }> {
+): Promise<{ orderNumber: string; orderPlacedAt: string; saved: boolean; error?: string }> {
   const orderPlacedAt = preferred?.orderPlacedAt ?? new Date().toISOString();
   const supabase = await tryCreateClient();
   if (!supabase) {
     return {
       orderNumber: preferred?.orderNumber ?? makeFallbackOrderNumber(),
       orderPlacedAt,
+      saved: false,
+      error: 'supabase_not_configured',
     };
   }
 
@@ -133,10 +135,14 @@ async function saveOrderToDatabase(
   });
 
   if (error) {
-    console.error('Order insert error (WhatsApp will still open):', error);
+    console.error('Order insert error:', error);
+    return { orderNumber, orderPlacedAt, saved: false, error: error.message };
   }
 
-  return { orderNumber, orderPlacedAt };
+  revalidatePath('/admin/orders');
+  revalidatePath('/admin');
+
+  return { orderNumber, orderPlacedAt, saved: true };
 }
 
 function isMissingColumnError(message: string): boolean {
@@ -217,13 +223,17 @@ export async function createOrder(
     }
 
     const total = resolvedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const { orderNumber, orderPlacedAt } = await saveOrderToDatabase(
+    const { orderNumber, orderPlacedAt, saved, error: saveError } = await saveOrderToDatabase(
       formData,
       resolvedItems,
       locale,
       total,
       options
     );
+
+    if (!saved) {
+      return { success: false, error: 'saveFailed' };
+    }
 
     const message = buildWhatsAppMessage({
       orderNumber,
