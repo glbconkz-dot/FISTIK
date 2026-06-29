@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack -H 0.0.0.0",
+    "clean": "node scripts/clean-next.mjs",
+    "dev": "next dev -H 0.0.0.0",
+    "dev:clean": "npm run clean && npm run dev",
+    "dev:lan": "next dev -H 0.0.0.0 -p 3000",
+    "open:lan-firewall": "powershell -ExecutionPolicy Bypass -File scripts/open-lan-firewall.ps1",
     "build": "next build",
     "start": "next start",
     "generate:menu": "node scripts/generate-menu-seed.mjs",

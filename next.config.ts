@@ -6,7 +6,13 @@ import path from 'path';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 function detectLocalLanHosts(): string[] {
-  const hosts = new Set(['localhost', '127.0.0.1']);
+  const hosts = new Set([
+    'localhost',
+    '127.0.0.1',
+    // Telefondan Wi‑Fi test — tüm ev/ofis 192.168.x.x aralığı
+    '192.168.*',
+    '10.*',
+  ]);
   for (const iface of Object.values(os.networkInterfaces())) {
     if (!iface) continue;
     for (const addr of iface) {
@@ -24,6 +30,13 @@ const lanDevOrigins = (process.env.DEV_LAN_ORIGINS ?? detectLocalLanHosts().join
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+if (process.env.NODE_ENV !== 'production') {
+  const lanIp = [...detectLocalLanHosts()].find((h) => /^\d+\.\d+\.\d+\.\d+$/.test(h));
+  if (lanIp) {
+    console.info(`[fistik] LAN test: http://${lanIp}:3000/kk`);
+  }
+}
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: lanDevOrigins,
