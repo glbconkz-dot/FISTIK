@@ -1,6 +1,8 @@
 import type { Locale } from '@/types';
+import { PRODUCT_KK, PRODUCT_TR } from '@/data/menu-names';
 
 type LocalizedRecord = {
+  slug?: string;
   name_en: string;
   name_ru: string;
   name_kk: string;
@@ -11,9 +13,28 @@ type LocalizedRecord = {
   description_tr?: string;
 };
 
-export function getLocalizedName(record: LocalizedRecord, locale: Locale): string {
-  const value = record[`name_${locale}`];
-  if (value) return value;
+function isMissingTranslation(value: string | undefined, fallback: string): boolean {
+  const trimmed = value?.trim();
+  return !trimmed || trimmed === fallback.trim();
+}
+
+export function getLocalizedName(
+  record: LocalizedRecord,
+  locale: Locale
+): string {
+  const direct = record[`name_${locale}`]?.trim();
+
+  if (locale === 'tr' && record.slug) {
+    if (!isMissingTranslation(direct, record.name_en)) return direct!;
+    return PRODUCT_TR[record.slug] ?? direct ?? record.name_en;
+  }
+
+  if (locale === 'kk' && record.slug) {
+    if (!isMissingTranslation(direct, record.name_en)) return direct!;
+    return PRODUCT_KK[record.slug] ?? direct ?? record.name_en;
+  }
+
+  if (direct) return direct;
   return record.name_en;
 }
 

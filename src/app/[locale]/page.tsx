@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCatalogData } from '@/lib/catalog';
 import { CatalogClient } from '@/components/CatalogClient';
-import { HeroSweetSpotlight } from '@/components/HeroSweetSpotlight';
+import { HeroCarousel } from '@/components/HeroCarousel';
 import type { Locale } from '@/types';
 
 /** Canlı menü — Supabase stok/fiyat değişikliklerini anında yansıt */
@@ -30,12 +30,14 @@ export default async function CatalogPage({
 
   return (
     <div>
-      <section className="mb-8 flex flex-col items-center text-center">
-        <HeroSweetSpotlight />
-        <p className="mt-5 text-sm font-medium uppercase tracking-[0.2em] text-muted">
-          {t('tagline')}
-        </p>
-        <p className="mt-2 max-w-md text-muted">{t('subtitle')}</p>
+      <section className="mb-8 flex flex-col gap-5">
+        <HeroCarousel locale={locale as Locale} />
+        <div className="flex flex-col items-center text-center">
+          <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted">
+            {t('tagline')}
+          </p>
+          <p className="mt-2 max-w-md text-muted">{t('subtitle')}</p>
+        </div>
       </section>
 
       <CatalogClient

@@ -43,14 +43,15 @@ function product(
   name_tr?: string,
   price = DEFAULT_MENU_PRICE
 ): Product {
-  const tr = name_tr ?? name_en;
+  const tr = name_tr ?? PRODUCT_TR[slug] ?? name_en;
+  const kkName = name_kk || PRODUCT_KK[slug] || name_en;
   return {
     id: slug,
     slug,
     category_id: categorySlug,
     name_en,
     name_ru,
-    name_kk,
+    name_kk: kkName,
     name_tr: tr,
     description_en: desc.en,
     description_ru: desc.ru,

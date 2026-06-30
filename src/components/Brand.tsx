@@ -55,7 +55,7 @@ export function BrandWordmark({ className = '', style }: BrandWordmarkProps) {
       width={651}
       height={381}
       priority
-      className={`h-10 w-auto object-contain sm:h-11 ${className}`}
+      className={`h-14 w-auto object-contain sm:h-16 md:h-[4.25rem] ${className}`}
       style={style}
     />
   );
@@ -75,7 +75,7 @@ export function BrandLink({
   return (
     <Link href="/" className={`inline-flex shrink-0 items-center ${className}`}>
       {wordmark ? (
-        <BrandWordmark className="text-[2.5rem] sm:text-[2.75rem]" />
+        <BrandWordmark className="h-14 sm:h-16 md:h-[4.25rem]" />
       ) : (
         <Logo height={logoHeight} priority />
       )}

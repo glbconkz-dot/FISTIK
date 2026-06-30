@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache';
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { getLocalCatalog } from '@/data/menu';
 import { tryCreateClient } from '@/lib/supabase/server';
@@ -15,6 +16,7 @@ export async function getCatalogData(): Promise<{
   products: Product[];
   source: 'supabase' | 'local';
 }> {
+  noStore();
   const local = getLocalCatalog();
   const supabase = await tryCreateClient();
 
@@ -69,6 +71,7 @@ export async function getCatalogData(): Promise<{
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  noStore();
   const supabase = await tryCreateClient();
 
   if (supabase) {
