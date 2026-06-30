@@ -92,7 +92,7 @@ export async function Footer({ locale }: FooterProps) {
   const address = getBusinessAddress(locale);
 
   return (
-    <footer className="mt-16 border-t border-border bg-brand/30">
+    <footer className="mt-20 border-t border-border bg-cream">
       <div className="mx-auto max-w-6xl px-4 py-10">
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-between md:text-left">
           <div className="flex flex-col items-center md:items-start">
@@ -135,6 +135,14 @@ export async function Footer({ locale }: FooterProps) {
 
         <p className="mt-8 text-center text-xs text-muted">
           © {new Date().getFullYear()} Fistik ·{' '}
+          <Link href="/about" className="underline-offset-2 hover:text-foreground hover:underline">
+            {t('aboutLink')}
+          </Link>
+          {' · '}
+          <Link href="/contact" className="underline-offset-2 hover:text-foreground hover:underline">
+            {t('contactLink')}
+          </Link>
+          {' · '}
           <NextLink
             href="/admin/login"
             className="underline-offset-2 hover:text-foreground hover:underline"

@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "generate:menu": "node scripts/generate-menu-seed.mjs",
-  "generate:prices": "node scripts/generate-price-update.mjs",
+    "generate:prices": "node scripts/generate-price-update.mjs",
     "check:env": "node scripts/check-env.mjs",
     "lint": "eslint"
   },
@@ -21,6 +21,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
+    "framer-motion": "^12.42.0",
     "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "next-intl": "^4.13.0",

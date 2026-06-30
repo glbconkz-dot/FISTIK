@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
@@ -56,7 +57,7 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
 
   return (
     <div className="pb-8">
-      <div className="relative aspect-square w-full overflow-hidden bg-border/30 md:aspect-[4/3] md:rounded-2xl">
+      <div className="relative aspect-square w-full overflow-hidden bg-cream md:aspect-[4/3] md:rounded-2xl">
         {product.image_url ? (
           <Image
             src={product.image_url}
@@ -67,10 +68,13 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
             sizes="100vw"
           />
         ) : (
-          <div className="flex h-full items-center justify-center font-display text-6xl text-accent">
+          <div className="flex h-full items-center justify-center font-display text-6xl text-accent/40">
             F
           </div>
         )}
+        <div className="absolute right-4 top-4">
+          <FavoriteButton productId={product.id} />
+        </div>
       </div>
 
       <div className="mt-6 space-y-4">

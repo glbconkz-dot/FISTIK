@@ -4,18 +4,34 @@
     "description": "Luxury handcrafted cakes and pastries. Order for delivery."
   },
   "nav": {
+    "menu": "Menu",
     "catalog": "Catalog",
     "cart": "Cart",
     "checkout": "Checkout",
+    "favorites": "Favorites",
+    "about": "About",
+    "contact": "Contact",
     "instagram": "Instagram",
     "admin": "Admin"
   },
   "hero": {
-    "tagline": "Handcrafted with passion",
-    "subtitle": "Luxury cakes & pastries delivered to your door"
+    "tagline": "Every dessert tells a story.",
+    "subtitle": "Luxury handcrafted cakes — made with love, delivered to you"
+  },
+  "home": {
+    "todaysFavorites": "Today's Favorites",
+    "todaysFavoritesSub": "Most loved flavours today",
+    "newCollection": "New Collection",
+    "newCollectionSub": "Fresh from our atelier",
+    "mostOrdered": "Most Ordered",
+    "mostOrderedSub": "Guest favourites",
+    "chefsSelection": "Chef's Selection",
+    "chefsSelectionSub": "Curated signature desserts",
+    "categories": "Categories"
   },
   "catalog": {
     "allCategories": "All",
+    "allProducts": "All Products",
     "empty": "No products available at the moment.",
     "addToCart": "Add to cart",
     "added": "Added",
@@ -44,6 +60,21 @@
   },
   "checkout": {
     "title": "Checkout",
+    "step1": "Info",
+    "step2": "Delivery",
+    "step3": "Summary",
+    "step4": "Confirm",
+    "step1Title": "Your details",
+    "step2Title": "Delivery details",
+    "step3Title": "Order summary",
+    "step4Title": "WhatsApp confirmation",
+    "step4Desc": "Your order will be saved and shared via WhatsApp. Our team will contact you shortly.",
+    "next": "Continue",
+    "back": "Back",
+    "deliveryOption": "Delivery",
+    "pickupOption": "Pickup",
+    "pickupInfo": "Pick up your order at our atelier. Address and time will be shared after confirmation.",
+    "pickupAddress": "Pickup — FISTIK Atelier, Kaskelen",
     "customerName": "Full name",
     "phone": "Phone number",
     "phonePlaceholder": "778 268 17 55",
@@ -83,10 +114,41 @@
     "loading": "Loading...",
     "currency": "Price"
   },
+  "favorites": {
+    "title": "Favorites",
+    "description": "Your saved desserts",
+    "subtitle": "Products you've loved",
+    "empty": "No favorites yet",
+    "emptySub": "Tap the heart to save products you love",
+    "browse": "Browse menu",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "about": {
+    "title": "About FISTIK",
+    "description": "Luxury handcrafted cakes in Kaskelen",
+    "intro": "FISTIK is a boutique dessert atelier where every detail matters. For Instagram guests, we offer a fast, elegant and personal ordering experience.",
+    "storyTitle": "Our story",
+    "story": "Every dessert tells a story. We blend traditional recipes with modern presentation for your special moments.",
+    "craftTitle": "Craftsmanship",
+    "craft": "All products are made in small batches with fresh ingredients and care.",
+    "locationTitle": "Our atelier",
+    "orderCta": "Order now"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "Get in touch with FISTIK",
+    "intro": "For orders, special requests or questions.",
+    "address": "Address",
+    "hours": "Opening hours",
+    "hoursValue": "Daily 09:00 – 21:00. Delivery time confirmed after order approval."
+  },
   "footer": {
     "tagline": "Artisan bakery in Kaskelen — handcrafted cakes and pastries.",
     "phone": "Tel",
     "instagramCta": "Back to Instagram",
+    "aboutLink": "About",
+    "contactLink": "Contact",
     "adminLink": "Admin login"
   }
 }

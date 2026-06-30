@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
@@ -63,27 +64,30 @@ export function ProductCard({ product, locale }: ProductCardProps) {
       }`}
     >
       <Link href={`/product/${product.slug}`} className="group block">
-        <div className="relative aspect-square overflow-hidden bg-border/30">
+        <div className="relative aspect-[4/5] overflow-hidden bg-cream">
           {product.image_url ? (
             <Image
               src={product.image_url}
               alt={name}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 50vw, 25vw"
             />
           ) : (
-            <div className="flex h-full items-center justify-center font-display text-4xl text-accent">
+            <div className="flex h-full items-center justify-center font-display text-4xl text-accent/40">
               F
             </div>
           )}
+          <div className="absolute right-2 top-2">
+            <FavoriteButton productId={product.id} size="sm" />
+          </div>
           {outOfStock ? (
             <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">
               {t('soldOut')}
             </div>
           ) : null}
         </div>
-        <div className="p-3 pb-2">
+        <div className="p-4 pb-2">
           <h3 className="font-display text-lg font-semibold leading-tight">{name}</h3>
           {showSubtitle && description ? (
             <p className="mt-0.5 line-clamp-2 text-xs text-muted">{description}</p>
@@ -96,7 +100,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
       </Link>
 
       <div
-        className="flex items-center justify-end gap-2 px-3 pb-3"
+        className="flex items-center justify-end gap-2 px-4 pb-4"
         onClick={(e) => e.stopPropagation()}
       >
         {outOfStock ? (

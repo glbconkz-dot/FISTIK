@@ -4,18 +4,34 @@
     "description": "El yapımı lüks pastalar ve unlu mamuller. Sipariş ve teslimat."
   },
   "nav": {
+    "menu": "Menü",
     "catalog": "Menü",
     "cart": "Sepet",
     "checkout": "Sipariş",
+    "favorites": "Favoriler",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
     "instagram": "Instagram",
     "admin": "Admin"
   },
   "hero": {
-    "tagline": "Sevgiyle hazırlanır",
-    "subtitle": "Lüks pastalar ve unlu mamuller — kapınıza kadar"
+    "tagline": "Her tatlı bir hikâye anlatır.",
+    "subtitle": "El yapımı lüks pastalar — sevgiyle hazırlanır, kapınıza kadar gelir"
+  },
+  "home": {
+    "todaysFavorites": "Günün Favorileri",
+    "todaysFavoritesSub": "Bugün en çok sevilen lezzetler",
+    "newCollection": "Yeni Koleksiyon",
+    "newCollectionSub": "Atölyemizden yeni çıkan tatlar",
+    "mostOrdered": "En Çok Sipariş Edilen",
+    "mostOrderedSub": "Misafirlerimizin vazgeçilmezleri",
+    "chefsSelection": "Şefin Seçimi",
+    "chefsSelectionSub": "Özenle seçilmiş imza tatlar",
+    "categories": "Kategoriler"
   },
   "catalog": {
     "allCategories": "Tümü",
+    "allProducts": "Tüm Ürünler",
     "empty": "Şu an ürün bulunmuyor.",
     "addToCart": "Sepete ekle",
     "added": "Eklendi",
@@ -44,6 +60,21 @@
   },
   "checkout": {
     "title": "Sipariş",
+    "step1": "Bilgiler",
+    "step2": "Teslimat",
+    "step3": "Özet",
+    "step4": "Onay",
+    "step1Title": "Müşteri bilgileri",
+    "step2Title": "Teslimat detayları",
+    "step3Title": "Sipariş özeti",
+    "step4Title": "WhatsApp onayı",
+    "step4Desc": "Siparişiniz kaydedilecek ve WhatsApp üzerinden paylaşılacak. Satış temsilcimiz kısa sürede sizinle iletişime geçecek.",
+    "next": "Devam",
+    "back": "Geri",
+    "deliveryOption": "Teslimat",
+    "pickupOption": "Gel-al",
+    "pickupInfo": "Siparişinizi atölyemizden teslim alabilirsiniz. Onay sonrası adres ve saat paylaşılacaktır.",
+    "pickupAddress": "Gel-al — FISTIK Atölye, Kaskelen",
     "customerName": "Ad soyad",
     "phone": "Telefon numarası",
     "phonePlaceholder": "778 268 17 55",
@@ -83,10 +114,41 @@
     "loading": "Yükleniyor...",
     "currency": "Fiyat"
   },
+  "favorites": {
+    "title": "Favorilerim",
+    "description": "Kaydettiğiniz tatlılar",
+    "subtitle": "Beğendiğiniz ürünler burada",
+    "empty": "Henüz favori eklemediniz",
+    "emptySub": "Kalp simgesine dokunarak favorilerinize ekleyin",
+    "browse": "Menüye göz at",
+    "add": "Favorilere ekle",
+    "remove": "Favorilerden çıkar"
+  },
+  "about": {
+    "title": "FISTIK Hakkında",
+    "description": "Kaskelen'de el yapımı lüks pastalar",
+    "intro": "FISTIK, her detayında özen taşıyan bir butik tatlı atölyesidir. Instagram'dan gelen misafirlerimiz için hızlı, zarif ve kişisel bir sipariş deneyimi sunuyoruz.",
+    "storyTitle": "Hikayemiz",
+    "story": "Her tatlı bir hikâye anlatır. Geleneksel tarifleri modern sunumla buluşturarak, özel günlerinize anlam katıyoruz.",
+    "craftTitle": "El işçiliği",
+    "craft": "Tüm ürünlerimiz günlük taze malzemelerle, küçük partiler halinde ve sevgiyle hazırlanır.",
+    "locationTitle": "Atölyemiz",
+    "orderCta": "Sipariş ver"
+  },
+  "contact": {
+    "title": "İletişim",
+    "description": "FISTIK ile iletişime geçin",
+    "intro": "Sipariş, özel talep veya sorularınız için bize ulaşın.",
+    "address": "Adres",
+    "hours": "Çalışma saatleri",
+    "hoursValue": "Her gün 09:00 – 21:00. Teslimat saati sipariş onayından sonra bildirilir."
+  },
   "footer": {
     "tagline": "Kaskelen'de butik fırın — el yapımı pastalar ve unlu mamuller.",
     "phone": "Tel",
     "instagramCta": "Instagram'a dön",
+    "aboutLink": "Hakkımızda",
+    "contactLink": "İletişim",
     "adminLink": "Admin girişi"
   }
 }

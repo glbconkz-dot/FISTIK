@@ -1,7 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCatalogData } from '@/lib/catalog';
-import { CatalogClient } from '@/components/CatalogClient';
+import { CatalogSection } from '@/components/CatalogSection';
 import { HeroCarousel } from '@/components/HeroCarousel';
+import { HomeExperience } from '@/components/HomeExperience';
+import { Reveal } from '@/components/ui/Reveal';
 import type { Locale } from '@/types';
 
 /** Canlı menü — Supabase stok/fiyat değişikliklerini anında yansıt */
@@ -16,7 +18,17 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'meta' });
-  return { title: t('title'), description: t('description') };
+  return {
+    title: t('title'),
+    description: t('description'),
+    openGraph: {
+      title: t('title'),
+      description: t('description'),
+      type: 'website',
+      locale,
+      siteName: 'FISTIK',
+    },
+  };
 }
 
 export default async function CatalogPage({
@@ -32,17 +44,25 @@ export default async function CatalogPage({
 
   return (
     <div>
-      <section className="mb-8 flex flex-col gap-5">
+      <section className="mb-10 flex flex-col gap-6 sm:mb-12">
         <HeroCarousel locale={locale as Locale} />
-        <div className="flex flex-col items-center text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted">
+        <Reveal className="flex flex-col items-center px-2 text-center">
+          <p className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
             {t('tagline')}
           </p>
-          <p className="mt-2 max-w-md text-muted">{t('subtitle')}</p>
-        </div>
+          <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+            {t('subtitle')}
+          </p>
+        </Reveal>
       </section>
 
-      <CatalogClient
+      <HomeExperience
+        products={products}
+        categories={categories}
+        locale={locale as Locale}
+      />
+
+      <CatalogSection
         products={products}
         categories={categories}
         locale={locale as Locale}

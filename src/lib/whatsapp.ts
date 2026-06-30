@@ -150,7 +150,7 @@ export function buildWhatsAppMessage(payload: WhatsAppOrderPayload): string {
 
   const blocks: string[] = [
     [
-      `*${l.title}*`,
+      `🎂 *${l.title}*`,
       field(l.orderNo, orderNumber),
       field(l.orderTime, formatOrderDateTime(orderPlacedAt, localeTag)),
     ]

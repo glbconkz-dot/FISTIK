@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { fetchLiveCatalog } from '@/app/actions/catalog';
 import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
@@ -17,7 +18,9 @@ interface CatalogClientProps {
 
 export function CatalogClient({ products, categories, locale }: CatalogClientProps) {
   const t = useTranslations('catalog');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const initialCat = searchParams.get('cat');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCat);
   const [liveProducts, setLiveProducts] = useState(products);
   const [liveCategories, setLiveCategories] = useState(categories);
 
@@ -62,6 +65,11 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
   }, [products, categories]);
 
   useEffect(() => {
+    const cat = searchParams.get('cat');
+    if (cat) setSelectedCategory(cat);
+  }, [searchParams]);
+
+  useEffect(() => {
     refreshCatalog();
     const onFocus = () => refreshCatalog();
     window.addEventListener('focus', onFocus);
@@ -76,7 +84,8 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
     : liveProducts;
 
   return (
-    <>
+    <section id="menu">
+      <h2 className="section-title mb-5">{t('allProducts')}</h2>
       <CategoryFilter
         categories={liveCategories}
         selected={selectedCategory}
@@ -94,6 +103,6 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
           ))}
         </div>
       )}
-    </>
+    </section>
   );
 }

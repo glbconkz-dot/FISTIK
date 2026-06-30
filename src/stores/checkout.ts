@@ -7,6 +7,7 @@ import { extractKzNationalDigits } from '@/lib/checkout';
 export interface SavedCheckoutForm {
   customerName: string;
   phoneNational: string;
+  deliveryMethod: 'delivery' | 'pickup';
   deliveryDate: string;
   addressStreet: string;
   buildingNumber: string;
@@ -19,6 +20,7 @@ export interface SavedCheckoutForm {
 const emptyForm: SavedCheckoutForm = {
   customerName: '',
   phoneNational: '',
+  deliveryMethod: 'delivery',
   deliveryDate: '',
   addressStreet: '',
   buildingNumber: '',
@@ -44,6 +46,7 @@ function normalizeForm(raw: Partial<LegacyForm> | undefined): SavedCheckoutForm 
   return {
     customerName: raw?.customerName ?? '',
     phoneNational: extractKzNationalDigits(raw?.phoneNational ?? raw?.phone ?? ''),
+    deliveryMethod: raw?.deliveryMethod === 'pickup' ? 'pickup' : 'delivery',
     deliveryDate: raw?.deliveryDate ?? '',
     addressStreet: raw?.addressStreet ?? raw?.address ?? '',
     buildingNumber: raw?.buildingNumber ?? '',
@@ -72,7 +75,7 @@ export const useCheckoutStore = create<CheckoutState>()(
     }),
     {
       name: 'fistik-checkout',
-      version: 3,
+      version: 4,
       migrate: (persisted) => {
         const state = persisted as { form?: LegacyForm } | LegacyForm | undefined;
         const legacy =
