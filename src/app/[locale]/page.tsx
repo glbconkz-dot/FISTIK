@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCatalogData } from '@/lib/catalog';
 import { CatalogSection } from '@/components/CatalogSection';
 import { HeroCarousel } from '@/components/HeroCarousel';
-import { HomeExperience } from '@/components/HomeExperience';
+import { HomeStorefront } from '@/components/HomeStorefront';
 import { Reveal } from '@/components/ui/Reveal';
 import type { Locale } from '@/types';
 
@@ -56,7 +56,7 @@ export default async function CatalogPage({
         </Reveal>
       </section>
 
-      <HomeExperience
+      <HomeStorefront
         products={products}
         categories={categories}
         storefrontSections={storefrontSections}

@@ -7,7 +7,7 @@ export default async function AdminStorefrontPage() {
 
   const [{ data: products }, { data: sections }] = await Promise.all([
     supabase.from('products').select('*').order('sort_order', { ascending: true }),
-    supabase.from('storefront_sections').select('key, product_ids, updated_at'),
+    supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
   ]);
 
   return (

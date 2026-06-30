@@ -19,6 +19,7 @@ export async function getCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
   storefrontSections: StorefrontSection[];
+  storefrontError: string | null;
   source: CatalogSource;
 }> {
   noStore();
@@ -30,13 +31,14 @@ export async function getCatalogData(): Promise<{
       console.error('[catalog] Supabase env set but client failed');
     }
     if (process.env.NODE_ENV === 'production') {
-      return { categories: [], products: [], storefrontSections: [], source: 'missing' };
+      return { categories: [], products: [], storefrontSections: [], storefrontError: null, source: 'missing' };
     }
     const local = getLocalCatalog();
     return {
       categories: local.categories,
       products: local.products.map(normalizeStock),
       storefrontSections: [],
+      storefrontError: null,
       source: 'local',
     };
   }
@@ -54,27 +56,33 @@ export async function getCatalogData(): Promise<{
       .select('id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, image_url, show_on_home, created_at')
       .eq('is_active', true)
       .order('sort_order', { ascending: true }),
-    supabase.from('storefront_sections').select('key, product_ids, updated_at'),
+    supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
   ]);
 
   const categories = (categoriesResult.data as Category[] | null) ?? [];
+
+  if (sectionsResult.error) {
+    console.error('[catalog] storefront_sections:', sectionsResult.error.message);
+  }
+
   const storefrontSections = ((sectionsResult.data as StorefrontSection[] | null) ?? []).map(
     (row) => ({
       key: row.key,
       product_ids: row.product_ids ?? [],
+      product_slugs: row.product_slugs ?? [],
       updated_at: row.updated_at,
     })
   );
 
   if (productsResult.error) {
     console.error('[catalog] Supabase products:', productsResult.error.message);
-    return { categories, products: [], storefrontSections, source: 'supabase' };
+    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
   }
 
   const products = ((productsResult.data as Product[] | null) ?? []).map(normalizeStock);
 
   if (products.length === 0) {
-    return { categories, products: [], storefrontSections, source: 'supabase' };
+    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
   }
 
   const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
@@ -89,6 +97,7 @@ export async function getCatalogData(): Promise<{
     products: applyProductAssets(sortedProducts, categories),
     categories,
     storefrontSections,
+    storefrontError: sectionsResult.error?.message ?? null,
     source: 'supabase',
   };
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState, useTransition } from 'react';
-import { saveStorefrontSection } from '@/app/actions/admin-storefront';
+import { saveStorefrontSection, verifyStorefrontSync } from '@/app/actions/admin-storefront';
 import { getLocalizedProductName } from '@/lib/admin-messages';
 import { STOREFRONT_SECTION_KEYS } from '@/lib/storefront-utils';
 import type { Product, StorefrontSection, StorefrontSectionKey } from '@/types';
@@ -9,19 +9,19 @@ import type { Product, StorefrontSection, StorefrontSectionKey } from '@/types';
 const SECTION_LABELS: Record<StorefrontSectionKey, { tr: string; hint: string }> = {
   todays_favorites: {
     tr: 'Günün Favorileri',
-    hint: 'Ana sayfanın en üstündeki bölüm. Boş bırakılırsa stokta olan ilk 4 ürün gösterilir.',
+    hint: 'Ana sayfanın en üstündeki bölüm. Boş bırakılırsa otomatik liste kullanılır.',
   },
   new_collection: {
     tr: 'Yeni Koleksiyon',
-    hint: 'Admin seçimi yoksa en yeni eklenen 4 ürün gösterilir (created_at).',
+    hint: 'Boş bırakılırsa en yeni ürünler gösterilir.',
   },
   most_ordered: {
     tr: 'En Çok Sipariş Edilen',
-    hint: 'Admin seçimi yoksa stokta olan ve sırası en düşük 4 ürün gösterilir.',
+    hint: 'Boş bırakılırsa sıralamaya göre otomatik liste.',
   },
   chefs_selection: {
     tr: 'Şefin Seçimi',
-    hint: 'Admin seçimi yoksa her kategoriden bir ürün (max 4) gösterilir.',
+    hint: 'Boş bırakılırsa kategorilerden otomatik seçim.',
   },
 };
 
@@ -39,50 +39,132 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
       chefs_selection: [],
     };
     for (const section of sections) {
-      map[section.key] = section.product_ids ?? [];
+      map[section.key] = section.product_slugs?.length
+        ? section.product_slugs
+        : section.product_ids
+            .map((id) => products.find((p) => p.id === id)?.slug)
+            .filter((s): s is string => Boolean(s));
     }
     return map;
-  }, [sections]);
+  }, [sections, products]);
 
-  const [selection, setSelection] = useState(initial);
+  const [selection, setSelection] = useState<Record<StorefrontSectionKey, string[]>>(initial);
   const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const activeProducts = products.filter((p) => p.is_active);
+  const slugToProduct = useMemo(
+    () => new Map(activeProducts.map((p) => [p.slug, p])),
+    [activeProducts]
+  );
 
-  const toggleProduct = (key: StorefrontSectionKey, productId: string) => {
+  const toggleProduct = (key: StorefrontSectionKey, slug: string) => {
     setSelection((prev) => {
       const current = prev[key];
-      if (current.includes(productId)) {
-        return { ...prev, [key]: current.filter((id) => id !== productId) };
+      if (current.includes(slug)) {
+        return { ...prev, [key]: current.filter((s) => s !== slug) };
       }
-      if (current.length >= 4) {
-        return prev;
-      }
-      return { ...prev, [key]: [...current, productId] };
+      if (current.length >= 4) return prev;
+      return { ...prev, [key]: [...current, slug] };
     });
   };
 
-  const handleSave = (key: StorefrontSectionKey) => {
+  const saveSection = (key: StorefrontSectionKey) => {
     setMessage(null);
+    setError(null);
+    const slugs = selection[key];
+    const ids = slugs
+      .map((slug) => slugToProduct.get(slug)?.id)
+      .filter((id): id is string => Boolean(id));
+
     startTransition(async () => {
-      const result = await saveStorefrontSection(key, selection[key]);
+      const result = await saveStorefrontSection(key, ids, slugs);
       if (!result.ok) {
-        setMessage(result.error);
+        setError(result.error);
         return;
       }
-      setMessage(`${SECTION_LABELS[key].tr} kaydedildi.`);
+      setMessage(
+        `${SECTION_LABELS[key].tr} kaydedildi (${result.slugCount} ürün). Canlı vitrin: ${result.liveSectionCount} bölüm yüklü.` +
+          (result.storefrontError ? ` Uyarı: ${result.storefrontError}` : '')
+      );
+    });
+  };
+
+  const saveAll = () => {
+    setMessage(null);
+    setError(null);
+    startTransition(async () => {
+      for (const key of STOREFRONT_SECTION_KEYS) {
+        const slugs = selection[key];
+        const ids = slugs
+          .map((slug) => slugToProduct.get(slug)?.id)
+          .filter((id): id is string => Boolean(id));
+        const result = await saveStorefrontSection(key, ids, slugs);
+        if (!result.ok) {
+          setError(`${SECTION_LABELS[key].tr}: ${result.error}`);
+          return;
+        }
+      }
+      const verify = await verifyStorefrontSync();
+      setMessage(
+        `Tüm bölümler kaydedildi. Site API: ${verify.sections.length} bölüm` +
+          (verify.error ? ` — HATA: ${verify.error}` : ' — OK')
+      );
+    });
+  };
+
+  const checkLive = () => {
+    setMessage(null);
+    setError(null);
+    startTransition(async () => {
+      const verify = await verifyStorefrontSync();
+      if (verify.error) {
+        setError(`Canlı okuma hatası: ${verify.error}`);
+        return;
+      }
+      const configured = verify.sections.filter(
+        (s) => (s.product_slugs?.length ?? 0) > 0 || (s.product_ids?.length ?? 0) > 0
+      );
+      setMessage(
+        `Canlı bağlantı OK (${verify.source}). Yapılandırılmış ${configured.length} bölüm. Ana sayfayı yenileyin.`
+      );
     });
   };
 
   return (
     <div className="space-y-8">
-      <p className="text-sm text-muted">
-        Ana sayfadaki vitrin bölümlerinde hangi ürünlerin görüneceğini seçin (en fazla 4).
-        Seçim yapmazsanız site otomatik listeler kullanır.
-      </p>
+      <div className="luxury-card space-y-3 p-4 text-sm">
+        <p>
+          Seçimler <strong>Supabase → fistik.kz</strong> zinciriyle kaydedilir. Kayıttan sonra ana
+          sayfa otomatik yenilenir.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className="btn-primary" disabled={isPending} onClick={saveAll}>
+            Tümünü kaydet
+          </button>
+          <button type="button" className="btn-outline" disabled={isPending} onClick={checkLive}>
+            Canlı bağlantıyı test et
+          </button>
+          <a
+            href="/api/catalog"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline inline-flex"
+          >
+            API kontrol (/api/catalog)
+          </a>
+        </div>
+      </div>
 
-      {message ? <p className="rounded-xl bg-brand/25 px-4 py-3 text-sm">{message}</p> : null}
+      {error ? (
+        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
+      {message ? (
+        <p className="rounded-xl bg-brand/25 px-4 py-3 text-sm text-foreground">{message}</p>
+      ) : null}
 
       {STOREFRONT_SECTION_KEYS.map((key) => (
         <section key={key} className="luxury-card p-4 sm:p-5">
@@ -90,15 +172,13 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
             <div>
               <h2 className="font-display text-xl font-semibold">{SECTION_LABELS[key].tr}</h2>
               <p className="mt-1 text-sm text-muted">{SECTION_LABELS[key].hint}</p>
-              <p className="mt-1 text-xs text-muted">
-                Seçili: {selection[key].length}/4
-              </p>
+              <p className="mt-1 text-xs text-muted">Seçili: {selection[key].length}/4</p>
             </div>
             <button
               type="button"
               className="btn-primary shrink-0"
               disabled={isPending}
-              onClick={() => handleSave(key)}
+              onClick={() => saveSection(key)}
             >
               Kaydet
             </button>
@@ -106,7 +186,7 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
 
           <div className="grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2">
             {activeProducts.map((product) => {
-              const checked = selection[key].includes(product.id);
+              const checked = selection[key].includes(product.slug);
               const disabled = !checked && selection[key].length >= 4;
 
               return (
@@ -125,7 +205,7 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
                     className="sr-only"
                     checked={checked}
                     disabled={disabled}
-                    onChange={() => toggleProduct(key, product.id)}
+                    onChange={() => toggleProduct(key, product.slug)}
                   />
                   <span className="line-clamp-2">
                     {getLocalizedProductName(product, 'tr')}

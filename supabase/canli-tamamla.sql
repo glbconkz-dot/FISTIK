@@ -61,6 +61,10 @@ CREATE POLICY "Public read storefront_sections" ON storefront_sections FOR SELEC
 CREATE POLICY "Admin manage storefront_sections" ON storefront_sections
   FOR ALL USING (is_admin()) WITH CHECK (is_admin());
 
+-- Slug tabanli vitrin (admin <-> site senkronu)
+ALTER TABLE storefront_sections
+  ADD COLUMN IF NOT EXISTS product_slugs text[] NOT NULL DEFAULT '{}';
+
 -- ── 4) Turkce urun isimleri ──────────────────────────────────────────────
 -- fix-product-names-tr.sql ile ayni (ozet). Tam liste icin o dosyayi da calistirabilirsiniz.
 

@@ -25,6 +25,7 @@ export type StorefrontSectionKey =
 export interface StorefrontSection {
   key: StorefrontSectionKey;
   product_ids: string[];
+  product_slugs?: string[];
   updated_at: string;
 }
 
