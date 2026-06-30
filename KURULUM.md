@@ -35,8 +35,11 @@ Bu rehber sipariş kaydı, admin paneli ve telefondan canlı erişim için gerek
 |------|-------|----------|
 | **1** | `supabase/setup-step1.sql` | Tablolar + Türkçe sütunlar + güvenlik (tek seferde) |
 | **2** | `supabase/migrations/004_full_menu.sql` | Menü (84 ürün) — büyük dosya, 1–2 dk sürebilir |
+| **3** | `supabase/canli-tamamla.sql` | Stok, sipariş akışı, vitrin, kategori düzeltmeleri |
+| **4** | `supabase/migrations/008_fix_localized_names.sql` | Rusça isimler |
+| **5** | `supabase/fix-product-names-tr.sql` | Türkçe ürün isimleri |
 
-> Eski 4 dosyalı yol (`001`, `005`, `003`, `004`) yerine **setup-step1.sql** kullanın.
+Tam kontrol listesi: **`CANLI-SURUM.md`**
 
 #### Sık SQL hataları
 

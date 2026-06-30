@@ -1,6 +1,6 @@
 {
   "name": "fistik",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "clean": "node scripts/clean-next.mjs",
@@ -13,6 +13,7 @@
     "generate:menu": "node scripts/generate-menu-seed.mjs",
     "generate:prices": "node scripts/generate-price-update.mjs",
     "check:env": "node scripts/check-env.mjs",
+    "release:check": "npm run check:env && npm run build",
     "lint": "eslint"
   },
   "dependencies": {

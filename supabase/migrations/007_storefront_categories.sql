@@ -16,10 +16,7 @@ UPDATE categories SET
   name_tr = 'Kurabiyeler'
 WHERE slug = 'cookies';
 
-UPDATE categories SET
-  name_ru = 'Блины / Бореки',
-  name_tr = 'Börekler'
-WHERE slug = 'boreks';
+UPDATE categories SET name_ru = 'Бореки', name_tr = 'Börekler' WHERE slug = 'boreks';
 
 -- Ana sayfa kategori gridinde gereksiz teknik kategorileri gizle
 UPDATE categories SET show_on_home = false WHERE slug IN ('semi-finished', 'eclairs-mini');
