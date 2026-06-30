@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { sharedSiteMetadata, SITE_NAME } from '@/lib/site-metadata';
 
 export const metadata: Metadata = {
-  title: 'FISTIK',
+  ...sharedSiteMetadata,
+  title: SITE_NAME,
   description: 'Luxury artisan bakery',
 };
 

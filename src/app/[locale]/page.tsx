@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCatalogData } from '@/lib/catalog';
+import { brandOpenGraphImage, SITE_NAME } from '@/lib/site-metadata';
 import { CatalogSection } from '@/components/CatalogSection';
 import { HeroCarousel } from '@/components/HeroCarousel';
 import { HomeStorefront } from '@/components/HomeStorefront';
@@ -26,7 +27,14 @@ export async function generateMetadata({
       description: t('description'),
       type: 'website',
       locale,
-      siteName: 'FISTIK',
+      siteName: SITE_NAME,
+      images: [brandOpenGraphImage],
+    },
+    twitter: {
+      card: 'summary',
+      title: t('title'),
+      description: t('description'),
+      images: [brandOpenGraphImage.url],
     },
   };
 }
