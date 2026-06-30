@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  headers: async () => [
+    {
+      source: '/:locale(kk|tr|ru|en)',
+      headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+    },
+    {
+      source: '/api/catalog',
+      headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+    },
+  ],
   images: {
     remotePatterns: [
       {

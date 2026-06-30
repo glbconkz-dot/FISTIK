@@ -1,7 +1,8 @@
 import { unstable_noStore as noStore } from 'next/cache';
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { getLocalCatalog } from '@/data/menu';
-import { tryCreateClient } from '@/lib/supabase/server';
+import { getSupabaseEnv } from '@/lib/supabase/env';
+import { createPublicSupabaseClient } from '@/lib/supabase/public';
 import type { Category, Locale, Product } from '@/types';
 
 function normalizeStock(product: Product): Product {
@@ -11,17 +12,25 @@ function normalizeStock(product: Product): Product {
   };
 }
 
+export type CatalogSource = 'supabase' | 'local' | 'missing';
+
 export async function getCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
-  source: 'supabase' | 'local';
+  source: CatalogSource;
 }> {
   noStore();
-  const local = getLocalCatalog();
-  const supabase = await tryCreateClient();
+  const env = getSupabaseEnv();
+  const supabase = createPublicSupabaseClient();
 
-  // Supabase yok — sadece geliştirme (yerel menü)
   if (!supabase) {
+    if (env.isConfigured) {
+      console.error('[catalog] Supabase env set but client failed');
+    }
+    if (process.env.NODE_ENV === 'production') {
+      return { categories: [], products: [], source: 'missing' };
+    }
+    const local = getLocalCatalog();
     return {
       categories: local.categories,
       products: local.products.map(normalizeStock),
@@ -32,7 +41,9 @@ export async function getCatalogData(): Promise<{
   const [productsResult, categoriesResult] = await Promise.all([
     supabase
       .from('products')
-      .select('*')
+      .select(
+        'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at'
+      )
       .eq('is_active', true)
       .order('sort_order', { ascending: true }),
     supabase
@@ -72,7 +83,7 @@ export async function getCatalogData(): Promise<{
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   noStore();
-  const supabase = await tryCreateClient();
+  const supabase = createPublicSupabaseClient();
 
   if (supabase) {
     const { data, error } = await supabase
@@ -91,6 +102,8 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     }
     return null;
   }
+
+  if (process.env.NODE_ENV === 'production') return null;
 
   const { products } = getLocalCatalog();
   const local = products.find((p) => p.slug === slug);
