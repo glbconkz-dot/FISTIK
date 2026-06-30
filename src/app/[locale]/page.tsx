@@ -4,6 +4,9 @@ import { CatalogClient } from '@/components/CatalogClient';
 import { HeroSweetSpotlight } from '@/components/HeroSweetSpotlight';
 import type { Locale } from '@/types';
 
+/** Canlı menü — Supabase stok/fiyat değişikliklerini anında yansıt */
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({
   params,
 }: {

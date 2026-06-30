@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient, getAdminUser } from '@/lib/supabase/server';
+import { revalidateStorefront } from '@/lib/revalidate-storefront';
 import { slugify } from '@/lib/utils';
 import type { ProductFormData } from '@/types';
 
@@ -43,6 +44,7 @@ export async function upsertProduct(data: ProductFormData, productId?: string) {
   }
 
   revalidatePath('/admin/products');
+  revalidateStorefront();
   redirect('/admin/products');
 }
 
@@ -76,7 +78,7 @@ export async function adjustProductStock(
     }
 
     revalidatePath('/admin/products');
-    revalidatePath('/', 'layout');
+    revalidateStorefront();
     return { ok: true, stock: nextStock };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Stok güncellenemedi' };
@@ -102,7 +104,7 @@ export async function setProductStock(
     }
 
     revalidatePath('/admin/products');
-    revalidatePath('/', 'layout');
+    revalidateStorefront();
     return { ok: true, stock: nextStock };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Stok kaydedilemedi' };
@@ -127,7 +129,7 @@ export async function setAllProductStock(
     }
 
     revalidatePath('/admin/products');
-    revalidatePath('/', 'layout');
+    revalidateStorefront();
     return { ok: true, count: data?.length ?? 0 };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Toplu stok güncellenemedi' };
@@ -150,6 +152,7 @@ export async function toggleProductActive(productId: string, isActive: boolean) 
     .eq('id', productId);
   if (error) throw new Error(error.message);
   revalidatePath('/admin/products');
+  revalidateStorefront();
 }
 
 export async function deleteProduct(
@@ -179,7 +182,7 @@ export async function deleteProduct(
     }
 
     revalidatePath('/admin/products');
-    revalidatePath('/', 'layout');
+    revalidateStorefront();
     return { ok: true };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : 'Silinemedi' };
@@ -241,4 +244,5 @@ export async function upsertCategory(data: {
   }
 
   revalidatePath('/admin/products');
+  revalidateStorefront();
 }

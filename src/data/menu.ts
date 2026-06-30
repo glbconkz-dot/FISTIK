@@ -4,6 +4,8 @@ import type { Category, Product } from '@/types';
 
 export const PLACEHOLDER_IMAGE = '/product-placeholder.jpg';
 export const DEFAULT_MENU_PRICE = 1500;
+/** Yerel menü fallback — Supabase yokken veya stok 0 iken vitrin için varsayılan */
+export const DEFAULT_MENU_STOCK = 30;
 
 const desc = {
   en: 'Handcrafted fresh at Fistik bakery, Kaskelen.',
@@ -59,7 +61,7 @@ function product(
     price,
     image_url: PLACEHOLDER_IMAGE,
     is_active: true,
-    stock_quantity: 0,
+    stock_quantity: DEFAULT_MENU_STOCK,
     sort_order,
     created_at: '',
   };

@@ -1,7 +1,17 @@
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
-import { getLocalCatalog } from '@/data/menu';
+import { DEFAULT_MENU_STOCK, getLocalCatalog } from '@/data/menu';
 import { tryCreateClient } from '@/lib/supabase/server';
 import type { Category, Locale, Product } from '@/types';
+
+function withFallbackStock(products: Product[]): Product[] {
+  return products.map((p) => ({
+    ...p,
+    stock_quantity:
+      Number(p.stock_quantity ?? 0) > 0
+        ? Number(p.stock_quantity)
+        : DEFAULT_MENU_STOCK,
+  }));
+}
 
 export async function getCatalogData(): Promise<{
   categories: Category[];
@@ -12,7 +22,11 @@ export async function getCatalogData(): Promise<{
   const supabase = await tryCreateClient();
 
   if (!supabase) {
-    return { ...local, source: 'local' };
+    return {
+      categories: local.categories,
+      products: withFallbackStock(local.products),
+      source: 'local',
+    };
   }
 
   const [productsResult, categoriesResult] = await Promise.all([
@@ -20,7 +34,6 @@ export async function getCatalogData(): Promise<{
       .from('products')
       .select('*')
       .eq('is_active', true)
-      .gt('stock_quantity', 0)
       .order('sort_order', { ascending: true }),
     supabase
       .from('categories')
@@ -29,25 +42,35 @@ export async function getCatalogData(): Promise<{
       .order('sort_order', { ascending: true }),
   ]);
 
+  if (productsResult.error) {
+    console.error('[catalog] Supabase products:', productsResult.error.message);
+  }
+
   const products = (productsResult.data as Product[] | null) ?? [];
   const categories = (categoriesResult.data as Category[] | null) ?? [];
 
-  if (products.length === 0) {
-    return { ...local, source: 'local' };
+  // Supabase bağlı ve ürün var → DB kaynağı (stok 0 olsa bile admin stokunu yansıt)
+  if (!productsResult.error && products.length > 0) {
+    const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
+    const sortedProducts = [...products].sort((a, b) => {
+      const catA = categoryOrder.get(a.category_id ?? '') ?? 999;
+      const catB = categoryOrder.get(b.category_id ?? '') ?? 999;
+      if (catA !== catB) return catA - catB;
+      return a.sort_order - b.sort_order;
+    });
+
+    return {
+      products: applyProductAssets(sortedProducts, categories),
+      categories,
+      source: 'supabase',
+    };
   }
 
-  const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
-  const sortedProducts = [...products].sort((a, b) => {
-    const catA = categoryOrder.get(a.category_id ?? '') ?? 999;
-    const catB = categoryOrder.get(b.category_id ?? '') ?? 999;
-    if (catA !== catB) return catA - catB;
-    return a.sort_order - b.sort_order;
-  });
-
+  // DB boş veya hata — yerel menü (geliştirme / migration öncesi)
   return {
-    products: applyProductAssets(sortedProducts, categories),
-    categories,
-    source: 'supabase',
+    categories: local.categories,
+    products: withFallbackStock(local.products),
+    source: 'local',
   };
 }
 
@@ -55,15 +78,14 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   const supabase = await tryCreateClient();
 
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('products')
       .select('*, categories(*)')
       .eq('slug', slug)
       .eq('is_active', true)
-      .gt('stock_quantity', 0)
-      .single();
+      .maybeSingle();
 
-    if (data) {
+    if (!error && data) {
       const product = data as Product;
       const categories = product.categories
         ? [product.categories as Category]
@@ -73,7 +95,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   const { products } = getLocalCatalog();
-  return products.find((p) => p.slug === slug) ?? null;
+  const local = products.find((p) => p.slug === slug);
+  if (!local) return null;
+  return withFallbackStock([local])[0];
 }
 
 export function getCategoryName(
