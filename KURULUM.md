@@ -83,7 +83,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJ... (opsiyonel, ileride scriptler için)
 
 NEXT_PUBLIC_WHATSAPP_NUMBER=77782681755
-NEXT_PUBLIC_DEFAULT_LOCALE=kk
+NEXT_PUBLIC_DEFAULT_LOCALE=ru
 NEXT_PUBLIC_CURRENCY_SYMBOL=₸
 ```
 
@@ -162,7 +162,7 @@ Vercel → Project → **Settings → Environment Variables** — `.env.local` i
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `NEXT_PUBLIC_WHATSAPP_NUMBER`
-- `NEXT_PUBLIC_DEFAULT_LOCALE` = `kk`
+- `NEXT_PUBLIC_DEFAULT_LOCALE` = `ru`
 - `NEXT_PUBLIC_CURRENCY_SYMBOL` = `₸`
 
 **Deploy** → birkaç dakika sonra `https://fistik-bakery.vercel.app` benzeri bir adres alırsınız.
@@ -178,7 +178,7 @@ Supabase → **Authentication → URL Configuration**:
 
 ## Bölüm 6 — Canlıda kontrol listesi
 
-- [ ] Ana sayfa açılıyor (`/kk`, `/tr`)
+- [ ] Ana sayfa açılıyor (`/ru`, `/tr`, `/kk`)
 - [ ] Ürün görselleri yükleniyor
 - [ ] Sipariş verince `orders` tablosuna kayıt düşüyor
 - [ ] WhatsApp açılıyor, mesaj dolu geliyor

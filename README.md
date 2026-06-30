@@ -56,7 +56,7 @@ Fill in:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | WhatsApp number with country code (no `+`) |
-| `NEXT_PUBLIC_DEFAULT_LOCALE` | Default locale (`kk`) |
+| `NEXT_PUBLIC_DEFAULT_LOCALE` | Default locale (`ru`) |
 | `NEXT_PUBLIC_CURRENCY_SYMBOL` | Currency symbol (e.g. `₸`) |
 
 ### 4. Create an admin user
