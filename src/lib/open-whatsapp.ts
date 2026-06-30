@@ -1,6 +1,6 @@
 import {
-  buildWhatsAppAppUrl,
-  buildWhatsAppWebUrl,
+  buildWhatsAppBusinessIntentUrl,
+  buildWhatsAppWaMeUrl,
   getWhatsAppDigitsForLink,
 } from '@/lib/business';
 
@@ -9,36 +9,44 @@ function isMobileDevice(): boolean {
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 }
 
+function isAndroid(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return /Android/i.test(navigator.userAgent);
+}
+
+function preferWhatsAppBusiness(): boolean {
+  return process.env.NEXT_PUBLIC_WHATSAPP_BUSINESS !== 'false';
+}
+
 /**
  * Sipariş mesajı ile WhatsApp aç.
- * Mobilde önce whatsapp:// (uygulama), yoksa api.whatsapp.com.
- * wa.me kullanılmıyor — çoğu telefonda "uygulama indir" sayfasına düşüyordu.
+ * Mobilde wa.me (tek yönlendirme — indirme sayfasına düşmez).
+ * Android + Business: doğrudan WhatsApp Business intent (chooser yok).
  */
 export function openWhatsAppWithMessage(message: string): void {
   if (typeof window === 'undefined') return;
 
   const phone = getWhatsAppDigitsForLink();
-  const appUrl = buildWhatsAppAppUrl(phone, message);
-  const webUrl = buildWhatsAppWebUrl(phone, message);
+  const waMeUrl = buildWhatsAppWaMeUrl(phone, message);
 
   if (isMobileDevice()) {
-    window.location.href = appUrl;
-    window.setTimeout(() => {
-      if (document.visibilityState === 'visible') {
-        window.location.href = webUrl;
-      }
-    }, 1200);
+    if (isAndroid() && preferWhatsAppBusiness()) {
+      window.location.href = buildWhatsAppBusinessIntentUrl(phone, message);
+      return;
+    }
+
+    window.location.assign(waMeUrl);
     return;
   }
 
-  const opened = window.open(webUrl, '_blank', 'noopener,noreferrer');
+  const opened = window.open(waMeUrl, '_blank', 'noopener,noreferrer');
   if (!opened) {
-    window.location.href = webUrl;
+    window.location.assign(waMeUrl);
   }
 }
 
 /** @deprecated openWhatsAppWithMessage kullanın */
 export function openWhatsAppUrl(url: string): void {
   if (typeof window === 'undefined') return;
-  window.location.href = url;
+  window.location.assign(url);
 }

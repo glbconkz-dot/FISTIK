@@ -80,18 +80,33 @@ export function getWhatsAppDigitsForLink(): string {
   return getWhatsAppDigits();
 }
 
-/** Web — footer vb. api.whatsapp.com uygulamayı daha iyi açar */
-export function getWhatsAppLink(message?: string): string {
-  return buildWhatsAppWebUrl(getWhatsAppDigits(), message);
-}
-
-export function buildWhatsAppWebUrl(phone: string, message?: string): string {
-  const base = `https://api.whatsapp.com/send?phone=${phone}`;
+/** Resmi wa.me linki — yüklü WhatsApp / Business uygulamasını açar */
+export function buildWhatsAppWaMeUrl(phone: string, message?: string): string {
+  const base = `https://wa.me/${phone}`;
   if (!message) return base;
-  return `${base}&text=${encodeURIComponent(message)}`;
+  return `${base}?text=${encodeURIComponent(message)}`;
 }
 
-/** Mobil — doğrudan WhatsApp uygulaması */
+/** Web — masaüstü ve footer */
+export function getWhatsAppLink(message?: string): string {
+  return buildWhatsAppWaMeUrl(getWhatsAppDigits(), message);
+}
+
+/** @deprecated wa.me kullanın */
+export function buildWhatsAppWebUrl(phone: string, message?: string): string {
+  return buildWhatsAppWaMeUrl(phone, message);
+}
+
+/**
+ * Android — doğrudan WhatsApp Business (com.whatsapp.w4b).
+ * Normal WhatsApp istenirse NEXT_PUBLIC_WHATSAPP_BUSINESS=false
+ */
+export function buildWhatsAppBusinessIntentUrl(phone: string, message: string): string {
+  const text = encodeURIComponent(message);
+  return `intent://send?phone=${phone}&text=${text}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
+}
+
+/** @deprecated wa.me kullanın — chooser + indirme sayfası riski */
 export function buildWhatsAppAppUrl(phone: string, message?: string): string {
   const base = `whatsapp://send?phone=${phone}`;
   if (!message) return base;
