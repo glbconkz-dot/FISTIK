@@ -1,5 +1,5 @@
 import { applyProductAssets } from '@/data/product-assets';
-import { CATEGORY_KK, CATEGORY_TR, PRODUCT_KK, PRODUCT_TR } from '@/data/menu-names';
+import { CATEGORY_KK, CATEGORY_RU, CATEGORY_TR, PRODUCT_KK, PRODUCT_RU, PRODUCT_TR } from '@/data/menu-names';
 import type { Category, Product } from '@/types';
 
 export const PLACEHOLDER_IMAGE = '/product-placeholder.jpg';
@@ -199,6 +199,7 @@ function applyLocalizedNames(products: Product[]): Product[] {
   return products.map((p) => ({
     ...p,
     name_tr: PRODUCT_TR[p.slug] ?? p.name_tr,
+    name_ru: PRODUCT_RU[p.slug] ?? p.name_ru,
     name_kk: PRODUCT_KK[p.slug] ?? p.name_kk,
   }));
 }
@@ -207,6 +208,7 @@ function applyLocalizedCategories(categories: Category[]): Category[] {
   return categories.map((c) => ({
     ...c,
     name_tr: CATEGORY_TR[c.slug] ?? c.name_tr,
+    name_ru: CATEGORY_RU[c.slug] ?? c.name_ru,
     name_kk: CATEGORY_KK[c.slug] ?? c.name_kk,
   }));
 }

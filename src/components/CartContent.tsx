@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 import { Minus, Plus, Trash2 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
-import { formatPrice } from '@/lib/utils';
+import { formatPrice, getLocalizedNameBySlug } from '@/lib/utils';
+import type { Locale } from '@/types';
 import { useCartStore } from '@/stores/cart';
 
 export function CartContent() {
   const t = useTranslations('cart');
+  const locale = useLocale() as Locale;
   const items = useCartStore((s) => s.items);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
@@ -40,7 +42,9 @@ export function CartContent() {
           </div>
           <div className="flex flex-1 flex-col justify-between">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="font-display font-semibold leading-tight">{item.name}</h3>
+              <h3 className="font-display font-semibold leading-tight">
+                {getLocalizedNameBySlug(item.slug, locale, item.name)}
+              </h3>
                 <button
                   type="button"
                   onClick={() => removeItem(item.productId)}

@@ -81,19 +81,26 @@ export function resolveAdminLocale(value: string | undefined | null): AdminLocal
   return value === 'ru' ? 'ru' : 'tr';
 }
 
-import { PRODUCT_KK, PRODUCT_TR } from '@/data/menu-names';
+import { getLocalizedName } from '@/lib/utils';
 
 export function getLocalizedProductName(
-  product: { slug: string; name_tr: string; name_ru: string; name_en: string },
+  product: {
+    slug: string;
+    name_tr: string;
+    name_ru: string;
+    name_kk?: string;
+    name_en: string;
+  },
   locale: AdminLocale
 ): string {
-  if (locale === 'ru') {
-    const ru = product.name_ru?.trim();
-    if (ru && ru !== product.name_en) return ru;
-    return ru ?? product.name_en;
-  }
-
-  const tr = product.name_tr?.trim();
-  if (tr && tr !== product.name_en) return tr;
-  return PRODUCT_TR[product.slug] ?? tr ?? product.name_en;
+  return getLocalizedName(
+    {
+      slug: product.slug,
+      name_en: product.name_en,
+      name_ru: product.name_ru,
+      name_kk: product.name_kk ?? '',
+      name_tr: product.name_tr,
+    },
+    locale === 'ru' ? 'ru' : 'tr'
+  );
 }

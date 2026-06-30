@@ -3,6 +3,7 @@ import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { getLocalCatalog } from '@/data/menu';
 import { getSupabaseEnv } from '@/lib/supabase/env';
 import { createPublicSupabaseClient } from '@/lib/supabase/public';
+import { getLocalizedName } from '@/lib/utils';
 import type { Category, Locale, Product, StorefrontSection } from '@/types';
 
 function normalizeStock(product: Product): Product {
@@ -127,9 +128,9 @@ export function getCategoryName(
   locale: Locale
 ): string {
   const fromJoin = product.categories as Category | null | undefined;
-  if (fromJoin) return fromJoin[`name_${locale}`];
+  if (fromJoin) return getLocalizedName(fromJoin, locale);
 
   const catId = product.category_id;
   const cat = categories.find((c) => c.id === catId || c.slug === catId);
-  return cat ? cat[`name_${locale}`] : '';
+  return cat ? getLocalizedName(cat, locale) : '';
 }
