@@ -7,7 +7,8 @@
     "catalog": "Catalog",
     "cart": "Cart",
     "checkout": "Checkout",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "admin": "Admin"
   },
   "hero": {
     "tagline": "Handcrafted with passion",
@@ -85,6 +86,7 @@
   "footer": {
     "tagline": "Artisan bakery in Kaskelen — handcrafted cakes and pastries.",
     "phone": "Tel",
-    "instagramCta": "Back to Instagram"
+    "instagramCta": "Back to Instagram",
+    "adminLink": "Admin login"
   }
 }

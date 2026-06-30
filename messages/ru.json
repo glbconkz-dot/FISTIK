@@ -7,7 +7,8 @@
     "catalog": "Каталог",
     "cart": "Корзина",
     "checkout": "Оформление",
-    "instagram": "Instagram"
+    "instagram": "Instagram",
+    "admin": "Админ"
   },
   "hero": {
     "tagline": "Создано с любовью",
@@ -85,6 +86,7 @@
   "footer": {
     "tagline": "Авторская пекарня в Каскелене — торты и выпечка ручной работы.",
     "phone": "Тел",
-    "instagramCta": "Вернуться в Instagram"
+    "instagramCta": "Вернуться в Instagram",
+    "adminLink": "Вход администратора"
   }
 }

@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { getBusinessAddress, getInstagramLink, getWhatsAppLink, BUSINESS } from '@/lib/business';
@@ -132,7 +133,15 @@ export async function Footer({ locale }: FooterProps) {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-muted">© {new Date().getFullYear()} Fistik</p>
+        <p className="mt-8 text-center text-xs text-muted">
+          © {new Date().getFullYear()} Fistik ·{' '}
+          <NextLink
+            href="/admin/login"
+            className="underline-offset-2 hover:text-foreground hover:underline"
+          >
+            {t('adminLink')}
+          </NextLink>
+        </p>
       </div>
     </footer>
   );

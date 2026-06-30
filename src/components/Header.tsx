@@ -1,6 +1,7 @@
 'use client';
 
-import { ShoppingBag } from 'lucide-react';
+import { Lock, ShoppingBag } from 'lucide-react';
+import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { BrandLink } from '@/components/Brand';
@@ -22,6 +23,15 @@ export function Header() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguageSwitcher />
+          <NextLink
+            href="/admin/login"
+            className="flex min-h-[44px] items-center gap-1.5 rounded-full border border-border/80 bg-surface/80 px-3 text-xs font-medium text-muted hover:border-foreground/20 hover:text-foreground sm:min-w-[44px] sm:justify-center sm:px-0"
+            aria-label={t('admin')}
+            title={t('admin')}
+          >
+            <Lock className="h-4 w-4 shrink-0" />
+            <span className="sm:hidden">{t('admin')}</span>
+          </NextLink>
           <a
             href={getInstagramLink()}
             target="_blank"

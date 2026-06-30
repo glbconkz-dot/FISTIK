@@ -111,31 +111,6 @@ export async function setProductStock(
   }
 }
 
-export async function setAllProductStock(
-  stockQuantity: number
-): Promise<{ ok: true; count: number } | { ok: false; error: string }> {
-  try {
-    await requireAdmin();
-    const supabase = await createClient();
-    const nextStock = Math.max(0, Math.min(9999, Math.floor(stockQuantity)));
-
-    const { data, error } = await supabase
-      .from('products')
-      .update({ stock_quantity: nextStock })
-      .select('id');
-
-    if (error) {
-      return { ok: false, error: formatStockError(error.message) };
-    }
-
-    revalidatePath('/admin/products');
-    revalidateStorefront();
-    return { ok: true, count: data?.length ?? 0 };
-  } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'Toplu stok güncellenemedi' };
-  }
-}
-
 function formatStockError(message: string): string {
   if (message.includes('stock_quantity')) {
     return 'Veritabanında stock_quantity sütunu yok. Supabase SQL Editor\'de 006_stock_quantity.sql çalıştırın.';
