@@ -7,6 +7,7 @@ import { fetchLiveCatalog } from '@/app/actions/catalog';
 import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
+import { productInCategory } from '@/lib/category-utils';
 import type { Category, Product } from '@/types';
 import type { Locale } from '@/types';
 
@@ -78,8 +79,8 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
 
   const filtered = selectedCategory
     ? liveProducts.filter((p) => {
-        const cat = liveCategories.find((c) => c.id === p.category_id);
-        return cat?.slug === selectedCategory;
+        const cat = liveCategories.find((c) => c.slug === selectedCategory);
+        return cat ? productInCategory(p, cat) : false;
       })
     : liveProducts;
 

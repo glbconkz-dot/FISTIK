@@ -3,7 +3,7 @@ import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { getLocalCatalog } from '@/data/menu';
 import { getSupabaseEnv } from '@/lib/supabase/env';
 import { createPublicSupabaseClient } from '@/lib/supabase/public';
-import type { Category, Locale, Product } from '@/types';
+import type { Category, Locale, Product, StorefrontSection } from '@/types';
 
 function normalizeStock(product: Product): Product {
   return {
@@ -17,6 +17,7 @@ export type CatalogSource = 'supabase' | 'local' | 'missing';
 export async function getCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
+  storefrontSections: StorefrontSection[];
   source: CatalogSource;
 }> {
   noStore();
@@ -28,17 +29,18 @@ export async function getCatalogData(): Promise<{
       console.error('[catalog] Supabase env set but client failed');
     }
     if (process.env.NODE_ENV === 'production') {
-      return { categories: [], products: [], source: 'missing' };
+      return { categories: [], products: [], storefrontSections: [], source: 'missing' };
     }
     const local = getLocalCatalog();
     return {
       categories: local.categories,
       products: local.products.map(normalizeStock),
+      storefrontSections: [],
       source: 'local',
     };
   }
 
-  const [productsResult, categoriesResult] = await Promise.all([
+  const [productsResult, categoriesResult, sectionsResult] = await Promise.all([
     supabase
       .from('products')
       .select(
@@ -48,22 +50,30 @@ export async function getCatalogData(): Promise<{
       .order('sort_order', { ascending: true }),
     supabase
       .from('categories')
-      .select('*')
+      .select('id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, image_url, show_on_home, created_at')
       .eq('is_active', true)
       .order('sort_order', { ascending: true }),
+    supabase.from('storefront_sections').select('key, product_ids, updated_at'),
   ]);
 
   const categories = (categoriesResult.data as Category[] | null) ?? [];
+  const storefrontSections = ((sectionsResult.data as StorefrontSection[] | null) ?? []).map(
+    (row) => ({
+      key: row.key,
+      product_ids: row.product_ids ?? [],
+      updated_at: row.updated_at,
+    })
+  );
 
   if (productsResult.error) {
     console.error('[catalog] Supabase products:', productsResult.error.message);
-    return { categories, products: [], source: 'supabase' };
+    return { categories, products: [], storefrontSections, source: 'supabase' };
   }
 
   const products = ((productsResult.data as Product[] | null) ?? []).map(normalizeStock);
 
   if (products.length === 0) {
-    return { categories, products: [], source: 'supabase' };
+    return { categories, products: [], storefrontSections, source: 'supabase' };
   }
 
   const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
@@ -77,6 +87,7 @@ export async function getCatalogData(): Promise<{
   return {
     products: applyProductAssets(sortedProducts, categories),
     categories,
+    storefrontSections,
     source: 'supabase',
   };
 }

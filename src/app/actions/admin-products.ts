@@ -191,8 +191,11 @@ export async function upsertCategory(data: {
   nameEn: string;
   nameRu: string;
   nameKk: string;
+  nameTr: string;
   sortOrder: number;
   isActive: boolean;
+  imageUrl?: string;
+  showOnHome?: boolean;
   categoryId?: string;
 }) {
   await requireAdmin();
@@ -203,8 +206,11 @@ export async function upsertCategory(data: {
     name_en: data.nameEn,
     name_ru: data.nameRu,
     name_kk: data.nameKk,
+    name_tr: data.nameTr,
     sort_order: data.sortOrder,
     is_active: data.isActive,
+    image_url: data.imageUrl ?? '',
+    show_on_home: data.showOnHome ?? true,
   };
 
   if (data.categoryId) {
@@ -218,6 +224,11 @@ export async function upsertCategory(data: {
     if (error) throw new Error(error.message);
   }
 
+  revalidatePath('/admin/categories');
   revalidatePath('/admin/products');
   revalidateStorefront();
+}
+
+export async function uploadCategoryImage(formData: FormData): Promise<{ url: string }> {
+  return uploadProductImage(formData);
 }

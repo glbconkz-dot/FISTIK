@@ -4,15 +4,23 @@ import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { CategoryShowcase } from '@/components/CategoryShowcase';
 import { CuratedSection } from '@/components/CuratedSection';
-import type { Category, Locale, Product } from '@/types';
+import { resolveSectionProducts } from '@/lib/storefront-utils';
+import { productInCategory } from '@/lib/category-utils';
+import type { Category, Locale, Product, StorefrontSection } from '@/types';
 
 interface HomeExperienceProps {
   products: Product[];
   categories: Category[];
+  storefrontSections: StorefrontSection[];
   locale: Locale;
 }
 
-export function HomeExperience({ products, categories, locale }: HomeExperienceProps) {
+export function HomeExperience({
+  products,
+  categories,
+  storefrontSections,
+  locale,
+}: HomeExperienceProps) {
   const t = useTranslations('home');
 
   const inStock = useMemo(
@@ -20,9 +28,9 @@ export function HomeExperience({ products, categories, locale }: HomeExperienceP
     [products]
   );
 
-  const todaysFavorites = useMemo(() => inStock.slice(0, 4), [inStock]);
+  const autoTodaysFavorites = useMemo(() => inStock.slice(0, 4), [inStock]);
 
-  const newCollection = useMemo(
+  const autoNewCollection = useMemo(
     () =>
       [...products]
         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
@@ -30,7 +38,7 @@ export function HomeExperience({ products, categories, locale }: HomeExperienceP
     [products]
   );
 
-  const mostOrdered = useMemo(
+  const autoMostOrdered = useMemo(
     () =>
       [...inStock]
         .sort((a, b) => a.sort_order - b.sort_order)
@@ -38,12 +46,12 @@ export function HomeExperience({ products, categories, locale }: HomeExperienceP
     [inStock]
   );
 
-  const chefsSelection = useMemo(() => {
+  const autoChefsSelection = useMemo(() => {
     const picked: Product[] = [];
     const seen = new Set<string>();
     for (const cat of categories) {
       if (!cat.is_active) continue;
-      const item = inStock.find((p) => p.category_id === cat.id);
+      const item = inStock.find((p) => productInCategory(p, cat));
       if (item && !seen.has(item.id)) {
         seen.add(item.id);
         picked.push(item);
@@ -52,6 +60,31 @@ export function HomeExperience({ products, categories, locale }: HomeExperienceP
     }
     return picked;
   }, [categories, inStock]);
+
+  const todaysFavorites = resolveSectionProducts(
+    'todays_favorites',
+    storefrontSections,
+    products,
+    autoTodaysFavorites
+  );
+  const newCollection = resolveSectionProducts(
+    'new_collection',
+    storefrontSections,
+    products,
+    autoNewCollection
+  );
+  const mostOrdered = resolveSectionProducts(
+    'most_ordered',
+    storefrontSections,
+    products,
+    autoMostOrdered
+  );
+  const chefsSelection = resolveSectionProducts(
+    'chefs_selection',
+    storefrontSections,
+    products,
+    autoChefsSelection
+  );
 
   return (
     <div className="mb-12">
@@ -62,12 +95,7 @@ export function HomeExperience({ products, categories, locale }: HomeExperienceP
         locale={locale}
         delay={0.05}
       />
-      <CategoryShowcase
-        categories={categories}
-        products={products}
-        locale={locale}
-        title={t('categories')}
-      />
+      <CategoryShowcase categories={categories} products={products} locale={locale} title={t('categories')} />
       <CuratedSection
         title={t('newCollection')}
         subtitle={t('newCollectionSub')}

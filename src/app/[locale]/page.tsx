@@ -40,7 +40,7 @@ export default async function CatalogPage({
   setRequestLocale(locale);
   const t = await getTranslations('hero');
 
-  const { products, categories } = await getCatalogData();
+  const { products, categories, storefrontSections } = await getCatalogData();
 
   return (
     <div>
@@ -59,6 +59,7 @@ export default async function CatalogPage({
       <HomeExperience
         products={products}
         categories={categories}
+        storefrontSections={storefrontSections}
         locale={locale as Locale}
       />
 

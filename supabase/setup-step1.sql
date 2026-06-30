@@ -146,3 +146,26 @@ CREATE POLICY "Admin can update product images" ON storage.objects FOR UPDATE
   WITH CHECK (bucket_id = 'product-images' AND is_admin());
 CREATE POLICY "Admin can delete product images" ON storage.objects FOR DELETE
   USING (bucket_id = 'product-images' AND is_admin());
+
+-- 007 — kategori kapak + vitrin (yeni kurulumda otomatik; mevcut DB için 007_storefront_categories.sql calistirin)
+ALTER TABLE categories ADD COLUMN IF NOT EXISTS image_url text NOT NULL DEFAULT '';
+ALTER TABLE categories ADD COLUMN IF NOT EXISTS show_on_home boolean NOT NULL DEFAULT true;
+
+CREATE TABLE IF NOT EXISTS storefront_sections (
+  key text PRIMARY KEY CHECK (key IN ('todays_favorites', 'new_collection', 'most_ordered', 'chefs_selection')),
+  product_ids uuid[] NOT NULL DEFAULT '{}',
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+INSERT INTO storefront_sections (key) VALUES
+  ('todays_favorites'),
+  ('new_collection'),
+  ('most_ordered'),
+  ('chefs_selection')
+ON CONFLICT (key) DO NOTHING;
+
+ALTER TABLE storefront_sections ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Public read storefront_sections" ON storefront_sections;
+DROP POLICY IF EXISTS "Admin manage storefront_sections" ON storefront_sections;
+CREATE POLICY "Public read storefront_sections" ON storefront_sections FOR SELECT USING (true);
+CREATE POLICY "Admin manage storefront_sections" ON storefront_sections FOR ALL USING (is_admin()) WITH CHECK (is_admin());

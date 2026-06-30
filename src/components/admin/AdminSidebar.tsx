@@ -7,6 +7,8 @@ import {
   Package,
   ShoppingCart,
   LogOut,
+  FolderTree,
+  Sparkles,
 } from 'lucide-react';
 import { AdminBrand } from '@/components/admin/AdminBrand';
 import { AdminLanguageSwitcher } from '@/components/admin/AdminLanguageSwitcher';
@@ -21,6 +23,8 @@ export function AdminSidebar() {
   const links = [
     { href: '/admin', label: t('dashboard'), icon: LayoutDashboard },
     { href: '/admin/products', label: t('products'), icon: Package },
+    { href: '/admin/categories', label: t('categories'), icon: FolderTree },
+    { href: '/admin/storefront', label: t('storefront'), icon: Sparkles },
     { href: '/admin/orders', label: t('orders'), icon: ShoppingCart },
   ];
 

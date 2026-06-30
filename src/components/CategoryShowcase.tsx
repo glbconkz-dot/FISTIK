@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useRouter } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
+import { coverImageForCategory } from '@/lib/category-utils';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Locale, Product } from '@/types';
 
@@ -15,19 +16,18 @@ interface CategoryShowcaseProps {
 
 export function CategoryShowcase({ categories, products, locale, title }: CategoryShowcaseProps) {
   const router = useRouter();
-  const active = categories.filter((c) => c.is_active).slice(0, 8);
+  const active = categories
+    .filter((c) => c.is_active && c.show_on_home !== false)
+    .sort((a, b) => a.sort_order - b.sort_order);
 
   if (active.length === 0) return null;
-
-  const coverFor = (categoryId: string) =>
-    products.find((p) => p.category_id === categoryId && p.image_url)?.image_url;
 
   return (
     <Reveal className="mb-14">
       <h2 className="section-title mb-5">{title}</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {active.map((cat, i) => {
-          const cover = coverFor(cat.id);
+          const cover = coverImageForCategory(cat, products);
           const name = getLocalizedName(cat, locale);
 
           return (

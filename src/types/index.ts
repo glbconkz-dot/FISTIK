@@ -11,7 +11,21 @@ export interface Category {
   name_en: string;
   sort_order: number;
   is_active: boolean;
+  image_url?: string;
+  show_on_home?: boolean;
   created_at: string;
+}
+
+export type StorefrontSectionKey =
+  | 'todays_favorites'
+  | 'new_collection'
+  | 'most_ordered'
+  | 'chefs_selection';
+
+export interface StorefrontSection {
+  key: StorefrontSectionKey;
+  product_ids: string[];
+  updated_at: string;
 }
 
 export interface Product {

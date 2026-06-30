@@ -11,7 +11,7 @@ INSERT INTO categories (slug, name_en, name_ru, name_kk, name_tr, sort_order) VA
   ('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 5),
   ('american-cakes', 'American Cakes', 'Amerikan Pasta', 'Американа паста', 'Amerikan Pastalar', 6),
   ('classic-round-cakes', 'Classic Round Cakes', 'Klasik Yuvarlak Pasta', 'Классикалық дөңгелек тортар', 'Klasik Yuvarlak Pastalar', 7),
-  ('pies', 'Pies', 'Turta / Пирог', 'Пирогтар', 'Turta / Börek', 8),
+  ('pies', 'Pies', 'Пироги', 'Пирогтар', 'Turtalar', 8),
   ('cookies', 'Cookies', 'Печенья', 'Печенье', 'Kurabiyeler', 9),
   ('boreks', 'Boreks', 'Бореки', 'Боректер', 'Börekler', 10),
   ('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 11),
