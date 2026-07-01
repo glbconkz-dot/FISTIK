@@ -15,13 +15,25 @@ function normalizeStock(product: Product): Product {
 
 export type CatalogSource = 'supabase' | 'local' | 'missing';
 
+const CATEGORY_BASE_SELECT =
+  'id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at';
+
+function isMissingColumnError(message: string): boolean {
+  return message.includes('does not exist') || message.includes('image_url') || message.includes('show_on_home');
+}
+
+function normalizeCategories(rows: Category[] | null): Category[] {
+  return (rows ?? []).map((category) => ({
+    ...category,
+    image_url: category.image_url ?? '',
+    show_on_home: category.show_on_home ?? true,
+  }));
+}
+
 async function fetchActiveCategories(
   supabase: NonNullable<ReturnType<typeof createPublicSupabaseClient>>
 ): Promise<Category[]> {
-  const fullSelect =
-    'id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, image_url, show_on_home, created_at';
-  const basicSelect =
-    'id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at';
+  const fullSelect = `${CATEGORY_BASE_SELECT}, image_url, show_on_home`;
 
   const full = await supabase
     .from('categories')
@@ -29,29 +41,27 @@ async function fetchActiveCategories(
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
 
-  let rows = (full.data as Category[] | null) ?? null;
-
-  if (full.error) {
-    console.error('[catalog] categories (full):', full.error.message);
-    const basic = await supabase
-      .from('categories')
-      .select(basicSelect)
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true });
-
-    if (basic.error) {
-      console.error('[catalog] categories (basic):', basic.error.message);
-      return [];
-    }
-
-    rows = (basic.data as Category[] | null) ?? null;
+  if (!full.error) {
+    return normalizeCategories(full.data as Category[] | null);
   }
 
-  return (rows ?? []).map((category) => ({
-    ...category,
-    image_url: category.image_url ?? '',
-    show_on_home: category.show_on_home ?? true,
-  }));
+  if (!isMissingColumnError(full.error.message)) {
+    console.error('[catalog] categories:', full.error.message);
+    return [];
+  }
+
+  const basic = await supabase
+    .from('categories')
+    .select(CATEGORY_BASE_SELECT)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (basic.error) {
+    console.error('[catalog] categories (basic):', basic.error.message);
+    return [];
+  }
+
+  return normalizeCategories(basic.data as Category[] | null);
 }
 
 export async function getCatalogData(): Promise<{
