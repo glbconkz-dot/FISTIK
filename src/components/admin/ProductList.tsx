@@ -4,10 +4,9 @@ import { useEffect, useState, useTransition } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { setProductStock, toggleProductActive } from '@/app/actions/admin-products';
+import { setProductPrice, setProductStock, toggleProductActive } from '@/app/actions/admin-products';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
-import { formatPrice } from '@/lib/utils';
 import type { Product } from '@/types';
 
 interface ProductListProps {
@@ -20,10 +19,22 @@ function stockInputMap(products: Product[]) {
   ) as Record<string, string>;
 }
 
+function priceInputMap(products: Product[]) {
+  return Object.fromEntries(
+    products.map((p) => [p.id, String(Math.round(Number(p.price ?? 0)))])
+  ) as Record<string, string>;
+}
+
 function parseStockInput(raw: string): number {
   const digits = raw.replace(/\D/g, '');
   if (!digits) return 0;
   return Math.min(9999, Math.max(0, Number.parseInt(digits, 10)));
+}
+
+function parsePriceInput(raw: string): number {
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return 0;
+  return Math.min(9_999_999, Math.max(0, Number.parseInt(digits, 10)));
 }
 
 export function ProductList({ products }: ProductListProps) {
@@ -32,24 +43,44 @@ export function ProductList({ products }: ProductListProps) {
   const [stockInputs, setStockInputs] = useState<Record<string, string>>(() =>
     stockInputMap(products)
   );
+  const [priceInputs, setPriceInputs] = useState<Record<string, string>>(() =>
+    priceInputMap(products)
+  );
   const [error, setError] = useState<string | null>(null);
-  const [savedId, setSavedId] = useState<string | null>(null);
+  const [savedStockId, setSavedStockId] = useState<string | null>(null);
+  const [savedPriceId, setSavedPriceId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setStockInputs(stockInputMap(products));
+    setPriceInputs(priceInputMap(products));
   }, [products]);
 
-  const applyResult = (
+  const applyStockResult = (
     productId: string,
     result: { ok: true; stock: number } | { ok: false; error: string }
   ) => {
     if (result.ok) {
       setStockInputs((prev) => ({ ...prev, [productId]: String(result.stock) }));
       setError(null);
-      setSavedId(productId);
+      setSavedStockId(productId);
       router.refresh();
-      setTimeout(() => setSavedId(null), 1500);
+      setTimeout(() => setSavedStockId(null), 1500);
+    } else {
+      setError(result.error);
+    }
+  };
+
+  const applyPriceResult = (
+    productId: string,
+    result: { ok: true; price: number } | { ok: false; error: string }
+  ) => {
+    if (result.ok) {
+      setPriceInputs((prev) => ({ ...prev, [productId]: String(result.price) }));
+      setError(null);
+      setSavedPriceId(productId);
+      router.refresh();
+      setTimeout(() => setSavedPriceId(null), 1500);
     } else {
       setError(result.error);
     }
@@ -75,13 +106,32 @@ export function ProductList({ products }: ProductListProps) {
     setStockInputs((prev) => ({ ...prev, [id]: digits }));
   };
 
+  const handlePriceInputChange = (id: string, raw: string) => {
+    if (raw === '') {
+      setPriceInputs((prev) => ({ ...prev, [id]: '' }));
+      return;
+    }
+    const digits = raw.replace(/\D/g, '').slice(0, 7);
+    setPriceInputs((prev) => ({ ...prev, [id]: digits }));
+  };
+
+  const handlePriceSave = (id: string) => {
+    const parsed = parsePriceInput(priceInputs[id] ?? '');
+    setPriceInputs((prev) => ({ ...prev, [id]: String(parsed) }));
+
+    startTransition(async () => {
+      const result = await setProductPrice(id, parsed);
+      applyPriceResult(id, result);
+    });
+  };
+
   const handleStockSave = (id: string) => {
     const parsed = parseStockInput(stockInputs[id] ?? '');
     setStockInputs((prev) => ({ ...prev, [id]: String(parsed) }));
 
     startTransition(async () => {
       const result = await setProductStock(id, parsed);
-      applyResult(id, result);
+      applyStockResult(id, result);
     });
   };
 
@@ -136,7 +186,36 @@ export function ProductList({ products }: ProductListProps) {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium sm:text-base">{displayName}</p>
-              <p className="text-xs text-accent sm:text-sm">{formatPrice(Number(product.price))}</p>
+            </div>
+
+            <div className="flex shrink-0 items-center gap-1.5">
+              <input
+                type="number"
+                min={0}
+                max={9999999}
+                step={1}
+                inputMode="numeric"
+                disabled={isPending}
+                value={priceInputs[product.id] ?? ''}
+                onChange={(e) => handlePriceInputChange(product.id, e.target.value)}
+                onFocus={(e) => e.target.select()}
+                onBlur={() => handlePriceSave(product.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.currentTarget.blur();
+                  }
+                }}
+                className="price-input"
+                aria-label={t('priceLabel')}
+              />
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => handlePriceSave(product.id)}
+                className="btn-outline px-2.5 py-1.5 text-xs"
+              >
+                {savedPriceId === product.id ? '✓' : t('save')}
+              </button>
             </div>
 
             <div className="flex shrink-0 items-center gap-1.5">
@@ -165,7 +244,7 @@ export function ProductList({ products }: ProductListProps) {
                 onClick={() => handleStockSave(product.id)}
                 className="btn-outline px-2.5 py-1.5 text-xs"
               >
-                {savedId === product.id ? '✓' : t('save')}
+                {savedStockId === product.id ? '✓' : t('save')}
               </button>
             </div>
 

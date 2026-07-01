@@ -186,6 +186,31 @@ body[data-page='cover'] .cover-page-root {
   height: auto;
 }
 
+.price-input {
+  width: 5.75rem;
+  min-height: 36px;
+  padding: 0.35rem 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.625rem;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.price-input:focus {
+  border-color: var(--brand-dark);
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  opacity: 1;
+  height: auto;
+}
+
 .phone-field {
   display: flex;
   align-items: stretch;

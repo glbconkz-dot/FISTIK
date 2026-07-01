@@ -159,8 +159,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Price</label>
-          <input name="price" type="number" min="0" step="0.01" className="input-field" defaultValue={product?.price ?? ''} required />
+          <label className="mb-1 block text-sm font-medium">Fiyat (₸)</label>
+          <input name="price" type="number" min="0" step="1" className="input-field" defaultValue={product?.price != null ? Math.round(Number(product.price)) : ''} required />
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Sort order</label>

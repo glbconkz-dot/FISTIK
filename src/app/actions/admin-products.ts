@@ -85,6 +85,32 @@ export async function adjustProductStock(
   }
 }
 
+export async function setProductPrice(
+  productId: string,
+  price: number
+): Promise<{ ok: true; price: number } | { ok: false; error: string }> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+    const nextPrice = Math.max(0, Math.min(9_999_999, Math.round(price)));
+
+    const { error } = await supabase
+      .from('products')
+      .update({ price: nextPrice })
+      .eq('id', productId);
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath('/admin/products');
+    revalidateStorefront();
+    return { ok: true, price: nextPrice };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Fiyat kaydedilemedi' };
+  }
+}
+
 export async function setProductStock(
   productId: string,
   stockQuantity: number
