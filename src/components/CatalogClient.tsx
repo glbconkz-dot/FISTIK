@@ -39,10 +39,11 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
 
   const selectCategory = useCallback(
     (slug: string | null) => {
+      const opts = { scroll: false };
       if (slug) {
-        router.replace({ pathname: '/menu', query: { cat: slug } });
+        router.replace({ pathname: '/menu', query: { cat: slug } }, opts);
       } else {
-        router.replace('/menu');
+        router.replace('/menu', opts);
       }
     },
     [router]

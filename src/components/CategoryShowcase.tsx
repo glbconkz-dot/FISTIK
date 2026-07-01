@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from '@/i18n/routing';
+import { usePathname, useRouter } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
 import { coverImageForDisplayCategory, getDisplayCategories } from '@/lib/category-display';
 import { getLocalizedName } from '@/lib/utils';
@@ -14,17 +14,30 @@ interface CategoryShowcaseProps {
   title: string;
 }
 
+function scrollToProducts() {
+  requestAnimationFrame(() => {
+    document.getElementById('all-products')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  });
+}
+
 export function CategoryShowcase({ categories, products, locale, title }: CategoryShowcaseProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const active = getDisplayCategories(categories);
 
   if (active.length === 0) return null;
 
   const openCategory = (slug: string) => {
-    router.push({ pathname: '/menu', query: { cat: slug } });
-    window.setTimeout(() => {
-      document.getElementById('all-products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 150);
+    const href = { pathname: '/menu' as const, query: { cat: slug } };
+    const opts = { scroll: false };
+
+    if (pathname === '/menu') {
+      router.replace(href, opts);
+    } else {
+      router.push(href, opts);
+    }
+
+    scrollToProducts();
   };
 
   return (
