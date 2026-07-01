@@ -118,7 +118,7 @@ export function slugify(text: string): string {
 
 export function formatPrice(amount: number): string {
   const symbol = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL ?? '₸';
-  return `${amount.toLocaleString('en-US', { maximumFractionDigits: 0 })} ${symbol}`;
+  return `${Math.round(amount)} ${symbol}`;
 }
 
 export function cn(...classes: (string | false | null | undefined)[]): string {

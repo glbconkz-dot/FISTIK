@@ -15,6 +15,45 @@ function normalizeStock(product: Product): Product {
 
 export type CatalogSource = 'supabase' | 'local' | 'missing';
 
+async function fetchActiveCategories(
+  supabase: NonNullable<ReturnType<typeof createPublicSupabaseClient>>
+): Promise<Category[]> {
+  const fullSelect =
+    'id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, image_url, show_on_home, created_at';
+  const basicSelect =
+    'id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at';
+
+  const full = await supabase
+    .from('categories')
+    .select(fullSelect)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  let rows = (full.data as Category[] | null) ?? null;
+
+  if (full.error) {
+    console.error('[catalog] categories (full):', full.error.message);
+    const basic = await supabase
+      .from('categories')
+      .select(basicSelect)
+      .eq('is_active', true)
+      .order('sort_order', { ascending: true });
+
+    if (basic.error) {
+      console.error('[catalog] categories (basic):', basic.error.message);
+      return [];
+    }
+
+    rows = (basic.data as Category[] | null) ?? null;
+  }
+
+  return (rows ?? []).map((category) => ({
+    ...category,
+    image_url: category.image_url ?? '',
+    show_on_home: category.show_on_home ?? true,
+  }));
+}
+
 export async function getCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
@@ -51,15 +90,11 @@ export async function getCatalogData(): Promise<{
       )
       .eq('is_active', true)
       .order('sort_order', { ascending: true }),
-    supabase
-      .from('categories')
-      .select('id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, image_url, show_on_home, created_at')
-      .eq('is_active', true)
-      .order('sort_order', { ascending: true }),
+    fetchActiveCategories(supabase),
     supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
   ]);
 
-  const categories = (categoriesResult.data as Category[] | null) ?? [];
+  const categories = categoriesResult;
 
   if (sectionsResult.error) {
     console.error('[catalog] storefront_sections:', sectionsResult.error.message);

@@ -15,7 +15,7 @@ import { useCartStore } from '@/stores/cart';
 import { useFavoritesStore } from '@/stores/favorites';
 
 const navLinks = [
-  { href: '/', key: 'menu' as const },
+  { href: '/menu', key: 'menu' as const },
   { href: '/favorites', key: 'favorites' as const },
   { href: '/about', key: 'about' as const },
   { href: '/contact', key: 'contact' as const },
@@ -42,7 +42,7 @@ export function Header() {
                 href={href}
                 className={cn(
                   'rounded-full px-4 py-2 text-sm font-medium transition-colors',
-                  pathname === href || (href !== '/' && pathname.startsWith(href))
+                  pathname === href || pathname.startsWith(`${href}/`)
                     ? 'bg-foreground text-surface'
                     : 'text-muted hover:text-foreground'
                 )}
@@ -134,7 +134,9 @@ export function Header() {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     'rounded-xl px-4 py-3.5 text-base font-medium',
-                    pathname === href ? 'bg-foreground text-surface' : 'hover:bg-cream'
+                    pathname === href || pathname.startsWith(`${href}/`)
+                      ? 'bg-foreground text-surface'
+                      : 'hover:bg-cream'
                   )}
                 >
                   {t(key)}

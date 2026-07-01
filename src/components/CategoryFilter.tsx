@@ -1,9 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { cn, getLocalizedName } from '@/lib/utils';
+import { getDisplayCategories } from '@/lib/category-display';
 import type { Category } from '@/types';
 import type { Locale } from '@/types';
-import { getLocalizedName } from '@/lib/utils';
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -20,6 +20,8 @@ export function CategoryFilter({
   locale,
   allLabel,
 }: CategoryFilterProps) {
+  const active = getDisplayCategories(categories);
+
   return (
     <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
       <button
@@ -29,7 +31,7 @@ export function CategoryFilter({
       >
         {allLabel}
       </button>
-      {categories.map((cat) => (
+      {active.map((cat) => (
         <button
           key={cat.id}
           type="button"

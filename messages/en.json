@@ -27,7 +27,15 @@
     "mostOrderedSub": "Guest favourites",
     "chefsSelection": "Chef's Selection",
     "chefsSelectionSub": "Curated signature desserts",
-    "categories": "Categories"
+    "categories": "Categories",
+    "coverTagline": "Handcrafted luxury treats — made with love",
+    "openMenu": "Explore the menu"
+  },
+  "menuPage": {
+    "title": "Menu — FISTIK",
+    "description": "Categories and all products",
+    "heading": "Our menu",
+    "subtitle": "Browse by category or see everything"
   },
   "catalog": {
     "allCategories": "All",

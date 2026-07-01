@@ -3,13 +3,19 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/routing';
 import { fetchLiveCatalog } from '@/app/actions/catalog';
 import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
-import { productInCategory } from '@/lib/category-utils';
+import { productMatchesCategoryFilter } from '@/lib/category-display';
 import type { Category, Product } from '@/types';
 import type { Locale } from '@/types';
+
+export function normalizeCategoryParam(cat: string | null): string | null {
+  if (!cat) return null;
+  return cat === 'frozen-boreks' ? 'semi-finished' : cat;
+}
 
 interface CatalogClientProps {
   products: Product[];
@@ -19,18 +25,37 @@ interface CatalogClientProps {
 
 export function CatalogClient({ products, categories, locale }: CatalogClientProps) {
   const t = useTranslations('catalog');
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialCat = searchParams.get('cat');
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCat);
-  const [liveProducts, setLiveProducts] = useState(products);
-  const [liveCategories, setLiveCategories] = useState(categories);
+  const selectedCategory = normalizeCategoryParam(searchParams.get('cat'));
+
+  const [catalogPatch, setCatalogPatch] = useState<{
+    products?: Product[];
+    categories?: Category[];
+  } | null>(null);
+
+  const liveProducts = catalogPatch?.products ?? products;
+  const liveCategories = catalogPatch?.categories ?? categories;
+
+  const selectCategory = useCallback(
+    (slug: string | null) => {
+      if (slug) {
+        router.replace({ pathname: '/menu', query: { cat: slug } });
+      } else {
+        router.replace('/menu');
+      }
+    },
+    [router]
+  );
 
   const refreshCatalog = useCallback(async () => {
     try {
       const data = await fetchLiveCatalog();
       if (data.products.length > 0) {
-        setLiveProducts(data.products);
-        setLiveCategories(data.categories);
+        setCatalogPatch({
+          products: data.products,
+          categories: data.categories,
+        });
         return;
       }
     } catch {
@@ -47,8 +72,8 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
 
     if (error || !rows?.length) return;
 
-    setLiveProducts((prev) =>
-      prev.map((product) => {
+    setCatalogPatch({
+      products: products.map((product) => {
         const row = rows.find((r) => r.id === product.id || r.slug === product.slug);
         if (!row) return product;
         return {
@@ -56,41 +81,36 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
           stock_quantity: Math.max(0, Number(row.stock_quantity ?? 0)),
           price: Number(row.price ?? product.price),
         };
-      })
-    );
-  }, []);
+      }),
+    });
+  }, [products]);
 
   useEffect(() => {
-    setLiveProducts(products);
-    setLiveCategories(categories);
-  }, [products, categories]);
-
-  useEffect(() => {
-    const cat = searchParams.get('cat');
-    if (cat) setSelectedCategory(cat);
-  }, [searchParams]);
-
-  useEffect(() => {
-    refreshCatalog();
-    const onFocus = () => refreshCatalog();
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) void refreshCatalog();
+    });
+    const onFocus = () => void refreshCatalog();
     window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('focus', onFocus);
+    };
   }, [refreshCatalog]);
 
   const filtered = selectedCategory
-    ? liveProducts.filter((p) => {
-        const cat = liveCategories.find((c) => c.slug === selectedCategory);
-        return cat ? productInCategory(p, cat) : false;
-      })
+    ? liveProducts.filter((p) =>
+        productMatchesCategoryFilter(p, selectedCategory, liveCategories)
+      )
     : liveProducts;
 
   return (
-    <section id="menu">
+    <section id="all-products" className="mt-10 scroll-mt-24">
       <h2 className="section-title mb-5">{t('allProducts')}</h2>
       <CategoryFilter
         categories={liveCategories}
         selected={selectedCategory}
-        onSelect={setSelectedCategory}
+        onSelect={selectCategory}
         locale={locale}
         allLabel={t('allCategories')}
       />

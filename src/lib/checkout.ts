@@ -27,7 +27,7 @@ const addressLabels: Record<
 
 /** Extract 10-digit Kazakhstan national number from any user input. */
 export function extractKzNationalDigits(input: string): string {
-  let cleaned = input.trim().replace(/^\(\+7\)\s*/, '').replace(/^\+7\s*/, '');
+  const cleaned = input.trim().replace(/^\(\+7\)\s*/, '').replace(/^\+7\s*/, '');
 
   let digits = cleaned.replace(/\D/g, '');
 

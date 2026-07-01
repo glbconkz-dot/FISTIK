@@ -27,7 +27,15 @@
     "mostOrderedSub": "Любимый выбор наших гостей",
     "chefsSelection": "Выбор шефа",
     "chefsSelectionSub": "Изысканные signature-десерты",
-    "categories": "Категории"
+    "categories": "Категории",
+    "coverTagline": "Авторские десерты ручной работы — с любовью",
+    "openMenu": "Открыть меню"
+  },
+  "menuPage": {
+    "title": "Меню — FISTIK",
+    "description": "Категории и все товары",
+    "heading": "Наше меню",
+    "subtitle": "Выберите категорию или просмотрите все товары"
   },
   "catalog": {
     "allCategories": "Все",

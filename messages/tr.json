@@ -27,7 +27,15 @@
     "mostOrderedSub": "Misafirlerimizin vazgeçilmezleri",
     "chefsSelection": "Şefin Seçimi",
     "chefsSelectionSub": "Özenle seçilmiş imza tatlar",
-    "categories": "Kategoriler"
+    "categories": "Kategoriler",
+    "coverTagline": "El yapımı lüks tatlar — sevgiyle hazırlanır",
+    "openMenu": "Menüyü Keşfet"
+  },
+  "menuPage": {
+    "title": "Menü — FISTIK",
+    "description": "Kategoriler ve tüm ürünler",
+    "heading": "Menümüz",
+    "subtitle": "Kategoriye göre seçin veya tüm ürünlere göz atın"
   },
   "catalog": {
     "allCategories": "Tümü",

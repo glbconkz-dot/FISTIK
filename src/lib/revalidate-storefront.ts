@@ -6,5 +6,6 @@ export function revalidateStorefront() {
   revalidatePath('/', 'layout');
   for (const locale of routing.locales) {
     revalidatePath(`/${locale}`);
+    revalidatePath(`/${locale}/menu`);
   }
 }

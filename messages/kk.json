@@ -27,7 +27,15 @@
     "mostOrderedSub": "Қонақтарымыздың сүйікті таңдауы",
     "chefsSelection": "Аспаз таңдауы",
     "chefsSelectionSub": "Мұқият таңдалған imza дәмдер",
-    "categories": "Санаттар"
+    "categories": "Санаттар",
+    "coverTagline": "Қолмен жасалған люкс дәмдер — махаббатпен",
+    "openMenu": "Мәзірді ашу"
+  },
+  "menuPage": {
+    "title": "Мәзір — FISTIK",
+    "description": "Санаттар және барлық өнімдер",
+    "heading": "Біздің мәзір",
+    "subtitle": "Санат бойынша таңдаңыз немесе барлығын қараңыз"
   },
   "catalog": {
     "allCategories": "Барлығы",

@@ -20,7 +20,7 @@ export function CartContent() {
     return (
       <div className="py-16 text-center">
         <p className="text-muted">{t('empty')}</p>
-        <Link href="/" className="btn-primary mt-6 inline-flex">
+        <Link href="/menu" className="btn-primary mt-6 inline-flex">
           {t('emptyCta')}
         </Link>
       </div>

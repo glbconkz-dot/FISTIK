@@ -2,7 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
-import { getBusinessAddress, getInstagramLink, getWhatsAppLink, BUSINESS } from '@/lib/business';
+import { getBusinessAddress, getInstagramLink } from '@/lib/business';
 import type { Locale } from '@/types';
 
 export async function generateMetadata({
@@ -58,7 +58,7 @@ export default async function AboutPage({
       </Reveal>
 
       <Reveal delay={0.2} className="mt-10 flex flex-col gap-3 sm:flex-row">
-        <Link href="/" className="btn-primary text-center">
+        <Link href="/menu" className="btn-primary text-center">
           {t('orderCta')}
         </Link>
         <a

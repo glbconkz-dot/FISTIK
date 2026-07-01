@@ -2,57 +2,62 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { fetchLiveCatalog } from '@/app/actions/catalog';
-import { HomeExperience } from '@/components/HomeExperience';
-import type { Category, Locale, Product, StorefrontSection } from '@/types';
+import { HomeCover } from '@/components/HomeCover';
+import type { Locale, Product, StorefrontSection } from '@/types';
 
 interface HomeStorefrontProps {
   products: Product[];
-  categories: Category[];
   storefrontSections: StorefrontSection[];
   locale: Locale;
+  fullPage?: boolean;
 }
 
 export function HomeStorefront({
-  products: initialProducts,
-  categories: initialCategories,
-  storefrontSections: initialSections,
+  products: serverProducts,
+  storefrontSections: serverSections,
   locale,
+  fullPage = false,
 }: HomeStorefrontProps) {
-  const [products, setProducts] = useState(initialProducts);
-  const [categories, setCategories] = useState(initialCategories);
-  const [sections, setSections] = useState(initialSections);
+  const [liveData, setLiveData] = useState<{
+    products: Product[];
+    sections: StorefrontSection[];
+  } | null>(null);
 
-  useEffect(() => {
-    setProducts(initialProducts);
-    setCategories(initialCategories);
-    setSections(initialSections);
-  }, [initialProducts, initialCategories, initialSections]);
+  const products = liveData?.products ?? serverProducts;
+  const sections = liveData?.sections ?? serverSections;
 
   const refreshStorefront = useCallback(async () => {
     try {
       const data = await fetchLiveCatalog();
-      if (data.products.length > 0) setProducts(data.products);
-      if (data.categories.length > 0) setCategories(data.categories);
-      if (data.storefrontError) return;
-      setSections(data.storefrontSections);
+      if (data.storefrontError && data.products.length === 0) return;
+      setLiveData({
+        products: data.products.length > 0 ? data.products : serverProducts,
+        sections: data.storefrontSections,
+      });
     } catch {
-      /* keep SSR data */
+      /* SSR verisi kalir */
     }
-  }, []);
+  }, [serverProducts]);
 
   useEffect(() => {
-    refreshStorefront();
-    const onFocus = () => refreshStorefront();
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (!cancelled) void refreshStorefront();
+    });
+    const onFocus = () => void refreshStorefront();
     window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('focus', onFocus);
+    };
   }, [refreshStorefront]);
 
   return (
-    <HomeExperience
+    <HomeCover
       products={products}
-      categories={categories}
       storefrontSections={sections}
       locale={locale}
+      fullPage={fullPage}
     />
   );
 }

@@ -28,7 +28,7 @@ export function FavoritesClient({ products, locale }: FavoritesClientProps) {
       <Reveal className="flex flex-col items-center py-16 text-center">
         <p className="font-display text-2xl font-semibold">{t('empty')}</p>
         <p className="mt-2 max-w-sm text-sm text-muted">{t('emptySub')}</p>
-        <Link href="/" className="btn-primary mt-8">
+        <Link href="/menu" className="btn-primary mt-8">
           {t('browse')}
         </Link>
       </Reveal>

@@ -2,7 +2,7 @@
 export const CATEGORY_TR: Record<string, string> = {
   'eclairs-large': 'Büyük Ekler',
   'eclairs-mini': 'Mini Ekler',
-  'packaged-desserts': 'Paketli Tatlılar',
+  'packaged-desserts': 'Kutu Tatlılar',
   'art-desserts': 'Sanat Tatlıları',
   tarts: 'Tartlar',
   'american-cakes': 'Amerikan Pastalar',
@@ -18,7 +18,7 @@ export const CATEGORY_TR: Record<string, string> = {
 export const CATEGORY_KK: Record<string, string> = {
   'eclairs-large': 'Үлкен эклерлер',
   'eclairs-mini': 'Мини эклерлер',
-  'packaged-desserts': 'Қапталған десерттер',
+  'packaged-desserts': 'Қораптағы десерттер',
   'art-desserts': 'Арт-десерттер',
   tarts: 'Тарттар',
   'american-cakes': 'Америкалық торттар',
@@ -42,7 +42,7 @@ export const CATEGORY_RU: Record<string, string> = {
   'eclairs-large': 'Эклеры большие',
   'eclairs-mini': 'Эклеры мини',
   'frozen-boreks': 'Бореки полуфабрикаты',
-  'packaged-desserts': 'Десерты в упаковке',
+  'packaged-desserts': 'Десерты в коробке',
   'pies': 'Пироги',
   'samsa': 'Самса',
   'semi-finished': 'Полуфабрикаты',

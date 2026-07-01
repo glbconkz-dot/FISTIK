@@ -23,7 +23,7 @@ export default async function ProductPage({
 
   return (
     <div>
-      <Link href="/" className="mb-4 inline-block text-sm text-muted hover:text-foreground">
+      <Link href="/menu" className="mb-4 inline-block text-sm text-muted hover:text-foreground">
         ← {t('back')}
       </Link>
       <ProductDetailClient

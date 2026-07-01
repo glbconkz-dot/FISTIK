@@ -11,8 +11,8 @@ interface CatalogSectionProps {
   locale: Locale;
 }
 
-function CatalogSectionInner({ products, categories, locale }: CatalogSectionProps) {
-  return <CatalogClient products={products} categories={categories} locale={locale} />;
+function CatalogSectionInner(props: CatalogSectionProps) {
+  return <CatalogClient {...props} />;
 }
 
 export function CatalogSection(props: CatalogSectionProps) {

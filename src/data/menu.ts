@@ -70,7 +70,7 @@ export const MENU_CATEGORIES: Category[] = [
   // Ekler en üstte → tatlı → tuzlu (samsa & borek en sonda)
   category('eclairs-large', 'Large Eclairs', 'Эклеры большие', 'Үлкен эклерлер', 'Büyük Ekler', 1),
   category('eclairs-mini', 'Mini Eclairs', 'Эклеры мини', 'Мини эклерлер', 'Mini Ekler', 2),
-  category('packaged-desserts', 'Packaged Desserts', 'Десерты в упаковке', 'Қапталған десерттер', 'Paketli Tatlılar', 3),
+  category('packaged-desserts', 'Box Desserts', 'Десерты в коробке', 'Қораптағы десерттер', 'Kutu Tatlılar', 3),
   category('art-desserts', 'Art Desserts', 'Арт-десерты', 'Арт-десерттер', 'Sanat Tatlıları', 4),
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 5),
   category('american-cakes', 'American Cakes', 'Американские торты', 'Америкалық торттар', 'Amerikan Pastalar', 6),

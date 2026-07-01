@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { CartBar } from '@/components/CartBar';
 import { Footer } from '@/components/Brand';
+import { FooterVisibility } from '@/components/FooterVisibility';
 import type { Locale } from '@/types';
 
 export function generateStaticParams() {
@@ -33,7 +34,9 @@ export default async function LocaleLayout({
       <main className="mx-auto max-w-6xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 sm:pb-28 sm:pt-8">
         {children}
       </main>
-      <Footer locale={locale as Locale} />
+      <FooterVisibility>
+        <Footer locale={locale as Locale} />
+      </FooterVisibility>
       <CartBar />
     </NextIntlClientProvider>
   );
