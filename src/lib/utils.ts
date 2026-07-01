@@ -27,11 +27,18 @@ const SLUG_NAMES: Record<Exclude<Locale, 'en'>, Record<string, string>> = {
 };
 
 const DEFAULT_DESCRIPTION: Record<Locale, string> = {
-  en: 'Handcrafted fresh at Fistik bakery, Kaskelen.',
-  ru: 'Свеже приготовлено в пекарне Fistik, Каскелен.',
-  kk: 'Каскелендегі Fistik пекарнясында жаңа дайындалған.',
-  tr: "Kaskelen'deki Fistik fırınında taze hazırlanır.",
+  en: 'Made to order with care at the FISTIK atelier.',
+  ru: 'Готовим на заказ с душой в ателье FISTIK.',
+  kk: 'FISTIK ательесінде тапсырыс бойынша махаббатпен дайындалады.',
+  tr: 'Siparişiniz üzerine, FISTIK atölyesinde özenle hazırlanır.',
 };
+
+const LEGACY_DESCRIPTION_MARKERS = ['kaskelen', 'каскелен', 'каскелен'];
+
+function isLegacyDefaultDescription(text: string): boolean {
+  const lower = text.trim().toLowerCase();
+  return LEGACY_DESCRIPTION_MARKERS.some((marker) => lower.includes(marker));
+}
 
 const LATIN_BRAND = /^(Oreo|Tiramisu|Lotus|Crunch|Snickers|Medovik|Waffle|Hamburger|Red Velvet|Whoopie Pie)$/i;
 
@@ -99,10 +106,10 @@ export function getLocalizedName(record: LocalizedRecord, locale: Locale): strin
 
 export function getLocalizedDescription(record: LocalizedRecord, locale: Locale): string {
   const direct = record[`description_${locale}`]?.trim();
-  if (direct) return direct;
+  if (direct && !isLegacyDefaultDescription(direct)) return direct;
 
   const en = record.description_en?.trim();
-  if (locale === 'en' && en) return en;
+  if (locale === 'en' && en && !isLegacyDefaultDescription(en)) return en;
 
   return DEFAULT_DESCRIPTION[locale] ?? DEFAULT_DESCRIPTION.en;
 }

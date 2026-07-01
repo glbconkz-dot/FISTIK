@@ -106,7 +106,7 @@ export function buildWhatsAppBusinessIntentUrl(phone: string, message: string): 
   return `intent://send?phone=${phone}&text=${text}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
 }
 
-/** @deprecated wa.me kullanın — chooser + indirme sayfası riski */
+/** Mobilde dogrudan uygulama — api.whatsapp.com sayfasina dusmez */
 export function buildWhatsAppAppUrl(phone: string, message?: string): string {
   const base = `whatsapp://send?phone=${phone}`;
   if (!message) return base;

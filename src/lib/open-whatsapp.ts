@@ -1,4 +1,8 @@
-import { buildWhatsAppWaMeUrl, getWhatsAppDigitsForLink } from '@/lib/business';
+import {
+  buildWhatsAppAppUrl,
+  buildWhatsAppWaMeUrl,
+  getWhatsAppDigitsForLink,
+} from '@/lib/business';
 
 function isMobileDevice(): boolean {
   if (typeof navigator === 'undefined') return false;
@@ -7,21 +11,24 @@ function isMobileDevice(): boolean {
 
 /**
  * Siparis mesaji ile WhatsApp ac.
- * Her zaman resmi wa.me — Business chooser yok, indirme sayfasina dusmez.
+ * Mobilde whatsapp:// — tarayici/api.whatsapp.com araya girmez.
+ * Masaustunde wa.me yeni sekmede.
  */
 export function openWhatsAppWithMessage(message: string): void {
   if (typeof window === 'undefined') return;
 
-  const url = buildWhatsAppWaMeUrl(getWhatsAppDigitsForLink(), message);
+  const phone = getWhatsAppDigitsForLink();
+  const appUrl = buildWhatsAppAppUrl(phone, message);
+  const webUrl = buildWhatsAppWaMeUrl(phone, message);
 
   if (isMobileDevice()) {
-    window.location.assign(url);
+    window.location.assign(appUrl);
     return;
   }
 
-  const opened = window.open(url, '_blank', 'noopener,noreferrer');
+  const opened = window.open(webUrl, '_blank', 'noopener,noreferrer');
   if (!opened) {
-    window.location.assign(url);
+    window.location.assign(webUrl);
   }
 }
 

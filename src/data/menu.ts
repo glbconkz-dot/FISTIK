@@ -6,10 +6,10 @@ export const PLACEHOLDER_IMAGE = '/product-placeholder.jpg';
 export const DEFAULT_MENU_PRICE = 1500;
 
 const desc = {
-  en: 'Handcrafted fresh at Fistik bakery, Kaskelen.',
-  ru: 'Свеже приготовлено в пекарне Fistik, Каскелен.',
-  kk: 'Каскелендегі Fistik пекарнясында жаңа дайындалған.',
-  tr: 'Kaskelen\'deki Fistik fırınında taze hazırlanır.',
+  en: 'Made to order with care at the FISTIK atelier.',
+  ru: 'Готовим на заказ с душой в ателье FISTIK.',
+  kk: 'FISTIK ательесінде тапсырыс бойынша махаббатпен дайындалады.',
+  tr: 'Siparişiniz üzerine, FISTIK atölyesinde özenle hazırlanır.',
 };
 
 function category(
