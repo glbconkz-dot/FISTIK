@@ -31,7 +31,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-border/80 bg-surface/95 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-brand-dark/35 bg-brand">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:py-3.5">
           <BrandLink wordmark />
 
@@ -43,8 +43,8 @@ export function Header() {
                 className={cn(
                   'rounded-full px-4 py-2 text-sm font-medium transition-colors',
                   pathname === href || pathname.startsWith(`${href}/`)
-                    ? 'bg-foreground text-surface'
-                    : 'text-muted hover:text-foreground'
+                    ? 'bg-accent text-surface'
+                    : 'text-accent/80 hover:text-accent'
                 )}
               >
                 {t(key)}
@@ -56,7 +56,7 @@ export function Header() {
             <LanguageSwitcher />
             <Link
               href="/favorites"
-              className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border bg-cream md:hidden"
+              className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 text-accent md:hidden"
               aria-label={t('favorites')}
             >
               <Heart className="h-5 w-5" strokeWidth={1.75} />
@@ -68,7 +68,7 @@ export function Header() {
             </Link>
             <NextLink
               href="/admin/login"
-              className="hidden min-h-[44px] items-center justify-center rounded-full border border-border/80 bg-cream px-3 text-xs font-medium text-muted hover:text-foreground sm:flex"
+              className="hidden min-h-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 px-3 text-xs font-medium text-accent/80 hover:text-accent sm:flex"
               aria-label={t('admin')}
               title={t('admin')}
             >
@@ -78,14 +78,14 @@ export function Header() {
               href={getInstagramLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border bg-cream text-foreground hover:bg-brand/30 sm:flex"
+              className="hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 text-accent hover:bg-surface sm:flex"
               aria-label={t('instagram')}
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
             <Link
               href="/cart"
-              className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border bg-cream"
+              className="relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 text-accent"
               aria-label={t('cart')}
             >
               <ShoppingBag className="h-5 w-5" strokeWidth={1.75} />
@@ -97,7 +97,7 @@ export function Header() {
             </Link>
             <button
               type="button"
-              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border bg-cream md:hidden"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 text-accent md:hidden"
               aria-label={t('menu')}
               onClick={() => setMenuOpen(true)}
             >
