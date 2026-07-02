@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { BrandWordmark } from '@/components/Brand';
+import { CoverProductGrid } from '@/components/CoverProductGrid';
 import { CuratedSection } from '@/components/CuratedSection';
 import { Reveal } from '@/components/ui/Reveal';
 import { resolveSectionProducts } from '@/lib/storefront-utils';
@@ -70,37 +71,65 @@ export function HomeCover({
         }}
       />
 
-      <Reveal className="relative flex flex-col items-center text-center">
-        <BrandWordmark className={fullPage ? 'h-14 sm:h-20 md:h-24' : 'h-16 sm:h-20 md:h-24'} />
+      <Reveal className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-2 text-center">
+        <BrandWordmark className={fullPage ? 'h-12 sm:h-20 md:h-24' : 'h-16 sm:h-20 md:h-24'} />
         <p
-          className={`mt-3 max-w-md font-display font-semibold leading-snug text-accent sm:mt-4 ${
-            fullPage ? 'text-lg sm:text-2xl' : 'text-xl sm:text-2xl'
+          className={`mt-2 max-w-md font-display font-semibold leading-snug text-accent sm:mt-3 ${
+            fullPage ? 'text-base sm:text-2xl' : 'text-xl sm:text-2xl'
           }`}
         >
           {t('coverTagline')}
         </p>
       </Reveal>
 
-      <div className={`relative ${fullPage ? 'mt-5 space-y-1 sm:mt-8 sm:space-y-2' : 'mt-8 space-y-2'}`}>
-        <CuratedSection
-          title={t('todaysFavorites')}
-          subtitle={t('todaysFavoritesSub')}
-          products={todaysFavorites}
-          locale={locale}
-          delay={0.05}
-          compact={fullPage}
-        />
-        <CuratedSection
-          title={t('mostOrdered')}
-          subtitle={t('mostOrderedSub')}
-          products={mostOrdered}
-          locale={locale}
-          delay={0.1}
-          compact={fullPage}
-        />
+      <div
+        className={`relative mx-auto w-full max-w-6xl ${
+          fullPage ? 'mt-4 space-y-4 sm:mt-6 sm:space-y-5' : 'mt-8 space-y-2'
+        }`}
+      >
+        {fullPage ? (
+          <>
+            <CoverProductGrid
+              title={t('todaysFavorites')}
+              subtitle={t('todaysFavoritesSub')}
+              products={todaysFavorites}
+              locale={locale}
+              delay={0.05}
+            />
+            <CoverProductGrid
+              title={t('mostOrdered')}
+              subtitle={t('mostOrderedSub')}
+              products={mostOrdered}
+              locale={locale}
+              delay={0.1}
+            />
+          </>
+        ) : (
+          <>
+            <CuratedSection
+              title={t('todaysFavorites')}
+              subtitle={t('todaysFavoritesSub')}
+              products={todaysFavorites}
+              locale={locale}
+              delay={0.05}
+            />
+            <CuratedSection
+              title={t('mostOrdered')}
+              subtitle={t('mostOrderedSub')}
+              products={mostOrdered}
+              locale={locale}
+              delay={0.1}
+            />
+          </>
+        )}
       </div>
 
-      <Reveal delay={0.15} className={`relative flex justify-center ${fullPage ? 'mt-5 sm:mt-8' : 'mt-8'}`}>
+      <Reveal
+        delay={0.15}
+        className={`relative mx-auto flex w-full max-w-6xl justify-center ${
+          fullPage ? 'mt-4 sm:mt-6' : 'mt-8'
+        }`}
+      >
         <Link href="/menu" className="home-cover-menu-btn group">
           <span>{t('openMenu')}</span>
           <ArrowRight
@@ -111,8 +140,8 @@ export function HomeCover({
       </Reveal>
 
       {fullPage ? (
-        <Reveal delay={0.2} className="relative mt-6 flex justify-center pb-1 pt-4 sm:mt-8 sm:pt-6">
-          <BrandWordmark className="h-10 opacity-95 sm:h-12" />
+        <Reveal delay={0.2} className="relative mx-auto mt-4 flex w-full max-w-6xl justify-center pb-2 pt-3 sm:mt-6 sm:pt-5">
+          <BrandWordmark className="h-9 opacity-95 sm:h-12" />
         </Reveal>
       ) : null}
     </section>
