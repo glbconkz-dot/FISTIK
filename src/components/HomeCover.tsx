@@ -55,10 +55,10 @@ export function HomeCover({
 
   return (
     <section
-      className={`home-cover relative overflow-hidden bg-brand px-4 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-10 ${
+      className={`home-cover relative overflow-x-hidden bg-brand px-4 sm:px-6 ${
         fullPage
-          ? 'flex min-h-[calc(100dvh-4.25rem)] flex-col rounded-none sm:min-h-[calc(100dvh-4.75rem)]'
-          : '-mx-4 mb-10 rounded-b-[2rem] sm:-mx-0 sm:rounded-b-[2.5rem]'
+          ? 'rounded-none pb-6 pt-4 sm:pb-10 sm:pt-8'
+          : '-mx-4 mb-10 rounded-b-[2rem] pb-8 pt-8 sm:-mx-0 sm:rounded-b-[2.5rem] sm:pb-10 sm:pt-10'
       }`}
     >
       <div
@@ -71,19 +71,24 @@ export function HomeCover({
       />
 
       <Reveal className="relative flex flex-col items-center text-center">
-        <BrandWordmark className="h-16 sm:h-20 md:h-24" />
-        <p className="mt-4 max-w-md font-display text-xl font-semibold leading-snug text-accent sm:text-2xl">
+        <BrandWordmark className={fullPage ? 'h-14 sm:h-20 md:h-24' : 'h-16 sm:h-20 md:h-24'} />
+        <p
+          className={`mt-3 max-w-md font-display font-semibold leading-snug text-accent sm:mt-4 ${
+            fullPage ? 'text-lg sm:text-2xl' : 'text-xl sm:text-2xl'
+          }`}
+        >
           {t('coverTagline')}
         </p>
       </Reveal>
 
-      <div className={`relative mt-8 space-y-2 ${fullPage ? 'flex-1' : ''}`}>
+      <div className={`relative ${fullPage ? 'mt-5 space-y-1 sm:mt-8 sm:space-y-2' : 'mt-8 space-y-2'}`}>
         <CuratedSection
           title={t('todaysFavorites')}
           subtitle={t('todaysFavoritesSub')}
           products={todaysFavorites}
           locale={locale}
           delay={0.05}
+          compact={fullPage}
         />
         <CuratedSection
           title={t('mostOrdered')}
@@ -91,10 +96,11 @@ export function HomeCover({
           products={mostOrdered}
           locale={locale}
           delay={0.1}
+          compact={fullPage}
         />
       </div>
 
-      <Reveal delay={0.15} className="relative mt-8 flex justify-center">
+      <Reveal delay={0.15} className={`relative flex justify-center ${fullPage ? 'mt-5 sm:mt-8' : 'mt-8'}`}>
         <Link href="/menu" className="home-cover-menu-btn group">
           <span>{t('openMenu')}</span>
           <ArrowRight
@@ -105,8 +111,8 @@ export function HomeCover({
       </Reveal>
 
       {fullPage ? (
-        <Reveal delay={0.2} className="relative mt-auto flex justify-center pt-10 pb-2">
-          <BrandWordmark className="h-11 opacity-95 sm:h-12" />
+        <Reveal delay={0.2} className="relative mt-6 flex justify-center pb-1 pt-4 sm:mt-8 sm:pt-6">
+          <BrandWordmark className="h-10 opacity-95 sm:h-12" />
         </Reveal>
       ) : null}
     </section>

@@ -48,7 +48,7 @@ export default async function CoverPage({
 
   return (
     <CoverPageShell>
-      <div className="-mx-4 -mt-6 sm:-mx-0 sm:-mt-8">
+      <div className="-mx-0 sm:-mx-0">
         <HomeStorefront
           products={products}
           storefrontSections={storefrontSections}

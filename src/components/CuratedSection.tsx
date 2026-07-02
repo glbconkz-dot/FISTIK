@@ -14,6 +14,7 @@ interface CuratedSectionProps {
   products: Product[];
   locale: Locale;
   delay?: number;
+  compact?: boolean;
 }
 
 export function CuratedSection({
@@ -22,21 +23,26 @@ export function CuratedSection({
   products,
   locale,
   delay = 0,
+  compact = false,
 }: CuratedSectionProps) {
   const t = useTranslations('catalog');
 
   if (products.length === 0) return null;
 
   return (
-    <Reveal delay={delay} className="mb-14">
-      <div className="mb-5 flex items-end justify-between gap-4">
+    <Reveal delay={delay} className={compact ? 'mb-5 sm:mb-14' : 'mb-14'}>
+      <div className={`flex items-end justify-between gap-4 ${compact ? 'mb-3 sm:mb-5' : 'mb-5'}`}>
         <div>
-          <h2 className="section-title">{title}</h2>
-          {subtitle ? <p className="mt-1 text-sm text-muted">{subtitle}</p> : null}
+          <h2 className={compact ? 'font-display text-xl font-semibold leading-tight sm:text-3xl' : 'section-title'}>
+            {title}
+          </h2>
+          {subtitle ? (
+            <p className={`mt-1 text-muted ${compact ? 'text-xs sm:text-sm' : 'text-sm'}`}>{subtitle}</p>
+          ) : null}
         </div>
       </div>
 
-      <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-hide sm:mx-0 sm:px-0">
+      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:gap-4 sm:px-0 sm:pb-2">
         {products.map((product) => {
           const name = getLocalizedName(product, locale);
           const description = getLocalizedDescription(product, locale);
@@ -47,10 +53,12 @@ export function CuratedSection({
             <Link
               key={product.id}
               href={`/product/${product.slug}`}
-              className="group w-[72vw] max-w-[280px] shrink-0 sm:w-[240px]"
+              className={`group shrink-0 ${
+                compact ? 'w-[58vw] max-w-[210px] sm:w-[240px] sm:max-w-[280px]' : 'w-[72vw] max-w-[280px] sm:w-[240px]'
+              }`}
             >
               <article className="luxury-card overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
-                <div className="relative aspect-[4/5] overflow-hidden bg-cream">
+                <div className={`relative overflow-hidden bg-cream ${compact ? 'aspect-[3/4]' : 'aspect-[4/5]'}`}>
                   {product.image_url ? (
                     <Image
                       src={product.image_url}
@@ -73,14 +81,24 @@ export function CuratedSection({
                     </div>
                   ) : null}
                 </div>
-                <div className="p-4">
-                  <h3 className="font-display text-xl font-semibold leading-tight">{name}</h3>
+                <div className={compact ? 'p-3 sm:p-4' : 'p-4'}>
+                  <h3
+                    className={`font-display font-semibold leading-tight ${
+                      compact ? 'text-lg sm:text-xl' : 'text-xl'
+                    }`}
+                  >
+                    {name}
+                  </h3>
                   {description ? (
-                    <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
+                    <p
+                      className={`mt-1 line-clamp-2 leading-relaxed text-muted ${
+                        compact ? 'text-[11px] sm:text-xs' : 'text-xs'
+                      }`}
+                    >
                       {description}
                     </p>
                   ) : null}
-                  <p className="mt-2 text-base font-semibold text-accent">
+                  <p className={`mt-2 font-semibold text-accent ${compact ? 'text-sm sm:text-base' : 'text-base'}`}>
                     {formatPrice(Number(product.price))}
                   </p>
                 </div>
