@@ -13,7 +13,7 @@ const content = readFileSync(menuPath, 'utf8');
 
 /** menu.ts icindeki Latin/Turkce name_ru -> dogru Rusca */
 const RU_OVERRIDES = {
-  'classic-round-cakes': 'Классические круглые торты',
+  'classic-round-cakes': 'Торты',
   'american-cakes': 'Американские торты',
   'mango-coconut-mousse': 'Мусс манго-кокос',
   'ferrero-hazelnut-mousse': 'Мусс Ferrero с фундуком',

@@ -8,7 +8,7 @@ FROM (VALUES
   ('art-desserts', 'Арт-десерты'),
   ('tarts', 'Тарты'),
   ('american-cakes', 'Американские торты'),
-  ('classic-round-cakes', 'Классические круглые торты'),
+  ('classic-round-cakes', 'Торты'),
   ('pies', 'Пироги'),
   ('cookies', 'Печенье'),
   ('boreks', 'Бореки'),

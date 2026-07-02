@@ -73,14 +73,15 @@ export const MENU_CATEGORIES: Category[] = [
   category('packaged-desserts', 'FISTIK Cube', 'ФЫСТЫК Куб', 'ФЫСТЫҚ Куб', 'FISTIK Cube', 3),
   category('art-desserts', 'FISTIK Grolet', 'ФЫСТЫК Гролет', 'ФЫСТЫҚ Гролет', 'FISTIK Grolet', 4),
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 5),
-  category('american-cakes', 'FISTIK Elite', 'ФЫСТЫК Элит', 'ФЫСТЫҚ Элит', 'FISTIK Elite', 6),
-  category('classic-round-cakes', 'Classic Round Cakes', 'Классические круглые торты', 'Классикалық дөңгелек торттар', 'Klasik Yuvarlak Pastalar', 7),
-  category('pies', 'Pies', 'Пироги', 'Пирогтар', 'Piroglar', 8),
-  category('cookies', 'Cookies', 'Печенье', 'Печеньелер', 'Kurabiyeler', 9),
-  category('boreks', 'Boreks', 'Бореки', 'Боректер', 'Börekler', 10),
-  category('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 11),
-  category('frozen-boreks', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 12),
-  category('semi-finished', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 13),
+  category('turtas', 'Turtas', 'Турты', 'Турталар', 'Turtalar', 6),
+  category('american-cakes', 'FISTIK Elite', 'ФЫСТЫК Элит', 'ФЫСТЫҚ Элит', 'FISTIK Elite', 7),
+  category('classic-round-cakes', 'Gateau', 'Торты', 'Торттар', 'Yaş Pasta', 8),
+  category('pies', 'Pies', 'Пироги', 'Пирогтар', 'Piroglar', 9),
+  category('cookies', 'Cookies', 'Печенье', 'Печеньелер', 'Kurabiyeler', 10),
+  category('boreks', 'Boreks', 'Бореки', 'Боректер', 'Börekler', 11),
+  category('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 12),
+  category('frozen-boreks', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 13),
+  category('semi-finished', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 14),
 ];
 
 export const MENU_PRODUCTS: Product[] = [
@@ -153,8 +154,10 @@ export const MENU_PRODUCTS: Product[] = [
   product('tart-berry-mix', 'tarts', 'Berry Mix Tart', 'Тарт ягодный микс', 'Жидек микс тарт', 2, undefined, 1950),
   product('tart-lemon', 'tarts', 'Lemon Tart', 'Тарт лимонный', 'Лимон тарт', 3, undefined, 1250),
   product('tart-pistachio', 'tarts', 'Pistachio Tart', 'Тарт фисташковый', 'Фисташка тарт', 4, undefined, 1250),
-  product('pie-apple-walnut-cinnamon', 'tarts', 'Apple Walnut Cinnamon Tart', 'Тарт яблоко-орех-корица', 'Алма-жорға-корицалы тарт', 5),
-  product('pie-snickers', 'tarts', 'Snickers Tart', 'Тарт Snickers', 'Snickers тарт', 6),
+
+  // Turtalar (tatli turta — pirog ve tart degil)
+  product('pie-apple-walnut-cinnamon', 'turtas', 'Apple Walnut Turta', 'Турта яблоко-орех-корица', 'Алма-жорға-корицалы турта', 1),
+  product('pie-snickers', 'turtas', 'Snickers Turta', 'Турта Snickers', 'Snickers турта', 2),
 
   // Semi-finished
   product('semi-waffle', 'semi-finished', 'Waffle', 'Waffle', 'Waffle', 1),

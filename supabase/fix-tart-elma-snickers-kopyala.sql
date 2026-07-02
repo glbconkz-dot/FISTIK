@@ -1,48 +1,45 @@
--- =============================================================================
--- FISTIK — Elma ve Snickers tartlari Piroglardan ayir (KOPYALA-YAPISTIR)
--- =============================================================================
--- Supabase → SQL Editor → Run
---
--- pie-apple-walnut-cinnamon ve pie-snickers → Tartlar (tarts) kategorisi
--- =============================================================================
+-- Elma + Snickers -> Tartlar. Supabase SQL Editor: BLOK 1, sonra BLOK 2, sonra BLOK 3 (ayri ayri Run).
+
+-- BLOK 1
+ALTER TABLE products ADD COLUMN IF NOT EXISTS name_tr text NOT NULL DEFAULT '';
+
+-- BLOK 2 (kategori tasima)
+UPDATE products
+SET
+  category_id = (SELECT id FROM categories WHERE slug = 'tarts' LIMIT 1),
+  sort_order = 5
+WHERE slug = 'pie-apple-walnut-cinnamon';
+
+UPDATE products
+SET
+  category_id = (SELECT id FROM categories WHERE slug = 'tarts' LIMIT 1),
+  sort_order = 6
+WHERE slug = 'pie-snickers';
+
+UPDATE products SET sort_order = 1 WHERE slug = 'pie-quark';
+UPDATE products SET sort_order = 2 WHERE slug = 'pie-meat';
+UPDATE products SET sort_order = 3 WHERE slug = 'pie-chicken';
+UPDATE products SET sort_order = 4 WHERE slug = 'pie-spinach-cheese';
+UPDATE products SET sort_order = 5 WHERE slug = 'pie-cheese';
+
+-- BLOK 3 (isimler)
+UPDATE products SET
+  name_en = 'Apple Walnut Cinnamon Tart',
+  name_ru = 'Тарт яблоко-орех-корица',
+  name_tr = 'Elma Ceviz Tarçınlı Tart',
+  name_kk = 'Алма-жорға-корицалы тарт'
+WHERE slug = 'pie-apple-walnut-cinnamon';
 
 UPDATE products SET
-  category_id = (SELECT id FROM categories WHERE slug = 'tarts'),
-  sort_order = CASE slug
-    WHEN 'pie-apple-walnut-cinnamon' THEN 5
-    WHEN 'pie-snickers' THEN 6
-  END,
-  name_en = CASE slug
-    WHEN 'pie-apple-walnut-cinnamon' THEN 'Apple Walnut Cinnamon Tart'
-    WHEN 'pie-snickers' THEN 'Snickers Tart'
-  END,
-  name_ru = CASE slug
-    WHEN 'pie-apple-walnut-cinnamon' THEN 'Тарт яблоко-орех-корица'
-    WHEN 'pie-snickers' THEN 'Тарт Snickers'
-  END,
-  name_tr = CASE slug
-    WHEN 'pie-apple-walnut-cinnamon' THEN 'Elma Ceviz Tarçınlı Tart'
-    WHEN 'pie-snickers' THEN 'Snickers Tart'
-  END,
-  name_kk = CASE slug
-    WHEN 'pie-apple-walnut-cinnamon' THEN 'Алма-жорға-корицалы тарт'
-    WHEN 'pie-snickers' THEN 'Snickers тарт'
-  END
-WHERE slug IN ('pie-apple-walnut-cinnamon', 'pie-snickers');
+  name_en = 'Snickers Tart',
+  name_ru = 'Тарт Snickers',
+  name_tr = 'Snickers Tart',
+  name_kk = 'Snickers тарт'
+WHERE slug = 'pie-snickers';
 
--- Kalan piroglarin sira numaralari
-UPDATE products SET sort_order = CASE slug
-  WHEN 'pie-quark' THEN 1
-  WHEN 'pie-meat' THEN 2
-  WHEN 'pie-chicken' THEN 3
-  WHEN 'pie-spinach-cheese' THEN 4
-  WHEN 'pie-cheese' THEN 5
-END
-WHERE slug IN ('pie-quark', 'pie-meat', 'pie-chicken', 'pie-spinach-cheese', 'pie-cheese');
-
--- Kontrol
+-- BLOK 4 (kontrol)
 SELECT c.slug AS category, p.slug, p.name_tr, p.sort_order
 FROM products p
-JOIN categories c ON c.id = p.category_id
-WHERE p.slug IN ('pie-apple-walnut-cinnamon', 'pie-snickers', 'pie-quark', 'pie-meat')
+LEFT JOIN categories c ON c.id = p.category_id
+WHERE p.slug IN ('pie-apple-walnut-cinnamon', 'pie-snickers', 'pie-quark')
 ORDER BY c.slug, p.sort_order;

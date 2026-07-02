@@ -39,7 +39,7 @@ UPDATE categories SET
   name_ru = 'Американские торты', name_tr = 'Amerikan Pastalar'
 WHERE slug = 'american-cakes';
 UPDATE categories SET
-  name_ru = 'Классические круглые торты', name_tr = 'Klasik Yuvarlak Pastalar'
+  name_ru = 'Торты', name_tr = 'Yaş Pasta', name_en = 'Gateau', name_kk = 'Торттар'
 WHERE slug = 'classic-round-cakes';
 
 UPDATE categories SET show_on_home = false WHERE slug IN ('semi-finished', 'eclairs-mini');
