@@ -153,6 +153,8 @@ export const MENU_PRODUCTS: Product[] = [
   product('tart-berry-mix', 'tarts', 'Berry Mix Tart', 'Тарт ягодный микс', 'Жидек микс тарт', 2, undefined, 1950),
   product('tart-lemon', 'tarts', 'Lemon Tart', 'Тарт лимонный', 'Лимон тарт', 3, undefined, 1250),
   product('tart-pistachio', 'tarts', 'Pistachio Tart', 'Тарт фисташковый', 'Фисташка тарт', 4, undefined, 1250),
+  product('pie-apple-walnut-cinnamon', 'tarts', 'Apple Walnut Cinnamon Tart', 'Тарт яблоко-орех-корица', 'Алма-жорға-корицалы тарт', 5),
+  product('pie-snickers', 'tarts', 'Snickers Tart', 'Тарт Snickers', 'Snickers тарт', 6),
 
   // Semi-finished
   product('semi-waffle', 'semi-finished', 'Waffle', 'Waffle', 'Waffle', 1),
@@ -186,13 +188,11 @@ export const MENU_PRODUCTS: Product[] = [
   product('cake-pistachio-raspberry', 'classic-round-cakes', 'Pistachio Raspberry Cake', 'Fistik Malina', 'Fistik Malina', 7, undefined, 4990),
 
   // Pies
-  product('pie-apple-walnut-cinnamon', 'pies', 'Apple Walnut Cinnamon Pie', 'Elma ceviz tarcin', 'Elma ceviz tarcin', 1),
-  product('pie-snickers', 'pies', 'Snickers Pie', 'Snikerrs Pirog', 'Snikerrs Pirog', 2),
-  product('pie-quark', 'pies', 'Quark Pie', 'Tvarok Pirog', 'Tvarok Pirog', 3),
-  product('pie-meat', 'pies', 'Meat Pie', 'Etli Pirog', 'Etli Pirog', 4),
-  product('pie-chicken', 'pies', 'Chicken Pie', 'Tavuklu Pirog', 'Tavuklu Pirog', 5),
-  product('pie-spinach-cheese', 'pies', 'Spinach Cheese Pie', 'Ispanak Peynirli Pirog', 'Ispanak Peynirli Pirog', 6),
-  product('pie-cheese', 'pies', 'Cheese Pie', 'Peynirli Pirog', 'Peynirli Pirog', 7),
+  product('pie-quark', 'pies', 'Quark Pie', 'Tvarok Pirog', 'Tvarok Pirog', 1),
+  product('pie-meat', 'pies', 'Meat Pie', 'Etli Pirog', 'Etli Pirog', 2),
+  product('pie-chicken', 'pies', 'Chicken Pie', 'Tavuklu Pirog', 'Tavuklu Pirog', 3),
+  product('pie-spinach-cheese', 'pies', 'Spinach Cheese Pie', 'Ispanak Peynirli Pirog', 'Ispanak Peynirli Pirog', 4),
+  product('pie-cheese', 'pies', 'Cheese Pie', 'Peynirli Pirog', 'Peynirli Pirog', 5),
 ];
 
 function applyLocalizedNames(products: Product[]): Product[] {
