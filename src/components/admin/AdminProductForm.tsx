@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
+import { getDisplayCategories } from '@/lib/category-display';
+import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
 interface AdminProductFormProps {
@@ -43,6 +45,13 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const [deletePin, setDeletePin] = useState('');
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const displayCategories = getDisplayCategories(categories);
+  const frozenCategory = categories.find((category) => category.slug === 'frozen-boreks');
+  const semiFinishedCategory = categories.find((category) => category.slug === 'semi-finished');
+  const defaultCategoryId =
+    product?.category_id && frozenCategory && product.category_id === frozenCategory.id
+      ? (semiFinishedCategory?.id ?? product.category_id)
+      : (product?.category_id ?? '');
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -149,11 +158,11 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Category</label>
-          <select name="categoryId" className="input-field" defaultValue={product?.category_id ?? ''}>
+          <select name="categoryId" className="input-field" defaultValue={defaultCategoryId}>
             <option value="">— None —</option>
-            {categories.map((c) => (
+            {displayCategories.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name_tr || c.name_en}
+                {getLocalizedName(c, 'tr')}
               </option>
             ))}
           </select>

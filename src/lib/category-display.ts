@@ -43,3 +43,19 @@ export function coverImageForDisplayCategory(
   }
   return coverImageForCategory(category, products);
 }
+
+export function groupProductsByDisplayCategory(
+  products: Product[],
+  categories: Category[]
+): { category: Category; products: Product[] }[] {
+  const display = getDisplayCategories(categories);
+
+  return display
+    .map((category) => ({
+      category,
+      products: products
+        .filter((product) => productMatchesCategoryFilter(product, category.slug, categories))
+        .sort((a, b) => a.sort_order - b.sort_order || a.name_en.localeCompare(b.name_en)),
+    }))
+    .filter((group) => group.products.length > 0);
+}

@@ -9,7 +9,7 @@ import {
   normalizeTimeInput,
 } from '@/lib/order-admin';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { createClient, tryCreateClient } from '@/lib/supabase/server';
+import { createClient, getAdminUser, tryCreateClient } from '@/lib/supabase/server';
 import { isUuid } from '@/lib/utils';
 import type { CartItem, CheckoutFormData, Locale, Order, OrderStatus } from '@/types';
 
@@ -399,6 +399,37 @@ export async function signInAdmin(email: string, password: string) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return { success: false, error: error.message };
   return { success: true };
+}
+
+export async function clearOrderHistory(): Promise<
+  { ok: true; deleted: number } | { ok: false; error: string }
+> {
+  const admin = await getAdminUser();
+  if (!admin) {
+    return { ok: false, error: 'Yetkisiz' };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('orders')
+    .delete()
+    .in('status', ['completed', 'cancelled'])
+    .select('id');
+
+  if (error) {
+    if (/policy|permission|denied/i.test(error.message)) {
+      return {
+        ok: false,
+        error:
+          'Silme yetkisi yok. Supabase SQL Editor\'de fix-pies-tarts-orders-kopyala.sql dosyasini calistirin.',
+      };
+    }
+    return { ok: false, error: error.message };
+  }
+
+  revalidatePath('/admin/orders');
+  revalidatePath('/admin');
+  return { ok: true, deleted: data?.length ?? 0 };
 }
 
 export async function signOutAdmin() {

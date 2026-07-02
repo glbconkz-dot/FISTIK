@@ -1,5 +1,6 @@
 import type { Locale } from '@/types';
 import {
+  CATEGORY_EN,
   CATEGORY_KK,
   CATEGORY_RU,
   CATEGORY_TR,
@@ -25,6 +26,15 @@ const SLUG_NAMES: Record<Exclude<Locale, 'en'>, Record<string, string>> = {
   ru: { ...CATEGORY_RU, ...PRODUCT_RU },
   kk: { ...CATEGORY_KK, ...PRODUCT_KK },
 };
+
+const CATEGORY_SLUGS = new Set(Object.keys(CATEGORY_TR));
+
+function getCategoryLabel(slug: string, locale: Locale, record: LocalizedRecord): string {
+  if (locale === 'en') {
+    return CATEGORY_EN[slug] ?? record.name_en;
+  }
+  return SLUG_NAMES[locale][slug] ?? record.name_en;
+}
 
 const DEFAULT_DESCRIPTION: Record<Locale, string> = {
   en: 'Made to order with care at the FISTIK atelier.',
@@ -79,7 +89,13 @@ export function getLocalizedNameBySlug(
   locale: Locale,
   fallback?: string
 ): string {
-  if (locale !== 'en') {
+  if (CATEGORY_SLUGS.has(slug)) {
+    if (locale === 'en') {
+      return CATEGORY_EN[slug] ?? fallback?.trim() ?? slug;
+    }
+    const mapped = SLUG_NAMES[locale][slug];
+    if (mapped) return mapped;
+  } else if (locale !== 'en') {
     const mapped = SLUG_NAMES[locale][slug];
     if (mapped) return mapped;
   }
@@ -87,6 +103,10 @@ export function getLocalizedNameBySlug(
 }
 
 export function getLocalizedName(record: LocalizedRecord, locale: Locale): string {
+  if (record.slug && CATEGORY_SLUGS.has(record.slug)) {
+    return getCategoryLabel(record.slug, locale, record);
+  }
+
   if (locale === 'en') {
     return record.name_en?.trim() || (record.slug ? getLocalizedNameBySlug(record.slug, 'en') : '');
   }

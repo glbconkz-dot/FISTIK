@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import { clearOrderHistory } from '@/app/actions/orders';
 import type { Order } from '@/types';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
 import { OrderDetailPanel } from '@/components/admin/OrderDetailPanel';
@@ -20,13 +22,21 @@ interface OrdersListProps {
 }
 
 export function OrdersList({ orders: initialOrders }: OrdersListProps) {
+  const router = useRouter();
   const [orders, setOrders] = useState(initialOrders);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [section, setSection] = useState<OrderSection>('new');
+  const [clearError, setClearError] = useState<string | null>(null);
+  const [isClearing, startClearTransition] = useTransition();
 
   useEffect(() => {
     setOrders(initialOrders);
   }, [initialOrders]);
+
+  const historyCount = useMemo(
+    () => orders.filter((o) => o.status === 'completed' || o.status === 'cancelled').length,
+    [orders]
+  );
 
   const filtered = useMemo(() => {
     const list = filterOrdersBySection(orders, section);
@@ -44,9 +54,56 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
     }
   };
 
+  const handleClearHistory = () => {
+    if (
+      !window.confirm(
+        'Tamamlanan ve iptal edilen tüm siparişler kalıcı olarak silinsin mi? Yeni ve onaylı siparişler kalır.'
+      )
+    ) {
+      return;
+    }
+
+    setClearError(null);
+    startClearTransition(async () => {
+      const result = await clearOrderHistory();
+      if (!result.ok) {
+        setClearError(result.error);
+        return;
+      }
+      setOrders((prev) => prev.filter((o) => o.status !== 'completed' && o.status !== 'cancelled'));
+      setSelectedId(null);
+      if (section === 'completed' || section === 'cancelled') {
+        setSection('new');
+      }
+      router.refresh();
+    });
+  };
+
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div>
+        {historyCount > 0 ? (
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-cream/50 px-3 py-2.5">
+            <p className="text-xs text-muted">
+              Geçmiş: {historyCount} sipariş (teslim + iptal)
+            </p>
+            <button
+              type="button"
+              disabled={isClearing}
+              onClick={handleClearHistory}
+              className="btn-outline border-red-300 px-3 py-1.5 text-xs text-red-700"
+            >
+              {isClearing ? 'Siliniyor…' : 'Geçmişi temizle'}
+            </button>
+          </div>
+        ) : null}
+
+        {clearError ? (
+          <div className="mb-3 rounded-xl border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
+            {clearError}
+          </div>
+        ) : null}
+
         <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
           {ORDER_SECTIONS.map((s) => {
             const count = filterOrdersBySection(orders, s.key).length;

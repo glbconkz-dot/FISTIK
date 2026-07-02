@@ -70,17 +70,17 @@ export const MENU_CATEGORIES: Category[] = [
   // Ekler en üstte → tatlı → tuzlu (samsa & borek en sonda)
   category('eclairs-large', 'Large Eclairs', 'Эклеры большие', 'Үлкен эклерлер', 'Büyük Ekler', 1),
   category('eclairs-mini', 'Mini Eclairs', 'Эклеры мини', 'Мини эклерлер', 'Mini Ekler', 2),
-  category('packaged-desserts', 'Box Desserts', 'Десерты в коробке', 'Қораптағы десерттер', 'Kutu Tatlılar', 3),
-  category('art-desserts', 'Art Desserts', 'Арт-десерты', 'Арт-десерттер', 'Sanat Tatlıları', 4),
+  category('packaged-desserts', 'FISTIK Cube', 'ФЫСТЫК Куб', 'ФЫСТЫҚ Куб', 'FISTIK Cube', 3),
+  category('art-desserts', 'FISTIK Grolet', 'ФЫСТЫК Гролет', 'ФЫСТЫҚ Гролет', 'FISTIK Grolet', 4),
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 5),
-  category('american-cakes', 'American Cakes', 'Американские торты', 'Америкалық торттар', 'Amerikan Pastalar', 6),
+  category('american-cakes', 'FISTIK Elite', 'ФЫСТЫК Элит', 'ФЫСТЫҚ Элит', 'FISTIK Elite', 6),
   category('classic-round-cakes', 'Classic Round Cakes', 'Классические круглые торты', 'Классикалық дөңгелек торттар', 'Klasik Yuvarlak Pastalar', 7),
-  category('pies', 'Pies', 'Пироги', 'Пирогтар', 'Turtalar', 8),
+  category('pies', 'Pies', 'Пироги', 'Пирогтар', 'Piroglar', 8),
   category('cookies', 'Cookies', 'Печенье', 'Печеньелер', 'Kurabiyeler', 9),
   category('boreks', 'Boreks', 'Бореки', 'Боректер', 'Börekler', 10),
   category('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 11),
-  category('frozen-boreks', 'Frozen Boreks', 'Бореки полуфабрикаты', 'Борек жартылай дайын', 'Yarı Mamul Börekler', 12),
-  category('semi-finished', 'Semi-finished Products', 'Полуфабрикаты', 'Жартылай дайын өнімдер', 'Yarı Mamul Ürünler', 13),
+  category('frozen-boreks', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 12),
+  category('semi-finished', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 13),
 ];
 
 export const MENU_PRODUCTS: Product[] = [

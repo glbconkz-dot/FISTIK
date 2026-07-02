@@ -7,10 +7,13 @@ import { useRouter } from 'next/navigation';
 import { setProductPrice, setProductStock, toggleProductActive } from '@/app/actions/admin-products';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
-import type { Product } from '@/types';
+import { groupProductsByDisplayCategory } from '@/lib/category-display';
+import { getLocalizedName } from '@/lib/utils';
+import type { Category, Product } from '@/types';
 
 interface ProductListProps {
   products: Product[];
+  categories: Category[];
 }
 
 function stockInputMap(products: Product[]) {
@@ -37,7 +40,7 @@ function parsePriceInput(raw: string): number {
   return Math.min(9_999_999, Math.max(0, Number.parseInt(digits, 10)));
 }
 
-export function ProductList({ products }: ProductListProps) {
+export function ProductList({ products, categories }: ProductListProps) {
   const router = useRouter();
   const { locale, t } = useAdminLocale();
   const [stockInputs, setStockInputs] = useState<Record<string, string>>(() =>
@@ -136,6 +139,116 @@ export function ProductList({ products }: ProductListProps) {
   };
 
   const missingStockColumn = products.length > 0 && products.every((p) => p.stock_quantity == null);
+  const grouped = groupProductsByDisplayCategory(products, categories);
+  const groupedIds = new Set(grouped.flatMap((group) => group.products.map((product) => product.id)));
+  const uncategorized = products.filter((product) => !groupedIds.has(product.id));
+
+  const renderProductRow = (product: Product) => {
+    const stock = parseStockInput(stockInputs[product.id] ?? '0');
+    const outOfStock = stock <= 0;
+    const displayName = getLocalizedProductName(product, locale);
+
+    return (
+      <div
+        key={product.id}
+        className="luxury-card flex flex-wrap items-center gap-2.5 p-2.5 sm:gap-3 sm:p-3"
+      >
+        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-border/30">
+          {product.image_url ? (
+            <Image
+              src={product.image_url}
+              alt={displayName}
+              fill
+              className="object-cover"
+              sizes="40px"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-sm text-accent">F</div>
+          )}
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium sm:text-base">{displayName}</p>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-1.5">
+          <input
+            type="number"
+            min={0}
+            max={9999999}
+            step={1}
+            inputMode="numeric"
+            disabled={isPending}
+            value={priceInputs[product.id] ?? ''}
+            onChange={(e) => handlePriceInputChange(product.id, e.target.value)}
+            onFocus={(e) => e.target.select()}
+            onBlur={() => handlePriceSave(product.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            className="price-input"
+            aria-label={t('priceLabel')}
+          />
+          <button
+            type="button"
+            disabled={isPending}
+            onClick={() => handlePriceSave(product.id)}
+            className="btn-outline px-2.5 py-1.5 text-xs"
+          >
+            {savedPriceId === product.id ? '✓' : t('save')}
+          </button>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-1.5">
+          <input
+            type="number"
+            min={0}
+            max={9999}
+            step={1}
+            inputMode="numeric"
+            disabled={isPending}
+            value={stockInputs[product.id] ?? ''}
+            onChange={(e) => handleStockInputChange(product.id, e.target.value)}
+            onFocus={(e) => e.target.select()}
+            onBlur={() => handleStockSave(product.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+            className="stock-qty-input"
+            aria-label={t('stockLabel')}
+          />
+          <button
+            type="button"
+            disabled={isPending}
+            onClick={() => handleStockSave(product.id)}
+            className="btn-outline px-2.5 py-1.5 text-xs"
+          >
+            {savedStockId === product.id ? '✓' : t('save')}
+          </button>
+        </div>
+
+        <span className="text-xs text-muted">{outOfStock ? t('soldOut') : t('onSale')}</span>
+
+        <button
+          type="button"
+          disabled={isPending}
+          onClick={() => handleToggle(product.id, product.is_active)}
+          className={`chip shrink-0 ${product.is_active ? 'chip-active' : ''}`}
+        >
+          {product.is_active ? t('active') : t('inactive')}
+        </button>
+        <Link
+          href={`/admin/products/${product.id}/edit`}
+          className="btn-outline shrink-0 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm"
+        >
+          {t('edit')}
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-3">
@@ -161,114 +274,29 @@ export function ProductList({ products }: ProductListProps) {
         </div>
       ) : null}
 
-      {products.map((product) => {
-        const stock = parseStockInput(stockInputs[product.id] ?? '0');
-        const outOfStock = stock <= 0;
-        const displayName = getLocalizedProductName(product, locale);
-
-        return (
-          <div
-            key={product.id}
-            className="luxury-card flex flex-wrap items-center gap-2.5 p-2.5 sm:gap-3 sm:p-3"
-          >
-            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-border/30">
-              {product.image_url ? (
-                <Image
-                  src={product.image_url}
-                  alt={displayName}
-                  fill
-                  className="object-cover"
-                  sizes="40px"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-sm text-accent">F</div>
-              )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium sm:text-base">{displayName}</p>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-1.5">
-              <input
-                type="number"
-                min={0}
-                max={9999999}
-                step={1}
-                inputMode="numeric"
-                disabled={isPending}
-                value={priceInputs[product.id] ?? ''}
-                onChange={(e) => handlePriceInputChange(product.id, e.target.value)}
-                onFocus={(e) => e.target.select()}
-                onBlur={() => handlePriceSave(product.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.currentTarget.blur();
-                  }
-                }}
-                className="price-input"
-                aria-label={t('priceLabel')}
-              />
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={() => handlePriceSave(product.id)}
-                className="btn-outline px-2.5 py-1.5 text-xs"
-              >
-                {savedPriceId === product.id ? '✓' : t('save')}
-              </button>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-1.5">
-              <input
-                type="number"
-                min={0}
-                max={9999}
-                step={1}
-                inputMode="numeric"
-                disabled={isPending}
-                value={stockInputs[product.id] ?? ''}
-                onChange={(e) => handleStockInputChange(product.id, e.target.value)}
-                onFocus={(e) => e.target.select()}
-                onBlur={() => handleStockSave(product.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.currentTarget.blur();
-                  }
-                }}
-                className="stock-qty-input"
-                aria-label={t('stockLabel')}
-              />
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={() => handleStockSave(product.id)}
-                className="btn-outline px-2.5 py-1.5 text-xs"
-              >
-                {savedStockId === product.id ? '✓' : t('save')}
-              </button>
-            </div>
-
-            <span className="text-xs text-muted">
-              {outOfStock ? t('soldOut') : t('onSale')}
-            </span>
-
-            <button
-              type="button"
-              disabled={isPending}
-              onClick={() => handleToggle(product.id, product.is_active)}
-              className={`chip shrink-0 ${product.is_active ? 'chip-active' : ''}`}
-            >
-              {product.is_active ? t('active') : t('inactive')}
-            </button>
-            <Link
-              href={`/admin/products/${product.id}/edit`}
-              className="btn-outline shrink-0 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm"
-            >
-              {t('edit')}
-            </Link>
+      {grouped.map(({ category, products: categoryProducts }) => (
+        <section key={category.id} className="space-y-2">
+          <div className="sticky top-0 z-10 -mx-1 border-b border-border/80 bg-background/95 px-1 py-2 backdrop-blur-sm">
+            <h2 className="font-display text-lg font-semibold">
+              {getLocalizedName(category, locale)}
+            </h2>
+            <p className="text-xs text-muted">
+              {categoryProducts.length} {t('productsInCategory')}
+            </p>
           </div>
-        );
-      })}
+          {categoryProducts.map(renderProductRow)}
+        </section>
+      ))}
+
+      {uncategorized.length > 0 ? (
+        <section className="space-y-2">
+          <div className="sticky top-0 z-10 -mx-1 border-b border-border/80 bg-background/95 px-1 py-2 backdrop-blur-sm">
+            <h2 className="font-display text-lg font-semibold">{t('uncategorized')}</h2>
+          </div>
+          {uncategorized.map(renderProductRow)}
+        </section>
+      ) : null}
+
       {products.length === 0 && (
         <p className="py-8 text-center text-muted">{t('noProducts')}</p>
       )}

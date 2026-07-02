@@ -3,13 +3,15 @@
 import { useState, useTransition } from 'react';
 import Image from 'next/image';
 import { upsertCategory, uploadCategoryImage } from '@/app/actions/admin-products';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { getLocalizedName } from '@/lib/utils';
 import type { Category } from '@/types';
-
 interface AdminCategoryListProps {
   categories: Category[];
 }
 
 export function AdminCategoryList({ categories }: AdminCategoryListProps) {
+  const { locale } = useAdminLocale();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -92,14 +94,12 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold">{cat.name_tr || cat.name_ru}</p>
+                  <p className="font-semibold">{getLocalizedName(cat, locale)}</p>
                   <p className="text-xs text-muted">
-                    {cat.slug} · sıra {cat.sort_order}
-                    {!cat.is_active ? ' · pasif' : ''}
+                    {cat.slug} · sıra {cat.sort_order}                    {!cat.is_active ? ' · pasif' : ''}
                     {cat.show_on_home === false ? ' · ana sayfada gizli' : ''}
                   </p>
-                  <p className="mt-1 text-sm text-muted">{cat.name_ru}</p>
-                </div>
+                  <p className="mt-1 text-sm text-muted">{cat.name_ru}</p>                </div>
 
                 <div className="flex shrink-0 gap-2">
                   <label className="btn-outline cursor-pointer text-sm">
