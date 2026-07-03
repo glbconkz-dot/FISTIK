@@ -13,12 +13,12 @@ interface AdminProductFormProps {
   product?: Product;
 }
 
-type LangTab = 'kk' | 'tr' | 'ru' | 'en';
+type LangTab = 'kk' | 'ru' | 'tr' | 'en';
 
 const LANG_TABS: { key: LangTab; label: string }[] = [
   { key: 'kk', label: 'KZ' },
-  { key: 'tr', label: 'TR' },
   { key: 'ru', label: 'RU' },
+  { key: 'tr', label: 'TR' },
   { key: 'en', label: 'EN' },
 ];
 

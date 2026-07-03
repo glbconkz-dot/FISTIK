@@ -3,40 +3,32 @@
 import { useMemo, useState, useTransition } from 'react';
 import { saveStorefrontSection, verifyStorefrontSync } from '@/app/actions/admin-storefront';
 import { getLocalizedProductName } from '@/lib/admin-messages';
+import { groupProductsByDisplayCategory } from '@/lib/category-display';
 import { STOREFRONT_SECTION_KEYS } from '@/lib/storefront-utils';
-import type { Product, StorefrontSection, StorefrontSectionKey } from '@/types';
+import { getLocalizedName } from '@/lib/utils';
+import type { Category, Product, StorefrontSection, StorefrontSectionKey } from '@/types';
 
 const SECTION_LABELS: Record<StorefrontSectionKey, { tr: string; hint: string }> = {
   todays_favorites: {
     tr: 'Günün Favorileri',
     hint: 'Ana sayfanın en üstündeki bölüm. Boş bırakılırsa otomatik liste kullanılır.',
   },
-  new_collection: {
-    tr: 'Yeni Koleksiyon',
-    hint: 'Boş bırakılırsa en yeni ürünler gösterilir.',
-  },
-  most_ordered: {
-    tr: 'En Çok Sipariş Edilen',
-    hint: 'Boş bırakılırsa sıralamaya göre otomatik liste.',
-  },
-  chefs_selection: {
-    tr: 'Şefin Seçimi',
-    hint: 'Boş bırakılırsa kategorilerden otomatik seçim.',
-  },
 };
 
 interface AdminStorefrontEditorProps {
   products: Product[];
+  categories: Category[];
   sections: StorefrontSection[];
 }
 
-export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEditorProps) {
+export function AdminStorefrontEditor({
+  products,
+  categories,
+  sections,
+}: AdminStorefrontEditorProps) {
   const initial = useMemo(() => {
     const map: Record<StorefrontSectionKey, string[]> = {
       todays_favorites: [],
-      new_collection: [],
-      most_ordered: [],
-      chefs_selection: [],
     };
     for (const section of sections) {
       map[section.key] = section.product_slugs?.length
@@ -57,6 +49,21 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
   const slugToProduct = useMemo(
     () => new Map(activeProducts.map((p) => [p.slug, p])),
     [activeProducts]
+  );
+
+  const groupedProducts = useMemo(
+    () => groupProductsByDisplayCategory(activeProducts, categories),
+    [activeProducts, categories]
+  );
+
+  const groupedIds = useMemo(
+    () => new Set(groupedProducts.flatMap((g) => g.products.map((p) => p.id))),
+    [groupedProducts]
+  );
+
+  const uncategorized = useMemo(
+    () => activeProducts.filter((p) => !groupedIds.has(p.id)),
+    [activeProducts, groupedIds]
   );
 
   const toggleProduct = (key: StorefrontSectionKey, slug: string) => {
@@ -132,6 +139,30 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
     });
   };
 
+  const renderProductToggle = (key: StorefrontSectionKey, product: Product) => {
+    const checked = selection[key].includes(product.slug);
+    const disabled = !checked && selection[key].length >= 4;
+
+    return (
+      <button
+        key={product.id}
+        type="button"
+        disabled={disabled}
+        aria-pressed={checked}
+        onClick={() => toggleProduct(key, product.slug)}
+        className={`flex w-full cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
+          checked
+            ? 'border-foreground bg-foreground text-surface'
+            : disabled
+              ? 'cursor-not-allowed border-border opacity-50'
+              : 'border-border hover:bg-cream'
+        }`}
+      >
+        <span className="line-clamp-2">{getLocalizedProductName(product, 'tr')}</span>
+      </button>
+    );
+  };
+
   return (
     <div className="space-y-8">
       <div className="luxury-card space-y-3 p-4 text-sm">
@@ -157,14 +188,15 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
         </div>
       </div>
 
-      {error ? (
-        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </p>
-      ) : null}
-      {message ? (
-        <p className="rounded-xl bg-brand/25 px-4 py-3 text-sm text-foreground">{message}</p>
-      ) : null}
+      <div className="min-h-[3.25rem]" aria-live="polite">
+        {error ? (
+          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </p>
+        ) : message ? (
+          <p className="rounded-xl bg-brand/25 px-4 py-3 text-sm text-foreground">{message}</p>
+        ) : null}
+      </div>
 
       {STOREFRONT_SECTION_KEYS.map((key) => (
         <section key={key} className="luxury-card p-4 sm:p-5">
@@ -184,35 +216,33 @@ export function AdminStorefrontEditor({ products, sections }: AdminStorefrontEdi
             </button>
           </div>
 
-          <div className="grid max-h-64 gap-2 overflow-y-auto sm:grid-cols-2">
-            {activeProducts.map((product) => {
-              const checked = selection[key].includes(product.slug);
-              const disabled = !checked && selection[key].length >= 4;
+          <div
+            className="h-[min(70vh,28rem)] overflow-y-auto overscroll-contain pr-1 sm:pr-2"
+            style={{ overflowAnchor: 'none' }}
+          >
+            <div className="space-y-5">
+              {groupedProducts.map(({ category, products: categoryProducts }) => (
+                <div key={category.id}>
+                  <h3 className="sticky top-0 z-10 border-b border-border bg-surface/95 py-2 font-display text-sm font-semibold backdrop-blur-sm">
+                    {getLocalizedName(category, 'tr')}
+                  </h3>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {categoryProducts.map((product) => renderProductToggle(key, product))}
+                  </div>
+                </div>
+              ))}
 
-              return (
-                <label
-                  key={product.id}
-                  className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
-                    checked
-                      ? 'border-foreground bg-foreground text-surface'
-                      : disabled
-                        ? 'border-border opacity-50'
-                        : 'border-border hover:bg-cream'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    className="sr-only"
-                    checked={checked}
-                    disabled={disabled}
-                    onChange={() => toggleProduct(key, product.slug)}
-                  />
-                  <span className="line-clamp-2">
-                    {getLocalizedProductName(product, 'tr')}
-                  </span>
-                </label>
-              );
-            })}
+              {uncategorized.length > 0 ? (
+                <div>
+                  <h3 className="sticky top-0 z-10 border-b border-border bg-surface/95 py-2 font-display text-sm font-semibold backdrop-blur-sm">
+                    Kategorisiz
+                  </h3>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {uncategorized.map((product) => renderProductToggle(key, product))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
       ))}

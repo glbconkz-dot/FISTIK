@@ -105,11 +105,6 @@
     "image_url": "/products/pies/spinach-cheese.png"
   },
   {
-    "slugs": ["pie-quark"],
-    "names": ["tvarok pirog", "quark pie", "peynirli pirog", "tvorog"],
-    "image_url": "/products/pies/quark.png"
-  },
-  {
     "slugs": ["mango-coconut-mousse"],
     "names": ["mango hindistan cevizi", "mango coconut mousse", "mango hindistan cevizi mousse"],
     "image_url": "/products/american-cakes/mango-coconut.png",
@@ -305,11 +300,33 @@
     "description_tr": "Yarı mamul mercimekli börek — evde pişirin."
   },
   {
-    "slugs": ["kucuk-borek", "sarma-borek"],
+    "slugs": [
+      "mini-borek-meat",
+      "mini-borek-chicken",
+      "mini-borek-potato",
+      "mini-borek-spinach",
+      "mini-borek-brinza",
+      "mini-borek-lentils"
+    ],
     "image_url": "/products/boreks/borek.png",
-    "description_en": "Traditional rolled borek — ready to bake.",
-    "description_ru": "Традиционный рулетный борек — готов к выпечке.",
-    "description_kk": "Дайын пісіруге дайын дәстүрлі орама борек.",
-    "description_tr": "Geleneksel sarma börek — pişirmeye hazır."
+    "description_en": "Mini borek — ready to bake.",
+    "description_ru": "Мини борек — готов к выпечке.",
+    "description_kk": "Мини борек — пісіруге дайын.",
+    "description_tr": "Mini börek — pişirmeye hazır."
+  },
+  {
+    "slugs": [
+      "sarma-borek-meat",
+      "sarma-borek-chicken",
+      "sarma-borek-brinza",
+      "sarma-borek-spinach",
+      "sarma-borek-lentils",
+      "sarma-borek-potato"
+    ],
+    "image_url": "/products/boreks/borek.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake.",
+    "description_ru": "Сарма борек — готов к выпечке.",
+    "description_kk": "Сарма борек — пісіруге дайын.",
+    "description_tr": "Sarma börek — pişirmeye hazır."
   }
 ]

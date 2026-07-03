@@ -36,7 +36,10 @@ WHERE slug = 'pies';
 UPDATE categories SET name_ru = 'Печенье', name_tr = 'Kurabiyeler' WHERE slug = 'cookies';
 UPDATE categories SET name_ru = 'Бореки', name_tr = 'Börekler' WHERE slug = 'boreks';
 UPDATE categories SET
-  name_ru = 'Американские торты', name_tr = 'Amerikan Pastalar'
+  name_ru = 'Прямоугольные торты в боксах',
+  name_tr = 'Box Dikdörtgen Pastalar',
+  name_en = 'Rectangular Box Cakes',
+  name_kk = 'Қораптағы тіктөртбұрышты торттар'
 WHERE slug = 'american-cakes';
 UPDATE categories SET
   name_ru = 'Торты', name_tr = 'Yaş Pasta', name_en = 'Gateau', name_kk = 'Торттар'
@@ -45,13 +48,13 @@ WHERE slug = 'classic-round-cakes';
 UPDATE categories SET show_on_home = false WHERE slug IN ('semi-finished', 'eclairs-mini');
 
 CREATE TABLE IF NOT EXISTS storefront_sections (
-  key text PRIMARY KEY CHECK (key IN ('todays_favorites', 'new_collection', 'most_ordered', 'chefs_selection')),
+  key text PRIMARY KEY CHECK (key IN ('todays_favorites', 'new_collection', 'chefs_selection')),
   product_ids uuid[] NOT NULL DEFAULT '{}',
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
 INSERT INTO storefront_sections (key) VALUES
-  ('todays_favorites'), ('new_collection'), ('most_ordered'), ('chefs_selection')
+  ('todays_favorites'), ('new_collection'), ('chefs_selection')
 ON CONFLICT (key) DO NOTHING;
 
 ALTER TABLE storefront_sections ENABLE ROW LEVEL SECURITY;

@@ -1,17 +1,17 @@
 -- FISTIK — Marka kategori adlari + yari mamul birlestirme (canli Supabase SQL Editor)
 
 UPDATE categories SET
-  name_en = 'FISTIK Cube',
-  name_tr = 'FISTIK Cube',
-  name_ru = 'ФЫСТЫК Куб',
-  name_kk = 'ФЫСТЫҚ Куб'
+  name_en = 'Cube Portion Desserts',
+  name_tr = 'Küp Porsiyon Pastalar',
+  name_ru = 'Порционные торты в кубе',
+  name_kk = 'Кубтағы порциялық торттар'
 WHERE slug = 'packaged-desserts';
 
 UPDATE categories SET
-  name_en = 'FISTIK Elite',
-  name_tr = 'FISTIK Elite',
-  name_ru = 'ФЫСТЫК Элит',
-  name_kk = 'ФЫСТЫҚ Элит'
+  name_en = 'Rectangular Box Cakes',
+  name_tr = 'Box Dikdörtgen Pastalar',
+  name_ru = 'Прямоугольные торты в боксах',
+  name_kk = 'Қораптағы тіктөртбұрышты торттар'
 WHERE slug = 'american-cakes';
 
 UPDATE categories SET

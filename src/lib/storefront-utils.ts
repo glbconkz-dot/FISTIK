@@ -41,12 +41,7 @@ export function resolveSectionProducts(
   return picked.length > 0 ? picked : fallback;
 }
 
-export const STOREFRONT_SECTION_KEYS: StorefrontSectionKey[] = [
-  'todays_favorites',
-  'new_collection',
-  'most_ordered',
-  'chefs_selection',
-];
+export const STOREFRONT_SECTION_KEYS: StorefrontSectionKey[] = ['todays_favorites'];
 
 export function countConfiguredSections(sections: StorefrontSection[]): number {
   return sections.filter(

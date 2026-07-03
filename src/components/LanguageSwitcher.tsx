@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 
 const locales = [
   { code: 'kk' as const, label: 'KZ' },
-  { code: 'tr' as const, label: 'TR' },
   { code: 'ru' as const, label: 'RU' },
+  { code: 'tr' as const, label: 'TR' },
   { code: 'en' as const, label: 'EN' },
 ];
 

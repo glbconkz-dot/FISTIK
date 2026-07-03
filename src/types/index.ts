@@ -1,4 +1,4 @@
-export type Locale = 'kk' | 'tr' | 'ru' | 'en';
+export type Locale = 'kk' | 'ru' | 'tr' | 'en';
 
 export type OrderStatus = 'new' | 'confirmed' | 'shipped' | 'completed' | 'cancelled';
 
@@ -16,11 +16,7 @@ export interface Category {
   created_at: string;
 }
 
-export type StorefrontSectionKey =
-  | 'todays_favorites'
-  | 'new_collection'
-  | 'most_ordered'
-  | 'chefs_selection';
+export type StorefrontSectionKey = 'todays_favorites';
 
 export interface StorefrontSection {
   key: StorefrontSectionKey;

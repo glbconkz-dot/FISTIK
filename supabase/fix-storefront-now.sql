@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS storefront_sections (
   key text PRIMARY KEY CHECK (key IN (
     'todays_favorites',
     'new_collection',
-    'most_ordered',
     'chefs_selection'
   )),
   product_ids uuid[] NOT NULL DEFAULT '{}',
@@ -17,7 +16,6 @@ CREATE TABLE IF NOT EXISTS storefront_sections (
 INSERT INTO storefront_sections (key) VALUES
   ('todays_favorites'),
   ('new_collection'),
-  ('most_ordered'),
   ('chefs_selection')
 ON CONFLICT (key) DO NOTHING;
 
@@ -37,5 +35,5 @@ CREATE POLICY "Admin manage storefront_sections"
   USING (is_admin())
   WITH CHECK (is_admin());
 
--- Dogrulama (4 satir donmeli)
+-- Dogrulama (3 satir donmeli)
 SELECT key, product_ids, product_slugs, updated_at FROM storefront_sections ORDER BY key;

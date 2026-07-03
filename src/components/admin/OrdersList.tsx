@@ -48,10 +48,6 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
 
   const handleOrderChange = (updated: Order) => {
     setOrders((prev) => prev.map((o) => (o.id === updated.id ? { ...o, ...updated } : o)));
-    if (updated.status !== section) {
-      setSection(updated.status);
-      setSelectedId(updated.id);
-    }
   };
 
   const handleClearHistory = () => {

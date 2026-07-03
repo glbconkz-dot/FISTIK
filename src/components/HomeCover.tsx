@@ -33,25 +33,11 @@ export function HomeCover({
 
   const autoTodaysFavorites = useMemo(() => inStock.slice(0, 4), [inStock]);
 
-  const autoMostOrdered = useMemo(
-    () =>
-      [...inStock]
-        .sort((a, b) => a.sort_order - b.sort_order)
-        .slice(0, 4),
-    [inStock]
-  );
-
   const todaysFavorites = resolveSectionProducts(
     'todays_favorites',
     storefrontSections,
     products,
     autoTodaysFavorites
-  );
-  const mostOrdered = resolveSectionProducts(
-    'most_ordered',
-    storefrontSections,
-    products,
-    autoMostOrdered
   );
 
   return (
@@ -88,39 +74,21 @@ export function HomeCover({
         }`}
       >
         {fullPage ? (
-          <>
-            <CoverProductGrid
-              title={t('todaysFavorites')}
-              subtitle={t('todaysFavoritesSub')}
-              products={todaysFavorites}
-              locale={locale}
-              delay={0.05}
-            />
-            <CoverProductGrid
-              title={t('mostOrdered')}
-              subtitle={t('mostOrderedSub')}
-              products={mostOrdered}
-              locale={locale}
-              delay={0.1}
-            />
-          </>
+          <CoverProductGrid
+            title={t('todaysFavorites')}
+            subtitle={t('todaysFavoritesSub')}
+            products={todaysFavorites}
+            locale={locale}
+            delay={0.05}
+          />
         ) : (
-          <>
-            <CuratedSection
-              title={t('todaysFavorites')}
-              subtitle={t('todaysFavoritesSub')}
-              products={todaysFavorites}
-              locale={locale}
-              delay={0.05}
-            />
-            <CuratedSection
-              title={t('mostOrdered')}
-              subtitle={t('mostOrderedSub')}
-              products={mostOrdered}
-              locale={locale}
-              delay={0.1}
-            />
-          </>
+          <CuratedSection
+            title={t('todaysFavorites')}
+            subtitle={t('todaysFavoritesSub')}
+            products={todaysFavorites}
+            locale={locale}
+            delay={0.05}
+          />
         )}
       </div>
 
