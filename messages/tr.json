@@ -42,7 +42,11 @@
     "addToCart": "Sepete ekle",
     "added": "Eklendi",
     "soldOut": "Tükendi",
-    "stockLeft": "{count} adet kaldı"
+    "stockLeft": "{count} adet kaldı",
+    "semiGroupBorek6": "Börekler · 6'lı paket",
+    "semiGroupMini16": "Mini börekler · 16'lı paket",
+    "semiGroupSarma": "Sarma börekler",
+    "semiGroupWaffle": "Waffle · 5'li paket"
   },
   "product": {
     "back": "Menüye dön",

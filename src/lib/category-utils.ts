@@ -1,5 +1,10 @@
 import type { Category, Product } from '@/types';
 
+/** Varsayılan kategori kapak görselleri (admin/DB boşsa) */
+const CATEGORY_COVER_IMAGES: Record<string, string> = {
+  'american-cakes': '/products/american-cakes/ferrero-hazelnut.png',
+};
+
 /** Supabase UUID veya local slug ile eslesme */
 export function productInCategory(product: Product, category: Category): boolean {
   const cid = product.category_id;
@@ -13,6 +18,9 @@ export function coverImageForCategory(
 ): string | undefined {
   const custom = category.image_url?.trim();
   if (custom) return custom;
+
+  const preset = CATEGORY_COVER_IMAGES[category.slug];
+  if (preset) return preset;
 
   return products.find((p) => productInCategory(p, category) && p.image_url)?.image_url;
 }

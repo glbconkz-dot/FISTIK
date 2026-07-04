@@ -18,7 +18,8 @@ function category(
   name_ru: string,
   name_kk: string,
   name_tr: string,
-  sort_order: number
+  sort_order: number,
+  image_url = ''
 ): Category {
   return {
     id: slug,
@@ -29,6 +30,7 @@ function category(
     name_tr,
     sort_order,
     is_active: true,
+    image_url,
     created_at: '',
   };
 }
@@ -70,7 +72,7 @@ export const MENU_CATEGORIES: Category[] = [
   category('eclairs-large', 'Large Eclairs', 'Эклеры', 'Эклерлер', 'Büyük Ekler', 1),
   category('eclairs-mini', 'Mini Eclairs', 'Мини-эклеры', 'Мини-эклерлер', 'Mini Ekler', 2),
   category('packaged-desserts', 'Cube Portion Desserts', 'Порционные торты в кубе', 'Кубтағы порциялық торттар', 'Küp Porsiyon Pastalar', 3),
-  category('american-cakes', 'Rectangular Box Cakes', 'Прямоугольные торты в боксах', 'Қораптағы тіктөртбұрышты торттар', 'Box Dikdörtgen Pastalar', 4),
+  category('american-cakes', 'Rectangular Box Cakes', 'Прямоугольные торты в боксах', 'Қораптағы тіктөртбұрышты торттар', 'Box Dikdörtgen Pastalar', 4, '/products/american-cakes/ferrero-hazelnut.png'),
   category('art-desserts', 'Art Desserts', 'Арт-десерты', 'Арт-десерттер', 'Art Desserts', 5),
   category('pirozhnye', 'Pastries', 'Пирожные', 'Пирожныйлар', 'Mono Cakes', 6),
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 7),

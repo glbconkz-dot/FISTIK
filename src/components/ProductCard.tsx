@@ -8,6 +8,8 @@ import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { getProductImageClasses } from '@/lib/product-image';
+import { showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useCartStore } from '@/stores/cart';
 import type { Locale, Product } from '@/types';
 
@@ -35,7 +37,9 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   const name = getLocalizedName(product, locale);
   const description = getLocalizedDescription(product, locale);
   const showSubtitle =
-    product.category_id === 'boreks' || product.category_id === 'frozen-boreks';
+    showsSemiFinishedPackNote(product.slug) ||
+    product.category_id === 'boreks' ||
+    product.category_id === 'frozen-boreks';
 
   const handleTap = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -56,6 +60,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   };
 
   const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
+  const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <article
@@ -64,15 +69,17 @@ export function ProductCard({ product, locale }: ProductCardProps) {
       }`}
     >
       <Link href={`/product/${product.slug}`} className="group block">
-        <div className="relative aspect-[4/5] overflow-hidden bg-cream">
+        <div className={`relative aspect-[4/5] overflow-hidden ${imageClasses.container}`}>
           {product.image_url ? (
-            <Image
-              src={product.image_url}
-              alt={name}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 768px) 50vw, 25vw"
-            />
+            <div className={imageClasses.frame}>
+              <Image
+                src={product.image_url}
+                alt={name}
+                fill
+                className={imageClasses.imageCard}
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
           ) : (
             <div className="flex h-full items-center justify-center font-display text-4xl text-accent/40">
               F

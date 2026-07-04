@@ -8,6 +8,7 @@ import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { getProductImageClasses } from '@/lib/product-image';
 import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types';
 import type { Locale } from '@/types';
@@ -54,19 +55,22 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
   };
 
   const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
+  const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <div className="pb-8">
-      <div className="relative aspect-square w-full overflow-hidden bg-cream md:aspect-[4/3] md:rounded-2xl">
+      <div className={`relative aspect-square w-full overflow-hidden md:aspect-[4/3] md:rounded-2xl ${imageClasses.container}`}>
         {product.image_url ? (
-          <Image
-            src={product.image_url}
-            alt={name}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
+          <div className={imageClasses.frame}>
+            <Image
+              src={product.image_url}
+              alt={name}
+              fill
+              className={imageClasses.image}
+              priority
+              sizes="100vw"
+            />
+          </div>
         ) : (
           <div className="flex h-full items-center justify-center font-display text-6xl text-accent/40">
             F

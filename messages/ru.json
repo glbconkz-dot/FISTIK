@@ -42,7 +42,11 @@
     "addToCart": "В корзину",
     "added": "Добавлено",
     "soldOut": "Нет в наличии",
-    "stockLeft": "Осталось {count} шт."
+    "stockLeft": "Осталось {count} шт.",
+    "semiGroupBorek6": "Бореки · упаковка 6 шт.",
+    "semiGroupMini16": "Мини бореки · упаковка 16 шт.",
+    "semiGroupSarma": "Сарма бореки",
+    "semiGroupWaffle": "Вафли · упаковка 5 шт."
   },
   "product": {
     "back": "Назад в каталог",

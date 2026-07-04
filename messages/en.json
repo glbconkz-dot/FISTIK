@@ -42,7 +42,11 @@
     "addToCart": "Add to cart",
     "added": "Added",
     "soldOut": "Sold out",
-    "stockLeft": "{count} left"
+    "stockLeft": "{count} left",
+    "semiGroupBorek6": "Boreks · pack of 6",
+    "semiGroupMini16": "Mini boreks · pack of 16",
+    "semiGroupSarma": "Sarma boreks",
+    "semiGroupWaffle": "Waffle · pack of 5"
   },
   "product": {
     "back": "Back to catalog",

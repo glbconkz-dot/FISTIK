@@ -9,6 +9,7 @@ import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { productMatchesCategoryFilter } from '@/lib/category-display';
+import { groupSemiFinishedProducts } from '@/lib/semi-finished-groups';
 import type { Category, Product } from '@/types';
 import type { Locale } from '@/types';
 
@@ -105,6 +106,17 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
       )
     : liveProducts;
 
+  const semiFinishedGroups =
+    selectedCategory === 'semi-finished' ? groupSemiFinishedProducts(filtered) : null;
+
+  const productGrid = (items: Product[]) => (
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+      {items.map((product) => (
+        <ProductCard key={product.id} product={product} locale={locale} />
+      ))}
+    </div>
+  );
+
   return (
     <section id="all-products" className="mt-10 scroll-mt-24">
       <h2 className="section-title mb-5">{t('allProducts')}</h2>
@@ -118,12 +130,19 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
 
       {filtered.length === 0 ? (
         <p className="py-12 text-center text-muted">{t('empty')}</p>
-      ) : (
-        <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-          {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} locale={locale} />
+      ) : semiFinishedGroups ? (
+        <div className="mt-6 space-y-8">
+          {semiFinishedGroups.map((group) => (
+            <div key={group.labelKey}>
+              <h3 className="mb-3 font-display text-base font-semibold sm:text-lg">
+                {t(group.labelKey)}
+              </h3>
+              {productGrid(group.products)}
+            </div>
           ))}
         </div>
+      ) : (
+        <div className="mt-6">{productGrid(filtered)}</div>
       )}
     </section>
   );

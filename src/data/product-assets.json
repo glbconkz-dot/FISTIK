@@ -194,7 +194,7 @@
     "description_tr": "Sevilen Oreo lezzetli zarif tatlı: kremamsı doku, çikolatalı taban ve her katmanda bisküvi parçaları. Zengin, uyumlu ve yumuşak bir tat."
   },
   {
-    "slugs": ["pack-tiramisu", "american-tiramisu"],
+    "slugs": ["pack-tiramisu"],
     "names": ["tiramisu", "тирамису"],
     "image_url": "/products/packaged-desserts/tiramisu.png"
   },
@@ -252,52 +252,19 @@
     "description_tr": "Mercimek dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["frozen-borek-meat"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with meat filling — bake at home.",
-    "description_ru": "Замороженный борек с мясной начинкой — выпекайте дома.",
-    "description_kk": "Ет начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul etli börek — evde pişirin."
-  },
-  {
-    "slugs": ["frozen-borek-chicken"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with chicken filling — bake at home.",
-    "description_ru": "Замороженный борек с куриной начинкой — выпекайте дома.",
-    "description_kk": "Тауық начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul tavuklu börek — evde pişirin."
-  },
-  {
-    "slugs": ["frozen-borek-potato"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with potato filling — bake at home.",
-    "description_ru": "Замороженный борек с картофельной начинкой — выпекайте дома.",
-    "description_kk": "Картоп начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul patatesli börek — evde pişirin."
-  },
-  {
-    "slugs": ["frozen-borek-brinza"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with cheese filling — bake at home.",
-    "description_ru": "Замороженный борек с сырной начинкой — выпекайте дома.",
-    "description_kk": "Ірімшік начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul peynirli börek — evde pişirin."
-  },
-  {
-    "slugs": ["frozen-borek-spinach"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with spinach filling — bake at home.",
-    "description_ru": "Замороженный борек со шпинатной начинкой — выпекайте дома.",
-    "description_kk": "Спанат начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul ıspanaklı börek — evde pişirin."
-  },
-  {
-    "slugs": ["frozen-borek-lentils"],
-    "image_url": "/products/boreks/borek.png",
-    "description_en": "Frozen semi-finished borek with lentil filling — bake at home.",
-    "description_ru": "Замороженный борек с начинкой из чечевицы — выпекайте дома.",
-    "description_kk": "Бұршақ начинкасы бар тоңдатылған борек — үйде пісіріңіз.",
-    "description_tr": "Yarı mamul mercimekli börek — evde pişirin."
+    "slugs": [
+      "frozen-borek-meat",
+      "frozen-borek-chicken",
+      "frozen-borek-potato",
+      "frozen-borek-brinza",
+      "frozen-borek-spinach",
+      "frozen-borek-lentils"
+    ],
+    "image_url": "/products/semi-finished/borek-pack-6.png",
+    "description_en": "Pack of 6 · bake at home.",
+    "description_ru": "Упаковка 6 шт. · выпекайте дома.",
+    "description_kk": "6 даналық орама · үйде пісіріңіз.",
+    "description_tr": "6'lı paket · evde pişirin."
   },
   {
     "slugs": [
@@ -309,10 +276,10 @@
       "mini-borek-lentils"
     ],
     "image_url": "/products/boreks/borek.png",
-    "description_en": "Mini borek — ready to bake.",
-    "description_ru": "Мини борек — готов к выпечке.",
-    "description_kk": "Мини борек — пісіруге дайын.",
-    "description_tr": "Mini börek — pişirmeye hazır."
+    "description_en": "Pack of 16 · ready to bake.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке.",
+    "description_kk": "16 даналық орама · пісіруге дайын.",
+    "description_tr": "16'lı paket · pişirmeye hazır."
   },
   {
     "slugs": [
@@ -323,10 +290,18 @@
       "sarma-borek-lentils",
       "sarma-borek-potato"
     ],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/semi-finished/sarma-borek.png",
     "description_en": "Traditional rolled sarma borek — ready to bake.",
     "description_ru": "Сарма борек — готов к выпечке.",
     "description_kk": "Сарма борек — пісіруге дайын.",
     "description_tr": "Sarma börek — pişirmeye hazır."
+  },
+  {
+    "slugs": ["semi-waffle"],
+    "image_url": "/products/semi-finished/waffle.png",
+    "description_en": "Pack of 5 · ready to bake.",
+    "description_ru": "Упаковка 5 шт. · готов к выпечке.",
+    "description_kk": "5 даналық орама · пісіруге дайын.",
+    "description_tr": "5'li paket · pişirmeye hazır."
   }
 ]
