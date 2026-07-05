@@ -106,12 +106,6 @@ export function HomeCover({
           />
         </Link>
       </Reveal>
-
-      {fullPage ? (
-        <Reveal delay={0.2} className="relative mx-auto mt-4 flex w-full max-w-6xl justify-center pb-2 pt-3 sm:mt-6 sm:pt-5">
-          <BrandWordmark className="h-9 opacity-95 sm:h-12" />
-        </Reveal>
-      ) : null}
     </section>
   );
 }
