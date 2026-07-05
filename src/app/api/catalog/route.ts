@@ -1,7 +1,7 @@
 import { getCatalogData } from '@/lib/catalog';
+import { CATALOG_CACHE_CONTROL } from '@/lib/cache-config';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function GET() {
   const data = await getCatalogData();
@@ -19,8 +19,7 @@ export async function GET() {
     },
     {
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-        Pragma: 'no-cache',
+        'Cache-Control': CATALOG_CACHE_CONTROL,
       },
     }
   );

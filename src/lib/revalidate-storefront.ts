@@ -1,8 +1,9 @@
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { routing } from '@/i18n/routing';
 
 /** Admin degisikliklerinden sonra canli siteyi yenile */
 export function revalidateStorefront() {
+  revalidateTag('catalog', 'max');
   revalidatePath('/', 'layout');
   for (const locale of routing.locales) {
     revalidatePath(`/${locale}`);

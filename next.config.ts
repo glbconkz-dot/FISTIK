@@ -2,6 +2,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
 import os from 'os';
 import path from 'path';
+import { CATALOG_CACHE_CONTROL } from './src/lib/cache-config';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
@@ -46,14 +47,16 @@ const nextConfig: NextConfig = {
   headers: async () => [
     {
       source: '/:locale(kk|tr|ru|en)',
-      headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+      headers: [{ key: 'Cache-Control', value: CATALOG_CACHE_CONTROL }],
     },
     {
       source: '/api/catalog',
-      headers: [{ key: 'Cache-Control', value: 'no-store, must-revalidate' }],
+      headers: [{ key: 'Cache-Control', value: CATALOG_CACHE_CONTROL }],
     },
   ],
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,
     remotePatterns: [
       {
         protocol: 'https',

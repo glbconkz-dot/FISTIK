@@ -37,7 +37,7 @@ export function CoverProductGrid({
       </header>
 
       <div className="cover-product-grid">
-        {items.map((product) => {
+        {items.map((product, i) => {
           const name = getLocalizedName(product, locale);
           const stock = Number(product.stock_quantity ?? 0);
           const outOfStock = stock <= 0;
@@ -50,6 +50,7 @@ export function CoverProductGrid({
                     src={product.image_url}
                     alt={name}
                     fill
+                    priority={i < 2}
                     className="object-cover object-bottom transition-transform duration-500 group-hover:scale-[1.03]"
                     sizes="(max-width: 640px) 45vw, 180px"
                   />

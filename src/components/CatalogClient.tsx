@@ -1,15 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
-import { fetchLiveCatalog } from '@/app/actions/catalog';
-import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { productMatchesCategoryFilter } from '@/lib/category-display';
 import { groupSemiFinishedProducts } from '@/lib/semi-finished-groups';
+import { useLiveStockPatch } from '@/hooks/use-live-stock-patch';
 import type { Category, Product } from '@/types';
 import type { Locale } from '@/types';
 
@@ -30,13 +29,7 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
   const searchParams = useSearchParams();
   const selectedCategory = normalizeCategoryParam(searchParams.get('cat'));
 
-  const [catalogPatch, setCatalogPatch] = useState<{
-    products?: Product[];
-    categories?: Category[];
-  } | null>(null);
-
-  const liveProducts = catalogPatch?.products ?? products;
-  const liveCategories = catalogPatch?.categories ?? categories;
+  const liveProducts = useLiveStockPatch(products);
 
   const selectCategory = useCallback(
     (slug: string | null) => {
@@ -50,59 +43,9 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
     [router]
   );
 
-  const refreshCatalog = useCallback(async () => {
-    try {
-      const data = await fetchLiveCatalog();
-      if (data.products.length > 0) {
-        setCatalogPatch({
-          products: data.products,
-          categories: data.categories,
-        });
-        return;
-      }
-    } catch {
-      /* server action failed — try browser Supabase */
-    }
-
-    const supabase = createBrowserSupabaseClient();
-    if (!supabase) return;
-
-    const { data: rows, error } = await supabase
-      .from('products')
-      .select('id, slug, stock_quantity, price, is_active')
-      .eq('is_active', true);
-
-    if (error || !rows?.length) return;
-
-    setCatalogPatch({
-      products: products.map((product) => {
-        const row = rows.find((r) => r.id === product.id || r.slug === product.slug);
-        if (!row) return product;
-        return {
-          ...product,
-          stock_quantity: Math.max(0, Number(row.stock_quantity ?? 0)),
-          price: Number(row.price ?? product.price),
-        };
-      }),
-    });
-  }, [products]);
-
-  useEffect(() => {
-    let cancelled = false;
-    queueMicrotask(() => {
-      if (!cancelled) void refreshCatalog();
-    });
-    const onFocus = () => void refreshCatalog();
-    window.addEventListener('focus', onFocus);
-    return () => {
-      cancelled = true;
-      window.removeEventListener('focus', onFocus);
-    };
-  }, [refreshCatalog]);
-
   const filtered = selectedCategory
     ? liveProducts.filter((p) =>
-        productMatchesCategoryFilter(p, selectedCategory, liveCategories)
+        productMatchesCategoryFilter(p, selectedCategory, categories)
       )
     : liveProducts;
 
@@ -121,7 +64,7 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
     <section id="all-products" className="mt-10 scroll-mt-24">
       <h2 className="section-title mb-5">{t('allProducts')}</h2>
       <CategoryFilter
-        categories={liveCategories}
+        categories={categories}
         selected={selectedCategory}
         onSelect={selectCategory}
         locale={locale}
@@ -132,6 +75,9 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
         <p className="py-12 text-center text-muted">{t('empty')}</p>
       ) : semiFinishedGroups ? (
         <div className="mt-6 space-y-8">
+          <p className="rounded-xl border border-border bg-cream/80 px-4 py-3 text-sm leading-relaxed text-muted">
+            {t('semiFrozenNotice')}
+          </p>
           {semiFinishedGroups.map((group) => (
             <div key={group.labelKey}>
               <h3 className="mb-3 font-display text-base font-semibold sm:text-lg">

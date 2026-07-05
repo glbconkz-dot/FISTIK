@@ -1,5 +1,6 @@
-import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
+import { CATALOG_REVALIDATE_SECONDS } from '@/lib/cache-config';
 import { getLocalCatalog } from '@/data/menu';
 import { getSupabaseEnv } from '@/lib/supabase/env';
 import { createPublicSupabaseClient } from '@/lib/supabase/public';
@@ -64,14 +65,13 @@ async function fetchActiveCategories(
   return normalizeCategories(basic.data as Category[] | null);
 }
 
-export async function getCatalogData(): Promise<{
+async function loadCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
   storefrontSections: StorefrontSection[];
   storefrontError: string | null;
   source: CatalogSource;
 }> {
-  noStore();
   const env = getSupabaseEnv();
   const supabase = createPublicSupabaseClient();
 
@@ -147,8 +147,20 @@ export async function getCatalogData(): Promise<{
   };
 }
 
+const getCachedCatalogData = unstable_cache(loadCatalogData, ['fistik-catalog'], {
+  revalidate: CATALOG_REVALIDATE_SECONDS,
+  tags: ['catalog'],
+});
+
+export async function getCatalogData() {
+  const supabase = createPublicSupabaseClient();
+  if (!supabase && process.env.NODE_ENV !== 'production') {
+    return loadCatalogData();
+  }
+  return getCachedCatalogData();
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  noStore();
   const supabase = createPublicSupabaseClient();
 
   if (supabase) {

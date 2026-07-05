@@ -261,10 +261,10 @@
       "frozen-borek-lentils"
     ],
     "image_url": "/products/semi-finished/borek-pack-6.png",
-    "description_en": "Pack of 6 · bake at home.",
-    "description_ru": "Упаковка 6 шт. · выпекайте дома.",
-    "description_kk": "6 даналық орама · үйде пісіріңіз.",
-    "description_tr": "6'lı paket · evde pişirin."
+    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
     "slugs": [
@@ -276,10 +276,10 @@
       "mini-borek-lentils"
     ],
     "image_url": "/products/boreks/borek.png",
-    "description_en": "Pack of 16 · ready to bake.",
-    "description_ru": "Упаковка 16 шт. · готов к выпечке.",
-    "description_kk": "16 даналық орама · пісіруге дайын.",
-    "description_tr": "16'lı paket · pişirmeye hazır."
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
     "slugs": [
@@ -291,17 +291,17 @@
       "sarma-borek-potato"
     ],
     "image_url": "/products/semi-finished/sarma-borek.png",
-    "description_en": "Traditional rolled sarma borek — ready to bake.",
-    "description_ru": "Сарма борек — готов к выпечке.",
-    "description_kk": "Сарма борек — пісіруге дайын.",
-    "description_tr": "Sarma börek — pişirmeye hazır."
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
     "slugs": ["semi-waffle"],
     "image_url": "/products/semi-finished/waffle.png",
-    "description_en": "Pack of 5 · ready to bake.",
-    "description_ru": "Упаковка 5 шт. · готов к выпечке.",
-    "description_kk": "5 даналық орама · пісіруге дайын.",
-    "description_tr": "5'li paket · pişirmeye hazır."
+    "description_en": "Pack of 5 · cooked product, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 5 шт. · готовое блюдо, заморожено при −18 °C в специальной упаковке.",
+    "description_kk": "5 даналық орама · арнайы орамада −18 °C-та қатырылған, пісірілген өнім.",
+    "description_tr": "5'li paket · Pişmiş ürün, −18 °C'de özel olarak dondurulmuş."
   }
 ]

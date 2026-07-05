@@ -5,9 +5,7 @@ import { CoverPageShell } from '@/components/CoverPageShell';
 import { HomeStorefront } from '@/components/HomeStorefront';
 import type { Locale } from '@/types';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,

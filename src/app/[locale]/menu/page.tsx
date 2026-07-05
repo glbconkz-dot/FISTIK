@@ -5,9 +5,7 @@ import { HomeMenuSection } from '@/components/HomeMenuSection';
 import { Reveal } from '@/components/ui/Reveal';
 import type { Locale } from '@/types';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
