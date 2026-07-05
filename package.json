@@ -12,6 +12,7 @@
     "start": "next start",
     "generate:menu": "node scripts/generate-menu-seed.mjs",
     "generate:prices": "node scripts/generate-price-update.mjs",
+    "sync:prices": "node scripts/sync-prices-to-supabase.mjs",
     "check:env": "node scripts/check-env.mjs",
     "release:check": "npm run check:env && npm run build",
     "lint": "eslint"

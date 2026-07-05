@@ -108,12 +108,12 @@ export const MENU_PRODUCTS: Product[] = [
   product('eclair-mini-pineapple', 'eclairs-mini', 'Pineapple Eclair (mini)', 'Pineapple Eclair (mini)', 'Pineapple Eclair (mini)', 8, 'Pineapple Eclair (mini)', 450),
 
   // Cookies (Latin names in all languages)
-  product('pistachio-cookies', 'cookies', 'Pistachio Cookie', 'Pistachio Cookie', 'Pistachio Cookie', 1, 'Pistachio Cookie', 550),
-  product('cookie-brownie', 'cookies', 'Brownie Cookie', 'Brownie Cookie', 'Brownie Cookie', 2, 'Brownie Cookie', 550),
-  product('cookie-lotus', 'cookies', 'Lotus Cookie', 'Lotus Cookie', 'Lotus Cookie', 3, 'Lotus Cookie', 550),
-  product('cookie-lemon', 'cookies', 'Lemon Cookie', 'Lemon Cookie', 'Lemon Cookie', 4, 'Lemon Cookie', 550),
-  product('cookie-chocolate', 'cookies', 'Chocolate Cookie', 'Chocolate Cookie', 'Chocolate Cookie', 5, 'Chocolate Cookie', 550),
-  product('cookie-dubai', 'cookies', 'Dubai Cookie', 'Dubai Cookie', 'Dubai Cookie', 6, 'Dubai Cookie', 550),
+  product('pistachio-cookies', 'cookies', 'Pistachio Cookie', 'Pistachio Cookie', 'Pistachio Cookie', 1, 'Pistachio Cookie', 650),
+  product('cookie-brownie', 'cookies', 'Brownie Cookie', 'Brownie Cookie', 'Brownie Cookie', 2, 'Brownie Cookie', 650),
+  product('cookie-lotus', 'cookies', 'Lotus Cookie', 'Lotus Cookie', 'Lotus Cookie', 3, 'Lotus Cookie', 650),
+  product('cookie-lemon', 'cookies', 'Lemon Cookie', 'Lemon Cookie', 'Lemon Cookie', 4, 'Lemon Cookie', 650),
+  product('cookie-chocolate', 'cookies', 'Chocolate Cookie', 'Chocolate Cookie', 'Chocolate Cookie', 5, 'Chocolate Cookie', 650),
+  product('cookie-dubai', 'cookies', 'Dubai Cookie', 'Dubai Cookie', 'Dubai Cookie', 6, 'Dubai Cookie', 650),
   product('almond-kavala', 'cookies', 'Almond Cookie', 'Almond Cookie', 'Almond Cookie', 7, 'Almond Cookie', 1850),
 
   // Samsa
@@ -121,22 +121,22 @@ export const MENU_PRODUCTS: Product[] = [
   product('samsa-chicken', 'samsa', 'Chicken Samsa', 'Самса с курицей', 'Тауықты самса', 2, 'Tavuklu Samsa', 350),
 
   // Boreks
-  product('borek-meat', 'boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 350),
-  product('borek-chicken', 'boreks', 'Chicken Borek', 'Борек с курицей', 'Борек тауықпен', 2, 'Tavuklu Börek', 360),
-  product('borek-potato', 'boreks', 'Potato Borek', 'Борек с картошкой', 'Борек картоппен', 3, 'Patatesli Börek', 330),
-  product('borek-brinza', 'boreks', 'Cheese Borek', 'Борек с брынзой', 'Борек брынзамен', 4, 'Peynirli Börek', 330),
-  product('borek-spinach', 'boreks', 'Spinach Borek', 'Борек со шпинатом', 'Борек спанатпен', 5, 'Ispanaklı Börek', 330),
-  product('borek-lentils', 'boreks', 'Lentil Borek', 'Борек с чечевицей', 'Борек бұршақпен', 6, 'Mercimekli Börek'),
+  product('borek-meat', 'boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 380),
+  product('borek-chicken', 'boreks', 'Chicken Borek', 'Борек с курицей', 'Борек тауықпен', 2, 'Tavuklu Börek', 390),
+  product('borek-potato', 'boreks', 'Potato Borek', 'Борек с картошкой', 'Борек картоппен', 3, 'Patatesli Börek', 360),
+  product('borek-brinza', 'boreks', 'Cheese Borek', 'Борек с брынзой', 'Борек брынзамен', 4, 'Peynirli Börek', 360),
+  product('borek-spinach', 'boreks', 'Spinach Borek', 'Борек со шпинатом', 'Борек спанатпен', 5, 'Ispanaklı Börek', 380),
+  product('borek-lentils', 'boreks', 'Lentil Borek', 'Борек с чечевицей', 'Борек бұршақпен', 6, 'Mercimekli Börek', 380),
 
   // Packaged desserts (Cube — Latin names in all languages)
-  product('pack-tiramisu', 'packaged-desserts', 'Tiramisu Cube', 'Tiramisu Cube', 'Tiramisu Cube', 1, 'Tiramisu Cube', 1750),
-  product('pack-strawberry-cake', 'packaged-desserts', 'Strawberry Cube', 'Strawberry Cube', 'Strawberry Cube', 2, 'Strawberry Cube', 1950),
-  product('pack-crunch', 'packaged-desserts', 'Crunch Cube', 'Crunch Cube', 'Crunch Cube', 3, 'Crunch Cube', 1550),
-  product('pack-lotus', 'packaged-desserts', 'Lotus Cube', 'Lotus Cube', 'Lotus Cube', 4, 'Lotus Cube', 2250),
-  product('pack-cherry-brownie', 'packaged-desserts', 'Cherry Cube', 'Cherry Cube', 'Cherry Cube', 5, 'Cherry Cube', 1850),
-  product('pack-pistachio-raspberry', 'packaged-desserts', 'Pistachio Cube', 'Pistachio Cube', 'Pistachio Cube', 6, 'Pistachio Cube', 2250),
-  product('pack-oreo', 'packaged-desserts', 'Oreo Cube', 'Oreo Cube', 'Oreo Cube', 7, 'Oreo Cube', 1650),
-  product('pack-meringue-cake', 'packaged-desserts', 'Merenga Cube', 'Merenga Cube', 'Merenga Cube', 8, 'Merenga Cube', 1750),
+  product('pack-tiramisu', 'packaged-desserts', 'Tiramisu Cube', 'Tiramisu Cube', 'Tiramisu Cube', 1, 'Tiramisu Cube', 2050),
+  product('pack-strawberry-cake', 'packaged-desserts', 'Strawberry Cube', 'Strawberry Cube', 'Strawberry Cube', 2, 'Strawberry Cube', 2250),
+  product('pack-crunch', 'packaged-desserts', 'Crunch Cube', 'Crunch Cube', 'Crunch Cube', 3, 'Crunch Cube', 1850),
+  product('pack-lotus', 'packaged-desserts', 'Lotus Cube', 'Lotus Cube', 'Lotus Cube', 4, 'Lotus Cube', 2550),
+  product('pack-cherry-brownie', 'packaged-desserts', 'Cherry Cube', 'Cherry Cube', 'Cherry Cube', 5, 'Cherry Cube', 2150),
+  product('pack-pistachio-raspberry', 'packaged-desserts', 'Pistachio Cube', 'Pistachio Cube', 'Pistachio Cube', 6, 'Pistachio Cube', 2550),
+  product('pack-oreo', 'packaged-desserts', 'Oreo Cube', 'Oreo Cube', 'Oreo Cube', 7, 'Oreo Cube', 1950),
+  product('pack-meringue-cake', 'packaged-desserts', 'Merenga Cube', 'Merenga Cube', 'Merenga Cube', 8, 'Merenga Cube', 2050),
 
   // Art desserts
   product('art-pistachio', 'art-desserts', 'Pistachio Art', 'Pistachio Art', 'Pistachio Art', 1, 'Pistachio Art', 1850),
@@ -146,7 +146,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('art-heart', 'art-desserts', 'Heart Art', 'Heart Art', 'Heart Art', 5, 'Heart Art', 1450),
   product('art-raspberry', 'art-desserts', 'Raspberry Art', 'Raspberry Art', 'Raspberry Art', 6, 'Raspberry Art', 1450),
   product('art-blueberry', 'art-desserts', 'Blueberry Art', 'Blueberry Art', 'Blueberry Art', 7, 'Blueberry Art', 1450),
-  product('art-hamburger', 'art-desserts', 'Hamburger', 'Hamburger', 'Hamburger', 8, 'Hamburger'),
+  product('art-hamburger', 'art-desserts', 'Hamburger', 'Hamburger', 'Hamburger', 8, 'Hamburger', 2350),
 
   // Tarts
   product('tart-dark-chocolate', 'tarts', 'Chocolate Tart', 'Chocolate Tart', 'Chocolate Tart', 1, 'Chocolate Tart', 1250),
@@ -155,31 +155,31 @@ export const MENU_PRODUCTS: Product[] = [
   product('tart-pistachio', 'tarts', 'Pistachio Tart', 'Pistachio Tart', 'Pistachio Tart', 4, 'Pistachio Tart', 1250),
 
   // Turtalar (tatli turta — pirog ve tart degil)
-  product('pie-apple-walnut-cinnamon', 'turtas', 'Apple Pie', 'Apple Pie', 'Apple Pie', 1, 'Apple Pie'),
-  product('pie-snickers', 'turtas', 'Snikers Pie', 'Snikers Pie', 'Snikers Pie', 2, 'Snikers Pie'),
+  product('pie-apple-walnut-cinnamon', 'turtas', 'Apple Pie', 'Apple Pie', 'Apple Pie', 1, 'Apple Pie', 3500),
+  product('pie-snickers', 'turtas', 'Snikers Pie', 'Snikers Pie', 'Snikers Pie', 2, 'Snikers Pie', 3750),
 
   // Semi-finished
-  product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle'),
+  product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle', 3699),
 
   // Frozen boreks (semi-finished)
-  product('frozen-borek-meat', 'frozen-boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek'),
-  product('frozen-borek-chicken', 'frozen-boreks', 'Chicken Borek', 'Борек с курицей', 'Борек тауықпен', 2, 'Tavuklu Börek'),
-  product('frozen-borek-potato', 'frozen-boreks', 'Potato Borek', 'Борек с картошкой', 'Борек картоппен', 3, 'Patatesli Börek'),
-  product('frozen-borek-brinza', 'frozen-boreks', 'Cheese Borek', 'Борек с брынзой', 'Борек брынзамен', 4, 'Peynirli Börek'),
-  product('frozen-borek-spinach', 'frozen-boreks', 'Spinach Borek', 'Борек со шпинатом', 'Борек спанатпен', 5, 'Ispanaklı Börek'),
-  product('frozen-borek-lentils', 'frozen-boreks', 'Lentil Borek', 'Борек с чечевицей', 'Борек бұршақпен', 6, 'Mercimekli Börek'),
-  product('mini-borek-meat', 'frozen-boreks', 'Meat Mini Borek', 'Мини борек с мясом', 'Мини борек етпен', 7, 'Etli Mini Börek'),
-  product('mini-borek-chicken', 'frozen-boreks', 'Chicken Mini Borek', 'Мини борек с курицей', 'Мини борек тауықпен', 8, 'Tavuklu Mini Börek'),
-  product('mini-borek-potato', 'frozen-boreks', 'Potato Mini Borek', 'Мини борек с картошкой', 'Мини борек картоппен', 9, 'Patatesli Mini Börek'),
-  product('mini-borek-spinach', 'frozen-boreks', 'Spinach Mini Borek', 'Мини борек со шпинатом', 'Мини борек спанатпен', 10, 'Ispanaklı Mini Börek'),
-  product('mini-borek-brinza', 'frozen-boreks', 'Cheese Mini Borek', 'Мини борек с брынзой', 'Мини борек брынзамен', 11, 'Peynirli Mini Börek'),
-  product('mini-borek-lentils', 'frozen-boreks', 'Lentil Mini Borek', 'Мини борек с чечевицей', 'Мини борек бұршақпен', 12, 'Mercimekli Mini Börek'),
-  product('sarma-borek-meat', 'frozen-boreks', 'Meat Sarma Borek', 'Сарма борек с мясом', 'Сарма борек етпен', 13, 'Etli Sarma Börek'),
-  product('sarma-borek-chicken', 'frozen-boreks', 'Chicken Sarma Borek', 'Сарма борек с курицей', 'Сарма борек тауықпен', 14, 'Tavuklu Sarma Börek'),
-  product('sarma-borek-brinza', 'frozen-boreks', 'Cheese Sarma Borek', 'Сарма борек с брынзой', 'Сарма борек брынзамен', 15, 'Peynirli Sarma Börek'),
-  product('sarma-borek-spinach', 'frozen-boreks', 'Spinach Sarma Borek', 'Сарма борек со шпинатом', 'Сарма борек спанатпен', 16, 'Ispanaklı Sarma Börek'),
-  product('sarma-borek-lentils', 'frozen-boreks', 'Lentil Sarma Borek', 'Сарма борек с чечевицей', 'Сарма борек бұршақпен', 17, 'Mercimekli Sarma Börek'),
-  product('sarma-borek-potato', 'frozen-boreks', 'Potato Sarma Borek', 'Сарма борек с картошкой', 'Сарма борек картоппен', 18, 'Patatesli Sarma Börek'),
+  product('frozen-borek-meat', 'frozen-boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 2220),
+  product('frozen-borek-chicken', 'frozen-boreks', 'Chicken Borek', 'Борек с курицей', 'Борек тауықпен', 2, 'Tavuklu Börek', 2280),
+  product('frozen-borek-potato', 'frozen-boreks', 'Potato Borek', 'Борек с картошкой', 'Борек картоппен', 3, 'Patatesli Börek', 2100),
+  product('frozen-borek-brinza', 'frozen-boreks', 'Cheese Borek', 'Борек с брынзой', 'Борек брынзамен', 4, 'Peynirli Börek', 2100),
+  product('frozen-borek-spinach', 'frozen-boreks', 'Spinach Borek', 'Борек со шпинатом', 'Борек спанатпен', 5, 'Ispanaklı Börek', 2220),
+  product('frozen-borek-lentils', 'frozen-boreks', 'Lentil Borek', 'Борек с чечевицей', 'Борек бұршақпен', 6, 'Mercimekli Börek', 2220),
+  product('mini-borek-meat', 'frozen-boreks', 'Meat Mini Borek', 'Мини борек с мясом', 'Мини борек етпен', 7, 'Etli Mini Börek', 4480),
+  product('mini-borek-chicken', 'frozen-boreks', 'Chicken Mini Borek', 'Мини борек с курицей', 'Мини борек тауықпен', 8, 'Tavuklu Mini Börek', 4640),
+  product('mini-borek-potato', 'frozen-boreks', 'Potato Mini Borek', 'Мини борек с картошкой', 'Мини борек картоппен', 9, 'Patatesli Mini Börek', 4320),
+  product('mini-borek-spinach', 'frozen-boreks', 'Spinach Mini Borek', 'Мини борек со шпинатом', 'Мини борек спанатпен', 10, 'Ispanaklı Mini Börek', 4480),
+  product('mini-borek-brinza', 'frozen-boreks', 'Cheese Mini Borek', 'Мини борек с брынзой', 'Мини борек брынзамен', 11, 'Peynirli Mini Börek', 4320),
+  product('mini-borek-lentils', 'frozen-boreks', 'Lentil Mini Borek', 'Мини борек с чечевицей', 'Мини борек бұршақпен', 12, 'Mercimekli Mini Börek', 4480),
+  product('sarma-borek-meat', 'frozen-boreks', 'Meat Sarma Borek', 'Сарма борек с мясом', 'Сарма борек етпен', 13, 'Etli Sarma Börek', 2999),
+  product('sarma-borek-chicken', 'frozen-boreks', 'Chicken Sarma Borek', 'Сарма борек с курицей', 'Сарма борек тауықпен', 14, 'Tavuklu Sarma Börek', 2999),
+  product('sarma-borek-brinza', 'frozen-boreks', 'Cheese Sarma Borek', 'Сарма борек с брынзой', 'Сарма борек брынзамен', 15, 'Peynirli Sarma Börek', 2699),
+  product('sarma-borek-spinach', 'frozen-boreks', 'Spinach Sarma Borek', 'Сарма борек со шпинатом', 'Сарма борек спанатпен', 16, 'Ispanaklı Sarma Börek', 2999),
+  product('sarma-borek-lentils', 'frozen-boreks', 'Lentil Sarma Borek', 'Сарма борек с чечевицей', 'Сарма борек бұршақпен', 17, 'Mercimekli Sarma Börek', 2999),
+  product('sarma-borek-potato', 'frozen-boreks', 'Potato Sarma Borek', 'Сарма борек с картошкой', 'Сарма борек картоппен', 18, 'Patatesli Sarma Börek', 2699),
 
   // Pirozhnye (Latin names in all languages)
   product('eskimo-dubai', 'pirozhnye', 'Dubai Eskimo', 'Dubai Eskimo', 'Dubai Eskimo', 1, 'Dubai Eskimo', 1100),
@@ -192,28 +192,28 @@ export const MENU_PRODUCTS: Product[] = [
   product('kartoshka-caramel', 'pirozhnye', 'Caramel Potato', 'Caramel Potato', 'Caramel Potato', 8, 'Caramel Potato', 550),
 
   // Rectangular box cakes (Latin names in all languages)
-  product('american-tiramisu', 'american-cakes', 'Tiramisu Elite box', 'Tiramisu Elite box', 'Tiramisu Elite box', 1, 'Tiramisu Elite box', 1750),
-  product('american-strawberry-cake', 'american-cakes', 'Strawberry Elite box', 'Strawberry Elite box', 'Strawberry Elite box', 2, 'Strawberry Elite box', 1950),
-  product('american-lotus', 'american-cakes', 'Lotus Elite box', 'Lotus Elite box', 'Lotus Elite box', 3, 'Lotus Elite box', 2250),
-  product('american-cherry-brownie', 'american-cakes', 'Cherry Elite box', 'Cherry Elite box', 'Cherry Elite box', 4, 'Cherry Elite box', 1850),
-  product('american-pistachio-raspberry', 'american-cakes', 'Pistachio Elite box', 'Pistachio Elite box', 'Pistachio Elite box', 5, 'Pistachio Elite box', 2250),
-  product('mango-coconut-mousse', 'american-cakes', 'Mango Musse Elite box', 'Mango Musse Elite box', 'Mango Musse Elite box', 6, 'Mango Musse Elite box'),
-  product('ferrero-hazelnut-mousse', 'american-cakes', 'Ferrero Musse Elite box', 'Ferrero Musse Elite box', 'Ferrero Musse Elite box', 7, 'Ferrero Musse Elite box'),
+  product('american-tiramisu', 'american-cakes', 'Tiramisu Elite box', 'Tiramisu Elite box', 'Tiramisu Elite box', 1, 'Tiramisu Elite box', 15250),
+  product('american-strawberry-cake', 'american-cakes', 'Strawberry Elite box', 'Strawberry Elite box', 'Strawberry Elite box', 2, 'Strawberry Elite box', 16250),
+  product('american-lotus', 'american-cakes', 'Lotus Elite box', 'Lotus Elite box', 'Lotus Elite box', 3, 'Lotus Elite box', 17750),
+  product('american-cherry-brownie', 'american-cakes', 'Cherry Elite box', 'Cherry Elite box', 'Cherry Elite box', 4, 'Cherry Elite box', 15750),
+  product('american-pistachio-raspberry', 'american-cakes', 'Pistachio Elite box', 'Pistachio Elite box', 'Pistachio Elite box', 5, 'Pistachio Elite box', 15750),
+  product('mango-coconut-mousse', 'american-cakes', 'Mango Musse Elite box', 'Mango Musse Elite box', 'Mango Musse Elite box', 6, 'Mango Musse Elite box', 15750),
+  product('ferrero-hazelnut-mousse', 'american-cakes', 'Ferrero Musse Elite box', 'Ferrero Musse Elite box', 'Ferrero Musse Elite box', 7, 'Ferrero Musse Elite box', 16250),
 
   // Gateau / Yas Pasta (Latin names in all languages)
-  product('cake-snickers', 'classic-round-cakes', 'Snickers Cake', 'Snickers Cake', 'Snickers Cake', 1, 'Snickers Cake', 4990),
-  product('cake-medovik', 'classic-round-cakes', 'Honey Cake', 'Honey Cake', 'Honey Cake', 2, 'Honey Cake'),
-  product('cake-milk-girl', 'classic-round-cakes', 'Milky girl Cake', 'Milky girl Cake', 'Milky girl Cake', 3, 'Milky girl Cake'),
-  product('cake-whoopie-pie', 'classic-round-cakes', 'Whoopie Pie Cake', 'Whoopie Pie Cake', 'Whoopie Pie Cake', 4, 'Whoopie Pie Cake'),
-  product('cake-red-velvet', 'classic-round-cakes', 'Red Velvet Cake', 'Red Velvet Cake', 'Red Velvet Cake', 5, 'Red Velvet Cake'),
-  product('cake-chocolate', 'classic-round-cakes', 'Chocolate Cake', 'Chocolate Cake', 'Chocolate Cake', 6, 'Chocolate Cake'),
-  product('cake-pistachio-raspberry', 'classic-round-cakes', 'Pistachio Cake', 'Pistachio Cake', 'Pistachio Cake', 7, 'Pistachio Cake', 4990),
+  product('cake-snickers', 'classic-round-cakes', 'Snickers Cake', 'Snickers Cake', 'Snickers Cake', 1, 'Snickers Cake', 8300),
+  product('cake-medovik', 'classic-round-cakes', 'Honey Cake', 'Honey Cake', 'Honey Cake', 2, 'Honey Cake', 7500),
+  product('cake-milk-girl', 'classic-round-cakes', 'Milky girl Cake', 'Milky girl Cake', 'Milky girl Cake', 3, 'Milky girl Cake', 7000),
+  product('cake-whoopie-pie', 'classic-round-cakes', 'Whoopie Pie Cake', 'Whoopie Pie Cake', 'Whoopie Pie Cake', 4, 'Whoopie Pie Cake', 8500),
+  product('cake-red-velvet', 'classic-round-cakes', 'Red Velvet Cake', 'Red Velvet Cake', 'Red Velvet Cake', 5, 'Red Velvet Cake', 7500),
+  product('cake-chocolate', 'classic-round-cakes', 'Chocolate Cake', 'Chocolate Cake', 'Chocolate Cake', 6, 'Chocolate Cake', 7500),
+  product('cake-pistachio-raspberry', 'classic-round-cakes', 'Pistachio Cake', 'Pistachio Cake', 'Pistachio Cake', 7, 'Pistachio Cake', 8500),
 
   // Pies (savory)
-  product('pie-meat', 'pies', 'Meat Pie', 'Пирог с мясом', 'Пирог етпен', 1, 'Etli Pirog'),
-  product('pie-chicken', 'pies', 'Chicken Pie', 'Пирог с курицей', 'Пирог тауықпен', 2, 'Tavuklu Pirog'),
-  product('pie-spinach-cheese', 'pies', 'Spinach Cheese Pie', 'Пирог со шпинатом и сыром', 'Пирог спанат және ірімшікпен', 3, 'Ispanak Peynirli Pirog'),
-  product('pie-cheese', 'pies', 'Cheese Pie', 'Сырный пирог', 'Сырлы пирог', 4, 'Peynirli Pirog'),
+  product('pie-meat', 'pies', 'Meat Pie', 'Пирог с мясом', 'Пирог етпен', 1, 'Etli Pirog', 3400),
+  product('pie-chicken', 'pies', 'Chicken Pie', 'Пирог с курицей', 'Пирог тауықпен', 2, 'Tavuklu Pirog', 3600),
+  product('pie-spinach-cheese', 'pies', 'Spinach Cheese Pie', 'Пирог со шпинатом и сыром', 'Пирог спанат және ірімшікпен', 3, 'Ispanak Peynirli Pirog', 3800),
+  product('pie-cheese', 'pies', 'Cheese Pie', 'Сырный пирог', 'Сырлы пирог', 4, 'Peynirli Pirog', 3400),
 ];
 
 function applyLocalizedNames(products: Product[]): Product[] {

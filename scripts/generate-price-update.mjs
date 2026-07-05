@@ -10,7 +10,7 @@ const re =
 const prices = [];
 let match;
 while ((match = re.exec(content)) !== null) {
-  prices.push({ slug: match[1], price: match[9] ? Number(match[9]) : 1500 });
+    prices.push({ slug: match[1], price: match[8] ? Number(match[8]) : 1500 });
 }
 
 const cases = prices.map((p) => `  WHEN '${p.slug}' THEN ${p.price}`).join('\n');
