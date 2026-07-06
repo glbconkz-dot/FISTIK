@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, Lock, Menu, ShoppingBag, X } from 'lucide-react';
+import { Heart, Lock, Building2, Menu, ShoppingBag, X } from 'lucide-react';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
@@ -66,13 +66,23 @@ export function Header() {
                 </span>
               )}
             </Link>
+            <Link
+              href="/b2b/login"
+              className="hidden min-h-[44px] items-center justify-center gap-1.5 rounded-full border border-brand-dark/30 bg-surface/95 px-3 text-xs font-medium text-accent/80 hover:text-accent sm:flex"
+              aria-label={t('b2b')}
+              title={t('b2b')}
+            >
+              <Building2 className="h-4 w-4" />
+              <span className="hidden lg:inline">{t('b2b')}</span>
+            </Link>
             <NextLink
               href="/admin/login"
-              className="hidden min-h-[44px] items-center justify-center rounded-full border border-brand-dark/30 bg-surface/95 px-3 text-xs font-medium text-accent/80 hover:text-accent sm:flex"
+              className="hidden min-h-[44px] items-center justify-center gap-1.5 rounded-full border border-brand-dark/30 bg-surface/95 px-3 text-xs font-medium text-accent/80 hover:text-accent sm:flex"
               aria-label={t('admin')}
               title={t('admin')}
             >
               <Lock className="h-4 w-4" />
+              <span className="hidden lg:inline">{t('admin')}</span>
             </NextLink>
             <a
               href={getInstagramLink()}
@@ -150,6 +160,13 @@ export function Header() {
               >
                 Instagram
               </a>
+              <Link
+                href="/b2b/login"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl px-4 py-3.5 text-base font-medium text-muted hover:bg-cream"
+              >
+                {t('b2b')}
+              </Link>
               <NextLink
                 href="/admin/login"
                 className="rounded-xl px-4 py-3.5 text-base font-medium text-muted hover:bg-cream"

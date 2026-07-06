@@ -12,7 +12,8 @@
     "about": "Біз туралы",
     "contact": "Байланыс",
     "instagram": "Instagram",
-    "admin": "Әкімші"
+    "admin": "Әкімші",
+    "b2b": "B2B кіру"
   },
   "hero": {
     "tagline": "Әр тәтті — бір hikâye.",
@@ -160,6 +161,125 @@
     "instagramCta": "Instagram-ға оралу",
     "aboutLink": "Біз туралы",
     "contactLink": "Байланыс",
-    "adminLink": "Әкімші кіру"
+    "adminLink": "Әкімші кіру",
+    "b2bLink": "B2B кіру"
+  },
+  "b2b": {
+    "portalTitle": "B2B опт кабинеті",
+    "nav": {
+      "menu": "Мәзір",
+      "signIn": "Кіру",
+      "signOut": "Шығу",
+      "cart": "Себет",
+      "orders": "Тапсырыстар"
+    },
+    "login": {
+      "title": "B2B кіру",
+      "subtitle": "Әкімші берген телефон мен құпия сөзбен кіріңіз.",
+      "phone": "Телефон",
+      "password": "Құпия сөз",
+      "signIn": "Кіру",
+      "signingIn": "Кіру…"
+    },
+    "terms": {
+      "title": "B2B келісімі",
+      "subtitle": "Компания: {company}. Алғаш рет келісімді қабылдаңыз.",
+      "body": "1. Бұл келісім FISTIK опт тапсырыстарын реттейді.\n2. Ең төмен тапсырыс сомасы — 30 000 ₸.\n3. B2B бағалары бөлшек сатудан өзгеше, әкімші белгілейді.\n4. Келесі ай жеңілдігі өткен айдағы төленген сомаға байланысты: 500 000 ₸ — 3%, 1 000 000 ₸ — 6%.\n5. Жеткізу таңдалған филиал мекенжайы бойынша жоспарланады.\n6. Төлем мен растау WhatsApp арқылы аяқталады.",
+      "acceptLabel": "Келісім шарттарын оқып, қабылдаймын",
+      "accept": "Қабылдау және жалғастыру",
+      "accepting": "Сақталуда…"
+    },
+    "menu": {
+      "welcome": "Қош келдіңіз, {company}",
+      "discountActive": "Осы айдағы жеңілдігіңіз: {percent}%"
+    },
+    "catalog": {
+      "addToCart": "Себетке",
+      "madeToOrder": "Тапсырыс бойынша",
+      "stockNote": "Опт тапсырыстарда витрина қоры шектелмейді."
+    },
+    "cart": {
+      "title": "B2B себет",
+      "empty": "Себет бос",
+      "emptyCta": "Мәзірге",
+      "subtotal": "Барлығы",
+      "items": "{count} өнім",
+      "viewCart": "Себет",
+      "backToMenu": "Мәзірге",
+      "remove": "Жою",
+      "minOrder": "Ең төмен тапсырыс — {amount}",
+      "checkout": "Рәсімдеу"
+    },
+    "checkout": {
+      "title": "B2B тапсырыс",
+      "summary": "Тапсырыс құрамы",
+      "subtotal": "Қосалқы",
+      "discount": "{percent}% жеңілдік",
+      "total": "Барлығы",
+      "deliveryTitle": "Жеткізу",
+      "company": "Компания",
+      "contactName": "Байланыс тұлғасы",
+      "phone": "Телефон",
+      "deliveryDate": "Жеткізу күні",
+      "branch": "Филиал мекенжайы",
+      "deliveryTimeNotice": "Жеткізу уақыты тапсырыс расталғаннан кейін келісіледі.",
+      "notes": "Тапсырыс сипаттамасы",
+      "notesPlaceholder": "Ерекше тілектер…",
+      "whatsappHint": "Жібергеннен кейін WhatsApp ашылады.",
+      "submit": "WhatsApp арқылы жіберу",
+      "submitting": "Сақталуда…",
+      "emptyCart": "Себет бос",
+      "errors": {
+        "cartEmpty": "Себет бос",
+        "minOrder": "Ең төмен сома — {amount}",
+        "nameRequired": "Байланыс тұлғасын көрсетіңіз",
+        "invalidPhone": "Телефон дұрыс емес",
+        "invalidDate": "Дұрыс күнді таңдаңыз",
+        "invalidBranch": "Филиалды таңдаңыз",
+        "branchRequired": "Жеткізу мекенжайын таңдаңыз",
+        "noBranches": "Филиал жоқ. Әкімшіге хабарласыңыз.",
+        "productUnavailable": "Өнім жоқ",
+        "saveFailed": "Сақтау сәтсіз",
+        "setup": "Қызмет қолжетімсіз",
+        "unauthorized": "Кіру қажет",
+        "generic": "Қате орын алды"
+      }
+    },
+    "orders": {
+      "title": "Тапсырыстарым",
+      "subtitle": "Тапсырыс тарихы — {company}",
+      "empty": "Тапсырыс жоқ",
+      "emptyCta": "Мәзірге",
+      "placed": "Берілді",
+      "deliveryAddress": "Жеткізу мекенжайы",
+      "notes": "Сипаттама",
+      "subtotal": "Қосалқы",
+      "discount": "{percent}% жеңілдік",
+      "total": "Барлығы",
+      "paid": "Төленді",
+      "paymentPending": "Төлем күтуде",
+      "paidAt": "Төлем",
+      "status": {
+        "new": "Жаңа",
+        "confirmed": "Расталды",
+        "shipped": "Жолда",
+        "completed": "Аяқталды",
+        "cancelled": "Бас тартылды"
+      }
+    },
+    "profile": {
+      "director": "Директор",
+      "phone": "Телефон",
+      "phoneAlt": "Қос. телефон",
+      "branches": "Филиалдар / жеткізу мекенжайлары"
+    },
+    "errors": {
+      "invalidPhone": "Телефон нөмірі дұрыс емес",
+      "invalidCredentials": "Телефон немесе құпия сөз қате",
+      "inactive": "Аккаунт өшірілген",
+      "setup": "Қызмет уақытша қолжетімсіз",
+      "unauthorized": "Кіру қажет",
+      "saveFailed": "Сақтау сәтсіз"
+    }
   }
 }

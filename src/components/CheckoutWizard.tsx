@@ -20,6 +20,7 @@ import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
+import { CartLineItemList } from '@/components/CartLineItemList';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useCartStore } from '@/stores/cart';
 import { useCheckoutStore } from '@/stores/checkout';
@@ -61,10 +62,13 @@ interface CheckoutWizardProps {
 
 export function CheckoutWizard({ locale }: CheckoutWizardProps) {
   const t = useTranslations('checkout');
+  const tCart = useTranslations('cart');
   const tCommon = useTranslations('common');
   const isClient = useIsClient();
   const items = useCartStore((s) => s.items);
   const subtotal = useCartStore((s) => s.subtotal());
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
   const clearCart = useCartStore((s) => s.clearCart);
   const savedForm = useCheckoutStore((s) => s.form);
   const updateForm = useCheckoutStore((s) => s.updateForm);
@@ -135,6 +139,10 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
 
   const goNext = async () => {
     setError(null);
+    if (step >= 2 && items.length === 0) {
+      setError(t('errors.cartEmpty'));
+      return;
+    }
     const fields = stepFields[step];
     const valid = fields.length === 0 ? true : await trigger(fields);
     if (!valid) {
@@ -420,19 +428,17 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
 
               <div className="luxury-card p-4">
                 <h3 className="font-display text-lg font-semibold">{t('orderSummary')}</h3>
-                <ul className="mt-3 space-y-2">
-                  {items.map((item) => (
-                    <li key={item.productId} className="flex justify-between text-sm">
-                      <span>
-                        {item.name} × {item.quantity}
-                      </span>
-                      <span>{formatPrice(item.price * item.quantity)}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-3 flex justify-between border-t border-border pt-3 font-semibold">
-                  <span>{t('total')}</span>
-                  <span className="text-accent">{formatPrice(subtotal)}</span>
+                <div className="mt-3">
+                  <CartLineItemList
+                    items={items}
+                    subtotal={subtotal}
+                    totalLabel={t('total')}
+                    removeLabel={tCart('remove')}
+                    removeItem={removeItem}
+                    updateQuantity={updateQuantity}
+                    compact
+                    emptyMessage={t('errors.cartEmpty')}
+                  />
                 </div>
               </div>
 
@@ -460,7 +466,19 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
               <p className="text-sm leading-relaxed text-muted">{t('step4Desc')}</p>
 
               <div className="luxury-card space-y-3 p-5 text-sm">
-                <div className="flex justify-between gap-4">
+                <h3 className="font-display text-lg font-semibold">{t('orderSummary')}</h3>
+                <CartLineItemList
+                  items={items}
+                  subtotal={subtotal}
+                  totalLabel={t('total')}
+                  removeLabel={tCart('remove')}
+                  removeItem={removeItem}
+                  updateQuantity={updateQuantity}
+                  compact
+                  hideTotal
+                  emptyMessage={t('errors.cartEmpty')}
+                />
+                <div className="flex justify-between gap-4 border-t border-border pt-3">
                   <span className="text-muted">{t('customerName')}</span>
                   <span className="font-medium">{getValues('customerName')}</span>
                 </div>

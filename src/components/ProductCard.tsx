@@ -7,7 +7,7 @@ import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
-import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
 import { showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useCartStore } from '@/stores/cart';
@@ -22,6 +22,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   const t = useTranslations('catalog');
   const isClient = useIsClient();
   const addItem = useCartStore((s) => s.addItem);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
   const cartQty = useCartStore(
     (s) => s.items.find((i) => i.productId === product.id)?.quantity ?? 0
   );
@@ -30,6 +31,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   const outOfStock = stock <= 0;
   const [pickQty, setPickQty] = useState(1);
 
+  const inCart = isClient && cartQty > 0;
   const remaining = Math.max(0, stock - (isClient ? cartQty : 0));
   const atMax = remaining <= 0;
   const addPerTap = Math.min(pickQty, remaining || pickQty);
@@ -59,14 +61,26 @@ export function ProductCard({ product, locale }: ProductCardProps) {
     );
   };
 
-  const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
+  const handleQuantityChange = (next: number) => {
+    if (inCart) {
+      updateQuantity(product.id, next);
+      return;
+    }
+    setPickQty(Math.max(1, next));
+  };
+
+  const selectorValue = inCart ? cartQty : pickQty;
+  const selectorMax = inCart ? stock : remaining > 0 ? remaining : stock;
+  const displayQty = inCart ? cartQty : pickQty;
   const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <article
-      className={`luxury-card overflow-hidden transition-transform duration-200 ${
-        outOfStock ? 'opacity-60' : 'hover:-translate-y-0.5'
-      }`}
+      className={cn(
+        'luxury-card overflow-hidden transition-all duration-200',
+        outOfStock ? 'opacity-60' : 'hover:-translate-y-0.5',
+        inCart && 'border border-brand-dark/40 bg-pistachio-soft ring-2 ring-brand-dark/50'
+      )}
     >
       <Link href={`/product/${product.slug}`} className="group block">
         <div className={`relative aspect-[4/5] overflow-hidden ${imageClasses.container}`}>
@@ -88,6 +102,11 @@ export function ProductCard({ product, locale }: ProductCardProps) {
           <div className="absolute right-2 top-2">
             <FavoriteButton productId={product.id} size="sm" />
           </div>
+          {inCart ? (
+            <div className="absolute left-2 top-2 z-10 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
+              ×{cartQty}
+            </div>
+          ) : null}
           {outOfStock ? (
             <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">
               {t('soldOut')}
@@ -117,15 +136,20 @@ export function ProductCard({ product, locale }: ProductCardProps) {
             <QuantitySelector
               compact
               editable
-              value={pickQty}
-              max={remaining > 0 ? remaining : stock}
-              onChange={(next) => setPickQty(Math.max(1, next))}
+              value={selectorValue}
+              max={selectorMax}
+              onChange={handleQuantityChange}
             />
             <button
               type="button"
               onClick={handleTap}
               disabled={!isClient || atMax}
-              className="flex min-h-[44px] min-w-[52px] items-center justify-center rounded-full bg-foreground px-4 text-background touch-manipulation disabled:opacity-50"
+              className={cn(
+                'flex min-h-[44px] min-w-[52px] items-center justify-center rounded-full px-4 touch-manipulation disabled:opacity-50',
+                inCart
+                  ? 'bg-brand text-accent ring-1 ring-brand-dark/40'
+                  : 'bg-foreground text-background'
+              )}
               aria-label={t('addToCart')}
             >
               <span className="text-sm font-semibold tabular-nums">×{displayQty}</span>

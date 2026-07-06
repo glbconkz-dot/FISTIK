@@ -7,7 +7,7 @@ import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
-import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
 import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types';
@@ -23,6 +23,7 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
   const t = useTranslations('product');
   const isClient = useIsClient();
   const addItem = useCartStore((s) => s.addItem);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
   const cartQty = useCartStore(
     (s) => s.items.find((i) => i.productId === product.id)?.quantity ?? 0
   );
@@ -31,6 +32,7 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
   const outOfStock = stock <= 0;
   const [pickQty, setPickQty] = useState(1);
 
+  const inCart = isClient && cartQty > 0;
   const remaining = Math.max(0, stock - (isClient ? cartQty : 0));
   const atMax = remaining <= 0;
   const addPerTap = Math.min(pickQty, remaining || pickQty);
@@ -54,11 +56,21 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
     );
   };
 
-  const displayQty = isClient && cartQty > 0 ? cartQty : pickQty;
+  const handleQuantityChange = (next: number) => {
+    if (inCart) {
+      updateQuantity(product.id, next);
+      return;
+    }
+    setPickQty(Math.max(1, next));
+  };
+
+  const selectorValue = inCart ? cartQty : pickQty;
+  const selectorMax = inCart ? stock : remaining > 0 ? remaining : stock;
+  const displayQty = inCart ? cartQty : pickQty;
   const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
-    <div className="pb-8">
+    <div className={cn('pb-8', inCart && 'rounded-2xl bg-pistachio-soft/60 p-4 ring-2 ring-brand-dark/40')}>
       <div className={`relative aspect-square w-full overflow-hidden md:aspect-[4/3] md:rounded-2xl ${imageClasses.container}`}>
         {product.image_url ? (
           <div className={imageClasses.frame}>
@@ -79,6 +91,11 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
         <div className="absolute right-4 top-4">
           <FavoriteButton productId={product.id} />
         </div>
+        {inCart ? (
+          <div className="absolute left-4 top-4 z-10 rounded-full bg-brand px-3 py-1.5 text-sm font-bold text-accent shadow-sm tabular-nums">
+            ×{cartQty}
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-6 space-y-4">
@@ -104,16 +121,19 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
             <>
               <QuantitySelector
                 editable
-                value={pickQty}
-                max={remaining > 0 ? remaining : stock}
-                onChange={(next) => setPickQty(Math.max(1, next))}
+                value={selectorValue}
+                max={selectorMax}
+                onChange={handleQuantityChange}
                 label={t('quantity')}
               />
               <button
                 type="button"
                 onClick={handleTap}
                 disabled={!isClient || atMax}
-                className="btn-primary flex min-h-[48px] min-w-[80px] flex-1 items-center justify-center sm:max-w-xs disabled:opacity-50"
+                className={cn(
+                  'btn-primary flex min-h-[48px] min-w-[80px] flex-1 items-center justify-center sm:max-w-xs disabled:opacity-50',
+                  inCart && 'bg-brand text-accent ring-1 ring-brand-dark/40 hover:bg-brand/90'
+                )}
               >
                 <span className="font-semibold tabular-nums">×{displayQty}</span>
               </button>

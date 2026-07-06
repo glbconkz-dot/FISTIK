@@ -55,6 +55,9 @@ export interface OrderItem {
   image: string;
 }
 
+export type OrderChannel = 'b2c' | 'b2b';
+export type B2BPaymentStatus = 'pending' | 'paid';
+
 export interface Order {
   id: string;
   order_number: string;
@@ -76,6 +79,15 @@ export interface Order {
   completed_at?: string | null;
   cancelled_at?: string | null;
   cancel_reason?: string | null;
+  order_channel?: OrderChannel;
+  b2b_customer_id?: string | null;
+  b2b_branch_id?: string | null;
+  discount_percent?: number;
+  subtotal?: number | null;
+  payment_status?: B2BPaymentStatus;
+  paid_at?: string | null;
+  /** Enriched on admin orders page */
+  b2b_company_name?: string | null;
 }
 
 export interface CartItem {

@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { CartBar } from '@/components/CartBar';
 import { Footer } from '@/components/Brand';
 import { FooterVisibility } from '@/components/FooterVisibility';
+import { B2BShellVisibility } from '@/components/B2BShellVisibility';
 import type { Locale } from '@/types';
 
 export function generateStaticParams() {
@@ -30,14 +31,18 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <Header />
+      <B2BShellVisibility>
+        <Header />
+      </B2BShellVisibility>
       <main className="mx-auto max-w-6xl px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-6 sm:pb-28 sm:pt-8">
         {children}
       </main>
-      <FooterVisibility>
-        <Footer locale={locale as Locale} />
-      </FooterVisibility>
-      <CartBar />
+      <B2BShellVisibility>
+        <FooterVisibility>
+          <Footer locale={locale as Locale} />
+        </FooterVisibility>
+        <CartBar />
+      </B2BShellVisibility>
     </NextIntlClientProvider>
   );
 }

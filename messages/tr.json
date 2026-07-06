@@ -12,7 +12,8 @@
     "about": "Hakkımızda",
     "contact": "İletişim",
     "instagram": "Instagram",
-    "admin": "Admin"
+    "admin": "Admin",
+    "b2b": "B2B giriş"
   },
   "hero": {
     "tagline": "Her tatlı bir hikâye anlatır.",
@@ -160,6 +161,125 @@
     "instagramCta": "Instagram'a dön",
     "aboutLink": "Hakkımızda",
     "contactLink": "İletişim",
-    "adminLink": "Admin girişi"
+    "adminLink": "Admin girişi",
+    "b2bLink": "B2B girişi"
+  },
+  "b2b": {
+    "portalTitle": "B2B Toptan Panel",
+    "nav": {
+      "menu": "Menü",
+      "signIn": "Giriş",
+      "signOut": "Çıkış",
+      "cart": "Sepet",
+      "orders": "Siparişler"
+    },
+    "login": {
+      "title": "B2B Giriş",
+      "subtitle": "Admin tarafından verilen telefon ve şifre ile giriş yapın.",
+      "phone": "Telefon",
+      "password": "Şifre",
+      "signIn": "Giriş yap",
+      "signingIn": "Giriş yapılıyor…"
+    },
+    "terms": {
+      "title": "B2B Sözleşmesi",
+      "subtitle": "Firma: {company}. İlk girişte sözleşmeyi onaylayın.",
+      "body": "1. Bu sözleşme FISTIK ürünlerinin toptan siparişlerini düzenler.\n2. Minimum sipariş tutarı 30.000 ₸'dir.\n3. B2B fiyatları perakende fiyatlardan farklıdır ve admin tarafından belirlenir.\n4. Gelecek ay indirimi, geçen ay ödenen tutara göre hesaplanır: 500.000 ₸ ve üzeri %3, 1.000.000 ₸ ve üzeri %6.\n5. Teslimat, seçilen şube adresine göre planlanır.\n6. Ödeme ve sipariş onayı WhatsApp üzerinden tamamlanır.",
+      "acceptLabel": "Sözleşme şartlarını okudum ve kabul ediyorum",
+      "accept": "Kabul et ve devam et",
+      "accepting": "Kaydediliyor…"
+    },
+    "menu": {
+      "welcome": "Hoş geldiniz, {company}",
+      "discountActive": "Bu ay indiriminiz: %{percent}"
+    },
+    "catalog": {
+      "addToCart": "Sepete ekle",
+      "madeToOrder": "Sipariş üzerine",
+      "stockNote": "Toptan siparişlerde vitrin stoğu geçerli değildir."
+    },
+    "cart": {
+      "title": "B2B sepet",
+      "empty": "Sepet boş",
+      "emptyCta": "Menüye git",
+      "subtotal": "Ara toplam",
+      "items": "{count} ürün",
+      "viewCart": "Sepeti gör",
+      "backToMenu": "Menüye dön",
+      "remove": "Kaldır",
+      "minOrder": "Minimum sipariş — {amount}",
+      "checkout": "Sipariş ver"
+    },
+    "checkout": {
+      "title": "B2B sipariş",
+      "summary": "Sipariş özeti",
+      "subtotal": "Ara toplam",
+      "discount": "%{percent} indirim",
+      "total": "Toplam",
+      "deliveryTitle": "Teslimat",
+      "company": "Firma",
+      "contactName": "İletişim kişisi",
+      "phone": "Telefon",
+      "deliveryDate": "Teslimat tarihi",
+      "branch": "Şube adresi",
+      "deliveryTimeNotice": "Teslimat saati sipariş onayından sonra bildirilecektir.",
+      "notes": "Sipariş açıklaması",
+      "notesPlaceholder": "Özel istekler, notlar…",
+      "whatsappHint": "Gönderdikten sonra sipariş onayı için WhatsApp açılır.",
+      "submit": "WhatsApp ile gönder",
+      "submitting": "Kaydediliyor…",
+      "emptyCart": "Sepet boş",
+      "errors": {
+        "cartEmpty": "Sepet boş",
+        "minOrder": "Minimum sipariş tutarı — {amount}",
+        "nameRequired": "İletişim kişisi gerekli",
+        "invalidPhone": "Geçersiz telefon",
+        "invalidDate": "Geçerli bir tarih seçin",
+        "invalidBranch": "Şube seçin",
+        "branchRequired": "Teslimat adresi seçin",
+        "noBranches": "Kayıtlı şube yok. Admin ile iletişime geçin.",
+        "productUnavailable": "Ürün mevcut değil",
+        "saveFailed": "Sipariş kaydedilemedi",
+        "setup": "Servis kullanılamıyor",
+        "unauthorized": "Giriş gerekli",
+        "generic": "Bir hata oluştu"
+      }
+    },
+    "orders": {
+      "title": "Siparişlerim",
+      "subtitle": "Sipariş geçmişi — {company}",
+      "empty": "Henüz sipariş yok",
+      "emptyCta": "Menüye git",
+      "placed": "Verildi",
+      "deliveryAddress": "Teslimat adresi",
+      "notes": "Açıklama",
+      "subtotal": "Ara toplam",
+      "discount": "%{percent} indirim",
+      "total": "Toplam",
+      "paid": "Ödendi",
+      "paymentPending": "Ödeme bekliyor",
+      "paidAt": "Ödeme",
+      "status": {
+        "new": "Yeni",
+        "confirmed": "Onaylandı",
+        "shipped": "Sevk edildi",
+        "completed": "Tamamlandı",
+        "cancelled": "İptal"
+      }
+    },
+    "profile": {
+      "director": "Direktör",
+      "phone": "Telefon",
+      "phoneAlt": "Ek telefon",
+      "branches": "Şubeler / teslimat adresleri"
+    },
+    "errors": {
+      "invalidPhone": "Geçersiz telefon numarası",
+      "invalidCredentials": "Telefon veya şifre hatalı",
+      "inactive": "Hesap pasif",
+      "setup": "Servis geçici olarak kullanılamıyor",
+      "unauthorized": "Giriş gerekli",
+      "saveFailed": "Kaydedilemedi"
+    }
   }
 }

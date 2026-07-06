@@ -12,6 +12,8 @@ interface CategoryShowcaseProps {
   products: Product[];
   locale: Locale;
   title: string;
+  /** Defaults to B2C /menu */
+  menuPath?: '/menu' | '/b2b/menu';
 }
 
 function scrollToProducts() {
@@ -20,7 +22,13 @@ function scrollToProducts() {
   });
 }
 
-export function CategoryShowcase({ categories, products, locale, title }: CategoryShowcaseProps) {
+export function CategoryShowcase({
+  categories,
+  products,
+  locale,
+  title,
+  menuPath = '/menu',
+}: CategoryShowcaseProps) {
   const router = useRouter();
   const pathname = usePathname();
   const active = getDisplayCategories(categories);
@@ -28,10 +36,10 @@ export function CategoryShowcase({ categories, products, locale, title }: Catego
   if (active.length === 0) return null;
 
   const openCategory = (slug: string) => {
-    const href = { pathname: '/menu' as const, query: { cat: slug } };
+    const href = { pathname: menuPath, query: { cat: slug } };
     const opts = { scroll: false };
 
-    if (pathname === '/menu') {
+    if (pathname === menuPath) {
       router.replace(href, opts);
     } else {
       router.push(href, opts);

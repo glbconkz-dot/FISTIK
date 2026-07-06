@@ -8,14 +8,26 @@ interface HomeMenuSectionProps {
   categories: Category[];
   products: Product[];
   locale: Locale;
+  menuPath?: '/menu' | '/b2b/menu';
 }
 
-export function HomeMenuSection({ categories, products, locale }: HomeMenuSectionProps) {
+export function HomeMenuSection({
+  categories,
+  products,
+  locale,
+  menuPath = '/menu',
+}: HomeMenuSectionProps) {
   const t = useTranslations('home');
 
   return (
     <section id="categories" className="scroll-mt-24">
-      <CategoryShowcase categories={categories} products={products} locale={locale} title={t('categories')} />
+      <CategoryShowcase
+        categories={categories}
+        products={products}
+        locale={locale}
+        title={t('categories')}
+        menuPath={menuPath}
+      />
     </section>
   );
 }

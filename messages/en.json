@@ -12,7 +12,8 @@
     "about": "About",
     "contact": "Contact",
     "instagram": "Instagram",
-    "admin": "Admin"
+    "admin": "Admin",
+    "b2b": "B2B login"
   },
   "hero": {
     "tagline": "Every dessert tells a story.",
@@ -160,6 +161,125 @@
     "instagramCta": "Back to Instagram",
     "aboutLink": "About",
     "contactLink": "Contact",
-    "adminLink": "Admin login"
+    "adminLink": "Admin login",
+    "b2bLink": "B2B login"
+  },
+  "b2b": {
+    "portalTitle": "B2B Wholesale Portal",
+    "nav": {
+      "menu": "Menu",
+      "signIn": "Sign in",
+      "signOut": "Sign out",
+      "cart": "Cart",
+      "orders": "Orders"
+    },
+    "login": {
+      "title": "B2B Sign in",
+      "subtitle": "Use the phone number and password provided by your administrator.",
+      "phone": "Phone",
+      "password": "Password",
+      "signIn": "Sign in",
+      "signingIn": "Signing in…"
+    },
+    "terms": {
+      "title": "B2B Agreement",
+      "subtitle": "Company: {company}. Please accept the terms on first login.",
+      "body": "1. This agreement governs wholesale orders from FISTIK.\n2. Minimum order total is 30,000 ₸.\n3. B2B prices differ from retail and are set by the administrator.\n4. Next month's discount depends on last month's paid total: from 500,000 ₸ — 3%, from 1,000,000 ₸ — 6%.\n5. Delivery is arranged to the selected branch address.\n6. Payment and order confirmation are completed via WhatsApp.",
+      "acceptLabel": "I have read and accept the agreement terms",
+      "accept": "Accept and continue",
+      "accepting": "Saving…"
+    },
+    "menu": {
+      "welcome": "Welcome, {company}",
+      "discountActive": "Your discount this month: {percent}%"
+    },
+    "catalog": {
+      "addToCart": "Add to cart",
+      "madeToOrder": "Made to order",
+      "stockNote": "Wholesale orders are not limited by storefront stock."
+    },
+    "cart": {
+      "title": "B2B cart",
+      "empty": "Cart is empty",
+      "emptyCta": "Go to menu",
+      "subtotal": "Subtotal",
+      "items": "{count, plural, one {# item} other {# items}}",
+      "viewCart": "View cart",
+      "backToMenu": "Back to menu",
+      "remove": "Remove",
+      "minOrder": "Minimum order — {amount}",
+      "checkout": "Checkout"
+    },
+    "checkout": {
+      "title": "B2B checkout",
+      "summary": "Order summary",
+      "subtotal": "Subtotal",
+      "discount": "{percent}% discount",
+      "total": "Total",
+      "deliveryTitle": "Delivery",
+      "company": "Company",
+      "contactName": "Contact person",
+      "phone": "Phone",
+      "deliveryDate": "Delivery date",
+      "branch": "Branch address",
+      "deliveryTimeNotice": "Delivery time will be confirmed after order approval.",
+      "notes": "Order notes",
+      "notesPlaceholder": "Special requests, comments…",
+      "whatsappHint": "WhatsApp will open to confirm your order.",
+      "submit": "Send via WhatsApp",
+      "submitting": "Saving…",
+      "emptyCart": "Cart is empty",
+      "errors": {
+        "cartEmpty": "Cart is empty",
+        "minOrder": "Minimum order total — {amount}",
+        "nameRequired": "Contact name is required",
+        "invalidPhone": "Invalid phone number",
+        "invalidDate": "Choose a valid date",
+        "invalidBranch": "Select a branch",
+        "branchRequired": "Select a delivery address",
+        "noBranches": "No branch addresses on file. Contact admin.",
+        "productUnavailable": "Product unavailable",
+        "saveFailed": "Could not save order",
+        "setup": "Service unavailable",
+        "unauthorized": "Sign in required",
+        "generic": "Something went wrong"
+      }
+    },
+    "orders": {
+      "title": "My orders",
+      "subtitle": "Order history — {company}",
+      "empty": "No orders yet",
+      "emptyCta": "Go to menu",
+      "placed": "Placed",
+      "deliveryAddress": "Delivery address",
+      "notes": "Notes",
+      "subtotal": "Subtotal",
+      "discount": "{percent}% discount",
+      "total": "Total",
+      "paid": "Paid",
+      "paymentPending": "Payment pending",
+      "paidAt": "Paid at",
+      "status": {
+        "new": "New",
+        "confirmed": "Confirmed",
+        "shipped": "Shipped",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      }
+    },
+    "profile": {
+      "director": "Director",
+      "phone": "Phone",
+      "phoneAlt": "Additional phone",
+      "branches": "Branches / delivery addresses"
+    },
+    "errors": {
+      "invalidPhone": "Invalid phone number",
+      "invalidCredentials": "Invalid phone or password",
+      "inactive": "Account is deactivated",
+      "setup": "Service temporarily unavailable",
+      "unauthorized": "Sign in required",
+      "saveFailed": "Could not save"
+    }
   }
 }

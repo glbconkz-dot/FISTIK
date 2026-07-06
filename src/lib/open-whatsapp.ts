@@ -14,10 +14,10 @@ function isMobileDevice(): boolean {
  * Mobilde whatsapp:// — tarayici/api.whatsapp.com araya girmez.
  * Masaustunde wa.me yeni sekmede.
  */
-export function openWhatsAppWithMessage(message: string): void {
+export function openWhatsAppWithMessage(message: string, phoneDigits?: string): void {
   if (typeof window === 'undefined') return;
 
-  const phone = getWhatsAppDigitsForLink();
+  const phone = phoneDigits ?? getWhatsAppDigitsForLink();
   const appUrl = buildWhatsAppAppUrl(phone, message);
   const webUrl = buildWhatsAppWaMeUrl(phone, message);
 

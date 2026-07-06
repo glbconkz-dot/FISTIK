@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { clearOrderHistory } from '@/app/actions/orders';
 import type { Order } from '@/types';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
+import { OrderChannelBadge, B2BPaymentBadge } from '@/components/admin/OrderChannelBadge';
 import { OrderDetailPanel } from '@/components/admin/OrderDetailPanel';
 import {
   ORDER_SECTIONS,
@@ -14,6 +15,11 @@ import {
   sortOrdersForSection,
   type OrderSection,
 } from '@/lib/order-admin';
+import {
+  filterOrdersByChannel,
+  isB2BOrder,
+  type OrderChannelFilter,
+} from '@/lib/b2b/order-filter';
 import { formatOrderDateTime } from '@/lib/order-dates';
 import { formatPrice } from '@/lib/utils';
 
@@ -26,6 +32,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   const [orders, setOrders] = useState(initialOrders);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [section, setSection] = useState<OrderSection>('new');
+  const [channel, setChannel] = useState<OrderChannelFilter>('all');
   const [clearError, setClearError] = useState<string | null>(null);
   const [isClearing, startClearTransition] = useTransition();
 
@@ -33,15 +40,24 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
     setOrders(initialOrders);
   }, [initialOrders]);
 
+  const channelOrders = useMemo(
+    () => filterOrdersByChannel(orders, channel),
+    [orders, channel]
+  );
+
   const historyCount = useMemo(
-    () => orders.filter((o) => o.status === 'completed' || o.status === 'cancelled').length,
-    [orders]
+    () =>
+      channelOrders.filter((o) => o.status === 'completed' || o.status === 'cancelled').length,
+    [channelOrders]
   );
 
   const filtered = useMemo(() => {
-    const list = filterOrdersBySection(orders, section);
+    const list = filterOrdersBySection(channelOrders, section);
     return sortOrdersForSection(list, section);
-  }, [orders, section]);
+  }, [channelOrders, section]);
+
+  const b2bCount = useMemo(() => orders.filter(isB2BOrder).length, [orders]);
+  const b2cCount = orders.length - b2bCount;
 
   const selected = orders.find((o) => o.id === selectedId) ?? null;
   const activeSection = ORDER_SECTIONS.find((s) => s.key === section);
@@ -101,8 +117,31 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
         ) : null}
 
         <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
+          {(
+            [
+              { key: 'all' as const, label: 'Tümü', count: orders.length },
+              { key: 'b2c' as const, label: 'B2C', count: b2cCount },
+              { key: 'b2b' as const, label: 'B2B', count: b2bCount },
+            ] as const
+          ).map(({ key, label, count }) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => {
+                setChannel(key);
+                setSelectedId(null);
+              }}
+              className={`chip shrink-0 ${channel === key ? 'chip-active' : ''}`}
+            >
+              {label}
+              {count > 0 ? ` (${count})` : ''}
+            </button>
+          ))}
+        </div>
+
+        <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
           {ORDER_SECTIONS.map((s) => {
-            const count = filterOrdersBySection(orders, s.key).length;
+            const count = filterOrdersBySection(channelOrders, s.key).length;
             return (
               <button
                 key={s.key}
@@ -138,9 +177,16 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="font-medium">#{order.order_number}</span>
-                <OrderStatusBadge status={order.status} />
+                <div className="flex flex-wrap items-center justify-end gap-1.5">
+                  <OrderChannelBadge order={order} />
+                  <B2BPaymentBadge order={order} />
+                  <OrderStatusBadge status={order.status} />
+                </div>
               </div>
               <p className="mt-1 text-sm font-medium">{order.customer_name}</p>
+              {isB2BOrder(order) && order.b2b_company_name ? (
+                <p className="text-xs text-muted">{order.b2b_company_name}</p>
+              ) : null}
               <p className="text-sm text-muted">
                 Sipariş: {formatOrderDateTime(order.created_at)}
               </p>

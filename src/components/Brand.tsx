@@ -151,6 +151,10 @@ export async function Footer({ locale }: FooterProps) {
             {t('contactLink')}
           </Link>
           {' · '}
+          <Link href="/b2b/login" className="underline-offset-2 hover:text-accent hover:underline">
+            {t('b2bLink')}
+          </Link>
+          {' · '}
           <NextLink
             href="/admin/login"
             className="underline-offset-2 hover:text-accent hover:underline"

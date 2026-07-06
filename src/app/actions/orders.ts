@@ -334,8 +334,9 @@ export async function performOrderAction(input: OrderActionInput): Promise<Order
     }
 
     const wasDeducted = Boolean(order.stock_deducted);
+    const isB2B = (order.order_channel as string | undefined) === 'b2b';
 
-    if (input.action === 'confirm' && !wasDeducted) {
+    if (input.action === 'confirm' && !wasDeducted && !isB2B) {
       const { error: stockError } = await supabase.rpc('fulfill_order_stock', {
         p_order_id: input.orderId,
       });
@@ -348,7 +349,7 @@ export async function performOrderAction(input: OrderActionInput): Promise<Order
       }
     }
 
-    if (input.action === 'cancel' && wasDeducted) {
+    if (input.action === 'cancel' && wasDeducted && !isB2B) {
       const { error: restoreError } = await supabase.rpc('restore_order_stock', {
         p_order_id: input.orderId,
       });

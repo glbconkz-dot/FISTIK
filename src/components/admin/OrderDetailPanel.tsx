@@ -9,6 +9,9 @@ import { getCurrentAlmatyTimeValue, getCancelReason, getCustomerNotes } from '@/
 import { formatOrderDateTime, formatDeliveryTimeLabel } from '@/lib/order-dates';
 import { formatPrice } from '@/lib/utils';
 import { performOrderAction } from '@/app/actions/orders';
+import { setB2BOrderPaymentStatus } from '@/app/actions/b2b-orders-admin';
+import { isB2BOrder } from '@/lib/b2b/order-filter';
+import { OrderChannelBadge, B2BPaymentBadge } from '@/components/admin/OrderChannelBadge';
 
 interface OrderDetailPanelProps {
   order: Order;
@@ -77,14 +80,45 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
   const items = Array.isArray(order.items) ? order.items : [];
   const savedCancelReason = getCancelReason(order);
   const customerNotes = getCustomerNotes(order);
+  const b2b = isB2BOrder(order);
+  const isPaid = order.payment_status === 'paid';
+
+  const togglePayment = (status: 'paid' | 'pending') => {
+    setError(null);
+    setNotice(null);
+    startTransition(async () => {
+      const result = await setB2BOrderPaymentStatus(order.id, status);
+      if (!result.success) {
+        const errors: Record<string, string> = {
+          notB2B: 'Bu sipariş B2B değil.',
+          notFound: 'Sipariş bulunamadı.',
+          saveFailed: 'Kayıt başarısız.',
+          unauthorized: 'Yetkisiz.',
+        };
+        setError(errors[result.error ?? ''] ?? 'İşlem başarısız.');
+        return;
+      }
+      if (result.order) applyPatch(result.order);
+      setNotice(status === 'paid' ? 'Ödeme işaretlendi.' : 'Ödeme işareti kaldırıldı.');
+      router.refresh();
+    });
+  };
 
   return (
     <>
       <div className="luxury-card space-y-4 p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="font-display text-lg font-bold">#{order.order_number}</h3>
-          <OrderStatusBadge status={order.status} />
+          <div className="flex flex-wrap items-center gap-1.5">
+            <OrderChannelBadge order={order} />
+            <B2BPaymentBadge order={order} />
+            <OrderStatusBadge status={order.status} />
+          </div>
         </div>
+
+        {b2b && order.b2b_company_name ? (
+          <p className="text-sm font-medium text-accent">{order.b2b_company_name}</p>
+        ) : null}
 
         <dl className="grid gap-2 text-sm">
           <div>
@@ -171,8 +205,55 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
               </li>
             ))}
           </ul>
+          {b2b && order.subtotal != null && Number(order.discount_percent) > 0 ? (
+            <div className="mt-2 space-y-1 text-sm">
+              <div className="flex justify-between text-muted">
+                <span>Ara toplam</span>
+                <span>{formatPrice(Number(order.subtotal))}</span>
+              </div>
+              <div className="flex justify-between text-muted">
+                <span>İndirim ({order.discount_percent}%)</span>
+                <span>
+                  −{formatPrice(Number(order.subtotal) - Number(order.total))}
+                </span>
+              </div>
+            </div>
+          ) : null}
           <p className="mt-2 font-semibold text-accent">Toplam: {formatPrice(Number(order.total))}</p>
+          {b2b && order.paid_at ? (
+            <p className="mt-1 text-xs text-green-700">
+              Ödeme: {formatOrderDateTime(order.paid_at)}
+            </p>
+          ) : null}
         </div>
+
+        {b2b ? (
+          <div className="space-y-2 border-t border-border pt-4">
+            <p className="text-sm font-medium">B2B ödeme</p>
+            <p className="text-xs text-muted">
+              Ödendi işaretleyince aylık toplam güncellenir (gelecek ay indirimi için).
+            </p>
+            {isPaid ? (
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => togglePayment('pending')}
+                className="btn-outline w-full border-amber-300 text-amber-900"
+              >
+                Ödeme işaretini kaldır
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={isPending}
+                onClick={() => togglePayment('paid')}
+                className="btn-primary w-full"
+              >
+                Ödendi olarak işaretle
+              </button>
+            )}
+          </div>
+        ) : null}
 
         <div className="space-y-3 border-t border-border pt-4">
           <p className="text-sm font-medium">İşlemler</p>
@@ -180,7 +261,9 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
           {order.status === 'new' && (
             <>
               <p className="text-xs text-muted">
-                Müşteriyi arayın. Onaylarken mutabık kalınan <strong>teslim saatini</strong> yazın.
+                {b2b
+                  ? 'B2B sipariş — stok düşülmez. Müşteriyi arayın ve teslim saatini onaylayın.'
+                  : 'Müşteriyi arayın. Onaylarken mutabık kalınan teslim saatini yazın.'}
               </p>
               <button
                 type="button"
