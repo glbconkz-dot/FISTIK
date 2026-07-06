@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { CartLineItemList } from '@/components/CartLineItemList';
 import { Link } from '@/i18n/routing';
 import { useCartStore } from '@/stores/cart';

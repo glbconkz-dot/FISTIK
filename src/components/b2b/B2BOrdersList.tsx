@@ -113,7 +113,7 @@ export function B2BOrdersList({ orders }: B2BOrdersListProps) {
                         <span>{formatPrice(Number(order.subtotal))}</span>
                       </div>
                       <div className="flex justify-between text-muted">
-                        <span>{t('discount', { percent: order.discount_percent })}</span>
+                        <span>{t('discount', { percent: Number(order.discount_percent) })}</span>
                         <span>
                           −{formatPrice(Number(order.subtotal) - Number(order.total))}
                         </span>

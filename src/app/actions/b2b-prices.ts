@@ -86,7 +86,7 @@ export async function setB2BProductPrice(
     return { ok: false, error: error.message };
   }
 
-  revalidateTag('b2b-catalog');
+  revalidateTag('b2b-catalog', 'max');
   return { ok: true, price };
 }
 
@@ -107,6 +107,6 @@ export async function clearB2BProductPrice(productId: string): Promise<SetB2BPri
     return { ok: false, error: error.message };
   }
 
-  revalidateTag('b2b-catalog');
+  revalidateTag('b2b-catalog', 'max');
   return { ok: true, price: 0 };
 }

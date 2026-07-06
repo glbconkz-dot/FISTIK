@@ -48,8 +48,8 @@ export async function getB2BCustomerSession(): Promise<B2BCustomerWithBranches |
   return customer;
 }
 
-/** B2B korumalı sayfalar: oturum ve sözleşme onayı yoksa yönlendirir. */
-export async function requireB2BCustomerSession(
+/** B2B korumalı sayfalar: oturum yoksa girişe yönlendirir. */
+export async function requireB2BCustomerLogin(
   locale: string
 ): Promise<B2BCustomerWithBranches> {
   const customer = await getB2BCustomerSession();
@@ -57,6 +57,14 @@ export async function requireB2BCustomerSession(
     redirect({ href: '/b2b/login', locale });
     unreachable();
   }
+  return customer;
+}
+
+/** B2B korumalı sayfalar: oturum ve sözleşme onayı yoksa yönlendirir. */
+export async function requireB2BCustomerSession(
+  locale: string
+): Promise<B2BCustomerWithBranches> {
+  const customer = await requireB2BCustomerLogin(locale);
   if (!customer.terms_accepted_at) {
     redirect({ href: '/b2b/terms', locale });
     unreachable();

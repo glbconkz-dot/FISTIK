@@ -49,5 +49,5 @@ export async function getB2BCatalogData() {
 }
 
 export function revalidateB2BCatalog() {
-  revalidateTag('b2b-catalog');
+  revalidateTag('b2b-catalog', 'max');
 }

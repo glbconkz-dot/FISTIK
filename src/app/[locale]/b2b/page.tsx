@@ -1,5 +1,5 @@
 import { redirect } from '@/i18n/routing';
-import { getB2BCustomerSession } from '@/lib/b2b/customer';
+import { requireB2BCustomerLogin } from '@/lib/b2b/customer';
 
 export default async function B2BIndexPage({
   params,
@@ -7,11 +7,7 @@ export default async function B2BIndexPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const customer = await getB2BCustomerSession();
-
-  if (!customer) {
-    redirect({ href: '/b2b/login', locale });
-  }
+  const customer = await requireB2BCustomerLogin(locale);
 
   if (!customer.terms_accepted_at) {
     redirect({ href: '/b2b/terms', locale });

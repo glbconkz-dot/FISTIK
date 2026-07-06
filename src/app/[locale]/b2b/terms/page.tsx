@@ -1,5 +1,5 @@
 import { redirect } from '@/i18n/routing';
-import { getB2BCustomerSession } from '@/lib/b2b/customer';
+import { requireB2BCustomerLogin } from '@/lib/b2b/customer';
 import { B2BTermsClient } from '@/components/b2b/B2BTermsClient';
 import type { Locale } from '@/types';
 
@@ -9,11 +9,7 @@ export default async function B2BTermsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const customer = await getB2BCustomerSession();
-
-  if (!customer) {
-    redirect({ href: '/b2b/login', locale });
-  }
+  const customer = await requireB2BCustomerLogin(locale);
 
   if (customer.terms_accepted_at) {
     redirect({ href: '/b2b/menu', locale });
