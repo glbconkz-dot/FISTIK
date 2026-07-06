@@ -1,6 +1,5 @@
-import { redirect } from '@/i18n/routing';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getB2BCustomerSession } from '@/lib/b2b/customer';
+import { requireB2BCustomerSession } from '@/lib/b2b/customer';
 import { B2BCartContent } from '@/components/b2b/B2BCartContent';
 
 export default async function B2BCartPage({
@@ -10,16 +9,8 @@ export default async function B2BCartPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const customer = await getB2BCustomerSession();
+  await requireB2BCustomerSession(locale);
   const t = await getTranslations('b2b.cart');
-
-  if (!customer) {
-    redirect({ href: '/b2b/login', locale });
-  }
-
-  if (!customer.terms_accepted_at) {
-    redirect({ href: '/b2b/terms', locale });
-  }
 
   return (
     <div>

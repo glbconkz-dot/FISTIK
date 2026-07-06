@@ -1,5 +1,10 @@
+import { redirect } from '@/i18n/routing';
 import { tryCreateServiceClient } from '@/lib/supabase/service';
 import type { B2BCustomerWithBranches } from '@/types/b2b';
+
+function unreachable(): never {
+  throw new Error('Unreachable');
+}
 
 export async function getB2BCustomerById(
   customerId: string
@@ -40,5 +45,21 @@ export async function getB2BCustomerSession(): Promise<B2BCustomerWithBranches |
 
   const customer = await getB2BCustomerById(customerId);
   if (!customer || !customer.is_active) return null;
+  return customer;
+}
+
+/** B2B korumalı sayfalar: oturum ve sözleşme onayı yoksa yönlendirir. */
+export async function requireB2BCustomerSession(
+  locale: string
+): Promise<B2BCustomerWithBranches> {
+  const customer = await getB2BCustomerSession();
+  if (!customer) {
+    redirect({ href: '/b2b/login', locale });
+    unreachable();
+  }
+  if (!customer.terms_accepted_at) {
+    redirect({ href: '/b2b/terms', locale });
+    unreachable();
+  }
   return customer;
 }
