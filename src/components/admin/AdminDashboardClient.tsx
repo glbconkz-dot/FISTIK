@@ -15,7 +15,7 @@ import {
   shiftStoreDate,
 } from '@/lib/order-admin';
 import { getTodayInStoreTimezone } from '@/lib/order-dates';
-import { formatPrice } from '@/lib/utils';
+import { cn, formatPrice } from '@/lib/utils';
 
 interface AdminDashboardClientProps {
   orders: Order[];
@@ -145,19 +145,30 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
         ))}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {ORDER_SECTIONS.map((section) => {
-          const count = countOrdersBySection(orders, section.key);
-          return (
-            <Link
-              key={section.key}
-              href="/admin/orders"
-              className="chip shrink-0 hover:bg-brand/20"
-            >
-              {section.label}: {count}
-            </Link>
-          );
-        })}
+      <div className="mt-6 rounded-xl border border-border bg-cream/40 p-2">
+        <p className="mb-1 px-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+          Siparişler
+        </p>
+        <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-5">
+          {ORDER_SECTIONS.map((section) => {
+            const count = countOrdersBySection(orders, section.key);
+            return (
+              <Link
+                key={section.key}
+                href="/admin/orders"
+                title={section.label}
+                className={cn(
+                  'flex min-h-[36px] items-center justify-center gap-1 rounded-lg border border-border bg-surface px-2 py-1.5 text-xs font-medium leading-tight text-muted transition-colors hover:bg-border/50 hover:text-foreground'
+                )}
+              >
+                <span className="truncate">{section.shortLabel}</span>
+                {count > 0 ? (
+                  <span className="shrink-0 tabular-nums opacity-80">({count})</span>
+                ) : null}
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       <section className="mt-10">
