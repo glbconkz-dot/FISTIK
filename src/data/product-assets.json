@@ -123,6 +123,16 @@
     "description_tr": "Hindistan cevizi mus, mango dolgusu ve mango jölesi ile hafif, ferah ve tropikal bir lezzet."
   },
   {
+    "slugs": ["american-pistachio-raspberry"],
+    "names": ["pistachio elite box", "фисташковый elite box", "fıstıklı elite box"],
+    "image_url": "/products/american-cakes/pistachio-elite.png"
+  },
+  {
+    "slugs": ["american-cherry-brownie"],
+    "names": ["cherry elite box", "вишневый elite box", "vişneli elite box"],
+    "image_url": "/products/american-cakes/cherry-elite.png"
+  },
+  {
     "slugs": ["ferrero-hazelnut-mousse"],
     "names": ["ferrero findik", "ferrero hazelnut mousse", "ferrero fındık"],
     "image_url": "/products/american-cakes/ferrero-hazelnut.png",
