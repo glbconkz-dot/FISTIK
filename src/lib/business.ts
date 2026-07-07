@@ -1,7 +1,7 @@
 import type { Locale } from '@/types';
 
 function getWhatsAppDigits(): string {
-  const digits = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '77782681755').replace(/\D/g, '');
+  const digits = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '77014737575').replace(/\D/g, '');
   // Kazakistan: 10 hane gelirse başına 7 ekle
   if (digits.length === 10) return `7${digits}`;
   return digits;

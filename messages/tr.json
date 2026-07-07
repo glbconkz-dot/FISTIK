@@ -171,7 +171,8 @@
       "signIn": "Giriş",
       "signOut": "Çıkış",
       "cart": "Sepet",
-      "orders": "Siparişler"
+      "orders": "Siparişler",
+      "backToStore": "Perakende menü"
     },
     "login": {
       "title": "B2B Giriş",

@@ -171,7 +171,8 @@
       "signIn": "Sign in",
       "signOut": "Sign out",
       "cart": "Cart",
-      "orders": "Orders"
+      "orders": "Orders",
+      "backToStore": "Retail menu"
     },
     "login": {
       "title": "B2B Sign in",

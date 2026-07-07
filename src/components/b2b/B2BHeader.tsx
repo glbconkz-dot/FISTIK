@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { BrandLink } from '@/components/Brand';
-import { LogOut, ShoppingBag, ClipboardList } from 'lucide-react';
+import { LogOut, ShoppingBag, ClipboardList, Store } from 'lucide-react';
 import { signOutB2B } from '@/app/actions/b2b-auth';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useB2BCartStore } from '@/stores/b2b-cart';
@@ -33,6 +33,19 @@ export function B2BHeader({ customer, locale }: B2BHeaderProps) {
             <span className="hidden max-w-[10rem] truncate text-sm text-accent/90 lg:inline">
               {customer.company_name}
             </span>
+            <Link
+              href="/menu"
+              className="hidden rounded-lg px-2 py-2 text-sm font-medium text-accent hover:bg-brand-dark/20 lg:inline lg:px-3"
+            >
+              {t('nav.backToStore')}
+            </Link>
+            <Link
+              href="/menu"
+              className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg text-accent hover:bg-brand-dark/20 lg:hidden"
+              aria-label={t('nav.backToStore')}
+            >
+              <Store className="h-5 w-5" />
+            </Link>
             <Link
               href="/b2b/menu"
               className="rounded-lg px-2 py-2 text-sm font-medium text-accent hover:bg-brand-dark/20 sm:px-3"

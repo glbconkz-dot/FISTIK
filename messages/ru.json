@@ -171,7 +171,8 @@
       "signIn": "Вход",
       "signOut": "Выход",
       "cart": "Корзина",
-      "orders": "Заказы"
+      "orders": "Заказы",
+      "backToStore": "Розничное меню"
     },
     "login": {
       "title": "B2B вход",

@@ -10,16 +10,19 @@ import {
   FolderTree,
   Sparkles,
   Building2,
+  Store,
+  Phone,
 } from 'lucide-react';
 import { AdminBrand } from '@/components/admin/AdminBrand';
 import { AdminLanguageSwitcher } from '@/components/admin/AdminLanguageSwitcher';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { signOutAdmin } from '@/app/actions/orders';
+import { BUSINESS } from '@/lib/business';
 import { cn } from '@/lib/utils';
 
 export function AdminSidebar() {
   const pathname = usePathname();
-  const { t } = useAdminLocale();
+  const { t, locale } = useAdminLocale();
 
   const links = [
     { href: '/admin', label: t('dashboard'), icon: LayoutDashboard },
@@ -56,7 +59,30 @@ export function AdminSidebar() {
             {label}
           </Link>
         ))}
+
+        <a
+          href={`/${locale}/menu`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-lg border border-dashed border-brand-dark/40 px-3 text-sm font-medium text-accent hover:bg-pistachio-soft/50"
+        >
+          <Store className="h-4 w-4" />
+          {t('backToStore')}
+        </a>
       </nav>
+
+      <div className="border-t border-border px-3 py-3">
+        <p className="text-xs text-muted">{t('contactPhone')}</p>
+        <a
+          href={`https://wa.me/${BUSINESS.phoneWhatsApp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 flex min-h-[40px] items-center gap-2 text-sm font-medium text-accent hover:underline"
+        >
+          <Phone className="h-4 w-4 shrink-0" />
+          {BUSINESS.phone}
+        </a>
+      </div>
 
       <div className="mt-auto border-t border-border p-2">
         <form action={signOutAdmin}>

@@ -45,7 +45,7 @@ export const HERO_CAROUSEL_SLIDES: {
     captions: {
       kk: 'Шие брауни',
       tr: 'Vişneli Brownie',
-      ru: 'Вишневый брауни',
+      ru: 'Вишневый куб',
       en: 'Cherry Brownie',
     },
   },
@@ -54,7 +54,7 @@ export const HERO_CAROUSEL_SLIDES: {
     captions: {
       kk: 'Фисташка-малина',
       tr: 'Fıstıklı Ahududulu',
-      ru: 'Фисташка-малина',
+      ru: 'Фисташково-малиновый куб',
       en: 'Pistachio Raspberry',
     },
   },
