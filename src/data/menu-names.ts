@@ -29,6 +29,17 @@ export const CUBE_PRODUCT_NAMES: Record<string, string> = {
   'pack-meringue-cake': 'Merenga Cube',
 };
 
+/** Dikdörtgen box pastalar — tüm dillerde aynı Latin isim */
+export const ELITE_BOX_NAMES: Record<string, string> = {
+  'american-tiramisu': 'Tiramisu Elite box',
+  'american-strawberry-cake': 'Strawberry Elite box',
+  'american-lotus': 'Lotus Elite box',
+  'american-cherry-brownie': 'Cherry Elite box',
+  'american-pistachio-raspberry': 'Pistachio Elite box',
+  'mango-coconut-mousse': 'Mango Musse Elite box',
+  'ferrero-hazelnut-mousse': 'Ferrero Musse Elite box',
+};
+
 export const CATEGORY_TR: Record<string, string> = {
   'eclairs-large': 'Büyük Ekler',
   'eclairs-mini': 'Mini Ekler',

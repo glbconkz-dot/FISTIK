@@ -5,6 +5,7 @@ import {
   CATEGORY_RU,
   CATEGORY_TR,
   CUBE_PRODUCT_NAMES,
+  ELITE_BOX_NAMES,
   PRODUCT_KK,
   PRODUCT_RU,
   PRODUCT_TR,
@@ -94,6 +95,10 @@ export function getLocalizedNameBySlug(
     return CUBE_PRODUCT_NAMES[slug]!;
   }
 
+  if (slug in ELITE_BOX_NAMES) {
+    return ELITE_BOX_NAMES[slug]!;
+  }
+
   if (CATEGORY_SLUGS.has(slug)) {
     if (locale === 'en') {
       return CATEGORY_EN[slug] ?? fallback?.trim() ?? slug;
@@ -110,6 +115,10 @@ export function getLocalizedNameBySlug(
 export function getLocalizedName(record: LocalizedRecord, locale: Locale): string {
   if (record.slug && record.slug in CUBE_PRODUCT_NAMES) {
     return CUBE_PRODUCT_NAMES[record.slug]!;
+  }
+
+  if (record.slug && record.slug in ELITE_BOX_NAMES) {
+    return ELITE_BOX_NAMES[record.slug]!;
   }
 
   if (record.slug && CATEGORY_SLUGS.has(record.slug)) {
