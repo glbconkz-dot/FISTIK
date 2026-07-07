@@ -25,6 +25,11 @@ export async function getB2BCustomerById(
   const { getActiveDiscountTier } = await import('@/lib/b2b/monthly-stats');
   const discount_tier = await getActiveDiscountTier(customerId);
 
+  await supabase
+    .from('b2b_customers')
+    .update({ discount_tier, updated_at: new Date().toISOString() })
+    .eq('id', customerId);
+
   const { data: branches } = await supabase
     .from('b2b_branches')
     .select('id, customer_id, branch_name, address, is_default, sort_order, created_at')

@@ -2,7 +2,9 @@ import { tryCreateServiceClient } from '@/lib/supabase/service';
 import {
   discountForPaidTotal,
   previousYearMonth,
+  syncAllB2BCustomerDiscountTiers,
   yearMonthFromDate,
+  yearMonthInStoreTimezone,
 } from '@/lib/b2b/monthly-stats';
 
 export interface B2BMonthlyReportRow {
@@ -42,19 +44,22 @@ export async function buildB2BMonthlyReport(
   const supabase = tryCreateServiceClient();
   if (!supabase) return null;
 
-  const currentMonth = yearMonth ?? yearMonthFromDate(new Date().toISOString());
+  const currentMonth = yearMonth ?? yearMonthInStoreTimezone();
   const prevMonth = previousYearMonth(currentMonth);
   const { start, end } = monthRange(currentMonth);
 
-  const [{ data: customers }, { data: stats }, { data: unpaidOrders }] = await Promise.all([
+  await syncAllB2BCustomerDiscountTiers();
+
+  const [{ data: customers }, { data: paidOrders }, { data: unpaidOrders }] = await Promise.all([
     supabase
       .from('b2b_customers')
       .select('id, company_name, phone, is_active')
       .order('company_name', { ascending: true }),
     supabase
-      .from('b2b_monthly_stats')
-      .select('customer_id, year_month, paid_total')
-      .in('year_month', [currentMonth, prevMonth]),
+      .from('orders')
+      .select('b2b_customer_id, total, paid_at, payment_status, created_at')
+      .eq('order_channel', 'b2b')
+      .not('b2b_customer_id', 'is', null),
     supabase
       .from('orders')
       .select('b2b_customer_id, total')
@@ -67,8 +72,12 @@ export async function buildB2BMonthlyReport(
   if (!customers) return null;
 
   const paidByCustomerMonth = new Map<string, number>();
-  for (const row of stats ?? []) {
-    paidByCustomerMonth.set(`${row.customer_id}:${row.year_month}`, Number(row.paid_total));
+  for (const order of paidOrders ?? []) {
+    if (order.payment_status !== 'paid' || !order.paid_at) continue;
+    const cid = order.b2b_customer_id as string;
+    const ym = yearMonthFromDate(order.paid_at as string);
+    if (ym !== currentMonth && ym !== prevMonth) continue;
+    paidByCustomerMonth.set(`${cid}:${ym}`, (paidByCustomerMonth.get(`${cid}:${ym}`) ?? 0) + Number(order.total));
   }
 
   const unpaidByCustomer = new Map<string, { count: number; total: number }>();
