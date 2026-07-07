@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Home } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 import { signInB2B } from '@/app/actions/b2b-auth';
 import type { Locale } from '@/types';
 
@@ -69,6 +71,18 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
             {loading ? t('login.signingIn') : t('login.signIn')}
           </button>
         </form>
+
+        <Link
+          href="/menu"
+          className="mt-4 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-border text-sm font-medium text-muted transition-colors hover:bg-border/40 hover:text-foreground"
+        >
+          <Home className="h-4 w-4" />
+          {t('login.backHome')}
+        </Link>
+
+        <p className="mt-4 rounded-lg border border-border bg-cream/50 px-3 py-2.5 text-xs leading-relaxed text-muted">
+          {t('login.helpNote')}
+        </p>
       </div>
     </div>
   );

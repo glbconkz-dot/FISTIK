@@ -184,7 +184,9 @@
       "phone": "Phone",
       "password": "Password",
       "signIn": "Sign in",
-      "signingIn": "Signing in…"
+      "signingIn": "Signing in…",
+      "backHome": "Back to home",
+      "helpNote": "For login issues, please contact us temporarily at +7 701 453 75 75."
     },
     "terms": {
       "title": "B2B Agreement",

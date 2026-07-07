@@ -184,7 +184,9 @@
       "phone": "Telefon",
       "password": "Şifre",
       "signIn": "Giriş yap",
-      "signingIn": "Giriş yapılıyor…"
+      "signingIn": "Giriş yapılıyor…",
+      "backHome": "Ana sayfaya dön",
+      "helpNote": "Giriş ile ilgili sorunlar için geçici olarak +7 701 453 75 75 numarasından iletişime geçin."
     },
     "terms": {
       "title": "B2B Sözleşmesi",
