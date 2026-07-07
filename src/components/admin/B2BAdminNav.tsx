@@ -17,13 +17,13 @@ export function B2BAdminNav() {
   ];
 
   return (
-    <nav className="mb-6 flex flex-wrap gap-2">
+    <nav className="mb-6 grid grid-cols-2 gap-1.5 sm:flex sm:flex-wrap sm:gap-2">
       {links.map(({ href, label }) => (
         <Link
           key={href}
           href={href}
           className={cn(
-            'rounded-lg border px-3 py-2 text-sm font-medium transition-colors',
+            'rounded-lg border px-2 py-1.5 text-center text-xs font-medium transition-colors sm:px-3 sm:py-2 sm:text-left sm:text-sm',
             pathname === href || (href !== '/admin/b2b' && pathname.startsWith(href))
               ? 'border-foreground bg-foreground text-background'
               : 'border-border text-muted hover:text-foreground'
