@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { clearB2BProductPrice, setB2BProductPrice } from '@/app/actions/b2b-prices';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
+import { getSemiFinishedPackLabel } from '@/lib/semi-finished-groups';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
@@ -91,6 +92,7 @@ export function B2BPriceList({ products, categories, b2bPrices }: B2BPriceListPr
     const retail = Math.round(Number(product.price ?? 0));
     const hasB2b = b2bPrices[product.id] != null;
     const displayName = getLocalizedProductName(product, locale);
+    const packLabel = getSemiFinishedPackLabel(product.slug, (key) => t(key as 'packLabel6'));
 
     return (
       <div
@@ -112,33 +114,38 @@ export function B2BPriceList({ products, categories, b2bPrices }: B2BPriceListPr
           </p>
         </div>
 
-        <div className="flex shrink-0 items-center gap-1.5">
-          <input
-            type="number"
-            min={0}
-            max={9999999}
-            step={1}
-            inputMode="numeric"
-            disabled={isPending}
-            value={priceInputs[product.id] ?? ''}
-            placeholder={String(retail)}
-            onChange={(e) => handlePriceInputChange(product.id, e.target.value)}
-            onFocus={(e) => e.target.select()}
-            onBlur={() => handleSave(product.id, retail)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') e.currentTarget.blur();
-            }}
-            className="price-input"
-            aria-label={t('b2bPriceLabel')}
-          />
-          <button
-            type="button"
-            disabled={isPending}
-            onClick={() => handleSave(product.id, retail)}
-            className="btn-outline px-2.5 py-1.5 text-xs"
-          >
-            {savedId === product.id ? '✓' : t('save')}
-          </button>
+        <div className="flex shrink-0 flex-col items-end gap-0.5">
+          <div className="flex items-center gap-1.5">
+            <input
+              type="number"
+              min={0}
+              max={9999999}
+              step={1}
+              inputMode="numeric"
+              disabled={isPending}
+              value={priceInputs[product.id] ?? ''}
+              placeholder={String(retail)}
+              onChange={(e) => handlePriceInputChange(product.id, e.target.value)}
+              onFocus={(e) => e.target.select()}
+              onBlur={() => handleSave(product.id, retail)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') e.currentTarget.blur();
+              }}
+              className="price-input"
+              aria-label={t('b2bPriceLabel')}
+            />
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={() => handleSave(product.id, retail)}
+              className="btn-outline px-2.5 py-1.5 text-xs"
+            >
+              {savedId === product.id ? '✓' : t('save')}
+            </button>
+          </div>
+          {packLabel ? (
+            <span className="text-[11px] font-medium text-muted">{packLabel}</span>
+          ) : null}
         </div>
       </div>
     );

@@ -46,12 +46,12 @@
     "stockLeft": "{count} left",
     "semiGroupBorek6": "Boreks · pack of 6",
     "semiGroupMini16": "Mini boreks · pack of 16",
-    "semiGroupSarma": "Sarma boreks",
+    "semiGroupSarma": "Sarma boreks · 1 pc",
     "semiGroupWaffle": "Waffle · pack of 4",
     "packLabel6": "Pack of 6",
     "packLabel16": "Pack of 16",
     "packLabel4": "Pack of 4",
-    "packLabelSarma": "Sarma borek pack",
+    "packLabelSarma": "1 pc",
     "semiFrozenNotice": "Semi-finished products are frozen at −18 °C in special packaging. Boreks are ready to bake; waffle is pre-cooked — heat and serve at home."
   },
   "product": {
@@ -201,7 +201,11 @@
     "catalog": {
       "addToCart": "Add to cart",
       "madeToOrder": "Made to order",
-      "stockNote": "Wholesale orders are not limited by storefront stock."
+      "stockNote": "Wholesale orders are not limited by storefront stock.",
+      "packLabel6": "Pack of 6",
+      "packLabel16": "Pack of 16",
+      "packLabel4": "Pack of 4",
+      "packLabelSarma": "1 pc"
     },
     "cart": {
       "title": "B2B cart",

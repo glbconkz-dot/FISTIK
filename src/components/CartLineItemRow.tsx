@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Minus, Plus, Trash2 } from 'lucide-react';
+import { getSemiFinishedPackLabel } from '@/lib/semi-finished-groups';
 import { cn, formatPrice, getLocalizedNameBySlug } from '@/lib/utils';
 import type { CartItem, Locale } from '@/types';
 
@@ -59,7 +61,11 @@ export function CartLineItemRow({
   maxQuantity,
   compact = false,
 }: CartLineItemRowProps) {
+  const tCatalog = useTranslations('catalog');
   const name = getLocalizedNameBySlug(item.slug, locale, item.name);
+  const packLabel = getSemiFinishedPackLabel(item.slug, (key) =>
+    tCatalog(key as 'packLabel6' | 'packLabel16' | 'packLabel4' | 'packLabelSarma')
+  );
   const atMax = maxQuantity != null ? item.quantity >= maxQuantity : false;
   const lineTotal = formatPrice(item.price * item.quantity);
 
@@ -82,14 +88,16 @@ export function CartLineItemRow({
         </div>
       ) : null}
 
-      <p
-        className={cn(
-          'min-w-0 flex-1 line-clamp-2 leading-snug text-foreground',
-          compact ? 'text-[15px] font-medium' : 'text-sm font-medium sm:text-[15px]'
-        )}
-      >
-        {name}
-      </p>
+      <div className="min-w-0 flex-1">
+        <p
+          className={cn(
+            'line-clamp-2 leading-snug text-foreground',
+            compact ? 'text-[15px] font-medium' : 'text-sm font-medium sm:text-[15px]'
+          )}
+        >
+          {name}
+        </p>
+      </div>
 
       <CompactQtyControl
         quantity={item.quantity}
@@ -98,8 +106,13 @@ export function CartLineItemRow({
         onIncrease={() => onUpdateQuantity(item.quantity + 1)}
       />
 
-      <span className="shrink-0 whitespace-nowrap text-right text-sm font-semibold text-accent tabular-nums">
-        {lineTotal}
+      <span className="shrink-0 text-right">
+        <span className="block whitespace-nowrap text-sm font-semibold text-accent tabular-nums">
+          {lineTotal}
+        </span>
+        {packLabel ? (
+          <span className="block text-[11px] font-medium text-muted">{packLabel}</span>
+        ) : null}
       </span>
 
       <button

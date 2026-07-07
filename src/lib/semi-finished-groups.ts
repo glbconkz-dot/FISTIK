@@ -40,6 +40,14 @@ export function getSemiFinishedPackLabelKey(slug: string): string | null {
   return null;
 }
 
+export function getSemiFinishedPackLabel(
+  slug: string,
+  translate: (key: string) => string
+): string | null {
+  const key = getSemiFinishedPackLabelKey(slug);
+  return key ? translate(key) : null;
+}
+
 export function showsSemiFinishedPackNote(slug: string): boolean {
   return isSemiFinishedBorekProduct(slug) || slug === 'semi-waffle';
 }

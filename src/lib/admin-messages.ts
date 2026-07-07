@@ -125,6 +125,10 @@ const messages = {
     b2bRetailPrice: 'Perakende',
     b2bUsesRetail: 'perakende kullanılıyor',
     b2bPriceLabel: 'B2B fiyat (₸)',
+    packLabel6: "6'lı paket",
+    packLabel16: "16'lı paket",
+    packLabel4: "4'lü paket",
+    packLabelSarma: '1 adet',
   },
   ru: {
     panelTitle: 'Панель управления',
@@ -248,6 +252,10 @@ const messages = {
     b2bRetailPrice: 'Розница',
     b2bUsesRetail: 'розница',
     b2bPriceLabel: 'B2B цена (₸)',
+    packLabel6: 'Упаковка 6 шт.',
+    packLabel16: 'Упаковка 16 шт.',
+    packLabel4: 'Упаковка 4 шт.',
+    packLabelSarma: '1 шт.',
   },
 } as const;
 
