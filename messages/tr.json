@@ -47,7 +47,11 @@
     "semiGroupBorek6": "Börekler · 6'lı paket",
     "semiGroupMini16": "Mini börekler · 16'lı paket",
     "semiGroupSarma": "Sarma börekler",
-    "semiGroupWaffle": "Waffle · 5'li paket",
+    "semiGroupWaffle": "Waffle · 4'lü paket",
+    "packLabel6": "6'lı paket",
+    "packLabel16": "16'lı paket",
+    "packLabel4": "4'lü paket",
+    "packLabelSarma": "Sarma börek paketi",
     "semiFrozenNotice": "Börekler pişirmeye hazırdır ve −18 °C'de özel olarak dondurulur. Waffle pişmiş üründür — evde ısıtarak servis edin."
   },
   "product": {

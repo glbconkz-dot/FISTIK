@@ -133,8 +133,8 @@ export const MENU_PRODUCTS: Product[] = [
   product('pack-strawberry-cake', 'packaged-desserts', 'Strawberry Cube', 'Strawberry Cube', 'Strawberry Cube', 2, 'Strawberry Cube', 2250),
   product('pack-crunch', 'packaged-desserts', 'Crunch Cube', 'Crunch Cube', 'Crunch Cube', 3, 'Crunch Cube', 1850),
   product('pack-lotus', 'packaged-desserts', 'Lotus Cube', 'Lotus Cube', 'Lotus Cube', 4, 'Lotus Cube', 2550),
-  product('pack-cherry-brownie', 'packaged-desserts', 'Cherry Cube', 'Вишневый куб', 'Шие куб', 5, 'Cherry Cube', 2150),
-  product('pack-pistachio-raspberry', 'packaged-desserts', 'Pistachio Cube', 'Фисташково-малиновый куб', 'Фисташка-малина куб', 6, 'Pistachio Cube', 2550),
+  product('pack-cherry-brownie', 'packaged-desserts', 'Cherry Cube', 'Cherry Cube', 'Cherry Cube', 5, 'Cherry Cube', 2150),
+  product('pack-pistachio-raspberry', 'packaged-desserts', 'Pistachio Cube', 'Pistachio Cube', 'Pistachio Cube', 6, 'Pistachio Cube', 2550),
   product('pack-oreo', 'packaged-desserts', 'Oreo Cube', 'Oreo Cube', 'Oreo Cube', 7, 'Oreo Cube', 1950),
   product('pack-meringue-cake', 'packaged-desserts', 'Merenga Cube', 'Merenga Cube', 'Merenga Cube', 8, 'Merenga Cube', 2050),
 
@@ -159,7 +159,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('pie-snickers', 'turtas', 'Snikers Pie', 'Snikers Pie', 'Snikers Pie', 2, 'Snikers Pie', 3750),
 
   // Semi-finished
-  product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle', 3699),
+  product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle', 2969),
 
   // Frozen boreks (semi-finished)
   product('frozen-borek-meat', 'frozen-boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 2220),

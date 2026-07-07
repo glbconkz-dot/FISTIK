@@ -43,28 +43,28 @@ export const HERO_CAROUSEL_SLIDES: {
   {
     src: '/products/cherry-brownie.png',
     captions: {
-      kk: 'Шие брауни',
-      tr: 'Vişneli Brownie',
-      ru: 'Вишневый куб',
-      en: 'Cherry Brownie',
+      kk: 'Cherry Cube',
+      tr: 'Cherry Cube',
+      ru: 'Cherry Cube',
+      en: 'Cherry Cube',
     },
   },
   {
     src: '/products/pistachio-raspberry.png',
     captions: {
-      kk: 'Фисташка-малина',
-      tr: 'Fıstıklı Ahududulu',
-      ru: 'Фисташково-малиновый куб',
-      en: 'Pistachio Raspberry',
+      kk: 'Pistachio Cube',
+      tr: 'Pistachio Cube',
+      ru: 'Pistachio Cube',
+      en: 'Pistachio Cube',
     },
   },
   {
     src: '/products/oreo-dessert.png',
     captions: {
-      kk: 'Oreo',
-      tr: 'Oreo Tatlı',
-      ru: 'Oreo',
-      en: 'Oreo Dessert',
+      kk: 'Oreo Cube',
+      tr: 'Oreo Cube',
+      ru: 'Oreo Cube',
+      en: 'Oreo Cube',
     },
   },
   {

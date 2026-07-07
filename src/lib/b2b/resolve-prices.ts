@@ -32,7 +32,10 @@ export async function resolveB2BCartItems(
       return { items: [], error: 'productUnavailable' };
     }
 
-    const serverPrice = b2bById.get(item.productId) ?? retail;
+    const serverPrice = b2bById.get(item.productId);
+    if (serverPrice == null) {
+      return { items: [], error: 'productUnavailable' };
+    }
     resolved.push({
       ...item,
       price: serverPrice,

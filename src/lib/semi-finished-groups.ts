@@ -32,6 +32,14 @@ export function isSemiFinishedBorekProduct(slug: string): boolean {
   );
 }
 
+export function getSemiFinishedPackLabelKey(slug: string): string | null {
+  if (slug.startsWith('frozen-borek-')) return 'packLabel6';
+  if (slug.startsWith('mini-borek-')) return 'packLabel16';
+  if (slug.startsWith('sarma-borek-')) return 'packLabelSarma';
+  if (slug === 'semi-waffle') return 'packLabel4';
+  return null;
+}
+
 export function showsSemiFinishedPackNote(slug: string): boolean {
   return isSemiFinishedBorekProduct(slug) || slug === 'semi-waffle';
 }

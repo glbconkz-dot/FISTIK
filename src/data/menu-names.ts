@@ -17,6 +17,18 @@ export const CATEGORY_EN: Record<string, string> = {
   'semi-finished': 'Semi-finished Products',
 };
 
+/** Küp porsiyon tatlılar — tüm dillerde aynı Latin isim */
+export const CUBE_PRODUCT_NAMES: Record<string, string> = {
+  'pack-tiramisu': 'Tiramisu Cube',
+  'pack-strawberry-cake': 'Strawberry Cube',
+  'pack-crunch': 'Crunch Cube',
+  'pack-lotus': 'Lotus Cube',
+  'pack-cherry-brownie': 'Cherry Cube',
+  'pack-pistachio-raspberry': 'Pistachio Cube',
+  'pack-oreo': 'Oreo Cube',
+  'pack-meringue-cake': 'Merenga Cube',
+};
+
 export const CATEGORY_TR: Record<string, string> = {
   'eclairs-large': 'Büyük Ekler',
   'eclairs-mini': 'Mini Ekler',
@@ -146,12 +158,12 @@ export const PRODUCT_RU: Record<string, string> = {
   'mini-borek-brinza': 'Мини борек с брынзой',
   'mini-borek-lentils': 'Мини борек с чечевицей',
   'mango-coconut-mousse': 'Mango Musse Elite box',
-  'pack-cherry-brownie': 'Вишневый куб',
+  'pack-cherry-brownie': 'Cherry Cube',
   'pack-crunch': 'Crunch Cube',
   'pack-lotus': 'Lotus Cube',
   'pack-meringue-cake': 'Merenga Cube',
   'pack-oreo': 'Oreo Cube',
-  'pack-pistachio-raspberry': 'Фисташково-малиновый куб',
+  'pack-pistachio-raspberry': 'Pistachio Cube',
   'pack-strawberry-cake': 'Strawberry Cube',
   'pack-tiramisu': 'Tiramisu Cube',
   'pie-apple-walnut-cinnamon': 'Apple Pie',
@@ -319,8 +331,8 @@ export const PRODUCT_KK: Record<string, string> = {
   'borek-brinza': 'Борек брынзамен',
   'borek-spinach': 'Борек спанатпен',
   'borek-lentils': 'Борек бұршақпен',
-  'pack-cherry-brownie': 'Шие куб',
-  'pack-pistachio-raspberry': 'Фисташка-малина куб',
+  'pack-cherry-brownie': 'Cherry Cube',
+  'pack-pistachio-raspberry': 'Pistachio Cube',
   'pack-oreo': 'Oreo Cube',
   'pack-tiramisu': 'Tiramisu Cube',
   'pack-strawberry-cake': 'Strawberry Cube',

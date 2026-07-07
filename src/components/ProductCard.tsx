@@ -9,7 +9,7 @@ import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
-import { showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
+import { getSemiFinishedPackLabelKey, showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useCartStore } from '@/stores/cart';
 import type { Locale, Product } from '@/types';
 
@@ -36,12 +36,15 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   const atMax = remaining <= 0;
   const addPerTap = Math.min(pickQty, remaining || pickQty);
 
+  const packLabelKey = getSemiFinishedPackLabelKey(product.slug);
+  const packLabel = packLabelKey ? t(packLabelKey) : null;
   const name = getLocalizedName(product, locale);
   const description = getLocalizedDescription(product, locale);
   const showSubtitle =
     showsSemiFinishedPackNote(product.slug) ||
     product.category_id === 'boreks' ||
     product.category_id === 'frozen-boreks';
+  const subtitle = packLabel ?? (showSubtitle && description ? description : null);
 
   const handleTap = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -115,8 +118,8 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         </div>
         <div className="p-4 pb-2">
           <h3 className="font-display text-lg font-semibold leading-tight">{name}</h3>
-          {showSubtitle && description ? (
-            <p className="mt-0.5 line-clamp-2 text-xs text-muted">{description}</p>
+          {subtitle ? (
+            <p className="mt-0.5 line-clamp-2 text-xs font-medium text-muted">{subtitle}</p>
           ) : null}
           <p className="mt-1 text-sm font-semibold text-accent">{formatPrice(Number(product.price))}</p>
           {!outOfStock ? (

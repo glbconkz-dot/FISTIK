@@ -7,7 +7,7 @@ import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
-import { showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
+import { getSemiFinishedPackLabelKey, showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useB2BCartStore } from '@/stores/b2b-cart';
 import type { Locale, Product } from '@/types';
 
@@ -18,6 +18,7 @@ interface B2BProductCardProps {
 
 export function B2BProductCard({ product, locale }: B2BProductCardProps) {
   const t = useTranslations('b2b.catalog');
+  const tCatalog = useTranslations('catalog');
   const isClient = useIsClient();
   const addItem = useB2BCartStore((s) => s.addItem);
   const updateQuantity = useB2BCartStore((s) => s.updateQuantity);
@@ -29,12 +30,15 @@ export function B2BProductCard({ product, locale }: B2BProductCardProps) {
 
   const inCart = isClient && cartQty > 0;
 
+  const packLabelKey = getSemiFinishedPackLabelKey(product.slug);
+  const packLabel = packLabelKey ? tCatalog(packLabelKey) : null;
   const name = getLocalizedName(product, locale);
   const description = getLocalizedDescription(product, locale);
   const showSubtitle =
     showsSemiFinishedPackNote(product.slug) ||
     product.category_id === 'boreks' ||
     product.category_id === 'frozen-boreks';
+  const subtitle = packLabel ?? (showSubtitle && description ? description : null);
 
   const handleTap = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -97,8 +101,8 @@ export function B2BProductCard({ product, locale }: B2BProductCardProps) {
         </div>
         <div className="p-4 pb-2">
           <h3 className="font-display text-lg font-semibold leading-tight">{name}</h3>
-          {showSubtitle && description ? (
-            <p className="mt-0.5 line-clamp-2 text-xs text-muted">{description}</p>
+          {subtitle ? (
+            <p className="mt-0.5 line-clamp-2 text-xs font-medium text-muted">{subtitle}</p>
           ) : null}
           <p className="mt-1 text-sm font-semibold text-accent">{formatPrice(Number(product.price))}</p>
           <p className="mt-0.5 text-xs text-muted">{t('madeToOrder')}</p>
