@@ -75,6 +75,11 @@
     "image_url": "/products/art-desserts/blueberry.png"
   },
   {
+    "slugs": ["art-hamburger"],
+    "names": ["hamburger", "гамбургер", "гамбургер"],
+    "image_url": "/products/art-desserts/hamburger.png"
+  },
+  {
     "slugs": ["pistachio-cookies"],
     "names": ["фисташковые cookies", "pistachio cookies", "fıstıklı kurabiye"],
     "image_url": "/products/cookies/pistachio-cookies.png"
