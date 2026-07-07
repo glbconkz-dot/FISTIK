@@ -12,6 +12,7 @@ export function B2BAdminNav() {
   const links = [
     { href: '/admin/b2b', label: t('b2bNavCustomers') },
     { href: '/admin/b2b/prices', label: t('b2bNavPrices') },
+    { href: '/admin/b2b/reports', label: t('b2bNavReports') },
     { href: '/admin/b2b/new', label: t('b2bAddCustomer') },
   ];
 

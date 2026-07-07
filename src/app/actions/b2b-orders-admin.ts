@@ -60,9 +60,14 @@ export async function setB2BOrderPaymentStatus(
       return { success: false, error: 'saveFailed' };
     }
 
-    await recordB2BPayment(order.b2b_customer_id, amount, now);
+    const statsOk = await recordB2BPayment(order.b2b_customer_id, amount, now);
+
+    if (!statsOk) {
+      return { success: false, error: 'statsFailed' };
+    }
 
     revalidatePath('/admin/orders');
+    revalidatePath('/admin/b2b/reports');
     return { success: true, order: { payment_status: 'paid', paid_at: now } };
   }
 
@@ -85,8 +90,13 @@ export async function setB2BOrderPaymentStatus(
     return { success: false, error: 'saveFailed' };
   }
 
-  await reverseB2BPayment(order.b2b_customer_id, amount, paidAt);
+  const statsOk = await reverseB2BPayment(order.b2b_customer_id, amount, paidAt);
+
+  if (!statsOk) {
+    return { success: false, error: 'statsFailed' };
+  }
 
   revalidatePath('/admin/orders');
+  revalidatePath('/admin/b2b/reports');
   return { success: true, order: { payment_status: 'pending', paid_at: null } };
 }

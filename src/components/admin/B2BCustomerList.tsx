@@ -5,15 +5,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Plus, KeyRound, Power } from 'lucide-react';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { formatPrice } from '@/lib/utils';
 import { formatB2BPhone } from '@/lib/b2b/phone';
 import { resetB2BCustomerPassword, toggleB2BCustomerActive } from '@/app/actions/b2b-admin';
 import type { B2BCustomerWithBranches } from '@/types/b2b';
+import type { B2BMonthlyReportRow } from '@/lib/b2b/monthly-report';
 
 interface B2BCustomerListProps {
   customers: B2BCustomerWithBranches[];
+  statsByCustomer?: Map<string, B2BMonthlyReportRow>;
 }
 
-export function B2BCustomerList({ customers }: B2BCustomerListProps) {
+export function B2BCustomerList({ customers, statsByCustomer }: B2BCustomerListProps) {
   const { t } = useAdminLocale();
   const router = useRouter();
   const [message, setMessage] = useState('');
@@ -48,7 +51,9 @@ export function B2BCustomerList({ customers }: B2BCustomerListProps) {
       ) : null}
 
       <div className="space-y-3">
-        {customers.map((c) => (
+        {customers.map((c) => {
+          const stats = statsByCustomer?.get(c.id);
+          return (
           <div key={c.id} className="luxury-card p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
@@ -79,6 +84,14 @@ export function B2BCustomerList({ customers }: B2BCustomerListProps) {
                   {' · '}
                   {c.is_active ? t('active') : t('inactive')}
                 </p>
+                {stats ? (
+                  <p className="mt-2 text-xs font-medium text-accent">
+                    {t('b2bCustomerDiscount')}:{' '}
+                    {stats.activeDiscount > 0 ? `%${stats.activeDiscount}` : '—'}
+                    {' · '}
+                    {t('b2bCustomerMonthPaid')}: {formatPrice(stats.currentMonthPaid)}
+                  </p>
+                ) : null}
               </div>
 
               <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
@@ -101,7 +114,8 @@ export function B2BCustomerList({ customers }: B2BCustomerListProps) {
               </div>
             </div>
           </div>
-        ))}
+        );
+        })}
       </div>
 
       <Link

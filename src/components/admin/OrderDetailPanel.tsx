@@ -93,6 +93,8 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
           notB2B: 'Bu sipariş B2B değil.',
           notFound: 'Sipariş bulunamadı.',
           saveFailed: 'Kayıt başarısız.',
+          statsFailed:
+            'Ödeme kaydedildi ama aylık istatistik güncellenemedi. SUPABASE_SERVICE_ROLE_KEY ve b2b_monthly_stats tablosunu kontrol edin.',
           unauthorized: 'Yetkisiz.',
         };
         setError(errors[result.error ?? ''] ?? 'İşlem başarısız.');

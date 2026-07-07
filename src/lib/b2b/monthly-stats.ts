@@ -49,10 +49,10 @@ export async function recordB2BPayment(
   customerId: string,
   amount: number,
   paidAtIso: string
-): Promise<void> {
+): Promise<boolean> {
   const { tryCreateServiceClient } = await import('@/lib/supabase/service');
   const supabase = tryCreateServiceClient();
-  if (!supabase || amount <= 0) return;
+  if (!supabase || amount <= 0) return false;
 
   const yearMonth = yearMonthFromDate(paidAtIso);
 
@@ -66,19 +66,21 @@ export async function recordB2BPayment(
   const newTotal = Number(existing?.paid_total ?? 0) + amount;
 
   if (existing?.id) {
-    await supabase
+    const { error } = await supabase
       .from('b2b_monthly_stats')
       .update({
         paid_total: newTotal,
         updated_at: new Date().toISOString(),
       })
       .eq('id', existing.id);
+    if (error) return false;
   } else {
-    await supabase.from('b2b_monthly_stats').insert({
+    const { error } = await supabase.from('b2b_monthly_stats').insert({
       customer_id: customerId,
       year_month: yearMonth,
       paid_total: newTotal,
     });
+    if (error) return false;
   }
 
   const nextMonth = nextYearMonth(yearMonth);
@@ -92,31 +94,38 @@ export async function recordB2BPayment(
     .maybeSingle();
 
   if (nextRow?.id) {
-    await supabase
+    const { error } = await supabase
       .from('b2b_monthly_stats')
       .update({
         discount_for_next_month: discount,
         updated_at: new Date().toISOString(),
       })
       .eq('id', nextRow.id);
+    if (error) return false;
   } else {
-    await supabase.from('b2b_monthly_stats').insert({
+    const { error } = await supabase.from('b2b_monthly_stats').insert({
       customer_id: customerId,
       year_month: nextMonth,
       paid_total: 0,
       discount_for_next_month: discount,
     });
+    if (error) return false;
   }
+
+  const { syncB2BCustomerDiscountTier } = await import('@/lib/b2b/monthly-report');
+  await syncB2BCustomerDiscountTier(customerId);
+
+  return true;
 }
 
 export async function reverseB2BPayment(
   customerId: string,
   amount: number,
   paidAtIso: string
-): Promise<void> {
+): Promise<boolean> {
   const { tryCreateServiceClient } = await import('@/lib/supabase/service');
   const supabase = tryCreateServiceClient();
-  if (!supabase || amount <= 0) return;
+  if (!supabase || amount <= 0) return false;
 
   const yearMonth = yearMonthFromDate(paidAtIso);
 
@@ -127,11 +136,11 @@ export async function reverseB2BPayment(
     .eq('year_month', yearMonth)
     .maybeSingle();
 
-  if (!existing) return;
+  if (!existing) return true;
 
   const newTotal = Math.max(0, Number(existing.paid_total) - amount);
 
-  await supabase
+  const { error: updateError } = await supabase
     .from('b2b_monthly_stats')
     .update({
       paid_total: newTotal,
@@ -139,10 +148,12 @@ export async function reverseB2BPayment(
     })
     .eq('id', existing.id);
 
+  if (updateError) return false;
+
   const nextMonth = nextYearMonth(yearMonth);
   const discount = discountForPaidTotal(newTotal);
 
-  await supabase
+  const { error: nextError } = await supabase
     .from('b2b_monthly_stats')
     .update({
       discount_for_next_month: discount,
@@ -150,4 +161,11 @@ export async function reverseB2BPayment(
     })
     .eq('customer_id', customerId)
     .eq('year_month', nextMonth);
+
+  if (nextError) return false;
+
+  const { syncB2BCustomerDiscountTier } = await import('@/lib/b2b/monthly-report');
+  await syncB2BCustomerDiscountTier(customerId);
+
+  return true;
 }
