@@ -21,10 +21,41 @@ import {
   type OrderChannelFilter,
 } from '@/lib/b2b/order-filter';
 import { formatOrderDateTime } from '@/lib/order-dates';
-import { formatPrice } from '@/lib/utils';
+import { cn, formatPrice } from '@/lib/utils';
 
 interface OrdersListProps {
   orders: Order[];
+}
+
+function FilterButton({
+  active,
+  label,
+  count,
+  onClick,
+  title,
+}: {
+  active: boolean;
+  label: string;
+  count: number;
+  onClick: () => void;
+  title?: string;
+}) {
+  return (
+    <button
+      type="button"
+      title={title}
+      onClick={onClick}
+      className={cn(
+        'flex min-h-[36px] items-center justify-center gap-1 rounded-lg px-2 py-1.5 text-xs font-medium leading-tight transition-colors touch-manipulation',
+        active
+          ? 'bg-foreground text-background'
+          : 'border border-border bg-surface text-muted hover:bg-border/50 hover:text-foreground'
+      )}
+    >
+      <span className="truncate">{label}</span>
+      {count > 0 ? <span className="shrink-0 tabular-nums opacity-80">({count})</span> : null}
+    </button>
+  );
 }
 
 export function OrdersList({ orders: initialOrders }: OrdersListProps) {
@@ -116,52 +147,60 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
           </div>
         ) : null}
 
-        <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-          {(
-            [
-              { key: 'all' as const, label: 'Tümü', count: orders.length },
-              { key: 'b2c' as const, label: 'B2C', count: b2cCount },
-              { key: 'b2b' as const, label: 'B2B', count: b2bCount },
-            ] as const
-          ).map(({ key, label, count }) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => {
-                setChannel(key);
-                setSelectedId(null);
-              }}
-              className={`chip shrink-0 ${channel === key ? 'chip-active' : ''}`}
-            >
-              {label}
-              {count > 0 ? ` (${count})` : ''}
-            </button>
-          ))}
-        </div>
-
-        <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-          {ORDER_SECTIONS.map((s) => {
-            const count = filterOrdersBySection(channelOrders, s.key).length;
-            return (
-              <button
-                key={s.key}
-                type="button"
+        <div className="mb-3 rounded-xl border border-border bg-cream/40 p-2">
+          <p className="mb-1 px-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+            Kanal
+          </p>
+          <div className="grid grid-cols-3 gap-1">
+            {(
+              [
+                { key: 'all' as const, label: 'Tümü', count: orders.length },
+                { key: 'b2c' as const, label: 'B2C', count: b2cCount },
+                { key: 'b2b' as const, label: 'B2B', count: b2bCount },
+              ] as const
+            ).map(({ key, label, count }) => (
+              <FilterButton
+                key={key}
+                active={channel === key}
+                label={label}
+                count={count}
                 onClick={() => {
-                  setSection(s.key);
+                  setChannel(key);
                   setSelectedId(null);
                 }}
-                className={`chip shrink-0 ${section === s.key ? 'chip-active' : ''}`}
-              >
-                {s.label}
-                {count > 0 ? ` (${count})` : ''}
-              </button>
-            );
-          })}
-        </div>
+              />
+            ))}
+          </div>
 
-        {activeSection ? (
-          <p className="mb-3 text-xs text-muted">{activeSection.hint}</p>
-        ) : null}
+          <p className="mb-1 mt-2.5 px-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+            Durum
+          </p>
+          <div className="grid grid-cols-2 gap-1 sm:grid-cols-3 lg:grid-cols-5">
+            {ORDER_SECTIONS.map((s) => {
+              const count = filterOrdersBySection(channelOrders, s.key).length;
+              return (
+                <FilterButton
+                  key={s.key}
+                  active={section === s.key}
+                  label={s.shortLabel}
+                  title={s.label}
+                  count={count}
+                  onClick={() => {
+                    setSection(s.key);
+                    setSelectedId(null);
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          {activeSection ? (
+            <p className="mt-2 border-t border-border/60 px-1 pt-2 text-[11px] leading-snug text-muted">
+              <span className="font-medium text-foreground">{activeSection.label}:</span>{' '}
+              {activeSection.hint}
+            </p>
+          ) : null}
+        </div>
 
         <div className="space-y-2">
           {filtered.map((order) => {

@@ -6,31 +6,37 @@ export type OrderSection = OrderStatus;
 export const ORDER_SECTIONS: {
   key: OrderSection;
   label: string;
+  shortLabel: string;
   hint: string;
 }[] = [
   {
     key: 'new',
     label: 'Yeni sipariş',
+    shortLabel: 'Yeni',
     hint: 'WhatsApp siparişleri — müşteriyi arayıp onaylayın',
   },
   {
     key: 'confirmed',
     label: 'Sevkiyat bekleyen',
+    shortLabel: 'Bekleyen',
     hint: 'Onaylandı — teslim günü ve saatine göre sıralı',
   },
   {
     key: 'shipped',
     label: 'Sevkiyata verilen',
+    shortLabel: 'Sevkte',
     hint: 'Kuryeye verildi — teslim bilgisi gelince tamamlayın',
   },
   {
     key: 'completed',
     label: 'Tamamlanan',
+    shortLabel: 'Tamam',
     hint: 'Müşteriye teslim edildi',
   },
   {
     key: 'cancelled',
     label: 'İptal edilen',
+    shortLabel: 'İptal',
     hint: 'İptal nedeni kayıtlı siparişler',
   },
 ];
