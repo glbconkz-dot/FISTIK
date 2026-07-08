@@ -191,14 +191,14 @@
     "terms": {
       "title": "B2B Agreement",
       "subtitle": "Company: {company}. Please accept the terms on first login.",
-      "body": "1. This agreement governs wholesale orders from FISTIK.\n2. Minimum order total is 30,000 ₸.\n3. B2B prices differ from retail and are set by the administrator.\n4. Next month's discount depends on last month's paid total: from 500,000 ₸ — 3%, from 1,000,000 ₸ — 6%.\n5. Delivery is arranged to the selected branch address.\n6. Payment and order confirmation are completed via WhatsApp.",
+      "body": "1. This agreement governs wholesale orders from FISTIK.\n2. Minimum order total is 30,000 ₸.\n3. B2B prices differ from retail and are set by the administrator.\n4. Once paid total within the month reaches 500,000 ₸, the next order gets 3%; from 1,000,000 ₸ — 6% (no need to wait for the next month). The earned tier carries into the following month; if thresholds are not reached again, the discount drops or is cancelled.\n5. Delivery is arranged to the selected branch address.\n6. Payment and order confirmation are completed via WhatsApp.",
       "acceptLabel": "I have read and accept the agreement terms",
       "accept": "Accept and continue",
       "accepting": "Saving…"
     },
     "menu": {
       "welcome": "Welcome, {company}",
-      "discountActive": "Your discount this month: {percent}%"
+      "discountActive": "Your active discount: {percent}%"
     },
     "catalog": {
       "addToCart": "Add to cart",

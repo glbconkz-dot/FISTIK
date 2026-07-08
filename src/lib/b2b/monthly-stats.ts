@@ -45,16 +45,23 @@ export function previousYearMonth(yearMonth?: string): string {
 }
 
 /**
- * Active discount for the current calendar month.
- * Based on previous month's total paid B2B orders (admin "ödendi" işaretleri).
- * ≥ 500 000 ₸ → 3%, ≥ 1 000 000 ₸ → 6%, else 0%.
+ * Paid B2B order totals for current + previous calendar months (Almaty).
+ * Only admin-"ödendi" orders count.
  */
-export async function getPreviousMonthPaidTotal(customerId: string): Promise<number> {
+export async function getPaidTotalsForDiscount(customerId: string): Promise<{
+  currentMonthPaid: number;
+  previousMonthPaid: number;
+  currentMonth: string;
+  previousMonth: string;
+}> {
   const { tryCreateServiceClient } = await import('@/lib/supabase/service');
   const supabase = tryCreateServiceClient();
-  if (!supabase) return 0;
+  const currentMonth = yearMonthInStoreTimezone();
+  const previousMonth = previousYearMonth(currentMonth);
 
-  const prevMonth = previousYearMonth(yearMonthInStoreTimezone());
+  if (!supabase) {
+    return { currentMonthPaid: 0, previousMonthPaid: 0, currentMonth, previousMonth };
+  }
 
   const { data: orders } = await supabase
     .from('orders')
@@ -64,20 +71,48 @@ export async function getPreviousMonthPaidTotal(customerId: string): Promise<num
     .eq('payment_status', 'paid')
     .not('paid_at', 'is', null);
 
-  let paidTotal = 0;
+  let currentMonthPaid = 0;
+  let previousMonthPaid = 0;
+
   for (const order of orders ?? []) {
     const paidAt = order.paid_at as string;
-    if (yearMonthFromDate(paidAt) === prevMonth) {
-      paidTotal += Number(order.total);
-    }
+    const ym = yearMonthFromDate(paidAt);
+    const amount = Number(order.total);
+    if (ym === currentMonth) currentMonthPaid += amount;
+    else if (ym === previousMonth) previousMonthPaid += amount;
   }
 
-  return paidTotal;
+  return { currentMonthPaid, previousMonthPaid, currentMonth, previousMonth };
+}
+
+/** @deprecated use getPaidTotalsForDiscount */
+export async function getPreviousMonthPaidTotal(customerId: string): Promise<number> {
+  const { previousMonthPaid } = await getPaidTotalsForDiscount(customerId);
+  return previousMonthPaid;
+}
+
+/**
+ * Active discount applied on the NEXT B2B order (same month — no wait for next month).
+ *
+ * Rules:
+ * - When this month's paid total reaches ≥ 500 000 ₸ → next order gets 3%
+ * - When this month's paid total reaches ≥ 1 000 000 ₸ → next order gets 6%
+ * - Tier earned last month continues at the start of this month until (and unless)
+ *   this month's own paid total unlocks a different / higher result for the month after.
+ * Active tier = max(unlock from current-month paid, unlock from previous-month paid).
+ */
+export function resolveActiveDiscount(
+  currentMonthPaid: number,
+  previousMonthPaid: number
+): 0 | 3 | 6 {
+  const fromCurrent = discountForPaidTotal(currentMonthPaid);
+  const fromPrevious = discountForPaidTotal(previousMonthPaid);
+  return Math.max(fromCurrent, fromPrevious) as 0 | 3 | 6;
 }
 
 export async function getActiveDiscountTier(customerId: string): Promise<0 | 3 | 6> {
-  const paidTotal = await getPreviousMonthPaidTotal(customerId);
-  return discountForPaidTotal(paidTotal);
+  const { currentMonthPaid, previousMonthPaid } = await getPaidTotalsForDiscount(customerId);
+  return resolveActiveDiscount(currentMonthPaid, previousMonthPaid);
 }
 
 async function upsertMonthlyPaidTotal(

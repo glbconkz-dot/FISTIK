@@ -2,6 +2,7 @@ import { tryCreateServiceClient } from '@/lib/supabase/service';
 import {
   discountForPaidTotal,
   previousYearMonth,
+  resolveActiveDiscount,
   syncAllB2BCustomerDiscountTiers,
   yearMonthFromDate,
   yearMonthInStoreTimezone,
@@ -102,7 +103,7 @@ export async function buildB2BMonthlyReport(
       isActive: c.is_active,
       previousMonthPaid,
       currentMonthPaid,
-      activeDiscount: discountForPaidTotal(previousMonthPaid),
+      activeDiscount: resolveActiveDiscount(currentMonthPaid, previousMonthPaid),
       nextMonthDiscount: discountForPaidTotal(currentMonthPaid),
       unpaidOrderCount: unpaid.count,
       unpaidOrderTotal: unpaid.total,
