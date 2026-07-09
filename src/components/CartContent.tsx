@@ -1,8 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { B2COrderRulesNotice } from '@/components/B2COrderRulesNotice';
 import { CartLineItemList } from '@/components/CartLineItemList';
 import { Link } from '@/i18n/routing';
+import { isB2COrderAllowed } from '@/lib/b2c/pricing';
 import { useCartStore } from '@/stores/cart';
 
 export function CartContent() {
@@ -23,8 +25,12 @@ export function CartContent() {
     );
   }
 
+  const belowMin = !isB2COrderAllowed(subtotal);
+
   return (
     <div className="space-y-4">
+      <B2COrderRulesNotice subtotal={subtotal} />
+
       <CartLineItemList
         items={items}
         subtotal={subtotal}
@@ -34,9 +40,15 @@ export function CartContent() {
         updateQuantity={updateQuantity}
       />
 
-      <Link href="/checkout" className="btn-primary w-full">
-        {t('continue')}
-      </Link>
+      {belowMin ? (
+        <button type="button" className="btn-primary w-full opacity-50" disabled>
+          {t('continue')}
+        </button>
+      ) : (
+        <Link href="/checkout" className="btn-primary w-full">
+          {t('continue')}
+        </Link>
+      )}
     </div>
   );
 }

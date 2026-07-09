@@ -28,7 +28,9 @@
     "chefsSelectionSub": "Özenle seçilmiş imza tatlar",
     "categories": "Kategoriler",
     "coverTagline": "El yapımı lüks tatlar — sevgiyle hazırlanır",
-    "openMenu": "Menü"
+    "openMenu": "Menü",
+    "flashDeals": "Acil Fırsatlar",
+    "flashDealsSub": "Belirli saatlerde ekstra indirimli ürünler"
   },
   "menuPage": {
     "title": "Menü — FISTIK",
@@ -72,7 +74,14 @@
     "backToMenu": "Menüye geri dön",
     "continueShopping": "Alışverişe devam etmek ister misiniz?",
     "remove": "Kaldır",
-    "items": "{count, plural, one {# ürün} other {# ürün}}"
+    "items": "{count, plural, one {# ürün} other {# ürün}}",
+    "minOrder": "Minimum online sipariş — {amount}",
+    "orderRulesTitle": "Sipariş koşulları",
+    "orderRulesMin": "Minimum online sipariş tutarı {amount}'dir. Bu tutarın altında sipariş ve teslimat yapılmaz.",
+    "orderRulesFreeDelivery": "{amount} ve üzeri siparişlerde teslimat ücreti FISTIK tarafından karşılanır.",
+    "minOrderRemaining": "Sipariş verebilmek için sepete {amount} daha ekleyin (min. {min}).",
+    "freeDeliveryActive": "Tebrikler — teslimat ücretsiz!",
+    "paidDeliveryHint": "Ücretsiz teslimat için {amount} daha ekleyin. Altında teslimat ücreti ayrıca uygulanır."
   },
   "checkout": {
     "title": "Sipariş",
@@ -123,6 +132,8 @@
       "formInvalid": "Lütfen kırmızı ile işaretli alanları doldurun (telefon 10 hane olmalı).",
       "saveFailed": "Sipariş kaydedilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.",
       "insufficientStock": "Sepetteki bazı ürünler tükendi. Menüyü kontrol edip tekrar deneyin.",
+      "minOrder": "Minimum sipariş tutarı 3.000 ₸'dir. Sepetinize daha fazla ürün ekleyin.",
+      "deliveryNotAvailable": "Bu tutarla teslimat yapılamaz. Minimum sipariş 3.000 ₸'dir.",
       "generic": "Bir hata oluştu. Lütfen tekrar deneyin."
     }
   },

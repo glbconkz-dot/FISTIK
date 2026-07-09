@@ -5,8 +5,10 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
+import { PriceDisplay } from '@/components/PriceDisplay';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
+import { getEffectivePrice } from '@/lib/b2c/clearance';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
 import { getSemiFinishedPackLabel, showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
@@ -57,7 +59,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         productId: product.id,
         slug: product.slug,
         name,
-        price: Number(product.price),
+        price: getEffectivePrice(product),
         image: product.image_url,
         stockMax: stock,
       },
@@ -123,9 +125,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
             <p className="mt-0.5 line-clamp-2 text-xs text-muted">{longNote}</p>
           ) : null}
           <div className="mt-1.5">
-            <p className="text-sm font-semibold text-accent tabular-nums">
-              {formatPrice(Number(product.price))}
-            </p>
+            <PriceDisplay product={product} />
             {packLabel ? (
               <p className="mt-0.5 text-xs font-semibold text-foreground/80">{packLabel}</p>
             ) : null}

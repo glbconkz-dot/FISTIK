@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { PriceDisplay } from '@/components/PriceDisplay';
+import { getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import type { Locale, Product } from '@/types';
 
 interface CuratedSectionProps {
@@ -98,9 +99,9 @@ export function CuratedSection({
                       {description}
                     </p>
                   ) : null}
-                  <p className={`mt-2 font-semibold text-accent ${compact ? 'text-sm sm:text-base' : 'text-base'}`}>
-                    {formatPrice(Number(product.price))}
-                  </p>
+                  <div className="mt-2">
+                    <PriceDisplay product={product} />
+                  </div>
                 </div>
               </article>
             </Link>

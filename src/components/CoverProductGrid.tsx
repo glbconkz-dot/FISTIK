@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
-import { formatPrice, getLocalizedName } from '@/lib/utils';
+import { PriceDisplay } from '@/components/PriceDisplay';
+import { getLocalizedName } from '@/lib/utils';
 import type { Locale, Product } from '@/types';
 
 interface CoverProductGridProps {
@@ -59,15 +60,20 @@ export function CoverProductGrid({
                     F
                   </div>
                 )}
+                {product.clearance_active && product.sale_discount_percent ? (
+                  <span className="cover-product-badge bg-red-600 text-white">
+                    -{product.sale_discount_percent}%
+                  </span>
+                ) : null}
                 {outOfStock ? (
                   <span className="cover-product-badge">{t('soldOut')}</span>
                 ) : null}
               </div>
               <div className="cover-product-meta">
                 <p className="line-clamp-2 font-medium leading-snug text-accent">{name}</p>
-                <p className="mt-0.5 font-semibold tabular-nums text-accent/90">
-                  {formatPrice(Number(product.price))}
-                </p>
+                <div className="mt-0.5">
+                  <PriceDisplay product={product} size="sm" />
+                </div>
               </div>
             </Link>
           );

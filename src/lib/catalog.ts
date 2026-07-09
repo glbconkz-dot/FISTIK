@@ -1,11 +1,12 @@
 import { unstable_cache } from 'next/cache';
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { CATALOG_REVALIDATE_SECONDS } from '@/lib/cache-config';
+import { applyClearanceToProduct, applyClearanceToProducts } from '@/lib/b2c/clearance';
 import { getLocalCatalog } from '@/data/menu';
 import { getSupabaseEnv } from '@/lib/supabase/env';
 import { createPublicSupabaseClient } from '@/lib/supabase/public';
 import { getLocalizedName } from '@/lib/utils';
-import type { Category, Locale, Product, StorefrontSection } from '@/types';
+import type { Category, ClearanceRule, Locale, Product, StorefrontSection } from '@/types';
 
 function normalizeStock(product: Product): Product {
   return {
@@ -65,10 +66,30 @@ async function fetchActiveCategories(
   return normalizeCategories(basic.data as Category[] | null);
 }
 
+async function fetchClearanceRules(
+  supabase: NonNullable<ReturnType<typeof createPublicSupabaseClient>>
+): Promise<ClearanceRule[]> {
+  const { data, error } = await supabase
+    .from('storefront_clearance')
+    .select('*')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (error) {
+    if (!error.message.includes('storefront_clearance') && !error.message.includes('does not exist')) {
+      console.error('[catalog] storefront_clearance:', error.message);
+    }
+    return [];
+  }
+
+  return (data as ClearanceRule[]) ?? [];
+}
+
 async function loadCatalogData(): Promise<{
   categories: Category[];
   products: Product[];
   storefrontSections: StorefrontSection[];
+  clearanceRules: ClearanceRule[];
   storefrontError: string | null;
   source: CatalogSource;
 }> {
@@ -80,19 +101,27 @@ async function loadCatalogData(): Promise<{
       console.error('[catalog] Supabase env set but client failed');
     }
     if (process.env.NODE_ENV === 'production') {
-      return { categories: [], products: [], storefrontSections: [], storefrontError: null, source: 'missing' };
+      return {
+        categories: [],
+        products: [],
+        storefrontSections: [],
+        clearanceRules: [],
+        storefrontError: null,
+        source: 'missing',
+      };
     }
     const local = getLocalCatalog();
     return {
       categories: local.categories,
       products: local.products.map(normalizeStock),
       storefrontSections: [],
+      clearanceRules: [],
       storefrontError: null,
       source: 'local',
     };
   }
 
-  const [productsResult, categoriesResult, sectionsResult] = await Promise.all([
+  const [productsResult, categoriesResult, sectionsResult, clearanceResult] = await Promise.all([
     supabase
       .from('products')
       .select(
@@ -102,6 +131,7 @@ async function loadCatalogData(): Promise<{
       .order('sort_order', { ascending: true }),
     fetchActiveCategories(supabase),
     supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
+    fetchClearanceRules(supabase),
   ]);
 
   const categories = categoriesResult;
@@ -121,13 +151,27 @@ async function loadCatalogData(): Promise<{
 
   if (productsResult.error) {
     console.error('[catalog] Supabase products:', productsResult.error.message);
-    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
+    return {
+      categories,
+      products: [],
+      storefrontSections,
+      clearanceRules: clearanceResult,
+      storefrontError: sectionsResult.error?.message ?? null,
+      source: 'supabase',
+    };
   }
 
   const products = ((productsResult.data as Product[] | null) ?? []).map(normalizeStock);
 
   if (products.length === 0) {
-    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
+    return {
+      categories,
+      products: [],
+      storefrontSections,
+      clearanceRules: clearanceResult,
+      storefrontError: sectionsResult.error?.message ?? null,
+      source: 'supabase',
+    };
   }
 
   const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
@@ -138,10 +182,14 @@ async function loadCatalogData(): Promise<{
     return a.sort_order - b.sort_order;
   });
 
+  const withAssets = applyProductAssets(sortedProducts, categories);
+  const withClearance = applyClearanceToProducts(withAssets, clearanceResult);
+
   return {
-    products: applyProductAssets(sortedProducts, categories),
+    products: withClearance,
     categories,
     storefrontSections,
+    clearanceRules: clearanceResult,
     storefrontError: sectionsResult.error?.message ?? null,
     source: 'supabase',
   };
@@ -176,7 +224,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       const categories = product.categories
         ? [product.categories as Category]
         : undefined;
-      return applyProductAsset(product, categories);
+      const withAsset = applyProductAsset(product, categories);
+
+      const clearanceRules = await fetchClearanceRules(supabase);
+      const rule = clearanceRules.find((r) => r.product_slug === slug);
+      return applyClearanceToProduct(withAsset, rule);
     }
     return null;
   }

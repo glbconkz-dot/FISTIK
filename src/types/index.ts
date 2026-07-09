@@ -44,6 +44,22 @@ export interface Product {
   sort_order: number;
   created_at: string;
   categories?: Category | null;
+  /** Active time-window clearance sale */
+  clearance_active?: boolean;
+  sale_price?: number;
+  sale_discount_percent?: number;
+}
+
+export interface ClearanceRule {
+  id: string;
+  product_slug: string;
+  product_id: string | null;
+  discount_percent: number;
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+  sort_order: number;
+  updated_at: string;
 }
 
 export interface OrderItem {

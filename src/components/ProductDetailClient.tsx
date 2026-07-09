@@ -5,8 +5,10 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
+import { PriceDisplay } from '@/components/PriceDisplay';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
+import { getEffectivePrice } from '@/lib/b2c/clearance';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getProductImageClasses } from '@/lib/product-image';
 import { useCartStore } from '@/stores/cart';
@@ -48,7 +50,7 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
         productId: product.id,
         slug: product.slug,
         name,
-        price: Number(product.price),
+        price: getEffectivePrice(product),
         image: product.image_url,
         stockMax: stock,
       },
@@ -102,9 +104,7 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
         <div>
           <p className="text-sm text-accent">{categoryName}</p>
           <h1 className="font-display text-3xl font-bold">{name}</h1>
-          <p className="mt-2 text-2xl font-semibold text-accent">
-            {formatPrice(Number(product.price))}
-          </p>
+          <PriceDisplay product={product} size="lg" className="mt-2" />
           {!outOfStock ? (
             <p className="mt-1 text-sm text-muted">{t('stockLeft', { count: stock })}</p>
           ) : (

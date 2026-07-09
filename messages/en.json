@@ -28,7 +28,9 @@
     "chefsSelectionSub": "Curated signature desserts",
     "categories": "Categories",
     "coverTagline": "Handcrafted luxury treats — made with love",
-    "openMenu": "Menu"
+    "openMenu": "Menu",
+    "flashDeals": "Flash Deals",
+    "flashDealsSub": "Extra discounts during selected hours"
   },
   "menuPage": {
     "title": "Menu — FISTIK",
@@ -72,7 +74,14 @@
     "backToMenu": "Back to menu",
     "continueShopping": "Want to add more items?",
     "remove": "Remove",
-    "items": "{count, plural, one {# item} other {# items}}"
+    "items": "{count, plural, one {# item} other {# items}}",
+    "minOrder": "Minimum online order — {amount}",
+    "orderRulesTitle": "Order conditions",
+    "orderRulesMin": "Minimum online order is {amount}. Orders and delivery are not available below this amount.",
+    "orderRulesFreeDelivery": "Orders of {amount} or more include free delivery from FISTIK.",
+    "minOrderRemaining": "Add {amount} more to checkout (min. {min}).",
+    "freeDeliveryActive": "Free delivery applied!",
+    "paidDeliveryHint": "Add {amount} more for free delivery. Below that, a delivery fee applies."
   },
   "checkout": {
     "title": "Checkout",
@@ -123,6 +132,8 @@
       "formInvalid": "Please fix the highlighted fields (phone must be 10 digits).",
       "saveFailed": "Order could not be saved. Check your connection and try again.",
       "insufficientStock": "Some items in your cart are sold out. Please review the menu and try again.",
+      "minOrder": "Minimum order is 3,000 ₸. Please add more items to your cart.",
+      "deliveryNotAvailable": "Delivery is not available below the minimum order of 3,000 ₸.",
       "generic": "Something went wrong. Please try again."
     }
   },

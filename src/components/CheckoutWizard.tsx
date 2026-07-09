@@ -15,11 +15,13 @@ import {
   isValidKzNationalPhone,
   normalizeKzPhone,
 } from '@/lib/checkout';
+import { isB2COrderAllowed } from '@/lib/b2c/pricing';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
 import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
+import { B2COrderRulesNotice } from '@/components/B2COrderRulesNotice';
 import { CartLineItemList } from '@/components/CartLineItemList';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useCartStore } from '@/stores/cart';
@@ -94,6 +96,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
   });
 
   const deliveryMethod = watch('deliveryMethod');
+  const belowMin = !isB2COrderAllowed(subtotal);
 
   useEffect(() => {
     const rehydrate = () => {
@@ -143,6 +146,10 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
       setError(t('errors.cartEmpty'));
       return;
     }
+    if (step >= 2 && belowMin) {
+      setError(t('errors.minOrder'));
+      return;
+    }
     const fields = stepFields[step];
     const valid = fields.length === 0 ? true : await trigger(fields);
     if (!valid) {
@@ -160,6 +167,11 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
   const onSubmit = async (data: CheckoutValues) => {
     if (items.length === 0) {
       setError(t('errors.cartEmpty'));
+      return;
+    }
+
+    if (belowMin) {
+      setError(t('errors.minOrder'));
       return;
     }
 
@@ -203,6 +215,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
     const result = await createOrder(payload, cartSnapshot, locale, {
       orderNumber,
       orderPlacedAt,
+      deliveryMethod: data.deliveryMethod,
     });
 
     setSubmitting(false);
@@ -334,6 +347,8 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
               className="space-y-5"
             >
               <h2 className="font-display text-xl font-semibold">{t('step2Title')}</h2>
+
+              <B2COrderRulesNotice subtotal={subtotal} deliveryMethod={deliveryMethod} />
 
               <div className="flex gap-2">
                 {(['delivery', 'pickup'] as const).map((method) => (
@@ -508,14 +523,14 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
             </button>
           )}
           {step < TOTAL_STEPS ? (
-            <button type="button" onClick={goNext} className="btn-primary flex-1">
+            <button type="button" onClick={goNext} className="btn-primary flex-1" disabled={belowMin && step >= 2}>
               {t('next')}
             </button>
           ) : (
             <button
               type="submit"
               className="btn-primary flex-1"
-              disabled={submitting || items.length === 0}
+              disabled={submitting || items.length === 0 || belowMin}
             >
               {submitting ? t('submitting') : t('submit')}
             </button>

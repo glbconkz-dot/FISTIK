@@ -40,6 +40,11 @@ export function HomeCover({
     autoTodaysFavorites
   );
 
+  const flashDeals = useMemo(
+    () => inStock.filter((p) => p.clearance_active).slice(0, 8),
+    [inStock]
+  );
+
   return (
     <section
       className={`home-cover relative overflow-x-hidden bg-brand px-4 sm:px-6 ${
@@ -74,21 +79,44 @@ export function HomeCover({
         }`}
       >
         {fullPage ? (
-          <CoverProductGrid
-            title={t('todaysFavorites')}
-            subtitle={t('todaysFavoritesSub')}
-            products={todaysFavorites}
-            locale={locale}
-            delay={0.05}
-          />
+          <>
+            {flashDeals.length > 0 ? (
+              <CoverProductGrid
+                title={t('flashDeals')}
+                subtitle={t('flashDealsSub')}
+                products={flashDeals}
+                locale={locale}
+                delay={0.02}
+              />
+            ) : null}
+            <CoverProductGrid
+              title={t('todaysFavorites')}
+              subtitle={t('todaysFavoritesSub')}
+              products={todaysFavorites}
+              locale={locale}
+              delay={0.05}
+            />
+          </>
         ) : (
-          <CuratedSection
-            title={t('todaysFavorites')}
-            subtitle={t('todaysFavoritesSub')}
-            products={todaysFavorites}
-            locale={locale}
-            delay={0.05}
-          />
+          <>
+            {flashDeals.length > 0 ? (
+              <CuratedSection
+                title={t('flashDeals')}
+                subtitle={t('flashDealsSub')}
+                products={flashDeals}
+                locale={locale}
+                delay={0.02}
+                compact
+              />
+            ) : null}
+            <CuratedSection
+              title={t('todaysFavorites')}
+              subtitle={t('todaysFavoritesSub')}
+              products={todaysFavorites}
+              locale={locale}
+              delay={0.05}
+            />
+          </>
         )}
       </div>
 

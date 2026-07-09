@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { applyClearancePricesToCartItems } from '@/lib/b2c/cart-pricing';
+import { B2C_MIN_ORDER_TOTAL } from '@/lib/b2c/constants';
 import { buildWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 import {
   appendCancelNote,
@@ -11,7 +13,7 @@ import {
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
 import { createClient, getAdminUser, tryCreateClient } from '@/lib/supabase/server';
 import { isUuid } from '@/lib/utils';
-import type { CartItem, CheckoutFormData, Locale, Order, OrderStatus } from '@/types';
+import type { CartItem, CheckoutFormData, ClearanceRule, Locale, Order, OrderStatus } from '@/types';
 
 interface CreateOrderResult {
   success: boolean;
@@ -58,6 +60,30 @@ async function resolveCartItems(items: CartItem[]): Promise<CartItem[]> {
   }
 
   return resolved;
+}
+
+async function resolveCartItemsWithPrices(items: CartItem[]): Promise<CartItem[]> {
+  const resolved = await resolveCartItems(items);
+  const supabase = await tryCreateClient();
+  if (!supabase) return resolved;
+
+  const slugs = [...new Set(resolved.map((i) => i.slug).filter(Boolean))];
+  if (slugs.length === 0) return resolved;
+
+  const [{ data: products }, { data: clearance }] = await Promise.all([
+    supabase.from('products').select('slug, price').in('slug', slugs),
+    supabase.from('storefront_clearance').select('*').eq('is_active', true),
+  ]);
+
+  const bySlug = new Map(
+    (products ?? []).map((p) => [p.slug as string, { price: Number(p.price) }])
+  );
+
+  return applyClearancePricesToCartItems(
+    resolved,
+    bySlug,
+    (clearance as ClearanceRule[]) ?? []
+  );
 }
 
 async function checkStockIfAvailable(
@@ -208,14 +234,28 @@ export async function createOrder(
   formData: CheckoutFormData,
   items: CartItem[],
   locale: Locale,
-  options?: { orderNumber?: string; orderPlacedAt?: string }
+  options?: {
+    orderNumber?: string;
+    orderPlacedAt?: string;
+    deliveryMethod?: 'delivery' | 'pickup';
+  }
 ): Promise<CreateOrderResult> {
   if (items.length === 0) {
     return { success: false, error: 'cartEmpty' };
   }
 
   try {
-    const resolvedItems = await resolveCartItems(items);
+    const resolvedItems = await resolveCartItemsWithPrices(items);
+    const subtotal = resolvedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+    if (subtotal < B2C_MIN_ORDER_TOTAL) {
+      return { success: false, error: 'minOrder' };
+    }
+
+    if (options?.deliveryMethod === 'delivery' && subtotal < B2C_MIN_ORDER_TOTAL) {
+      return { success: false, error: 'deliveryNotAvailable' };
+    }
+
     const stockError = await checkStockIfAvailable(resolvedItems);
 
     if (stockError) {

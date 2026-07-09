@@ -1,15 +1,18 @@
 import { createClient } from '@/lib/supabase/server';
 import { AdminStorefrontEditor } from '@/components/admin/AdminStorefrontEditor';
-import type { Category, Product, StorefrontSection } from '@/types';
+import { AdminClearanceEditor } from '@/components/admin/AdminClearanceEditor';
+import type { Category, ClearanceRule, Product, StorefrontSection } from '@/types';
 
 export default async function AdminStorefrontPage() {
   const supabase = await createClient();
 
-  const [{ data: products }, { data: categories }, { data: sections }] = await Promise.all([
-    supabase.from('products').select('*').order('sort_order', { ascending: true }),
-    supabase.from('categories').select('*').order('sort_order', { ascending: true }),
-    supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
-  ]);
+  const [{ data: products }, { data: categories }, { data: sections }, { data: clearance }] =
+    await Promise.all([
+      supabase.from('products').select('*').order('sort_order', { ascending: true }),
+      supabase.from('categories').select('*').order('sort_order', { ascending: true }),
+      supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
+      supabase.from('storefront_clearance').select('*').order('sort_order', { ascending: true }),
+    ]);
 
   return (
     <div>
@@ -18,6 +21,11 @@ export default async function AdminStorefrontPage() {
         products={(products as Product[]) ?? []}
         categories={(categories as Category[]) ?? []}
         sections={(sections as StorefrontSection[]) ?? []}
+      />
+      <AdminClearanceEditor
+        products={(products as Product[]) ?? []}
+        categories={(categories as Category[]) ?? []}
+        clearanceRules={(clearance as ClearanceRule[]) ?? []}
       />
     </div>
   );
