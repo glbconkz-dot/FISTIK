@@ -40,7 +40,7 @@ export function HomeCover({
     autoTodaysFavorites
   );
 
-  const flashDeals = useMemo(
+  const endOfDayDeals = useMemo(
     () => inStock.filter((p) => p.clearance_active).slice(0, 8),
     [inStock]
   );
@@ -80,11 +80,11 @@ export function HomeCover({
       >
         {fullPage ? (
           <>
-            {flashDeals.length > 0 ? (
+            {endOfDayDeals.length > 0 ? (
               <CoverProductGrid
-                title={t('flashDeals')}
-                subtitle={t('flashDealsSub')}
-                products={flashDeals}
+                title={t('endOfDayDiscount')}
+                subtitle={t('endOfDayDiscountSub')}
+                products={endOfDayDeals}
                 locale={locale}
                 delay={0.02}
               />
@@ -99,11 +99,11 @@ export function HomeCover({
           </>
         ) : (
           <>
-            {flashDeals.length > 0 ? (
+            {endOfDayDeals.length > 0 ? (
               <CuratedSection
-                title={t('flashDeals')}
-                subtitle={t('flashDealsSub')}
-                products={flashDeals}
+                title={t('endOfDayDiscount')}
+                subtitle={t('endOfDayDiscountSub')}
+                products={endOfDayDeals}
                 locale={locale}
                 delay={0.02}
                 compact

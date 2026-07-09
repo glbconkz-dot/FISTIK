@@ -66,7 +66,7 @@ export async function saveClearanceItem(input: ClearanceInput): Promise<SaveClea
         return {
           ok: false,
           error:
-            "Acil satış tablosu yok. Supabase'de 025_storefront_clearance.sql çalıştırın.",
+            "Gün sonu indirimi tablosu yok. Supabase'de 025_storefront_clearance.sql çalıştırın.",
         };
       }
       return { ok: false, error: error.message };

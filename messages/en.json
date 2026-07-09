@@ -29,8 +29,8 @@
     "categories": "Categories",
     "coverTagline": "Handcrafted luxury treats — made with love",
     "openMenu": "Menu",
-    "flashDeals": "Flash Deals",
-    "flashDealsSub": "Extra discounts during selected hours"
+    "endOfDayDiscount": "End of Day Discount",
+    "endOfDayDiscountSub": "Discounted items during selected hours"
   },
   "menuPage": {
     "title": "Menu — FISTIK",

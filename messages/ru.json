@@ -29,8 +29,8 @@
     "categories": "Категории",
     "coverTagline": "Авторские десерты ручной работы — с любовью",
     "openMenu": "Меню",
-    "flashDeals": "Срочные предложения",
-    "flashDealsSub": "Дополнительная скидка в выбранные часы"
+    "endOfDayDiscount": "Скидка к концу дня",
+    "endOfDayDiscountSub": "Товары со скидкой в выбранные часы"
   },
   "menuPage": {
     "title": "Меню — FISTIK",

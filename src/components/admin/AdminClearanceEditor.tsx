@@ -11,9 +11,8 @@ import { getLocalizedProductName } from '@/lib/admin-messages';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
 import { formatClearanceTime } from '@/lib/b2c/clearance';
 import { formatPrice, getLocalizedName } from '@/lib/utils';
+import { TimeInput24 } from '@/components/admin/TimeInput24';
 import type { Category, ClearanceRule, Product } from '@/types';
-
-const DISCOUNT_PRESETS = [25, 30];
 
 interface AdminClearanceEditorProps {
   products: Product[];
@@ -35,6 +34,44 @@ const defaultDraft = (): Draft => ({
   endTime: '20:00',
 });
 
+function clampDiscount(value: number): number {
+  if (!Number.isFinite(value)) return 25;
+  return Math.min(90, Math.max(1, Math.round(value)));
+}
+
+function RuleTimeField({
+  initial,
+  label,
+  disabled,
+  onCommit,
+}: {
+  initial: string;
+  label: string;
+  disabled?: boolean;
+  onCommit: (value: string) => void;
+}) {
+  const [value, setValue] = useState(formatClearanceTime(initial));
+
+  useEffect(() => {
+    setValue(formatClearanceTime(initial));
+  }, [initial]);
+
+  return (
+    <div>
+      <label className="text-xs text-muted">{label}</label>
+      <TimeInput24
+        className="mt-0.5 w-full"
+        value={value}
+        onChange={setValue}
+        onBlurCommit={(next) => {
+          if (next !== formatClearanceTime(initial)) onCommit(next);
+        }}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
 export function AdminClearanceEditor({
   products,
   categories,
@@ -46,6 +83,7 @@ export function AdminClearanceEditor({
   useEffect(() => {
     setRules(clearanceRules);
   }, [clearanceRules]);
+
   const [draft, setDraft] = useState<Draft>(defaultDraft);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -84,11 +122,13 @@ export function AdminClearanceEditor({
       return;
     }
 
+    const discountPercent = clampDiscount(draft.discountPercent);
+
     startTransition(async () => {
       const result = await saveClearanceItem({
         productSlug: selectedProduct.slug,
         productId: selectedProduct.id,
-        discountPercent: draft.discountPercent,
+        discountPercent,
         startTime: draft.startTime,
         endTime: draft.endTime,
         isActive: true,
@@ -101,7 +141,7 @@ export function AdminClearanceEditor({
       }
 
       setDraft(defaultDraft());
-      setMessage('Acil satış kuralı eklendi');
+      setMessage('Gün sonu indirimi eklendi');
       router.refresh();
     });
   };
@@ -119,7 +159,7 @@ export function AdminClearanceEditor({
       const result = await saveClearanceItem({
         productSlug: next.product_slug,
         productId: product.id,
-        discountPercent: next.discount_percent,
+        discountPercent: clampDiscount(next.discount_percent),
         startTime: next.start_time,
         endTime: next.end_time,
         isActive: next.is_active,
@@ -178,10 +218,11 @@ export function AdminClearanceEditor({
   return (
     <section className="mt-10 rounded-2xl border border-border bg-surface p-5 shadow-sm">
       <div className="mb-4">
-        <h2 className="font-display text-xl font-bold">Acil Satış / Gün Sonu İndirimi</h2>
+        <h2 className="font-display text-xl font-bold">Gün Sonu İndirimi</h2>
         <p className="mt-1 text-sm text-muted">
           Stokta kalan ürünler için belirli saat aralığında otomatik indirim. Örnek: 16:00–23:59
-          arası %25, yaş pasta 17:00–20:00 arası %30. Saatler Almatı (KZ) saatine göredir.
+          arası %25, yaş pasta 17:00–20:00 arası %30. Saatler 24 saat formatında ve Almatı (KZ)
+          saatine göredir.
         </p>
       </div>
 
@@ -192,7 +233,9 @@ export function AdminClearanceEditor({
         <h3 className="text-sm font-semibold">Yeni kural ekle</h3>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-xs font-medium text-muted">Ürün (stokta)</label>
+            <label className="mb-1 block text-xs font-medium text-muted">
+              Ürün (stokta olanlar)
+            </label>
             <select
               className="input-field w-full"
               value={draft.productSlug}
@@ -206,8 +249,8 @@ export function AdminClearanceEditor({
                     .filter((p) => !usedSlugs.has(p.slug))
                     .map((p) => (
                       <option key={p.id} value={p.slug}>
-                        {getLocalizedProductName(p, 'tr')} — {formatPrice(Number(p.price))} (
-                        {p.stock_quantity} adet)
+                        {getLocalizedProductName(p, 'tr')} — {formatPrice(Number(p.price))} · stok:{' '}
+                        {p.stock_quantity}
                       </option>
                     ))}
                 </optgroup>
@@ -215,50 +258,37 @@ export function AdminClearanceEditor({
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-muted">İndirim %</label>
-            <div className="flex gap-1">
-              {DISCOUNT_PRESETS.map((pct) => (
-                <button
-                  key={pct}
-                  type="button"
-                  onClick={() => setDraft((d) => ({ ...d, discountPercent: pct }))}
-                  className={`rounded-lg border px-2 py-2 text-sm font-semibold ${
-                    draft.discountPercent === pct
-                      ? 'border-brand bg-brand text-accent'
-                      : 'border-border bg-white'
-                  }`}
-                >
-                  %{pct}
-                </button>
-              ))}
-              <input
-                type="number"
-                min={1}
-                max={90}
-                className="input-field w-16"
-                value={draft.discountPercent}
-                onChange={(e) =>
-                  setDraft((d) => ({ ...d, discountPercent: Number(e.target.value) || 25 }))
-                }
-              />
-            </div>
+            <label className="mb-1 block text-xs font-medium text-muted">İndirim oranı (%)</label>
+            <input
+              type="number"
+              min={1}
+              max={90}
+              step={1}
+              className="input-field w-full"
+              value={draft.discountPercent}
+              onChange={(e) =>
+                setDraft((d) => ({
+                  ...d,
+                  discountPercent: clampDiscount(Number(e.target.value)),
+                }))
+              }
+            />
+            <p className="mt-1 text-[11px] text-muted">Varsayılan %25 — 30, 50 vb. yazabilirsiniz</p>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-muted">Başlangıç</label>
-            <input
-              type="time"
-              className="input-field w-full"
+            <label className="mb-1 block text-xs font-medium text-muted">Başlangıç (24s)</label>
+            <TimeInput24
               value={draft.startTime}
-              onChange={(e) => setDraft((d) => ({ ...d, startTime: e.target.value }))}
+              onChange={(startTime) => setDraft((d) => ({ ...d, startTime }))}
+              disabled={isPending}
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-muted">Bitiş</label>
-            <input
-              type="time"
-              className="input-field w-full"
+            <label className="mb-1 block text-xs font-medium text-muted">Bitiş (24s)</label>
+            <TimeInput24
               value={draft.endTime}
-              onChange={(e) => setDraft((d) => ({ ...d, endTime: e.target.value }))}
+              onChange={(endTime) => setDraft((d) => ({ ...d, endTime }))}
+              disabled={isPending}
             />
           </div>
         </div>
@@ -268,7 +298,8 @@ export function AdminClearanceEditor({
             {formatPrice(Number(selectedProduct.price))} →{' '}
             {formatPrice(
               Math.round(Number(selectedProduct.price) * (1 - draft.discountPercent / 100))
-            )}
+            )}{' '}
+            (%{draft.discountPercent} indirim)
           </p>
         ) : null}
         <button
@@ -282,7 +313,7 @@ export function AdminClearanceEditor({
       </div>
 
       {rules.length === 0 ? (
-        <p className="mt-4 text-sm text-muted">Henüz acil satış kuralı yok.</p>
+        <p className="mt-4 text-sm text-muted">Henüz gün sonu indirimi kuralı yok.</p>
       ) : (
         <ul className="mt-4 space-y-3">
           {rules.map((rule) => {
@@ -302,9 +333,9 @@ export function AdminClearanceEditor({
                   <div>
                     <p className="font-semibold">{name}</p>
                     <p className="text-sm text-muted">
-                      %{rule.discount_percent} · {formatClearanceTime(rule.start_time)} –{' '}
+                      %{rule.discount_percent} indirim · {formatClearanceTime(rule.start_time)} –{' '}
                       {formatClearanceTime(rule.end_time)}
-                      {product ? ` · Stok: ${product.stock_quantity}` : ''}
+                      {product ? ` · stok: ${product.stock_quantity}` : ''}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -328,47 +359,34 @@ export function AdminClearanceEditor({
                 </div>
                 <div className="mt-3 grid gap-2 sm:grid-cols-4">
                   <div>
-                    <label className="text-xs text-muted">İndirim %</label>
+                    <label className="text-xs text-muted">İndirim oranı (%)</label>
                     <input
                       type="number"
                       min={1}
                       max={90}
+                      step={1}
                       className="input-field mt-0.5 w-full"
                       defaultValue={rule.discount_percent}
                       onBlur={(e) => {
-                        const v = Number(e.target.value);
-                        if (v !== rule.discount_percent && v >= 1 && v <= 90) {
+                        const v = clampDiscount(Number(e.target.value));
+                        if (v !== rule.discount_percent) {
                           updateRule(rule, { discount_percent: v });
                         }
                       }}
                     />
                   </div>
-                  <div>
-                    <label className="text-xs text-muted">Başlangıç</label>
-                    <input
-                      type="time"
-                      className="input-field mt-0.5 w-full"
-                      defaultValue={formatClearanceTime(rule.start_time)}
-                      onBlur={(e) => {
-                        if (e.target.value && e.target.value !== formatClearanceTime(rule.start_time)) {
-                          updateRule(rule, { start_time: e.target.value });
-                        }
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs text-muted">Bitiş</label>
-                    <input
-                      type="time"
-                      className="input-field mt-0.5 w-full"
-                      defaultValue={formatClearanceTime(rule.end_time)}
-                      onBlur={(e) => {
-                        if (e.target.value && e.target.value !== formatClearanceTime(rule.end_time)) {
-                          updateRule(rule, { end_time: e.target.value });
-                        }
-                      }}
-                    />
-                  </div>
+                  <RuleTimeField
+                    label="Başlangıç (24s)"
+                    initial={rule.start_time}
+                    disabled={isPending}
+                    onCommit={(start_time) => updateRule(rule, { start_time })}
+                  />
+                  <RuleTimeField
+                    label="Bitiş (24s)"
+                    initial={rule.end_time}
+                    disabled={isPending}
+                    onCommit={(end_time) => updateRule(rule, { end_time })}
+                  />
                 </div>
               </li>
             );

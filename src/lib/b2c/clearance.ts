@@ -80,3 +80,19 @@ export function applyClearanceToProducts(
 export function formatClearanceTime(time: string): string {
   return time.slice(0, 5);
 }
+
+const TIME_24_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+/** HH:MM — 24 saat; "1600" gibi girişleri de kabul eder. */
+export function normalizeTime24Input(raw: string): string | null {
+  const trimmed = raw.trim();
+  if (TIME_24_RE.test(trimmed)) return trimmed;
+
+  const digits = trimmed.replace(/\D/g, '');
+  if (digits.length === 4) {
+    const candidate = `${digits.slice(0, 2)}:${digits.slice(2)}`;
+    if (TIME_24_RE.test(candidate)) return candidate;
+  }
+
+  return null;
+}
