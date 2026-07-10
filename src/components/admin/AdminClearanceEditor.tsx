@@ -12,7 +12,6 @@ import { groupProductsByDisplayCategory } from '@/lib/category-display';
 import { formatClearanceTime, isClearanceWindowActive } from '@/lib/b2c/clearance';
 import { formatPrice, getLocalizedName } from '@/lib/utils';
 import { TimeInput24 } from '@/components/admin/TimeInput24';
-import { STORE_TIMEZONE } from '@/lib/order-dates';
 import type { Category, ClearanceRule, Product } from '@/types';
 
 interface AdminClearanceEditorProps {
@@ -221,9 +220,9 @@ export function AdminClearanceEditor({
       <div className="mb-4">
         <h2 className="font-display text-xl font-bold">Gün Sonu İndirimi</h2>
         <p className="mt-1 text-sm text-muted">
-          Stokta kalan ürünler için belirli saat aralığında otomatik indirim. Örnek: 16:00–23:59
-          arası %25, yaş pasta 17:00–20:00 arası %30. Saatler 24 saat formatında ve Almatı (KZ)
-          saatine göredir. İndirim yalnızca seçilen saat aralığında sitede görünür.
+          Stokta kalan ürünler için belirli saat aralığında otomatik indirim. Kural aktifken ürün
+          sitede gün boyu duyurulur; indirimli fiyat yalnızca seçilen saatlerde uygulanır. Saatler
+          24 saat formatında ve Almatı (KZ) saatine göredir.
         </p>
       </div>
 
@@ -344,12 +343,13 @@ export function AdminClearanceEditor({
                     {rule.is_active ? (
                       liveNow ? (
                         <p className="mt-1 text-xs font-semibold text-green-700">
-                          Şu an sitede görünüyor (Almatı {STORE_TIMEZONE})
+                          Şu an indirimli satışta — sitede aktif
                         </p>
                       ) : (
                         <p className="mt-1 text-xs font-medium text-amber-800">
-                          Saat penceresi dışında — sitede henüz görünmez. Pencere:{' '}
-                          {formatClearanceTime(rule.start_time)}–{formatClearanceTime(rule.end_time)}
+                          Sitede duyuruluyor: {formatClearanceTime(rule.start_time)}–
+                          {formatClearanceTime(rule.end_time)} arası %{rule.discount_percent}{' '}
+                          (fiyat o saatte düşer)
                         </p>
                       )
                     ) : (

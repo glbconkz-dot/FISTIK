@@ -112,6 +112,14 @@ export function ProductCard({ product, locale }: ProductCardProps) {
             <div className="absolute left-2 top-2 z-10 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
               ×{cartQty}
             </div>
+          ) : product.clearance_active && product.sale_discount_percent ? (
+            <div className="absolute left-2 top-2 z-10 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+              -{product.sale_discount_percent}%
+            </div>
+          ) : product.clearance_scheduled && product.sale_discount_percent ? (
+            <div className="absolute left-2 top-2 z-10 rounded-full bg-amber-700 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
+              {product.clearance_start_time} · -{product.sale_discount_percent}%
+            </div>
           ) : null}
           {outOfStock ? (
             <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">

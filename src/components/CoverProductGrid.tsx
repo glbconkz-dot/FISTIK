@@ -67,6 +67,10 @@ export function CoverProductGrid({
                   <span className="cover-product-badge bg-red-600 text-white">
                     -{product.sale_discount_percent}%
                   </span>
+                ) : product.clearance_scheduled && product.sale_discount_percent ? (
+                  <span className="cover-product-badge bg-amber-700 text-white">
+                    {product.clearance_start_time} · -{product.sale_discount_percent}%
+                  </span>
                 ) : null}
                 {outOfStock ? (
                   <span className="cover-product-badge">{t('soldOut')}</span>

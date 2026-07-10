@@ -44,10 +44,14 @@ export interface Product {
   sort_order: number;
   created_at: string;
   categories?: Category | null;
-  /** Active time-window clearance sale */
+  /** Live now — discounted price applies to cart */
   clearance_active?: boolean;
+  /** Rule is on, but outside time window — show as upcoming announcement */
+  clearance_scheduled?: boolean;
   sale_price?: number;
   sale_discount_percent?: number;
+  clearance_start_time?: string;
+  clearance_end_time?: string;
 }
 
 export interface ClearanceRule {

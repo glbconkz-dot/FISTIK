@@ -30,7 +30,7 @@
     "coverTagline": "Авторские десерты ручной работы — с любовью",
     "openMenu": "Меню",
     "endOfDayDiscount": "Скидка к концу дня",
-    "endOfDayDiscountSub": "Товары со скидкой в выбранные часы"
+    "endOfDayDiscountSub": "Сегодня в выбранные часы — цена снизится вовремя"
   },
   "menuPage": {
     "title": "Меню — FISTIK",
@@ -46,6 +46,8 @@
     "added": "Добавлено",
     "soldOut": "Нет в наличии",
     "stockLeft": "Осталось {count} шт.",
+    "clearanceLiveUntil": "Скидка до {end}",
+    "clearanceStartsAt": "{start}–{end}: −{percent}% → {price}",
     "semiGroupBorek6": "Бореки · упаковка 6 шт.",
     "semiGroupMini16": "Мини бореки · упаковка 16 шт.",
     "semiGroupSarma": "Сарма бореки · 1 шт.",

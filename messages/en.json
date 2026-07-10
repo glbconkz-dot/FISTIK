@@ -30,7 +30,7 @@
     "coverTagline": "Handcrafted luxury treats — made with love",
     "openMenu": "Menu",
     "endOfDayDiscount": "End of Day Discount",
-    "endOfDayDiscountSub": "Discounted items during selected hours"
+    "endOfDayDiscountSub": "Today's timed deals — price drops when the hour starts"
   },
   "menuPage": {
     "title": "Menu — FISTIK",
@@ -46,6 +46,8 @@
     "added": "Added",
     "soldOut": "Sold out",
     "stockLeft": "{count} left",
+    "clearanceLiveUntil": "Sale until {end}",
+    "clearanceStartsAt": "{start}–{end}: {percent}% off → {price}",
     "semiGroupBorek6": "Boreks · pack of 6",
     "semiGroupMini16": "Mini boreks · pack of 16",
     "semiGroupSarma": "Sarma boreks · 1 pc",

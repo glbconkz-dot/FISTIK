@@ -40,6 +40,7 @@ export function computeSalePrice(basePrice: number, discountPercent: number): nu
   return Math.round(basePrice * (1 - discountPercent / 100));
 }
 
+/** Cart / checkout price — discount only while the window is live. */
 export function getEffectivePrice(product: Product): number {
   if (product.clearance_active && product.sale_price != null) {
     return product.sale_price;
@@ -47,32 +48,42 @@ export function getEffectivePrice(product: Product): number {
   return Number(product.price);
 }
 
+/** Product has an active clearance rule (live or announced for later today). */
+export function hasClearanceOffer(product: Product): boolean {
+  return Boolean(product.clearance_active || product.clearance_scheduled);
+}
+
 export function applyClearanceToProduct(
   product: Product,
   rule: ClearanceRule | undefined,
   now = new Date()
 ): Product {
-  // Always strip stale sale flags (e.g. from a previous cache fill).
   const base: Product = {
     ...product,
     clearance_active: undefined,
+    clearance_scheduled: undefined,
     sale_price: undefined,
     sale_discount_percent: undefined,
+    clearance_start_time: undefined,
+    clearance_end_time: undefined,
   };
 
   if (!rule?.is_active) return base;
 
-  const active = isClearanceWindowActive(rule.start_time, rule.end_time, now);
-  if (!active) return base;
-
+  const live = isClearanceWindowActive(rule.start_time, rule.end_time, now);
   const basePrice = Number(product.price);
   const salePrice = computeSalePrice(basePrice, rule.discount_percent);
+  const start = formatClearanceTime(rule.start_time);
+  const end = formatClearanceTime(rule.end_time);
 
   return {
     ...base,
-    clearance_active: true,
+    clearance_active: live,
+    clearance_scheduled: !live,
     sale_price: salePrice,
     sale_discount_percent: rule.discount_percent,
+    clearance_start_time: start,
+    clearance_end_time: end,
   };
 }
 

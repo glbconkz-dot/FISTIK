@@ -9,6 +9,7 @@ import { CoverProductGrid } from '@/components/CoverProductGrid';
 import { CuratedSection } from '@/components/CuratedSection';
 import { Reveal } from '@/components/ui/Reveal';
 import { resolveSectionProducts } from '@/lib/storefront-utils';
+import { hasClearanceOffer } from '@/lib/b2c/clearance';
 import type { Locale, Product, StorefrontSection } from '@/types';
 
 interface HomeCoverProps {
@@ -41,7 +42,7 @@ export function HomeCover({
   );
 
   const endOfDayDeals = useMemo(
-    () => inStock.filter((p) => p.clearance_active).slice(0, 8),
+    () => inStock.filter((p) => hasClearanceOffer(p)).slice(0, 8),
     [inStock]
   );
 

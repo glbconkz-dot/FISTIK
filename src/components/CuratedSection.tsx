@@ -80,6 +80,14 @@ export function CuratedSection({
                     <div className="absolute inset-x-0 bottom-0 bg-foreground/75 py-2 text-center text-xs font-medium text-surface">
                       {t('soldOut')}
                     </div>
+                  ) : product.clearance_active && product.sale_discount_percent ? (
+                    <div className="absolute inset-x-0 bottom-0 bg-red-600/90 py-1.5 text-center text-xs font-semibold text-white">
+                      -{product.sale_discount_percent}%
+                    </div>
+                  ) : product.clearance_scheduled && product.sale_discount_percent ? (
+                    <div className="absolute inset-x-0 bottom-0 bg-amber-700/90 py-1.5 text-center text-[11px] font-semibold text-white">
+                      {product.clearance_start_time} · -{product.sale_discount_percent}%
+                    </div>
                   ) : null}
                 </div>
                 <div className={compact ? 'p-3 sm:p-4' : 'p-4'}>

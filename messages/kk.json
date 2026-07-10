@@ -30,7 +30,7 @@
     "coverTagline": "Қолмен жасалған люкс дәмдер — махаббатпен",
     "openMenu": "Мәзір",
     "endOfDayDiscount": "Күн соңы жеңілдігі",
-    "endOfDayDiscountSub": "Белгілі сағаттарда жеңілдетілген өнімдер"
+    "endOfDayDiscountSub": "Бүгін белгілі сағаттарда — уақыт келгенде баға түседі"
   },
   "menuPage": {
     "title": "Мәзір — FISTIK",
@@ -46,6 +46,8 @@
     "added": "Қосылды",
     "soldOut": "Таусылды",
     "stockLeft": "{count} дана қалды",
+    "clearanceLiveUntil": "Жеңілдік {end}-ге дейін",
+    "clearanceStartsAt": "{start}–{end}: %{percent} → {price}",
     "semiGroupBorek6": "Боректер · 6 даналық орама",
     "semiGroupMini16": "Мини боректер · 16 даналық орама",
     "semiGroupSarma": "Сарма боректер · 1 дана",
