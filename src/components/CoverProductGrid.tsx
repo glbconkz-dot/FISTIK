@@ -14,6 +14,8 @@ interface CoverProductGridProps {
   products: Product[];
   locale: Locale;
   delay?: number;
+  /** Max products to show (default 4) */
+  limit?: number;
 }
 
 export function CoverProductGrid({
@@ -22,9 +24,10 @@ export function CoverProductGrid({
   products,
   locale,
   delay = 0,
+  limit = 4,
 }: CoverProductGridProps) {
   const t = useTranslations('catalog');
-  const items = products.slice(0, 4);
+  const items = products.slice(0, limit);
 
   if (items.length === 0) return null;
 

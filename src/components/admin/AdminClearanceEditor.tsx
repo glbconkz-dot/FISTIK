@@ -9,9 +9,10 @@ import {
 } from '@/app/actions/admin-clearance';
 import { getLocalizedProductName } from '@/lib/admin-messages';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
-import { formatClearanceTime } from '@/lib/b2c/clearance';
+import { formatClearanceTime, isClearanceWindowActive } from '@/lib/b2c/clearance';
 import { formatPrice, getLocalizedName } from '@/lib/utils';
 import { TimeInput24 } from '@/components/admin/TimeInput24';
+import { STORE_TIMEZONE } from '@/lib/order-dates';
 import type { Category, ClearanceRule, Product } from '@/types';
 
 interface AdminClearanceEditorProps {
@@ -222,7 +223,7 @@ export function AdminClearanceEditor({
         <p className="mt-1 text-sm text-muted">
           Stokta kalan ürünler için belirli saat aralığında otomatik indirim. Örnek: 16:00–23:59
           arası %25, yaş pasta 17:00–20:00 arası %30. Saatler 24 saat formatında ve Almatı (KZ)
-          saatine göredir.
+          saatine göredir. İndirim yalnızca seçilen saat aralığında sitede görünür.
         </p>
       </div>
 
@@ -321,6 +322,9 @@ export function AdminClearanceEditor({
             const name = product
               ? getLocalizedProductName(product, 'tr')
               : rule.product_slug;
+            const liveNow =
+              rule.is_active &&
+              isClearanceWindowActive(rule.start_time, rule.end_time);
 
             return (
               <li
@@ -337,6 +341,20 @@ export function AdminClearanceEditor({
                       {formatClearanceTime(rule.end_time)}
                       {product ? ` · stok: ${product.stock_quantity}` : ''}
                     </p>
+                    {rule.is_active ? (
+                      liveNow ? (
+                        <p className="mt-1 text-xs font-semibold text-green-700">
+                          Şu an sitede görünüyor (Almatı {STORE_TIMEZONE})
+                        </p>
+                      ) : (
+                        <p className="mt-1 text-xs font-medium text-amber-800">
+                          Saat penceresi dışında — sitede henüz görünmez. Pencere:{' '}
+                          {formatClearanceTime(rule.start_time)}–{formatClearanceTime(rule.end_time)}
+                        </p>
+                      )
+                    ) : (
+                      <p className="mt-1 text-xs text-muted">Pasif — sitede görünmez</p>
+                    )}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <button

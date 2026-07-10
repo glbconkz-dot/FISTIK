@@ -8,7 +8,8 @@ function getAlmatyTimeMinutes(now = new Date()): number {
     minute: '2-digit',
     hour12: false,
   }).formatToParts(now);
-  const hour = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+  const hourRaw = Number(parts.find((p) => p.type === 'hour')?.value ?? 0);
+  const hour = hourRaw === 24 ? 0 : hourRaw;
   const minute = Number(parts.find((p) => p.type === 'minute')?.value ?? 0);
   return hour * 60 + minute;
 }
@@ -51,16 +52,24 @@ export function applyClearanceToProduct(
   rule: ClearanceRule | undefined,
   now = new Date()
 ): Product {
-  if (!rule?.is_active) return product;
+  // Always strip stale sale flags (e.g. from a previous cache fill).
+  const base: Product = {
+    ...product,
+    clearance_active: undefined,
+    sale_price: undefined,
+    sale_discount_percent: undefined,
+  };
+
+  if (!rule?.is_active) return base;
 
   const active = isClearanceWindowActive(rule.start_time, rule.end_time, now);
-  if (!active) return product;
+  if (!active) return base;
 
   const basePrice = Number(product.price);
   const salePrice = computeSalePrice(basePrice, rule.discount_percent);
 
   return {
-    ...product,
+    ...base,
     clearance_active: true,
     sale_price: salePrice,
     sale_discount_percent: rule.discount_percent,

@@ -183,10 +183,11 @@ async function loadCatalogData(): Promise<{
   });
 
   const withAssets = applyProductAssets(sortedProducts, categories);
-  const withClearance = applyClearanceToProducts(withAssets, clearanceResult);
 
+  // Do NOT apply time-window clearance here — this result is cached.
+  // getCatalogData() applies clearance with the current Almaty time after cache.
   return {
-    products: withClearance,
+    products: withAssets,
     categories,
     storefrontSections,
     clearanceRules: clearanceResult,
@@ -202,10 +203,15 @@ const getCachedCatalogData = unstable_cache(loadCatalogData, ['fistik-catalog'],
 
 export async function getCatalogData() {
   const supabase = createPublicSupabaseClient();
-  if (!supabase && process.env.NODE_ENV !== 'production') {
-    return loadCatalogData();
-  }
-  return getCachedCatalogData();
+  const data =
+    !supabase && process.env.NODE_ENV !== 'production'
+      ? await loadCatalogData()
+      : await getCachedCatalogData();
+
+  return {
+    ...data,
+    products: applyClearanceToProducts(data.products, data.clearanceRules),
+  };
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

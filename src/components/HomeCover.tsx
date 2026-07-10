@@ -87,6 +87,7 @@ export function HomeCover({
                 products={endOfDayDeals}
                 locale={locale}
                 delay={0.02}
+                limit={8}
               />
             ) : null}
             <CoverProductGrid

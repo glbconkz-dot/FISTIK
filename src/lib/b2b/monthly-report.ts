@@ -33,9 +33,11 @@ export interface B2BMonthlyReport {
 }
 
 function monthRange(yearMonth: string): { start: string; end: string } {
+  // Almaty calendar month boundaries as UTC ISO strings
+  const start = new Date(`${yearMonth}-01T00:00:00+05:00`);
   const [y, m] = yearMonth.split('-').map(Number);
-  const start = new Date(y!, m! - 1, 1);
-  const end = new Date(y!, m!, 1);
+  const nextMonth = m === 12 ? `${y! + 1}-01` : `${y!}-${String(m! + 1).padStart(2, '0')}`;
+  const end = new Date(`${nextMonth}-01T00:00:00+05:00`);
   return { start: start.toISOString(), end: end.toISOString() };
 }
 

@@ -390,3 +390,43 @@ body[data-page='cover'] .cover-page-root {
     font-size: 0.75rem;
   }
 }
+
+/* B2B aylık rapor — yazdır / PDF */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .b2b-report-filters,
+  .print\:hidden,
+  nav,
+  aside,
+  header,
+  .admin-sidebar {
+    display: none !important;
+  }
+
+  .b2b-report-print-header {
+    display: block !important;
+    margin-bottom: 1rem;
+  }
+
+  .b2b-report-print-root {
+    break-inside: avoid;
+  }
+
+  .luxury-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  table {
+    break-inside: auto;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+}
+
