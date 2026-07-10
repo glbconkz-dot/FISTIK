@@ -17,9 +17,16 @@ export const brandOpenGraphImage = {
 export const sharedSiteMetadata: Pick<Metadata, 'metadataBase' | 'icons' | 'openGraph' | 'twitter'> = {
   metadataBase: new URL(SITE_URL),
   icons: {
-    icon: [{ url: BRAND_ICON, type: 'image/png', sizes: '1024x1024' }],
-    apple: [{ url: BRAND_ICON, type: 'image/png', sizes: '1024x1024' }],
-    shortcut: BRAND_ICON,
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '192x192' },
+      { url: BRAND_ICON, type: 'image/png', sizes: '1024x1024' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', type: 'image/png', sizes: '180x180' },
+      { url: BRAND_ICON, type: 'image/png', sizes: '1024x1024' },
+    ],
+    shortcut: '/favicon.ico',
   },
   openGraph: {
     siteName: SITE_NAME,
