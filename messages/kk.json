@@ -60,6 +60,7 @@
   },
   "product": {
     "back": "Мәзірге оралу",
+    "backToCategory": "{category} тізіміне оралу",
     "quantity": "Саны",
     "addToCart": "Себетке қосу",
     "viewCart": "Себетке өту",

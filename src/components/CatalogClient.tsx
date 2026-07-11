@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
@@ -30,6 +30,14 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
   const selectedCategory = normalizeCategoryParam(searchParams.get('cat'));
 
   const liveProducts = useLiveStockPatch(products);
+
+  // Product detail “back” lands on /menu?cat=… — jump to that category’s product grid.
+  useEffect(() => {
+    if (!selectedCategory) return;
+    requestAnimationFrame(() => {
+      document.getElementById('all-products')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    });
+  }, [selectedCategory]);
 
   const selectCategory = useCallback(
     (slug: string | null) => {

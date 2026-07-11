@@ -60,6 +60,7 @@
   },
   "product": {
     "back": "Back to catalog",
+    "backToCategory": "Back to {category}",
     "quantity": "Quantity",
     "addToCart": "Add to cart",
     "viewCart": "View cart",

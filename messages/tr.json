@@ -60,6 +60,7 @@
   },
   "product": {
     "back": "Menüye dön",
+    "backToCategory": "{category} listesine dön",
     "quantity": "Adet",
     "addToCart": "Sepete ekle",
     "viewCart": "Sepete git",

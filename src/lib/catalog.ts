@@ -258,3 +258,21 @@ export function getCategoryName(
   const cat = categories.find((c) => c.id === catId || c.slug === catId);
   return cat ? getLocalizedName(cat, locale) : '';
 }
+
+/** Menu filter slug for “back to category” (frozen-boreks → semi-finished). */
+export function getCategoryFilterSlug(
+  product: Product,
+  categories: Category[]
+): string | null {
+  const fromJoin = product.categories as Category | null | undefined;
+  let slug = fromJoin?.slug ?? null;
+
+  if (!slug) {
+    const catId = product.category_id;
+    const cat = categories.find((c) => c.id === catId || c.slug === catId);
+    slug = cat?.slug ?? (typeof catId === 'string' ? catId : null);
+  }
+
+  if (!slug) return null;
+  return slug === 'frozen-boreks' ? 'semi-finished' : slug;
+}

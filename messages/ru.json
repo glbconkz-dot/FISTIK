@@ -60,6 +60,7 @@
   },
   "product": {
     "back": "Назад в каталог",
+    "backToCategory": "Назад к «{category}»",
     "quantity": "Количество",
     "addToCart": "В корзину",
     "viewCart": "К корзине",

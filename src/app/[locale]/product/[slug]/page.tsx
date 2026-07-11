@@ -1,7 +1,12 @@
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
-import { getCatalogData, getCategoryName, getProductBySlug } from '@/lib/catalog';
+import {
+  getCatalogData,
+  getCategoryFilterSlug,
+  getCategoryName,
+  getProductBySlug,
+} from '@/lib/catalog';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
 import type { Locale } from '@/types';
 import { getTranslations } from 'next-intl/server';
@@ -20,11 +25,16 @@ export default async function ProductPage({
 
   const { categories } = await getCatalogData();
   const categoryName = getCategoryName(product, categories, locale as Locale);
+  const categorySlug = getCategoryFilterSlug(product, categories);
+
+  const backHref = categorySlug
+    ? { pathname: '/menu' as const, query: { cat: categorySlug } }
+    : ('/menu' as const);
 
   return (
     <div>
-      <Link href="/menu" className="mb-4 inline-block text-sm text-muted hover:text-foreground">
-        ← {t('back')}
+      <Link href={backHref} className="mb-4 inline-block text-sm text-muted hover:text-foreground">
+        ← {categoryName ? t('backToCategory', { category: categoryName }) : t('back')}
       </Link>
       <ProductDetailClient
         product={product}
