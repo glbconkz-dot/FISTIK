@@ -7,6 +7,7 @@ const CONTAIN_FIT_SLUGS = new Set([
   'cake-chocolate',
   'cake-milk-girl',
   'cake-pistachio-raspberry',
+  'cake-red-velvet',
 ]);
 
 const CONTAIN_PATH_HINTS = [

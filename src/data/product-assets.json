@@ -1,117 +1,280 @@
 [
   {
-    "slugs": ["eclair-large-pistachio", "eclair-mini-pistachio"],
-    "names": ["фисташковый", "pistachio eclair", "fıstıklı ekler", "фисташка эклер"],
+    "slugs": [
+      "eclair-large-pistachio",
+      "eclair-mini-pistachio"
+    ],
+    "names": [
+      "фисташковый",
+      "pistachio eclair",
+      "fıstıklı ekler",
+      "фисташка эклер"
+    ],
     "image_url": "/products/eclairs/pistachio.png"
   },
   {
-    "slugs": ["eclair-large-hazelnut", "eclair-mini-hazelnut"],
-    "names": ["фундучный", "hazelnut eclair", "fındıklı ekler", "жаңғақ эклер"],
+    "slugs": [
+      "eclair-large-hazelnut",
+      "eclair-mini-hazelnut"
+    ],
+    "names": [
+      "фундучный",
+      "hazelnut eclair",
+      "fındıklı ekler",
+      "жаңғақ эклер"
+    ],
     "image_url": "/products/eclairs/hazelnut.png"
   },
   {
-    "slugs": ["eclair-large-vanilla", "eclair-mini-vanilla"],
-    "names": ["ванильный", "vanilla eclair", "vanilyalı ekler", "ваниль эклер"],
+    "slugs": [
+      "eclair-large-vanilla",
+      "eclair-mini-vanilla"
+    ],
+    "names": [
+      "ванильный",
+      "vanilla eclair",
+      "vanilyalı ekler",
+      "ваниль эклер"
+    ],
     "image_url": "/products/eclairs/vanilla.png"
   },
   {
-    "slugs": ["eclair-large-mastic", "eclair-mini-mastic"],
-    "names": ["дамла сакызы", "mastic eclair", "damla sakızlı ekler", "damla sakız"],
+    "slugs": [
+      "eclair-large-mastic",
+      "eclair-mini-mastic"
+    ],
+    "names": [
+      "дамла сакызы",
+      "mastic eclair",
+      "damla sakızlı ekler",
+      "damla sakız"
+    ],
     "image_url": "/products/eclairs/mastic.png"
   },
   {
-    "slugs": ["eclair-large-strawberry", "eclair-mini-strawberry"],
-    "names": ["клубничный", "strawberry eclair", "çilekli ekler", "құлпынай эклер"],
+    "slugs": [
+      "eclair-large-strawberry",
+      "eclair-mini-strawberry"
+    ],
+    "names": [
+      "клубничный",
+      "strawberry eclair",
+      "çilekli ekler",
+      "құлпынай эклер"
+    ],
     "image_url": "/products/eclairs/strawberry.png"
   },
   {
-    "slugs": ["eclair-large-raspberry", "eclair-mini-raspberry"],
-    "names": ["малиновый", "raspberry eclair", "ahududulu ekler", "таңқурай эклер"],
+    "slugs": [
+      "eclair-large-raspberry",
+      "eclair-mini-raspberry"
+    ],
+    "names": [
+      "малиновый",
+      "raspberry eclair",
+      "ahududulu ekler",
+      "таңқурай эклер"
+    ],
     "image_url": "/products/eclairs/raspberry.png"
   },
   {
-    "slugs": ["eclair-large-cherry", "eclair-mini-cherry"],
-    "names": ["вишневый", "cherry eclair", "vişneli ekler", "шие эклер"],
+    "slugs": [
+      "eclair-large-cherry",
+      "eclair-mini-cherry"
+    ],
+    "names": [
+      "вишневый",
+      "cherry eclair",
+      "vişneli ekler",
+      "шие эклер"
+    ],
     "image_url": "/products/eclairs/cherry.png"
   },
   {
-    "slugs": ["eclair-large-pineapple", "eclair-mini-pineapple"],
-    "names": ["анanas", "pineapple eclair", "ananaslı ekler", "анanas эклер"],
+    "slugs": [
+      "eclair-large-pineapple",
+      "eclair-mini-pineapple"
+    ],
+    "names": [
+      "анanas",
+      "pineapple eclair",
+      "ananaslı ekler",
+      "анanas эклер"
+    ],
     "image_url": "/products/eclairs/pineapple.png"
   },
   {
-    "slugs": ["art-pistachio"],
-    "names": ["арт-десерт фисташка", "art dessert pistachio", "fıstık art tatlı"],
+    "slugs": [
+      "art-pistachio"
+    ],
+    "names": [
+      "арт-десерт фисташка",
+      "art dessert pistachio",
+      "fıstık art tatlı"
+    ],
     "image_url": "/products/art-desserts/pistachio.png"
   },
   {
-    "slugs": ["art-lemon"],
-    "names": ["арт-десерт лимон", "art dessert lemon", "limon art tatlı"],
+    "slugs": [
+      "art-lemon"
+    ],
+    "names": [
+      "арт-десерт лимон",
+      "art dessert lemon",
+      "limon art tatlı"
+    ],
     "image_url": "/products/art-desserts/lemon.png"
   },
   {
-    "slugs": ["art-mango"],
-    "names": ["арт-десерт манго", "art dessert mango", "mango art tatlı"],
+    "slugs": [
+      "art-mango"
+    ],
+    "names": [
+      "арт-десерт манго",
+      "art dessert mango",
+      "mango art tatlı"
+    ],
     "image_url": "/products/art-desserts/mango.png"
   },
   {
-    "slugs": ["art-coffee"],
-    "names": ["арт-десерт кофе", "art dessert coffee", "kahve art tatlı"],
+    "slugs": [
+      "art-coffee"
+    ],
+    "names": [
+      "арт-десерт кофе",
+      "art dessert coffee",
+      "kahve art tatlı"
+    ],
     "image_url": "/products/art-desserts/coffee.png"
   },
   {
-    "slugs": ["art-heart"],
-    "names": ["арт-десерт сердце", "art dessert heart", "kalpli art tatlı", "жүрек"],
+    "slugs": [
+      "art-heart"
+    ],
+    "names": [
+      "арт-десерт сердце",
+      "art dessert heart",
+      "kalpli art tatlı",
+      "жүрек"
+    ],
     "image_url": "/products/art-desserts/heart.png"
   },
   {
-    "slugs": ["art-raspberry"],
-    "names": ["арт-десерт малина", "art dessert raspberry", "ahududulu art tatlı", "таңқурай"],
+    "slugs": [
+      "art-raspberry"
+    ],
+    "names": [
+      "арт-десерт малина",
+      "art dessert raspberry",
+      "ahududulu art tatlı",
+      "таңқурай"
+    ],
     "image_url": "/products/art-desserts/raspberry.png"
   },
   {
-    "slugs": ["art-blueberry"],
-    "names": ["арт-десерт голубика", "art dessert blueberry", "yaban mersinli art tatlı", "қарақат"],
+    "slugs": [
+      "art-blueberry"
+    ],
+    "names": [
+      "арт-десерт голубика",
+      "art dessert blueberry",
+      "yaban mersinli art tatlı",
+      "қарақат"
+    ],
     "image_url": "/products/art-desserts/blueberry.png"
   },
   {
-    "slugs": ["art-hamburger"],
-    "names": ["hamburger", "гамбургер", "гамбургер"],
+    "slugs": [
+      "art-hamburger"
+    ],
+    "names": [
+      "hamburger",
+      "гамбургер",
+      "гамбургер"
+    ],
     "image_url": "/products/art-desserts/hamburger.png"
   },
   {
-    "slugs": ["pistachio-cookies"],
-    "names": ["фисташковые cookies", "pistachio cookies", "fıstıklı kurabiye"],
+    "slugs": [
+      "pistachio-cookies"
+    ],
+    "names": [
+      "фисташковые cookies",
+      "pistachio cookies",
+      "fıstıklı kurabiye"
+    ],
     "image_url": "/products/cookies/pistachio-cookies.png"
   },
   {
-    "slugs": ["almond-kavala"],
-    "names": ["миндальные кavala", "almond kavala", "badem kavala", "миндаль kavala"],
+    "slugs": [
+      "almond-kavala"
+    ],
+    "names": [
+      "миндальные кavala",
+      "almond kavala",
+      "badem kavala",
+      "миндаль kavala"
+    ],
     "image_url": "/products/cookies/almond-kavala.png"
   },
   {
-    "slugs": ["eskimo-dubai", "eskimo-strawberry", "eskimo-oreo", "eskimo-caramel"],
-    "names": ["эскимо", "eskimo"],
+    "slugs": [
+      "eskimo-dubai",
+      "eskimo-strawberry",
+      "eskimo-oreo",
+      "eskimo-caramel"
+    ],
+    "names": [
+      "эскимо",
+      "eskimo"
+    ],
     "image_url": "/products/cookies/eskimo.png"
   },
   {
-    "slugs": ["pie-meat"],
-    "names": ["etli pirog", "meat pie", "етli pirog", "мясной"],
+    "slugs": [
+      "pie-meat"
+    ],
+    "names": [
+      "etli pirog",
+      "meat pie",
+      "етli pirog",
+      "мясной"
+    ],
     "image_url": "/products/pies/meat.png"
   },
   {
-    "slugs": ["pie-chicken"],
-    "names": ["tavuklu pirog", "chicken pie", "тауокlu", "курин"],
+    "slugs": [
+      "pie-chicken"
+    ],
+    "names": [
+      "tavuklu pirog",
+      "chicken pie",
+      "тауокlu",
+      "курин"
+    ],
     "image_url": "/products/pies/chicken.png"
   },
   {
-    "slugs": ["pie-spinach-cheese"],
-    "names": ["ispanak peynirli", "spinach cheese pie", "шпинат", "спанак"],
+    "slugs": [
+      "pie-spinach-cheese"
+    ],
+    "names": [
+      "ispanak peynirli",
+      "spinach cheese pie",
+      "шпинат",
+      "спанак"
+    ],
     "image_url": "/products/pies/spinach-cheese.png"
   },
   {
-    "slugs": ["mango-coconut-mousse"],
-    "names": ["mango hindistan cevizi", "mango coconut mousse", "mango hindistan cevizi mousse"],
+    "slugs": [
+      "mango-coconut-mousse"
+    ],
+    "names": [
+      "mango hindistan cevizi",
+      "mango coconut mousse",
+      "mango hindistan cevizi mousse"
+    ],
     "image_url": "/products/american-cakes/mango-coconut.png",
     "name_en": "Mango Musse Elite box",
     "name_ru": "Mango Musse Elite box",
@@ -123,18 +286,36 @@
     "description_tr": "Hindistan cevizi mus, mango dolgusu ve mango jölesi ile hafif, ferah ve tropikal bir lezzet."
   },
   {
-    "slugs": ["american-pistachio-raspberry"],
-    "names": ["pistachio elite box", "фисташковый elite box", "fıstıklı elite box"],
+    "slugs": [
+      "american-pistachio-raspberry"
+    ],
+    "names": [
+      "pistachio elite box",
+      "фисташковый elite box",
+      "fıstıklı elite box"
+    ],
     "image_url": "/products/american-cakes/pistachio-elite.png"
   },
   {
-    "slugs": ["american-cherry-brownie"],
-    "names": ["cherry elite box", "вишневый elite box", "vişneli elite box"],
+    "slugs": [
+      "american-cherry-brownie"
+    ],
+    "names": [
+      "cherry elite box",
+      "вишневый elite box",
+      "vişneli elite box"
+    ],
     "image_url": "/products/american-cakes/cherry-elite.png"
   },
   {
-    "slugs": ["ferrero-hazelnut-mousse"],
-    "names": ["ferrero findik", "ferrero hazelnut mousse", "ferrero fındık"],
+    "slugs": [
+      "ferrero-hazelnut-mousse"
+    ],
+    "names": [
+      "ferrero findik",
+      "ferrero hazelnut mousse",
+      "ferrero fındık"
+    ],
     "image_url": "/products/american-cakes/ferrero-hazelnut.png",
     "name_en": "Ferrero Musse Elite box",
     "name_ru": "Ferrero Musse Elite box",
@@ -146,29 +327,64 @@
     "description_tr": "Fındık praliné ve krokan katmanlı çikolata mus. Gerçek Ferrero lezzeti."
   },
   {
-    "slugs": ["tart-dark-chocolate"],
-    "names": ["темный шоколад", "dark chocolate tart", "bitter çikolatalı tart"],
+    "slugs": [
+      "tart-dark-chocolate"
+    ],
+    "names": [
+      "темный шоколад",
+      "dark chocolate tart",
+      "bitter çikolatalı tart"
+    ],
     "image_url": "/products/tarts/dark-chocolate.png"
   },
   {
-    "slugs": ["tart-berry-mix"],
-    "names": ["ягодный микс", "berry mix tart", "meyveli tart", "жидек микс"],
+    "slugs": [
+      "tart-berry-mix"
+    ],
+    "names": [
+      "ягодный микс",
+      "berry mix tart",
+      "meyveli tart",
+      "жидек микс"
+    ],
     "image_url": "/products/tarts/berry-mix.png"
   },
   {
-    "slugs": ["tart-lemon"],
-    "names": ["лимонный", "lemon tart", "limon tart", "лимон тарт"],
+    "slugs": [
+      "tart-lemon"
+    ],
+    "names": [
+      "лимонный",
+      "lemon tart",
+      "limon tart",
+      "лимон тарт"
+    ],
     "image_url": "/products/tarts/lemon.png"
   },
   {
-    "slugs": ["tart-pistachio"],
-    "names": ["фисташковый тарт", "pistachio tart", "fıstıklı tart", "фисташка тарт"],
+    "slugs": [
+      "tart-pistachio"
+    ],
+    "names": [
+      "фисташковый тарт",
+      "pistachio tart",
+      "fıstıklı tart",
+      "фисташка тарт"
+    ],
     "image_url": "/products/tarts/pistachio.png"
   },
   {
-    "slugs": ["pack-cherry-brownie"],
+    "slugs": [
+      "pack-cherry-brownie"
+    ],
     "category": "packaged-desserts",
-    "names": ["вишневый брауни", "cherry brownie", "vişneli brownie", "шие брауни", "брауни вишневый"],
+    "names": [
+      "вишневый брауни",
+      "cherry brownie",
+      "vişneli brownie",
+      "шие брауни",
+      "брауни вишневый"
+    ],
     "image_url": "/products/cherry-brownie.png",
     "name_en": "Cherry Cube",
     "name_ru": "Cherry Cube",
@@ -180,9 +396,17 @@
     "description_tr": "Yoğun kakao ve bitter çikolata aromalı, sulu vişne katmanlı zengin brownie. Yoğun, yapışkan ve gerçekten çikolatalı bir tatlı."
   },
   {
-    "slugs": ["pack-pistachio-raspberry"],
+    "slugs": [
+      "pack-pistachio-raspberry"
+    ],
     "category": "packaged-desserts",
-    "names": ["фисташково-малиновый", "фисташково малиновый", "pistachio raspberry", "fıstıklı ahududulu", "фисташка-малина"],
+    "names": [
+      "фисташково-малиновый",
+      "фисташково малиновый",
+      "pistachio raspberry",
+      "fıstıklı ahududulu",
+      "фисташка-малина"
+    ],
     "image_url": "/products/pistachio-raspberry.png",
     "name_en": "Pistachio Cube",
     "name_ru": "Pistachio Cube",
@@ -194,9 +418,13 @@
     "description_tr": "Hafif fıstıklı kek, havadar krema ve yumuşak ahududu katmanı. Sulu, aromatik ve mükemmel dengelenmiş bir lezzet."
   },
   {
-    "slugs": ["pack-oreo"],
+    "slugs": [
+      "pack-oreo"
+    ],
     "category": "packaged-desserts",
-    "names": ["oreo"],
+    "names": [
+      "oreo"
+    ],
     "exact": true,
     "image_url": "/products/oreo-dessert.png",
     "name_en": "Oreo Cube",
@@ -209,13 +437,25 @@
     "description_tr": "Sevilen Oreo lezzetli zarif tatlı: kremamsı doku, çikolatalı taban ve her katmanda bisküvi parçaları. Zengin, uyumlu ve yumuşak bir tat."
   },
   {
-    "slugs": ["pack-tiramisu"],
-    "names": ["tiramisu", "тирамису"],
+    "slugs": [
+      "pack-tiramisu"
+    ],
+    "names": [
+      "tiramisu",
+      "тирамису"
+    ],
     "image_url": "/products/packaged-desserts/tiramisu.png"
   },
   {
-    "slugs": ["cake-medovik"],
-    "names": ["honey cake", "medovik", "медовик", "bal pastası"],
+    "slugs": [
+      "cake-medovik"
+    ],
+    "names": [
+      "honey cake",
+      "medovik",
+      "медовик",
+      "bal pastası"
+    ],
     "image_url": "/products/classic-cakes/honey-cake.jpg",
     "image_urls": [
       "/products/classic-cakes/honey-cake-slice.jpg",
@@ -223,8 +463,14 @@
     ]
   },
   {
-    "slugs": ["cake-snickers"],
-    "names": ["snickers cake", "сникерс", "snikers"],
+    "slugs": [
+      "cake-snickers"
+    ],
+    "names": [
+      "snickers cake",
+      "сникерс",
+      "snikers"
+    ],
     "image_url": "/products/classic-cakes/snickers-cake.jpg",
     "image_urls": [
       "/products/classic-cakes/snickers-cake-slice.jpg",
@@ -232,8 +478,14 @@
     ]
   },
   {
-    "slugs": ["cake-chocolate"],
-    "names": ["chocolate cake", "шоколадный торт", "çikolatalı pasta"],
+    "slugs": [
+      "cake-chocolate"
+    ],
+    "names": [
+      "chocolate cake",
+      "шоколадный торт",
+      "çikolatalı pasta"
+    ],
     "image_url": "/products/classic-cakes/chocolate-cake.jpg",
     "image_urls": [
       "/products/classic-cakes/chocolate-cake-slice.jpg",
@@ -241,8 +493,16 @@
     ]
   },
   {
-    "slugs": ["cake-milk-girl"],
-    "names": ["malocni devuska", "milk girl", "milky girl", "süt kızı", "сüt kızı"],
+    "slugs": [
+      "cake-milk-girl"
+    ],
+    "names": [
+      "malocni devuska",
+      "milk girl",
+      "milky girl",
+      "süt kızı",
+      "сüt kızı"
+    ],
     "image_url": "/products/classic-cakes/milk-girl.jpg",
     "image_urls": [
       "/products/classic-cakes/milk-girl-slice.jpg",
@@ -250,8 +510,14 @@
     ]
   },
   {
-    "slugs": ["cake-pistachio-raspberry"],
-    "names": ["pistachio cake", "фисташковый торт", "fıstıklı pasta"],
+    "slugs": [
+      "cake-pistachio-raspberry"
+    ],
+    "names": [
+      "pistachio cake",
+      "фисташковый торт",
+      "fıstıklı pasta"
+    ],
     "image_url": "/products/classic-cakes/pistachio-cake.jpg",
     "image_urls": [
       "/products/classic-cakes/pistachio-cake-slice.jpg",
@@ -259,7 +525,23 @@
     ]
   },
   {
-    "slugs": ["borek-meat"],
+    "slugs": [
+      "cake-red-velvet"
+    ],
+    "names": [
+      "red velvet",
+      "ред вельвет",
+      "красный бархат"
+    ],
+    "image_url": "/products/classic-cakes/red-velvet-cake.jpg",
+    "image_urls": [
+      "/products/classic-cakes/red-velvet-cake-top.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "borek-meat"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with seasoned meat filling.",
     "description_ru": "Свежий борек с мясной начинкой.",
@@ -267,7 +549,9 @@
     "description_tr": "Et dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["borek-chicken"],
+    "slugs": [
+      "borek-chicken"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with chicken filling.",
     "description_ru": "Свежий борек с куриной начинкой.",
@@ -275,7 +559,9 @@
     "description_tr": "Tavuk dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["borek-potato"],
+    "slugs": [
+      "borek-potato"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with potato filling.",
     "description_ru": "Свежий борек с картофельной начинкой.",
@@ -283,7 +569,9 @@
     "description_tr": "Patates dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["borek-brinza"],
+    "slugs": [
+      "borek-brinza"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with brinza cheese filling.",
     "description_ru": "Свежий борек с сырной начинкой (брынза).",
@@ -291,7 +579,9 @@
     "description_tr": "Peynirli (brinza) dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["borek-spinach"],
+    "slugs": [
+      "borek-spinach"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with spinach filling.",
     "description_ru": "Свежий борек со шпинатной начинкой.",
@@ -299,7 +589,9 @@
     "description_tr": "Ispanak dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["borek-lentils"],
+    "slugs": [
+      "borek-lentils"
+    ],
     "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with lentil filling.",
     "description_ru": "Свежий борек с начинкой из чечевицы.",
@@ -352,7 +644,9 @@
     "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
-    "slugs": ["semi-waffle"],
+    "slugs": [
+      "semi-waffle"
+    ],
     "image_url": "/products/semi-finished/waffle.png",
     "description_en": "Pack of 4 · cooked product, frozen at −18 °C in special packaging.",
     "description_ru": "Упаковка 4 шт. · готовое блюдо, заморожено при −18 °C в специальной упаковке.",
