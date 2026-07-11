@@ -14,8 +14,7 @@
   },
   {
     "slugs": [
-      "eclair-large-hazelnut",
-      "eclair-mini-hazelnut"
+      "eclair-large-hazelnut"
     ],
     "names": [
       "фундучный",
@@ -40,8 +39,7 @@
   },
   {
     "slugs": [
-      "eclair-large-mastic",
-      "eclair-mini-mastic"
+      "eclair-large-mastic"
     ],
     "names": [
       "дамла сакызы",
@@ -53,8 +51,7 @@
   },
   {
     "slugs": [
-      "eclair-large-strawberry",
-      "eclair-mini-strawberry"
+      "eclair-large-strawberry"
     ],
     "names": [
       "клубничный",
@@ -66,8 +63,7 @@
   },
   {
     "slugs": [
-      "eclair-large-raspberry",
-      "eclair-mini-raspberry"
+      "eclair-large-raspberry"
     ],
     "names": [
       "малиновый",
@@ -79,8 +75,7 @@
   },
   {
     "slugs": [
-      "eclair-large-cherry",
-      "eclair-mini-cherry"
+      "eclair-large-cherry"
     ],
     "names": [
       "вишневый",
@@ -92,8 +87,7 @@
   },
   {
     "slugs": [
-      "eclair-large-pineapple",
-      "eclair-mini-pineapple"
+      "eclair-large-pineapple"
     ],
     "names": [
       "анanas",
@@ -102,6 +96,84 @@
       "анanas эклер"
     ],
     "image_url": "/products/eclairs/pineapple.png"
+  },
+  {
+    "slugs": [
+      "eclair-mini-cherry"
+    ],
+    "names": [
+      "cherry eclair (mini)",
+      "mini vişneli"
+    ],
+    "image_url": "/products/eclairs/mini/cherry-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/cherry-side.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "eclair-mini-mastic"
+    ],
+    "names": [
+      "mastic eclair (mini)",
+      "mini damla sakızlı"
+    ],
+    "image_url": "/products/eclairs/mini/mastic-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/mastic-side.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "eclair-mini-hazelnut"
+    ],
+    "names": [
+      "hazelnut eclair (mini)",
+      "mini fındıklı"
+    ],
+    "image_url": "/products/eclairs/mini/hazelnut-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/hazelnut-side.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "eclair-mini-pineapple"
+    ],
+    "names": [
+      "pineapple eclair (mini)",
+      "mini ananaslı"
+    ],
+    "image_url": "/products/eclairs/mini/pineapple-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/pineapple-side.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "eclair-mini-raspberry"
+    ],
+    "names": [
+      "raspberry eclair (mini)",
+      "mini ahududulu"
+    ],
+    "image_url": "/products/eclairs/mini/raspberry-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/raspberry-side.jpg"
+    ]
+  },
+  {
+    "slugs": [
+      "eclair-mini-strawberry"
+    ],
+    "names": [
+      "strawberry eclair (mini)",
+      "mini çilekli"
+    ],
+    "image_url": "/products/eclairs/mini/strawberry-top.jpg",
+    "image_urls": [
+      "/products/eclairs/mini/strawberry-side.jpg"
+    ]
   },
   {
     "slugs": [

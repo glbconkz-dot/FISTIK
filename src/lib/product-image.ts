@@ -11,6 +11,7 @@ const CONTAIN_FIT_SLUGS = new Set([
 ]);
 
 const CONTAIN_PATH_HINTS = [
+  '/eclairs/mini/',
   '/semi-finished/waffle',
   '/art-desserts/hamburger',
   '/classic-cakes/',
