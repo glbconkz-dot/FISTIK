@@ -34,8 +34,8 @@ export function ProductImageGallery({
   const images = getProductGallery(product);
   const [index, setIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
-  const imageClasses = getProductImageClasses(product.slug, images[0] ?? product.image_url);
   const current = images[Math.min(index, Math.max(images.length - 1, 0))] ?? '';
+  const imageClasses = getProductImageClasses(product.slug, current || product.image_url);
   const multi = images.length > 1;
 
   const go = useCallback(
@@ -60,14 +60,15 @@ export function ProductImageGallery({
     go(index + (delta < 0 ? 1 : -1));
   };
 
+  // Portrait studio shots (kesit/ön) — taller frame so layers stay fully visible.
   const aspect =
     variant === 'detail'
-      ? 'aspect-square w-full md:aspect-[4/3] md:rounded-2xl'
-      : 'aspect-[4/5]';
+      ? 'aspect-[3/4] w-full max-w-lg md:max-w-xl md:rounded-2xl'
+      : 'aspect-[3/4]';
 
   return (
     <div
-      className={cn('relative overflow-hidden', aspect, imageClasses.container, className)}
+      className={cn('relative mx-auto w-full overflow-hidden', aspect, imageClasses.container, className)}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
@@ -78,12 +79,16 @@ export function ProductImageGallery({
             src={current}
             alt={alt}
             fill
-            priority={priority}
+            priority={priority && index === 0}
             className={cn(
               variant === 'card' ? imageClasses.imageCard : imageClasses.image,
-              variant === 'card' && 'transition-transform duration-500 group-hover:scale-105'
+              'object-center'
             )}
-            sizes={variant === 'detail' ? '100vw' : '(max-width: 768px) 50vw, 25vw'}
+            sizes={
+              variant === 'detail'
+                ? '(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 800px'
+                : '(max-width: 768px) 50vw, 25vw'
+            }
             draggable={false}
           />
         </div>
@@ -112,7 +117,7 @@ export function ProductImageGallery({
                 }}
                 className={cn(
                   'h-1.5 rounded-full transition-all',
-                  i === index ? 'w-4 bg-white' : 'w-1.5 bg-white/55'
+                  i === index ? 'w-4 bg-white shadow-sm' : 'w-1.5 bg-white/60'
                 )}
               />
             ))}
@@ -122,7 +127,7 @@ export function ProductImageGallery({
               <button
                 type="button"
                 aria-label={t('galleryPrev')}
-                className="absolute left-2 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white sm:flex"
+                className="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-lg text-white"
                 onClick={() => go(index - 1)}
               >
                 ‹
@@ -130,7 +135,7 @@ export function ProductImageGallery({
               <button
                 type="button"
                 aria-label={t('galleryNext')}
-                className="absolute right-2 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white sm:flex"
+                className="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-lg text-white"
                 onClick={() => go(index + 1)}
               >
                 ›

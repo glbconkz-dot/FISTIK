@@ -1,16 +1,29 @@
-/** Products with flat/white backgrounds — show full image without cropping */
-const CONTAIN_FIT_SLUGS = new Set(['semi-waffle', 'art-hamburger']);
+/** Products that must show the full photo without cropping (object-contain). */
+const CONTAIN_FIT_SLUGS = new Set([
+  'semi-waffle',
+  'art-hamburger',
+  'cake-medovik',
+]);
+
+const CONTAIN_PATH_HINTS = [
+  '/semi-finished/waffle',
+  '/art-desserts/hamburger',
+  '/classic-cakes/honey-cake',
+];
+
+export function shouldContainProductImage(slug: string, imageUrl?: string): boolean {
+  if (CONTAIN_FIT_SLUGS.has(slug)) return true;
+  if (!imageUrl) return false;
+  return CONTAIN_PATH_HINTS.some((hint) => imageUrl.includes(hint));
+}
 
 export function getProductImageClasses(slug: string, imageUrl?: string) {
-  const contain =
-    CONTAIN_FIT_SLUGS.has(slug) ||
-    imageUrl?.includes('/semi-finished/waffle') ||
-    imageUrl?.includes('/art-desserts/hamburger');
+  const contain = shouldContainProductImage(slug, imageUrl);
 
   return {
-    container: contain ? 'bg-white' : 'bg-cream',
+    container: contain ? 'bg-[#e8dcc8]' : 'bg-cream',
     /** Inset frame — padding on fill images breaks Next/Image layout */
-    frame: contain ? 'absolute inset-4 sm:inset-6' : 'absolute inset-0',
+    frame: contain ? 'absolute inset-3 sm:inset-5' : 'absolute inset-0',
     image: contain ? 'object-contain' : 'object-cover',
     imageCard: contain
       ? 'object-contain transition-transform duration-500 group-hover:scale-[1.02]'

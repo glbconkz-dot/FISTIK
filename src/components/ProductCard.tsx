@@ -89,7 +89,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
       )}
     >
       <Link href={`/product/${product.slug}`} className="group block">
-        <div className={`relative aspect-[4/5] overflow-hidden ${imageClasses.container}`}>
+        <div className={`relative aspect-[3/4] overflow-hidden ${imageClasses.container}`}>
           {product.image_url ? (
             <div className={imageClasses.frame}>
               <Image

@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { getProductImageClasses } from '@/lib/product-image';
 import type { Locale, Product } from '@/types';
 
 interface CuratedSectionProps {
@@ -49,6 +50,7 @@ export function CuratedSection({
           const description = getLocalizedDescription(product, locale);
           const stock = Number(product.stock_quantity ?? 0);
           const outOfStock = stock <= 0;
+          const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
           return (
             <Link
@@ -59,15 +61,17 @@ export function CuratedSection({
               }`}
             >
               <article className="luxury-card overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
-                <div className={`relative overflow-hidden bg-cream ${compact ? 'aspect-[3/4]' : 'aspect-[4/5]'}`}>
+                <div className={`relative aspect-[3/4] overflow-hidden ${imageClasses.container}`}>
                   {product.image_url ? (
-                    <Image
-                      src={product.image_url}
-                      alt={name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="280px"
-                    />
+                    <div className={imageClasses.frame}>
+                      <Image
+                        src={product.image_url}
+                        alt={name}
+                        fill
+                        className={imageClasses.imageCard}
+                        sizes="280px"
+                      />
+                    </div>
                   ) : (
                     <div className="flex h-full items-center justify-center font-display text-5xl text-accent/40">
                       F

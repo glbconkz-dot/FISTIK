@@ -216,10 +216,10 @@
   {
     "slugs": ["cake-medovik"],
     "names": ["honey cake", "medovik", "медовик", "bal pastası"],
-    "image_url": "/products/classic-cakes/honey-cake.png",
+    "image_url": "/products/classic-cakes/honey-cake.jpg",
     "image_urls": [
-      "/products/classic-cakes/honey-cake-slice.png",
-      "/products/classic-cakes/honey-cake-top.png"
+      "/products/classic-cakes/honey-cake-slice.jpg",
+      "/products/classic-cakes/honey-cake-top.jpg"
     ]
   },
   {

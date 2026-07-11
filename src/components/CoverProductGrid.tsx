@@ -6,6 +6,7 @@ import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { getLocalizedName } from '@/lib/utils';
+import { getProductImageClasses } from '@/lib/product-image';
 import type { Locale, Product } from '@/types';
 
 interface CoverProductGridProps {
@@ -48,14 +49,14 @@ export function CoverProductGrid({
 
           return (
             <Link key={product.id} href={`/product/${product.slug}`} className="cover-product-card group">
-              <div className="cover-product-photo">
+              <div className={`cover-product-photo ${getProductImageClasses(product.slug, product.image_url).container}`}>
                 {product.image_url ? (
                   <Image
                     src={product.image_url}
                     alt={name}
                     fill
                     priority={i < 2}
-                    className="object-cover object-bottom transition-transform duration-500 group-hover:scale-[1.03]"
+                    className={`${getProductImageClasses(product.slug, product.image_url).image} object-center transition-transform duration-500 group-hover:scale-[1.03]`}
                     sizes="(max-width: 640px) 45vw, 180px"
                   />
                 ) : (
