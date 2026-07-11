@@ -214,6 +214,15 @@
     "image_url": "/products/packaged-desserts/tiramisu.png"
   },
   {
+    "slugs": ["cake-medovik"],
+    "names": ["honey cake", "medovik", "медовик", "bal pastası"],
+    "image_url": "/products/classic-cakes/honey-cake.png",
+    "image_urls": [
+      "/products/classic-cakes/honey-cake-slice.png",
+      "/products/classic-cakes/honey-cake-top.png"
+    ]
+  },
+  {
     "slugs": ["cake-milk-girl"],
     "names": ["malocni devuska", "milk girl", "süt kızı", "сüt kızı"],
     "image_url": "/products/classic-cakes/milk-girl.png"

@@ -7,6 +7,8 @@ export interface ProductAsset {
   names?: string[];
   exact?: boolean;
   image_url: string;
+  /** Extra gallery images; image_url is always first/primary */
+  image_urls?: string[];
   name_en?: string;
   name_ru?: string;
   name_kk?: string;
@@ -114,7 +116,20 @@ export function applyProductAsset(
     }
   }
 
+  const gallery = getAssetGallery(asset);
+  if (gallery.length > 0) {
+    updates.image_url = gallery[0];
+    updates.image_urls = gallery;
+  }
+
   return { ...product, ...updates };
+}
+
+function getAssetGallery(asset: ProductAsset): string[] {
+  const urls = [asset.image_url, ...(asset.image_urls ?? [])]
+    .map((u) => u?.trim())
+    .filter((u): u is string => Boolean(u));
+  return [...new Set(urls)];
 }
 
 export function applyProductAssets(

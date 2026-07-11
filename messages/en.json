@@ -65,7 +65,10 @@
     "viewCart": "View cart",
     "category": "Category",
     "soldOut": "Sold out",
-    "stockLeft": "{count} left"
+    "stockLeft": "{count} left",
+    "galleryPrev": "Previous photo",
+    "galleryNext": "Next photo",
+    "galleryDot": "Photo {n}"
   },
   "cart": {
     "title": "Your Cart",

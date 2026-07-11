@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { ProductImageGallery } from '@/components/ProductImageGallery';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
-import { getProductImageClasses } from '@/lib/product-image';
 import { getSemiFinishedPackLabel, showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useB2BCartStore } from '@/stores/b2b-cart';
 import type { Locale, Product } from '@/types';
@@ -67,7 +66,6 @@ export function B2BProductCard({ product, locale }: B2BProductCardProps) {
 
   const selectorValue = inCart ? cartQty : pickQty;
   const displayQty = inCart ? cartQty : pickQty;
-  const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <article
@@ -77,28 +75,18 @@ export function B2BProductCard({ product, locale }: B2BProductCardProps) {
       )}
     >
       <div className="group block">
-        <div className={`relative aspect-[4/5] overflow-hidden ${imageClasses.container}`}>
-          {product.image_url ? (
-            <div className={imageClasses.frame}>
-              <Image
-                src={product.image_url}
-                alt={name}
-                fill
-                className={imageClasses.imageCard}
-                sizes="(max-width: 768px) 50vw, 25vw"
-              />
-            </div>
-          ) : (
-            <div className="flex h-full items-center justify-center font-display text-4xl text-accent/40">
-              F
-            </div>
-          )}
-          {inCart ? (
-            <div className="absolute left-2 top-2 z-10 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
-              ×{cartQty}
-            </div>
-          ) : null}
-        </div>
+        <ProductImageGallery
+          product={product}
+          alt={name}
+          variant="card"
+          topLeft={
+            inCart ? (
+              <div className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
+                ×{cartQty}
+              </div>
+            ) : null
+          }
+        />
         <div className="p-4 pb-2">
           <h3 className="font-display text-lg font-semibold leading-tight">{name}</h3>
           {longNote ? (

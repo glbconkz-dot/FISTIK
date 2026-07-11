@@ -198,6 +198,23 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
             <Image src={imageUrl} alt="Preview" fill className="object-cover" />
           </div>
         )}
+        {product?.image_urls && product.image_urls.length > 1 ? (
+          <div className="mt-3">
+            <p className="mb-1.5 text-xs text-muted">
+              Galeri ({product.image_urls.length} foto) — kaydırarak ürün sayfasında görünür
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {product.image_urls.map((url) => (
+                <div
+                  key={url}
+                  className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-border"
+                >
+                  <Image src={url} alt="" fill className="object-cover" sizes="80px" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <label className="flex items-center gap-2">

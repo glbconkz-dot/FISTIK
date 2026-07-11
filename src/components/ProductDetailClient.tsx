@@ -1,16 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
+import { ProductImageGallery } from '@/components/ProductImageGallery';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { getEffectivePrice } from '@/lib/b2c/clearance';
-import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
-import { getProductImageClasses } from '@/lib/product-image';
+import { cn, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types';
 import type { Locale } from '@/types';
@@ -69,36 +68,23 @@ export function ProductDetailClient({ product, categoryName, locale }: ProductDe
   const selectorValue = inCart ? cartQty : pickQty;
   const selectorMax = inCart ? stock : remaining > 0 ? remaining : stock;
   const displayQty = inCart ? cartQty : pickQty;
-  const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <div className={cn('pb-8', inCart && 'rounded-2xl bg-pistachio-soft/60 p-4 ring-2 ring-brand-dark/40')}>
-      <div className={`relative aspect-square w-full overflow-hidden md:aspect-[4/3] md:rounded-2xl ${imageClasses.container}`}>
-        {product.image_url ? (
-          <div className={imageClasses.frame}>
-            <Image
-              src={product.image_url}
-              alt={name}
-              fill
-              className={imageClasses.image}
-              priority
-              sizes="100vw"
-            />
-          </div>
-        ) : (
-          <div className="flex h-full items-center justify-center font-display text-6xl text-accent/40">
-            F
-          </div>
-        )}
-        <div className="absolute right-4 top-4">
-          <FavoriteButton productId={product.id} />
-        </div>
-        {inCart ? (
-          <div className="absolute left-4 top-4 z-10 rounded-full bg-brand px-3 py-1.5 text-sm font-bold text-accent shadow-sm tabular-nums">
-            ×{cartQty}
-          </div>
-        ) : null}
-      </div>
+      <ProductImageGallery
+        product={product}
+        alt={name}
+        variant="detail"
+        priority
+        topRight={<FavoriteButton productId={product.id} />}
+        topLeft={
+          inCart ? (
+            <div className="rounded-full bg-brand px-3 py-1.5 text-sm font-bold text-accent shadow-sm tabular-nums">
+              ×{cartQty}
+            </div>
+          ) : null
+        }
+      />
 
       <div className="mt-6 space-y-4">
         <div>

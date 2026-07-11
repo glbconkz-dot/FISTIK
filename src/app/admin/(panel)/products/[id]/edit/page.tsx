@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { AdminProductForm } from '@/components/admin/AdminProductForm';
+import { applyProductAsset } from '@/data/product-assets';
 import type { Category, Product } from '@/types';
 
 export default async function EditProductPage({
@@ -18,13 +19,13 @@ export default async function EditProductPage({
 
   if (!product) notFound();
 
+  const cats = (categories as Category[]) ?? [];
+  const withAsset = applyProductAsset(product as Product, cats);
+
   return (
     <div>
       <h1 className="font-display mb-6 text-3xl font-bold">Edit product</h1>
-      <AdminProductForm
-        product={product as Product}
-        categories={(categories as Category[]) ?? []}
-      />
+      <AdminProductForm product={withAsset} categories={cats} />
     </div>
   );
 }

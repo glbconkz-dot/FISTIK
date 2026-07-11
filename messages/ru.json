@@ -65,7 +65,10 @@
     "viewCart": "К корзине",
     "category": "Категория",
     "soldOut": "Нет в наличии",
-    "stockLeft": "Осталось {count} шт."
+    "stockLeft": "Осталось {count} шт.",
+    "galleryPrev": "Предыдущее фото",
+    "galleryNext": "Следующее фото",
+    "galleryDot": "Фото {n}"
   },
   "cart": {
     "title": "Ваша корзина",

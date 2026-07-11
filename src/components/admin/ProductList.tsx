@@ -165,6 +165,11 @@ export function ProductList({ products, categories }: ProductListProps) {
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-accent">F</div>
           )}
+          {product.image_urls && product.image_urls.length > 1 ? (
+            <span className="absolute bottom-0 inset-x-0 bg-black/55 text-center text-[9px] font-semibold text-white">
+              {product.image_urls.length}
+            </span>
+          ) : null}
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium sm:text-base">{displayName}</p>

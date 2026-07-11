@@ -39,6 +39,8 @@ export interface Product {
   description_en: string;
   price: number;
   image_url: string;
+  /** Optional extra gallery images (2–3 total with image_url). Only set when uploaded. */
+  image_urls?: string[];
   is_active: boolean;
   stock_quantity: number;
   sort_order: number;

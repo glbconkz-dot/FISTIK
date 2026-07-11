@@ -65,7 +65,10 @@
     "viewCart": "Себетке өту",
     "category": "Категория",
     "soldOut": "Таусылды",
-    "stockLeft": "{count} дана қалды"
+    "stockLeft": "{count} дана қалды",
+    "galleryPrev": "Алдыңғы фото",
+    "galleryNext": "Келесі фото",
+    "galleryDot": "Фото {n}"
   },
   "cart": {
     "title": "Себетіңіз",

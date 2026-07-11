@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { ProductList } from '@/components/admin/ProductList';
+import { applyProductAssets } from '@/data/product-assets';
 import type { Category, Product } from '@/types';
 
 export default async function AdminProductsPage() {
@@ -9,10 +10,8 @@ export default async function AdminProductsPage() {
     supabase.from('categories').select('*').order('sort_order', { ascending: true }),
   ]);
 
-  return (
-    <ProductList
-      products={(products as Product[]) ?? []}
-      categories={(categories as Category[]) ?? []}
-    />
-  );
+  const cats = (categories as Category[]) ?? [];
+  const withAssets = applyProductAssets((products as Product[]) ?? [], cats);
+
+  return <ProductList products={withAssets} categories={cats} />;
 }

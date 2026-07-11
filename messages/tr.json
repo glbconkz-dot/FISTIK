@@ -65,7 +65,10 @@
     "viewCart": "Sepete git",
     "category": "Kategori",
     "soldOut": "Tükendi",
-    "stockLeft": "{count} adet kaldı"
+    "stockLeft": "{count} adet kaldı",
+    "galleryPrev": "Önceki fotoğraf",
+    "galleryNext": "Sonraki fotoğraf",
+    "galleryDot": "Fotoğraf {n}"
   },
   "cart": {
     "title": "Sepetiniz",
