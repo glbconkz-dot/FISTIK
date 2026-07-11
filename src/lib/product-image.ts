@@ -3,12 +3,16 @@ const CONTAIN_FIT_SLUGS = new Set([
   'semi-waffle',
   'art-hamburger',
   'cake-medovik',
+  'cake-snickers',
+  'cake-chocolate',
+  'cake-milk-girl',
+  'cake-pistachio-raspberry',
 ]);
 
 const CONTAIN_PATH_HINTS = [
   '/semi-finished/waffle',
   '/art-desserts/hamburger',
-  '/classic-cakes/honey-cake',
+  '/classic-cakes/',
 ];
 
 export function shouldContainProductImage(slug: string, imageUrl?: string): boolean {

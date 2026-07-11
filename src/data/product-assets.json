@@ -223,9 +223,40 @@
     ]
   },
   {
+    "slugs": ["cake-snickers"],
+    "names": ["snickers cake", "сникерс", "snikers"],
+    "image_url": "/products/classic-cakes/snickers-cake.jpg",
+    "image_urls": [
+      "/products/classic-cakes/snickers-cake-slice.jpg",
+      "/products/classic-cakes/snickers-cake-top.jpg"
+    ]
+  },
+  {
+    "slugs": ["cake-chocolate"],
+    "names": ["chocolate cake", "шоколадный торт", "çikolatalı pasta"],
+    "image_url": "/products/classic-cakes/chocolate-cake.jpg",
+    "image_urls": [
+      "/products/classic-cakes/chocolate-cake-slice.jpg",
+      "/products/classic-cakes/chocolate-cake-top.jpg"
+    ]
+  },
+  {
     "slugs": ["cake-milk-girl"],
-    "names": ["malocni devuska", "milk girl", "süt kızı", "сüt kızı"],
-    "image_url": "/products/classic-cakes/milk-girl.png"
+    "names": ["malocni devuska", "milk girl", "milky girl", "süt kızı", "сüt kızı"],
+    "image_url": "/products/classic-cakes/milk-girl.jpg",
+    "image_urls": [
+      "/products/classic-cakes/milk-girl-slice.jpg",
+      "/products/classic-cakes/milk-girl-top.jpg"
+    ]
+  },
+  {
+    "slugs": ["cake-pistachio-raspberry"],
+    "names": ["pistachio cake", "фисташковый торт", "fıstıklı pasta"],
+    "image_url": "/products/classic-cakes/pistachio-cake.jpg",
+    "image_urls": [
+      "/products/classic-cakes/pistachio-cake-slice.jpg",
+      "/products/classic-cakes/pistachio-cake-top.jpg"
+    ]
   },
   {
     "slugs": ["borek-meat"],
