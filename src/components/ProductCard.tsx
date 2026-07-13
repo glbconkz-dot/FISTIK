@@ -1,16 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
+import { ProductImageGallery } from '@/components/ProductImageGallery';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { getEffectivePrice } from '@/lib/b2c/clearance';
-import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
-import { getProductImageClasses } from '@/lib/product-image';
+import { cn, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { getSemiFinishedPackLabel, showsSemiFinishedPackNote } from '@/lib/semi-finished-groups';
 import { useCartStore } from '@/stores/cart';
 import type { Locale, Product } from '@/types';
@@ -78,7 +77,6 @@ export function ProductCard({ product, locale }: ProductCardProps) {
   const selectorValue = inCart ? cartQty : pickQty;
   const selectorMax = inCart ? stock : remaining > 0 ? remaining : stock;
   const displayQty = inCart ? cartQty : pickQty;
-  const imageClasses = getProductImageClasses(product.slug, product.image_url);
 
   return (
     <article
@@ -88,46 +86,36 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         inCart && 'border border-brand-dark/40 bg-pistachio-soft ring-2 ring-brand-dark/50'
       )}
     >
-      <Link href={`/product/${product.slug}`} className="group block">
-        <div className={`relative aspect-[3/4] overflow-hidden ${imageClasses.container}`}>
-          {product.image_url ? (
-            <div className={imageClasses.frame}>
-              <Image
-                src={product.image_url}
-                alt={name}
-                fill
-                className={imageClasses.imageCard}
-                sizes="(max-width: 768px) 50vw, 25vw"
-              />
-            </div>
-          ) : (
-            <div className="flex h-full items-center justify-center font-display text-4xl text-accent/40">
-              F
-            </div>
-          )}
-          <div className="absolute right-2 top-2">
-            <FavoriteButton productId={product.id} size="sm" />
-          </div>
-          {inCart ? (
-            <div className="absolute left-2 top-2 z-10 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
-              ×{cartQty}
-            </div>
-          ) : product.clearance_active && product.sale_discount_percent ? (
-            <div className="absolute left-2 top-2 z-10 rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
-              -{product.sale_discount_percent}%
-            </div>
-          ) : product.clearance_scheduled && product.sale_discount_percent ? (
-            <div className="absolute left-2 top-2 z-10 rounded-full bg-amber-700 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
-              {product.clearance_start_time} · -{product.sale_discount_percent}%
-            </div>
-          ) : null}
-          {outOfStock ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-semibold text-white">
-              {t('soldOut')}
-            </div>
-          ) : null}
-        </div>
-        <div className="p-4 pb-2">
+      <div className="group">
+        <ProductImageGallery
+          product={product}
+          alt={name}
+          variant="card"
+          topRight={<FavoriteButton productId={product.id} size="sm" />}
+          topLeft={
+            inCart ? (
+              <div className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">
+                ×{cartQty}
+              </div>
+            ) : product.clearance_active && product.sale_discount_percent ? (
+              <div className="rounded-full bg-red-600 px-2.5 py-1 text-xs font-bold text-white shadow-sm">
+                -{product.sale_discount_percent}%
+              </div>
+            ) : product.clearance_scheduled && product.sale_discount_percent ? (
+              <div className="rounded-full bg-amber-700 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
+                {product.clearance_start_time} · -{product.sale_discount_percent}%
+              </div>
+            ) : null
+          }
+          overlay={
+            outOfStock ? (
+              <div className="absolute inset-0 z-[5] flex items-center justify-center bg-black/45 text-sm font-semibold text-white">
+                {t('soldOut')}
+              </div>
+            ) : null
+          }
+        />
+        <Link href={`/product/${product.slug}`} className="block p-4 pb-2">
           <h3 className="font-display text-lg font-semibold leading-tight">{name}</h3>
           {longNote ? (
             <p className="mt-0.5 line-clamp-2 text-xs text-muted">{longNote}</p>
@@ -141,8 +129,8 @@ export function ProductCard({ product, locale }: ProductCardProps) {
           {!outOfStock ? (
             <p className="mt-0.5 text-xs text-muted">{t('stockLeft', { count: stock })}</p>
           ) : null}
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       <div
         className="flex items-center justify-end gap-2 px-4 pb-4"
