@@ -69,7 +69,9 @@
     "stockLeft": "{count} left",
     "galleryPrev": "Previous photo",
     "galleryNext": "Next photo",
-    "galleryDot": "Photo {n}"
+    "galleryDot": "Photo {n}",
+    "galleryOpen": "Enlarge photo",
+    "galleryClose": "Close"
   },
   "cart": {
     "title": "Your Cart",

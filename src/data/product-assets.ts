@@ -119,7 +119,12 @@ export function applyProductAsset(
   const gallery = getAssetGallery(asset);
   if (gallery.length > 0) {
     updates.image_url = gallery[0];
-    updates.image_urls = gallery;
+    // Extras only — getProductGallery prepends image_url
+    updates.image_urls = gallery.slice(1);
+  } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
+    // Explicit empty string clears primary + gallery (no fallback to DB URLs)
+    updates.image_url = '';
+    updates.image_urls = [];
   }
 
   return { ...product, ...updates };

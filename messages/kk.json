@@ -69,7 +69,9 @@
     "stockLeft": "{count} дана қалды",
     "galleryPrev": "Алдыңғы фото",
     "galleryNext": "Келесі фото",
-    "galleryDot": "Фото {n}"
+    "galleryDot": "Фото {n}",
+    "galleryOpen": "Фотоны үлкейту",
+    "galleryClose": "Жабу"
   },
   "cart": {
     "title": "Себетіңіз",

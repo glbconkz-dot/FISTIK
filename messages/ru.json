@@ -69,7 +69,9 @@
     "stockLeft": "Осталось {count} шт.",
     "galleryPrev": "Предыдущее фото",
     "galleryNext": "Следующее фото",
-    "galleryDot": "Фото {n}"
+    "galleryDot": "Фото {n}",
+    "galleryOpen": "Увеличить фото",
+    "galleryClose": "Закрыть"
   },
   "cart": {
     "title": "Ваша корзина",

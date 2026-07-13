@@ -69,7 +69,9 @@
     "stockLeft": "{count} adet kaldı",
     "galleryPrev": "Önceki fotoğraf",
     "galleryNext": "Sonraki fotoğraf",
-    "galleryDot": "Fotoğraf {n}"
+    "galleryDot": "Fotoğraf {n}",
+    "galleryOpen": "Fotoğrafı büyüt",
+    "galleryClose": "Kapat"
   },
   "cart": {
     "title": "Sepetiniz",
