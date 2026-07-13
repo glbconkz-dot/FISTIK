@@ -80,7 +80,7 @@ export function getWhatsAppDigitsForLink(): string {
   return getWhatsAppDigits();
 }
 
-/** Resmi wa.me linki — yüklü WhatsApp / Business uygulamasını açar */
+/** Resmi wa.me linki (https) — uygulama yükletmez; tarayıcı / yüklü WA açar */
 export function buildWhatsAppWaMeUrl(phone: string, message?: string): string {
   const base = `https://wa.me/${phone}`;
   if (!message) return base;
@@ -90,27 +90,6 @@ export function buildWhatsAppWaMeUrl(phone: string, message?: string): string {
 /** Web — masaüstü ve footer */
 export function getWhatsAppLink(message?: string): string {
   return buildWhatsAppWaMeUrl(getWhatsAppDigits(), message);
-}
-
-/** @deprecated wa.me kullanın */
-export function buildWhatsAppWebUrl(phone: string, message?: string): string {
-  return buildWhatsAppWaMeUrl(phone, message);
-}
-
-/**
- * Android — doğrudan WhatsApp Business (com.whatsapp.w4b).
- * Normal WhatsApp istenirse NEXT_PUBLIC_WHATSAPP_BUSINESS=false
- */
-export function buildWhatsAppBusinessIntentUrl(phone: string, message: string): string {
-  const text = encodeURIComponent(message);
-  return `intent://send?phone=${phone}&text=${text}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
-}
-
-/** Mobilde dogrudan uygulama — api.whatsapp.com sayfasina dusmez */
-export function buildWhatsAppAppUrl(phone: string, message?: string): string {
-  const base = `whatsapp://send?phone=${phone}`;
-  if (!message) return base;
-  return `${base}&text=${encodeURIComponent(message)}`;
 }
 
 export function getInstagramLink(): string {

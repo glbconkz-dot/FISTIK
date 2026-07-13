@@ -15,7 +15,7 @@ import {
   normalizeKzPhone,
 } from '@/lib/checkout';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { beginWhatsAppOpen } from '@/lib/open-whatsapp';
+import { buildOrderWhatsAppUrl } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
@@ -55,6 +55,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [waUrl, setWaUrl] = useState<string | null>(null);
   const minDate = getMinDeliveryDate();
 
   const {
@@ -135,8 +136,6 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     setError(null);
     setSubmitting(true);
 
-    const wa = beginWhatsAppOpen();
-
     const result = await createOrder(payload, cartSnapshot, locale, {
       orderNumber,
       orderPlacedAt,
@@ -145,7 +144,6 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     setSubmitting(false);
 
     if (!result.success) {
-      wa.cancel();
       const key = result.error ?? 'generic';
       setError(t(`errors.${key}` as 'errors.generic'));
       return;
@@ -169,7 +167,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
 
     clearCart();
     clearForm();
-    wa.finish(message);
+    setWaUrl(result.whatsappUrl ?? buildOrderWhatsAppUrl(message));
   };
 
   const onInvalid = () => {
@@ -183,6 +181,23 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
   if (!isClient || !hydrated) {
     return (
       <p className="py-8 text-center text-sm text-muted">{tCommon('loading')}</p>
+    );
+  }
+
+  if (waUrl) {
+    return (
+      <div className="space-y-5 py-8 text-center">
+        <p className="font-display text-2xl font-semibold">{t('orderSaved')}</p>
+        <p className="text-sm text-muted">{t('whatsappFallbackHint')}</p>
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary inline-flex min-h-[52px] w-full items-center justify-center px-6 text-base"
+        >
+          {t('openWhatsApp')}
+        </a>
+      </div>
     );
   }
 
