@@ -18,7 +18,7 @@ import {
 } from '@/lib/checkout';
 import { isB2COrderAllowed } from '@/lib/b2c/pricing';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { beginWhatsAppOpen } from '@/lib/open-whatsapp';
+import { beginWhatsAppOpen, buildOrderWhatsAppUrl } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
@@ -80,6 +80,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [waFallbackUrl, setWaFallbackUrl] = useState<string | null>(null);
   const minDate = getMinDeliveryDate();
 
   const {
@@ -211,6 +212,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
     const cartSnapshot = [...items];
 
     setError(null);
+    setWaFallbackUrl(null);
     setSubmitting(true);
 
     // Await öncesi — tarayıcı jestini koru (aksi halde WhatsApp açılmaz)
@@ -247,6 +249,9 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
       locale,
     });
 
+    const waUrl = result.whatsappUrl ?? buildOrderWhatsAppUrl(message);
+    setWaFallbackUrl(waUrl);
+
     clearCart();
     clearForm();
     wa.finish(message);
@@ -254,6 +259,21 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
 
   if (!isClient || !hydrated) {
     return <p className="py-8 text-center text-sm text-muted">{tCommon('loading')}</p>;
+  }
+
+  if (waFallbackUrl) {
+    return (
+      <div className="mx-auto max-w-lg space-y-4 py-10 text-center">
+        <p className="font-display text-2xl font-semibold">{t('orderSaved')}</p>
+        <p className="text-sm text-muted">{t('whatsappFallbackHint')}</p>
+        <a
+          href={waFallbackUrl}
+          className="btn-primary inline-flex min-h-[48px] items-center justify-center px-6"
+        >
+          {t('openWhatsApp')}
+        </a>
+      </div>
+    );
   }
 
   const stepLabels = [t('step1'), t('step2'), t('step3'), t('step4')];
