@@ -117,11 +117,36 @@ export function B2BCustomerForm() {
         <h2 className="font-medium">{t('b2bPhones')}</h2>
         <div>
           <label className="mb-1 block text-sm font-medium">{t('b2bPhoneLogin')}</label>
-          <input name="phone" type="tel" className="input-field" placeholder="+7 7XX XXX XX XX" required />
+          <div className="phone-field">
+            <span className="phone-field-prefix" aria-hidden="true">
+              +7
+            </span>
+            <input
+              name="phone"
+              type="tel"
+              inputMode="numeric"
+              className="phone-field-input tabular-nums"
+              placeholder="7XX XXX XX XX"
+              required
+              autoComplete="tel-national"
+            />
+          </div>
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">{t('b2bPhoneAlt')}</label>
-          <input name="phoneAlt" type="tel" className="input-field" placeholder="+7 7XX XXX XX XX" />
+          <div className="phone-field">
+            <span className="phone-field-prefix" aria-hidden="true">
+              +7
+            </span>
+            <input
+              name="phoneAlt"
+              type="tel"
+              inputMode="numeric"
+              className="phone-field-input tabular-nums"
+              placeholder="7XX XXX XX XX"
+              autoComplete="tel-national"
+            />
+          </div>
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">{t('b2bPassword')}</label>

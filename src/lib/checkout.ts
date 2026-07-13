@@ -56,11 +56,11 @@ export function formatKzNationalDisplay(nationalDigits: string): string {
   return formatted;
 }
 
-/** Friendly display: (+7) 778 268 17 55 */
+/** Friendly display: +7 778 268 17 55 */
 export function formatKzPhoneInput(nationalDigits: string): string {
   const national = formatKzNationalDisplay(nationalDigits);
   if (!national) return '';
-  return `(+7) ${national}`;
+  return `+7 ${national}`;
 }
 
 /** Normalize Kazakhstan mobile to E.164 +7XXXXXXXXXX for WhatsApp. */

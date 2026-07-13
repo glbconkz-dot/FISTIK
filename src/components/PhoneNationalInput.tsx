@@ -30,7 +30,7 @@ export function PhoneNationalInput({
   return (
     <div className="phone-field">
       <span className="phone-field-prefix" aria-hidden="true">
-        (+7)
+        +7
       </span>
       <input
         ref={inputRef}

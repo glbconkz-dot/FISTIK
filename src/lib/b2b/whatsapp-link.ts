@@ -2,7 +2,7 @@ function getB2BWhatsAppDigitsRaw(): string {
   const digits = (
     process.env.NEXT_PUBLIC_B2B_WHATSAPP_NUMBER ??
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ??
-    '77014737575'
+    '77014537575'
   ).replace(/\D/g, '');
 
   if (digits.length === 10) return `7${digits}`;

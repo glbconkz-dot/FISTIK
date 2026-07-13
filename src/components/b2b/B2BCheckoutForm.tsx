@@ -4,13 +4,16 @@ import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createB2BOrder } from '@/app/actions/b2b-orders';
 import { CartLineItemList } from '@/components/CartLineItemList';
-import { getMinDeliveryDate } from '@/lib/checkout';
+import { PhoneNationalInput } from '@/components/PhoneNationalInput';
+import {
+  extractKzNationalDigits,
+  getMinDeliveryDate,
+} from '@/lib/checkout';
 import { B2B_MIN_ORDER_TOTAL } from '@/lib/b2b/constants';
 import { calculateB2BTotals } from '@/lib/b2b/pricing';
 import { getB2BWhatsAppDigitsForLink } from '@/lib/b2b/whatsapp-link';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
-import { formatB2BPhone } from '@/lib/b2b/phone';
+import { beginWhatsAppOpen, buildOrderWhatsAppUrl } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useB2BCartStore } from '@/stores/b2b-cart';
@@ -39,12 +42,15 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
   const [contactName, setContactName] = useState(
     customer.director_name.trim() || customer.company_name
   );
-  const [phone, setPhone] = useState(formatB2BPhone(customer.phone));
+  const [phoneNational, setPhoneNational] = useState(
+    extractKzNationalDigits(customer.phone)
+  );
   const [deliveryDate, setDeliveryDate] = useState('');
   const [branchId, setBranchId] = useState(defaultBranch);
   const [notes, setNotes] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [waFallbackUrl, setWaFallbackUrl] = useState<string | null>(null);
 
   const minDate = getMinDeliveryDate();
   const discountPercent = customer.discount_tier;
@@ -70,11 +76,15 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
     }
 
     setError('');
+    setWaFallbackUrl(null);
     setSubmitting(true);
 
     const orderPlacedAt = new Date().toISOString();
     const orderNumber = makeFallbackOrderNumber(new Date(orderPlacedAt));
     const cartSnapshot = [...items];
+    const phone = phoneNational.length === 10 ? `+7${phoneNational}` : phoneNational;
+
+    const wa = beginWhatsAppOpen();
 
     const result = await createB2BOrder(
       {
@@ -92,19 +102,40 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
     setSubmitting(false);
 
     if (!result.success) {
+      wa.cancel();
       const key = result.error ?? 'generic';
       setError(t(`errors.${key}` as 'errors.generic'));
       return;
     }
 
     clearCart();
+
     if (result.whatsappMessage) {
-      openWhatsAppWithMessage(result.whatsappMessage, getB2BWhatsAppDigitsForLink());
+      const url =
+        result.whatsappUrl ??
+        buildOrderWhatsAppUrl(result.whatsappMessage, getB2BWhatsAppDigitsForLink());
+      setWaFallbackUrl(url);
+      wa.finish(result.whatsappMessage, getB2BWhatsAppDigitsForLink());
+      return;
     }
+
+    wa.cancel();
   };
 
   if (!isClient) {
     return <p className="py-8 text-center text-sm text-muted">{tCommon('loading')}</p>;
+  }
+
+  if (items.length === 0 && waFallbackUrl) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-4 py-12 text-center">
+        <p className="font-display text-xl font-semibold">{t('orderSaved')}</p>
+        <p className="text-sm text-muted">{t('whatsappFallbackHint')}</p>
+        <a href={waFallbackUrl} className="btn-primary inline-flex min-h-[48px] items-center justify-center px-6">
+          {t('openWhatsApp')}
+        </a>
+      </div>
+    );
   }
 
   if (items.length === 0) {
@@ -172,13 +203,14 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
 
         <div>
           <label className="mb-1 block text-sm font-medium">{t('phone')}</label>
-          <input
-            className="input-field"
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
+          <PhoneNationalInput
+            name="phoneNational"
+            value={phoneNational}
+            onChange={setPhoneNational}
+            onBlur={() => undefined}
+            placeholder="701 453 75 75"
           />
+          <p className="mt-1 text-xs text-muted">{t('phoneHint')}</p>
         </div>
 
         <div>
@@ -230,6 +262,12 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
       </div>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
+
+      {waFallbackUrl ? (
+        <a href={waFallbackUrl} className="btn-primary block w-full text-center">
+          {t('openWhatsApp')}
+        </a>
+      ) : null}
 
       <p className="text-sm text-muted">{t('whatsappHint')}</p>
 

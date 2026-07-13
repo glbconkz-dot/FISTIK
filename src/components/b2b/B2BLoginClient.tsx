@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Home } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { signInB2B } from '@/app/actions/b2b-auth';
+import { PhoneNationalInput } from '@/components/PhoneNationalInput';
 import type { Locale } from '@/types';
 
 interface B2BLoginClientProps {
@@ -15,6 +16,7 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
   const t = useTranslations('b2b');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [phoneNational, setPhoneNational] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,8 +24,8 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
     setError('');
 
     const form = new FormData(e.currentTarget);
-    const phone = form.get('phone') as string;
     const password = form.get('password') as string;
+    const phone = phoneNational.length === 10 ? `7${phoneNational}` : phoneNational;
 
     try {
       const result = await signInB2B(phone, password, locale);
@@ -45,14 +47,14 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
             <label className="mb-1 block text-sm font-medium">{t('login.phone')}</label>
-            <input
-              name="phone"
-              type="tel"
-              className="input-field"
-              placeholder="+7 7XX XXX XX XX"
-              required
-              autoComplete="tel"
+            <PhoneNationalInput
+              name="phoneNational"
+              value={phoneNational}
+              onChange={setPhoneNational}
+              onBlur={() => undefined}
+              placeholder="701 453 75 75"
             />
+            <p className="mt-1 text-xs text-muted">{t('login.phoneHint')}</p>
           </div>
           <div>
             <label className="mb-1 block text-sm font-medium">{t('login.password')}</label>
@@ -67,7 +69,11 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
 
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
-          <button type="submit" className="btn-primary w-full" disabled={loading}>
+          <button
+            type="submit"
+            className="btn-primary w-full"
+            disabled={loading || phoneNational.length !== 10}
+          >
             {loading ? t('login.signingIn') : t('login.signIn')}
           </button>
         </form>

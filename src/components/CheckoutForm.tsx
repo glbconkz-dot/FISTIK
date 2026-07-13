@@ -15,7 +15,7 @@ import {
   normalizeKzPhone,
 } from '@/lib/checkout';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
+import { beginWhatsAppOpen } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
@@ -135,6 +135,8 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     setError(null);
     setSubmitting(true);
 
+    const wa = beginWhatsAppOpen();
+
     const result = await createOrder(payload, cartSnapshot, locale, {
       orderNumber,
       orderPlacedAt,
@@ -143,6 +145,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
     setSubmitting(false);
 
     if (!result.success) {
+      wa.cancel();
       const key = result.error ?? 'generic';
       setError(t(`errors.${key}` as 'errors.generic'));
       return;
@@ -166,7 +169,7 @@ export function CheckoutForm({ locale }: CheckoutFormProps) {
 
     clearCart();
     clearForm();
-    openWhatsAppWithMessage(message);
+    wa.finish(message);
   };
 
   const onInvalid = () => {

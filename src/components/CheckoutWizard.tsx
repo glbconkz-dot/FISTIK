@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { createOrder } from '@/app/actions/orders';
 import {
   formatCheckoutAddress,
+  formatKzNationalDisplay,
   getMinDeliveryDate,
   getPendingDeliveryTime,
   isDeliveryDateValid,
@@ -17,7 +18,7 @@ import {
 } from '@/lib/checkout';
 import { isB2COrderAllowed } from '@/lib/b2c/pricing';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
-import { openWhatsAppWithMessage } from '@/lib/open-whatsapp';
+import { beginWhatsAppOpen } from '@/lib/open-whatsapp';
 import { formatPrice } from '@/lib/utils';
 import { buildWhatsAppMessage } from '@/lib/whatsapp';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
@@ -212,6 +213,9 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
     setError(null);
     setSubmitting(true);
 
+    // Await öncesi — tarayıcı jestini koru (aksi halde WhatsApp açılmaz)
+    const wa = beginWhatsAppOpen();
+
     const result = await createOrder(payload, cartSnapshot, locale, {
       orderNumber,
       orderPlacedAt,
@@ -221,6 +225,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
     setSubmitting(false);
 
     if (!result.success) {
+      wa.cancel();
       const key = result.error ?? 'generic';
       setError(t(`errors.${key}` as 'errors.generic'));
       return;
@@ -244,7 +249,7 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
 
     clearCart();
     clearForm();
-    openWhatsAppWithMessage(message);
+    wa.finish(message);
   };
 
   if (!isClient || !hydrated) {
@@ -499,7 +504,9 @@ export function CheckoutWizard({ locale }: CheckoutWizardProps) {
                 </div>
                 <div className="flex justify-between gap-4">
                   <span className="text-muted">{t('phone')}</span>
-                  <span className="font-medium">{getValues('phoneNational')}</span>
+                  <span className="font-medium">
+                    +7 {formatKzNationalDisplay(getValues('phoneNational'))}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-4">
                   <span className="text-muted">{t('deliveryDate')}</span>
