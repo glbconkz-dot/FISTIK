@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
 import { getDisplayCategories } from '@/lib/category-display';
@@ -41,6 +40,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const [tab, setTab] = useState<LangTab>('tr');
   const [imageUrl, setImageUrl] = useState(product?.image_url ?? '');
   const [uploading, setUploading] = useState(false);
+  const [uploadNote, setUploadNote] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletePin, setDeletePin] = useState('');
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -58,43 +59,58 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
     if (!file) return;
 
     setUploading(true);
+    setUploadNote(null);
     try {
       const formData = new FormData();
       formData.append('file', file);
       const { url } = await uploadProductImage(formData);
       setImageUrl(url);
+      setUploadNote('Resim yüklendi — kaydetmek için Update product’a basın.');
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    setSaveError(null);
 
     startTransition(async () => {
-      await upsertProduct(
-        {
-          slug: (form.get('slug') as string) || '',
-          categoryId: form.get('categoryId') as string,
-          nameEn: form.get('nameEn') as string,
-          nameRu: form.get('nameRu') as string,
-          nameKk: form.get('nameKk') as string,
-          nameTr: form.get('nameTr') as string,
-          descriptionEn: form.get('descriptionEn') as string,
-          descriptionRu: form.get('descriptionRu') as string,
-          descriptionKk: form.get('descriptionKk') as string,
-          descriptionTr: form.get('descriptionTr') as string,
-          price: Number(form.get('price')),
-          imageUrl,
-          isActive: form.get('isActive') === 'on',
-          stockQuantity: Number(form.get('stockQuantity') || 30),
-          sortOrder: Number(form.get('sortOrder') || 0),
-        },
-        product?.id
-      );
+      try {
+        await upsertProduct(
+          {
+            slug: (form.get('slug') as string) || '',
+            categoryId: form.get('categoryId') as string,
+            nameEn: form.get('nameEn') as string,
+            nameRu: form.get('nameRu') as string,
+            nameKk: form.get('nameKk') as string,
+            nameTr: form.get('nameTr') as string,
+            descriptionEn: form.get('descriptionEn') as string,
+            descriptionRu: form.get('descriptionRu') as string,
+            descriptionKk: form.get('descriptionKk') as string,
+            descriptionTr: form.get('descriptionTr') as string,
+            price: Number(form.get('price')),
+            imageUrl,
+            isActive: form.get('isActive') === 'on',
+            stockQuantity: Number(form.get('stockQuantity') || 30),
+            sortOrder: Number(form.get('sortOrder') || 0),
+          },
+          product?.id
+        );
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : '';
+        if (
+          msg.includes('NEXT_REDIRECT') ||
+          (err as { digest?: string })?.digest?.includes('NEXT_REDIRECT')
+        ) {
+          return;
+        }
+        setSaveError(msg || 'Kayıt başarısız');
+      }
     });
   };
 
@@ -190,18 +206,22 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium">Product image</label>
+        <label className="mb-1 block text-sm font-medium">Ürün resmi</label>
         <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-        {uploading && <p className="mt-1 text-sm text-muted">Uploading...</p>}
-        {imageUrl && (
-          <div className="relative mt-3 h-32 w-32 overflow-hidden rounded-lg">
-            <Image src={imageUrl} alt="Preview" fill className="object-cover" />
+        {uploading && <p className="mt-1 text-sm text-muted">Yükleniyor…</p>}
+        {uploadNote && <p className="mt-1 text-sm text-accent">{uploadNote}</p>}
+        {imageUrl ? (
+          <div className="relative mt-3 h-40 w-40 overflow-hidden rounded-lg border border-border bg-cream">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imageUrl} alt="Önizleme" className="h-full w-full object-cover" />
           </div>
+        ) : (
+          <p className="mt-2 text-xs text-muted">Henüz resim yok — dosya seçin.</p>
         )}
-        {product?.image_urls && product.image_urls.length > 1 ? (
+        {product?.image_urls && product.image_urls.length > 0 ? (
           <div className="mt-3">
             <p className="mb-1.5 text-xs text-muted">
-              Galeri ({product.image_urls.length} foto) — kaydırarak ürün sayfasında görünür
+              Ek galeri ({product.image_urls.length}) — site dosyalarından; ana resmi admin yüklemesiyle değişir
             </p>
             <div className="flex gap-2 overflow-x-auto pb-1">
               {product.image_urls.map((url) => (
@@ -209,7 +229,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
                   key={url}
                   className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-border"
                 >
-                  <Image src={url} alt="" fill className="object-cover" sizes="80px" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt="" className="h-full w-full object-cover" />
                 </div>
               ))}
             </div>
@@ -221,6 +242,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         <input type="checkbox" name="isActive" defaultChecked={product?.is_active ?? true} />
         <span className="text-sm">Active</span>
       </label>
+
+      {saveError && <p className="text-sm text-red-600">{saveError}</p>}
 
       <button type="submit" className="btn-primary" disabled={isPending || uploading}>
         {isPending ? 'Saving...' : product ? 'Update product' : 'Create product'}

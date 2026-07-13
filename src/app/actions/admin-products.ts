@@ -44,6 +44,9 @@ export async function upsertProduct(data: ProductFormData, productId?: string) {
   }
 
   revalidatePath('/admin/products');
+  if (productId) {
+    revalidatePath(`/admin/products/${productId}/edit`);
+  }
   revalidateStorefront();
   redirect('/admin/products');
 }
@@ -192,22 +195,47 @@ export async function deleteProduct(
 
 export async function uploadProductImage(formData: FormData): Promise<{ url: string }> {
   await requireAdmin();
-  const supabase = await createClient();
-  const file = formData.get('file') as File;
-  if (!file) throw new Error('No file provided');
 
-  const ext = file.name.split('.').pop() ?? 'jpg';
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const file = formData.get('file') as File | null;
+  if (!file || typeof file === 'string' || file.size === 0) {
+    throw new Error('Dosya seçilmedi');
+  }
+
+  if (!file.type.startsWith('image/')) {
+    throw new Error('Sadece resim dosyası yükleyin');
+  }
+
+  const { tryCreateServiceClient } = await import('@/lib/supabase/service');
+  const supabase = tryCreateServiceClient() ?? (await createClient());
+
+  const ext =
+    (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
 
   const { error: uploadError } = await supabase.storage
     .from('product-images')
-    .upload(fileName, file, { upsert: false });
+    .upload(fileName, buffer, {
+      contentType: file.type || `image/${ext}`,
+      upsert: true,
+      cacheControl: '3600',
+    });
 
-  if (uploadError) throw new Error(uploadError.message);
+  if (uploadError) {
+    throw new Error(
+      uploadError.message.includes('Bucket not found')
+        ? 'Supabase Storage: product-images bucket yok. Storage’da public bucket oluşturun.'
+        : uploadError.message
+    );
+  }
 
   const {
     data: { publicUrl },
   } = supabase.storage.from('product-images').getPublicUrl(fileName);
+
+  if (!publicUrl) {
+    throw new Error('Yükleme URL’si alınamadı');
+  }
 
   return { url: publicUrl };
 }

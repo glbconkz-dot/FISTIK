@@ -21,8 +21,8 @@ export interface ProductAsset {
 
 export const PRODUCT_ASSETS = productAssets as ProductAsset[];
 
-const MERGE_FIELDS = [
-  'image_url',
+/** Text/name fields only — image_url handled separately so admin uploads win. */
+const TEXT_MERGE_FIELDS = [
   'name_en',
   'name_ru',
   'name_kk',
@@ -82,6 +82,13 @@ function namesMatch(product: Product, asset: ProductAsset): boolean {
   });
 }
 
+/** Admin / Supabase Storage (or any absolute URL) — must not be overwritten by static assets. */
+export function isAdminOrRemoteProductImage(url: string | null | undefined): boolean {
+  const value = url?.trim() ?? '';
+  if (!value) return false;
+  return /^https?:\/\//i.test(value) || value.includes('/storage/v1/object/public/');
+}
+
 export function findProductAsset(
   product: Product,
   categories?: Category[]
@@ -109,7 +116,7 @@ export function applyProductAsset(
   if (!asset) return product;
 
   const updates: Partial<Product> = {};
-  for (const field of MERGE_FIELDS) {
+  for (const field of TEXT_MERGE_FIELDS) {
     const value = asset[field];
     if (value !== undefined) {
       updates[field] = value;
@@ -117,12 +124,18 @@ export function applyProductAsset(
   }
 
   const gallery = getAssetGallery(asset);
+  const dbImage = product.image_url?.trim() ?? '';
+
+  // Admin-uploaded (or any remote) image always wins over product-assets.json
+  if (isAdminOrRemoteProductImage(dbImage)) {
+    return { ...product, ...updates };
+  }
+
   if (gallery.length > 0) {
     updates.image_url = gallery[0];
-    // Extras only — getProductGallery prepends image_url
     updates.image_urls = gallery.slice(1);
   } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
-    // Explicit empty string clears primary + gallery (no fallback to DB URLs)
+    // Explicit empty in assets → clear broken/local static image
     updates.image_url = '';
     updates.image_urls = [];
   }
