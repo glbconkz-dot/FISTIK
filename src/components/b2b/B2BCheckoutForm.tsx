@@ -7,7 +7,9 @@ import { CartLineItemList } from '@/components/CartLineItemList';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
 import {
   extractKzNationalDigits,
+  getB2BSelfServeDeliveryMinDate,
   getMinDeliveryDate,
+  needsB2BDeliveryDateApproval,
 } from '@/lib/checkout';
 import { B2B_MIN_ORDER_TOTAL } from '@/lib/b2b/constants';
 import { calculateB2BTotals } from '@/lib/b2b/pricing';
@@ -53,6 +55,10 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
   const [waFallbackUrl, setWaFallbackUrl] = useState<string | null>(null);
 
   const minDate = getMinDeliveryDate();
+  const freeDateFrom = getB2BSelfServeDeliveryMinDate();
+  const needsDateApproval = Boolean(
+    deliveryDate && needsB2BDeliveryDateApproval(deliveryDate)
+  );
   const discountPercent = customer.discount_tier;
   const totals = useMemo(
     () => calculateB2BTotals(subtotal, discountPercent),
@@ -222,6 +228,15 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
             onChange={(e) => setDeliveryDate(e.target.value)}
             required
           />
+          <p className="mt-1.5 text-xs leading-relaxed text-muted">{t('deliveryDateRules', { freeFrom: freeDateFrom })}</p>
+          {needsDateApproval ? (
+            <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              {t('deliveryDateNeedsApproval')}
+            </p>
+          ) : null}
+          {deliveryDate && !needsDateApproval && deliveryDate >= freeDateFrom ? (
+            <p className="mt-2 text-sm text-muted">{t('deliveryDateSelfServe')}</p>
+          ) : null}
         </div>
 
         <div>
@@ -246,7 +261,7 @@ export function B2BCheckoutForm({ customer, locale }: B2BCheckoutFormProps) {
         </div>
 
         <div className="rounded-xl border border-border bg-pistachio-soft px-4 py-3 text-sm leading-relaxed text-muted">
-          {t('deliveryTimeNotice')}
+          {needsDateApproval ? t('deliveryTimeNoticeEarly') : t('deliveryTimeNotice')}
         </div>
 
         <div>

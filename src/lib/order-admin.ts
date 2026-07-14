@@ -1,4 +1,6 @@
 import type { Order, OrderStatus } from '@/types';
+import { needsB2BDeliveryDateApproval } from '@/lib/checkout';
+import { isB2BOrder } from '@/lib/b2b/order-filter';
 import { formatDeliveryTimeLabel, getTodayInStoreTimezone, STORE_TIMEZONE } from '@/lib/order-dates';
 
 export type OrderSection = OrderStatus;
@@ -94,7 +96,15 @@ export function countOrdersBySection(orders: Order[], section: OrderSection): nu
 export function formatDeliverySchedule(order: Order): string {
   const today = getTodayInStoreTimezone();
   const day = order.delivery_date.slice(0, 10) === today ? 'Bugün' : order.delivery_date;
-  return `${day} · ${formatDeliveryTimeLabel(order.delivery_time)}`;
+  const base = `${day} · ${formatDeliveryTimeLabel(order.delivery_time)}`;
+  if (
+    isB2BOrder(order) &&
+    order.status === 'new' &&
+    needsB2BDeliveryDateApproval(order.delivery_date, new Date(order.created_at))
+  ) {
+    return `${base} · tarih teyidi`;
+  }
+  return base;
 }
 
 export function isOrderCreatedToday(order: Order): boolean {

@@ -7,6 +7,7 @@ import { AdminActionModal } from '@/components/admin/AdminActionModal';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
 import { getCurrentAlmatyTimeValue, getCancelReason, getCustomerNotes } from '@/lib/order-admin';
 import { formatOrderDateTime, formatDeliveryTimeLabel } from '@/lib/order-dates';
+import { needsB2BDeliveryDateApproval } from '@/lib/checkout';
 import { formatPrice } from '@/lib/utils';
 import { performOrderAction } from '@/app/actions/orders';
 import { setB2BOrderPaymentStatus } from '@/app/actions/b2b-orders-admin';
@@ -82,6 +83,10 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
   const customerNotes = getCustomerNotes(order);
   const b2b = isB2BOrder(order);
   const isPaid = order.payment_status === 'paid';
+  const earlyDeliveryNeedsApproval =
+    b2b &&
+    order.status === 'new' &&
+    needsB2BDeliveryDateApproval(order.delivery_date, new Date(order.created_at));
 
   const togglePayment = (status: 'paid' | 'pending') => {
     setError(null);
@@ -166,6 +171,11 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
           <div>
             <dt className="text-muted">Teslimat günü</dt>
             <dd className="font-medium">{order.delivery_date}</dd>
+            {earlyDeliveryNeedsApproval ? (
+              <p className="mt-1 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-medium text-amber-900">
+                Ertesi gün / 2. gün — müşteri temsilcisi tarih teyidi gerekli
+              </p>
+            ) : null}
           </div>
           <div>
             <dt className="text-muted">Teslim saati</dt>
@@ -264,7 +274,9 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
             <>
               <p className="text-xs text-muted">
                 {b2b
-                  ? 'B2B sipariş — stok düşülmez. Müşteriyi arayın ve teslim saatini onaylayın.'
+                  ? earlyDeliveryNeedsApproval
+                    ? 'B2B erken teslimat — stok düşülmez. Müşteriyi arayın; tarihi teyit edin, sonra teslim saatini yazıp onaylayın.'
+                    : 'B2B sipariş — stok düşülmez. Müşteriyi arayın ve teslim saatini onaylayın.'
                   : 'Müşteriyi arayın. Onaylarken mutabık kalınan teslim saatini yazın.'}
               </p>
               <button

@@ -86,11 +86,62 @@ export function getPendingDeliveryTime(locale: Locale): string {
   return pendingDeliveryTime[locale];
 }
 
-/** Yarın — Almatı saati (date input min için) */
+/** YYYY-MM-DD + N takvim günü (UTC noon, gün kayması yok) */
+export function addCalendarDaysYmd(ymd: string, days: number): string {
+  const [y, m, d] = ymd.slice(0, 10).split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d + days));
+  return dt.toISOString().slice(0, 10);
+}
+
+/** Teslimat tarihi ile sipariş günü arasındaki takvim günü farkı (Almatı). */
+export function getDeliveryDayOffset(deliveryDate: string, now = new Date()): number {
+  const day = deliveryDate.trim().slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return Number.NaN;
+  const today = getTodayInStoreTimezone(now);
+  const t0 = Date.parse(`${today}T12:00:00Z`);
+  const t1 = Date.parse(`${day}T12:00:00Z`);
+  return Math.round((t1 - t0) / 86_400_000);
+}
+
+/**
+ * B2B: sipariş günü teslim yok.
+ * D+1 ve D+2 müşteri temsilcisi onayına tabi.
+ * D+3 ve sonrası müşteri kendi seçebilir.
+ */
+export const B2B_SELF_SERVE_DELIVERY_MIN_OFFSET = 3;
+
+export function getB2BSelfServeDeliveryMinDate(now = new Date()): string {
+  return addCalendarDaysYmd(getTodayInStoreTimezone(now), B2B_SELF_SERVE_DELIVERY_MIN_OFFSET);
+}
+
+export function needsB2BDeliveryDateApproval(
+  deliveryDate: string,
+  now = new Date()
+): boolean {
+  const offset = getDeliveryDayOffset(deliveryDate, now);
+  return offset === 1 || offset === 2;
+}
+
+const pendingB2BEarlyDeliveryTime: Record<Locale, string> = {
+  tr: 'Ertesi gün / 2. gün teslimat — müşteri temsilcisi tarih ve saati teyit edecek',
+  kk: 'Ертең / 2-күндік жеткізу — клиент өкілі күн мен уақытты растайды',
+  ru: 'Доставка на завтра / через 2 дня — менеджер подтвердит дату и время',
+  en: 'Next-day / day+2 delivery — account manager will confirm date and time',
+};
+
+export function getB2BPendingDeliveryTime(
+  locale: Locale,
+  needsDateApproval: boolean
+): string {
+  if (needsDateApproval) {
+    return pendingB2BEarlyDeliveryTime[locale];
+  }
+  return pendingDeliveryTime[locale];
+}
+
+/** Yarın — Almatı saati (date input min için; aynı gün teslim yok) */
 export function getMinDeliveryDate(now = new Date()): string {
-  const tomorrow = new Date(now);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  return getTodayInStoreTimezone(tomorrow);
+  return addCalendarDaysYmd(getTodayInStoreTimezone(now), 1);
 }
 
 export function isDeliveryDateValid(date: string, now = new Date()): boolean {

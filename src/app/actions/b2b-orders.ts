@@ -1,7 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { getPendingDeliveryTime, isDeliveryDateValid } from '@/lib/checkout';
+import {
+  getB2BPendingDeliveryTime,
+  isDeliveryDateValid,
+  needsB2BDeliveryDateApproval,
+} from '@/lib/checkout';
 import { getB2BCustomerSession } from '@/lib/b2b/customer';
 import { B2B_MIN_ORDER_TOTAL } from '@/lib/b2b/constants';
 import { calculateB2BTotals } from '@/lib/b2b/pricing';
@@ -79,7 +83,12 @@ export async function createB2BOrder(
   const orderPlacedAt = options?.orderPlacedAt ?? new Date().toISOString();
   let orderNumber = options?.orderNumber ?? makeFallbackOrderNumber(new Date(orderPlacedAt));
 
-  const deliveryTime = getPendingDeliveryTime(locale);
+  const orderPlacedDate = new Date(orderPlacedAt);
+  const dateNeedsApproval = needsB2BDeliveryDateApproval(
+    input.deliveryDate,
+    orderPlacedDate
+  );
+  const deliveryTime = getB2BPendingDeliveryTime(locale, dateNeedsApproval);
   const address = `${branch.branch_name}: ${branch.address}`;
   const notes = input.notes.trim();
   const phoneE164 = `+${normalizedPhone}`;
@@ -159,6 +168,7 @@ export async function createB2BOrder(
     discountAmount,
     total,
     locale,
+    deliveryDateNeedsApproval: dateNeedsApproval,
   });
 
   return { success: true, whatsappUrl: getB2BWhatsAppLink(message), whatsappMessage: message };

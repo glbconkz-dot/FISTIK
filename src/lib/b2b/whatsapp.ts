@@ -23,6 +23,8 @@ export interface B2BWhatsAppOrderPayload {
   discountAmount: number;
   total: number;
   locale: Locale;
+  /** D+1 / D+2 — müşteri temsilcisi tarih onayı gerekir */
+  deliveryDateNeedsApproval?: boolean;
 }
 
 const labels: Record<
@@ -49,6 +51,7 @@ const labels: Record<
     subtotal: string;
     discount: string;
     total: string;
+    dateApproval: string;
   }
 > = {
   tr: {
@@ -73,6 +76,7 @@ const labels: Record<
     subtotal: 'Ara toplam',
     discount: 'İndirim',
     total: 'Toplam',
+    dateApproval: '⚠ Ertesi gün / 2. gün — müşteri temsilcisi tarih onayı gerekli',
   },
   ru: {
     title: 'FISTIK — B2B заказ',
@@ -96,6 +100,7 @@ const labels: Record<
     subtotal: 'Подытог',
     discount: 'Скидка',
     total: 'Итого',
+    dateApproval: '⚠ Завтра / через 2 дня — требуется подтверждение даты менеджером',
   },
   kk: {
     title: 'FISTIK — B2B тапсырыс',
@@ -119,6 +124,7 @@ const labels: Record<
     subtotal: 'Қосалқы',
     discount: 'Жеңілдік',
     total: 'Барлығы',
+    dateApproval: '⚠ Ертең / 2-күн — клиент өкілінің күн растауы қажет',
   },
   en: {
     title: 'FISTIK — B2B Order',
@@ -142,6 +148,7 @@ const labels: Record<
     subtotal: 'Subtotal',
     discount: 'Discount',
     total: 'Total',
+    dateApproval: '⚠ Next-day / day+2 — account manager must confirm the date',
   },
 };
 
@@ -195,6 +202,7 @@ export function buildB2BWhatsAppMessage(payload: B2BWhatsAppOrderPayload): strin
       .join('\n'),
     [
       `*${l.delivery}*`,
+      payload.deliveryDateNeedsApproval ? l.dateApproval : null,
       field(l.date, payload.deliveryDate),
       field(l.time, payload.deliveryTime),
       field(l.branch, payload.branchName),
