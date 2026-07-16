@@ -7,6 +7,12 @@ import type { Order } from '@/types';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
 import { OrderChannelBadge, B2BPaymentBadge } from '@/components/admin/OrderChannelBadge';
 import { OrderDetailPanel } from '@/components/admin/OrderDetailPanel';
+import { LiveOrderMonitor } from '@/components/admin/LiveOrderMonitor';
+import {
+  readLiveOrdersEnabled,
+  useLiveOrders,
+  writeLiveOrdersEnabled,
+} from '@/hooks/use-live-orders';
 import {
   ORDER_SECTIONS,
   filterOrdersBySection,
@@ -60,7 +66,16 @@ function FilterButton({
 
 export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   const router = useRouter();
-  const [orders, setOrders] = useState(initialOrders);
+  const [liveEnabled, setLiveEnabled] = useState(true);
+  const {
+    orders,
+    setOrders,
+    syncedAt,
+    syncError,
+    newArrivalCount,
+    clearNewArrivals,
+    refreshNow,
+  } = useLiveOrders(initialOrders, liveEnabled);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [section, setSection] = useState<OrderSection>('new');
   const [channel, setChannel] = useState<OrderChannelFilter>('all');
@@ -68,8 +83,22 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   const [isClearing, startClearTransition] = useTransition();
 
   useEffect(() => {
-    setOrders(initialOrders);
-  }, [initialOrders]);
+    setLiveEnabled(readLiveOrdersEnabled());
+  }, []);
+
+  const handleLiveToggle = (enabled: boolean) => {
+    setLiveEnabled(enabled);
+    writeLiveOrdersEnabled(enabled);
+  };
+
+  const handleSelectOrder = (orderId: string) => {
+    setSelectedId(orderId);
+    clearNewArrivals();
+    const order = orders.find((o) => o.id === orderId);
+    if (order) {
+      setSection(order.status);
+    }
+  };
 
   const channelOrders = useMemo(
     () => filterOrdersByChannel(orders, channel),
@@ -92,6 +121,14 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
 
   const selected = orders.find((o) => o.id === selectedId) ?? null;
   const activeSection = ORDER_SECTIONS.find((s) => s.key === section);
+  const pendingNewOrders = useMemo(
+    () =>
+      orders
+        .filter((o) => o.status === 'new')
+        .sort((a, b) => b.created_at.localeCompare(a.created_at))
+        .slice(0, 8),
+    [orders]
+  );
 
   const handleOrderChange = (updated: Order) => {
     setOrders((prev) => prev.map((o) => (o.id === updated.id ? { ...o, ...updated } : o)));
@@ -123,8 +160,8 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      <div>
+    <div className="grid gap-6 xl:grid-cols-2">
+      <div className="order-2 xl:order-1">
         {historyCount > 0 ? (
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-cream/50 px-3 py-2.5">
             <p className="text-xs text-muted">
@@ -209,7 +246,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
             <button
               key={order.id}
               type="button"
-              onClick={() => setSelectedId(order.id)}
+              onClick={() => handleSelectOrder(order.id)}
               className={`luxury-card w-full p-4 text-left transition-colors ${
                 selectedId === order.id ? 'ring-2 ring-accent' : ''
               }`}
@@ -264,12 +301,23 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
         </div>
       </div>
 
-      <div className="lg:sticky lg:top-4 lg:self-start">
+      <div className="order-1 space-y-3 xl:order-2 xl:sticky xl:top-4 xl:self-start">
+        <LiveOrderMonitor
+          enabled={liveEnabled}
+          onToggle={handleLiveToggle}
+          syncedAt={syncedAt}
+          syncError={syncError}
+          newArrivalCount={newArrivalCount}
+          newOrders={pendingNewOrders}
+          onSelectOrder={handleSelectOrder}
+          onRefresh={() => void refreshNow()}
+          selectedId={selectedId}
+        />
         {selected ? (
           <OrderDetailPanel order={selected} onOrderChange={handleOrderChange} />
         ) : (
-          <div className="luxury-card flex min-h-48 items-center justify-center p-6 text-center text-muted">
-            Soldan bir sipariş seçin
+          <div className="luxury-card flex min-h-40 items-center justify-center p-6 text-center text-sm text-muted">
+            Soldan veya yukarıdaki canlı listeden bir sipariş seçin
           </div>
         )}
       </div>

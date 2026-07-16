@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
 import { getBusinessAddress, getInstagramLink } from '@/lib/business';
+import { BusinessLocations } from '@/components/BusinessLocations';
 import type { Locale } from '@/types';
 
 export async function generateMetadata({
@@ -48,12 +49,9 @@ export default async function AboutPage({
 
         <div className="luxury-card p-6 sm:p-8">
           <h2 className="font-display text-xl font-semibold">{t('locationTitle')}</h2>
-          <p className="mt-3 font-medium">{address.legalName}</p>
-          {address.lines.map((line) => (
-            <p key={line} className="text-muted">
-              {line}
-            </p>
-          ))}
+          <div className="mt-3">
+            <BusinessLocations address={address} />
+          </div>
         </div>
       </Reveal>
 

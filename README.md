@@ -4,15 +4,14 @@ Mobile-first bakery catalog and ordering app with WhatsApp checkout, built with 
 
 ## Business
 
-**Fistik** — Kaskelen, Almaty Region
+**Fistik** — Almaty (satış) & Kaskelen (üretim)
 
 | | |
 |---|---|
 | **Phone / WhatsApp** | +7 778 268 17 55 |
 | **BIN / BSN** | 150640023753K3 |
-| **Address (RU)** | 050900 Алматинская обл., Карасайский р-н, г. Каскелен, ул. Карасай Батыра 7А |
-| **Address (TR)** | 050900 Almatı bölgesi, Karasay ilçesi, Kaskelen, Karasay Batır caddesi 7A |
-| **Address (KK)** | 050900 Алматы обл., Карасай ауданы, Каскелен қ-сы, Карасай Батыр к-сі 7A |
+| **Satış şubesi (Almaty)** | A15G7D2, ул. Ауэзова 84, текстильная улица 69 |
+| **Üretim (Kaskelen)** | 050900 Алматинская обл., Карасайский р-н, г. Каскелен, ул. Карасай Батыра 7А |
 
 Brand colors: pistachio green `#b8c97d`, chocolate brown `#4a2c11`. Logo files: `public/logo.png`, `public/logo-square.png`.
 

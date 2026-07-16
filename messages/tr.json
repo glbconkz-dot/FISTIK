@@ -106,8 +106,8 @@
     "back": "Geri",
     "deliveryOption": "Teslimat",
     "pickupOption": "Gel-al",
-    "pickupInfo": "Siparişinizi atölyemizden teslim alabilirsiniz. Onay sonrası adres ve saat paylaşılacaktır.",
-    "pickupAddress": "Gel-al — FISTIK Atölye, Kaskelen",
+    "pickupInfo": "Siparişinizi üretim noktamızdan teslim alabilirsiniz. Onay sonrası adres ve saat paylaşılacaktır.",
+    "pickupAddress": "Gel-al — FISTIK, Kaskelen (üretim ve satış noktası)",
     "customerName": "Ad soyad",
     "phone": "Telefon numarası",
     "phonePlaceholder": "778 268 17 55",
@@ -116,7 +116,7 @@
     "deliveryTimeNotice": "Teslimat saati: Satış temsilcimiz sipariş onayından sonra sizi arayıp uygun saati bildirecek.",
     "address": "Teslimat adresi",
     "addressStreet": "Sokak, mahalle, cadde",
-    "addressStreetPlaceholder": "Örn: Карасай Батыр 7А",
+    "addressStreetPlaceholder": "Örn: Ауэзов 84, Tekstil sokağı 69",
     "buildingNumber": "Bina numarası",
     "floorApartment": "Kat / daire",
     "addressNotes": "Adres için ek bilgi (isteğe bağlı)",
@@ -164,13 +164,13 @@
   },
   "about": {
     "title": "FISTIK Hakkında",
-    "description": "Kaskelen'de el yapımı lüks pastalar",
+    "description": "Almatı ve Kaskelen'de el yapımı lüks pastalar",
     "intro": "FISTIK, her detayında özen taşıyan bir butik tatlı atölyesidir. Instagram'dan gelen misafirlerimiz için hızlı, zarif ve kişisel bir sipariş deneyimi sunuyoruz.",
     "storyTitle": "Hikayemiz",
     "story": "Her tatlı bir hikâye anlatır. Geleneksel tarifleri modern sunumla buluşturarak, özel günlerinize anlam katıyoruz.",
     "craftTitle": "El işçiliği",
     "craft": "Tüm ürünlerimiz günlük taze malzemelerle, küçük partiler halinde ve sevgiyle hazırlanır.",
-    "locationTitle": "Atölyemiz",
+    "locationTitle": "Adreslerimiz",
     "orderCta": "Sipariş ver"
   },
   "contact": {
@@ -182,7 +182,7 @@
     "hoursValue": "Her gün 09:00 – 21:00. Teslimat saati sipariş onayından sonra bildirilir."
   },
   "footer": {
-    "tagline": "Kaskelen'de butik fırın — el yapımı pastalar ve unlu mamuller.",
+    "tagline": "Almatı satış şubesi ve Kaskelen üretim noktası — el yapımı pastalar ve unlu mamuller.",
     "phone": "Tel",
     "instagramCta": "Instagram'a dön",
     "aboutLink": "Hakkımızda",

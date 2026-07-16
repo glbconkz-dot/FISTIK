@@ -2,6 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import { Reveal } from '@/components/ui/Reveal';
 import { getBusinessAddress, getInstagramLink, getWhatsAppLink, BUSINESS } from '@/lib/business';
+import { BusinessLocations } from '@/components/BusinessLocations';
 import type { Locale } from '@/types';
 
 export async function generateMetadata({
@@ -60,12 +61,9 @@ export default async function ContactPage({
 
         <div className="luxury-card p-5">
           <p className="text-sm text-muted">{t('address')}</p>
-          <p className="mt-2 font-medium">{address.legalName}</p>
-          {address.lines.map((line) => (
-            <p key={line} className="text-muted">
-              {line}
-            </p>
-          ))}
+          <div className="mt-2">
+            <BusinessLocations address={address} />
+          </div>
         </div>
 
         <div className="luxury-card p-5">

@@ -113,10 +113,19 @@ export async function Footer({ locale }: FooterProps) {
             <p className="text-accent/75">
               {address.idLabel} {BUSINESS.bin}
             </p>
-            {address.lines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-            <p className="mt-2">
+            <div className="mt-3 space-y-4">
+              {address.locations.map((location) => (
+                <div key={location.key}>
+                  <p className="font-medium text-accent">{location.label}</p>
+                  {location.lines.map((line) => (
+                    <p key={line} className="text-accent/85">
+                      {line}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <p className="mt-4">
               {t('phone')}:{' '}
               <a
                 href={getWhatsAppLink()}

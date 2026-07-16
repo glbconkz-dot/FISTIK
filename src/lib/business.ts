@@ -30,50 +30,128 @@ export const BUSINESS = {
   },
 };
 
-export const BUSINESS_ADDRESS: Record<
-  Locale,
-  { legalName: string; idLabel: string; lines: string[] }
-> = {
-  en: {
-    legalName: 'Fistik LLP',
-    idLabel: 'BIN',
-    lines: [
-      '050900 Almaty Region,',
-      'Karasay District, Kaskelen,',
-      '7A Karasay Batyr Street',
-    ],
-  },
+export type BusinessLocationKey = 'sales' | 'production';
+
+export interface BusinessLocation {
+  key: BusinessLocationKey;
+  label: string;
+  lines: string[];
+}
+
+export interface BusinessAddressBundle {
+  legalName: string;
+  idLabel: string;
+  locations: BusinessLocation[];
+}
+
+export const BUSINESS_ADDRESS: Record<Locale, BusinessAddressBundle> = {
   ru: {
     legalName: 'ТОО «Fistik»',
     idLabel: 'БИН',
-    lines: [
-      '050900 Алматинская обл.,',
-      'Карасайский р-н, г. Каскелен,',
-      'ул. Карасай Батыра 7А',
+    locations: [
+      {
+        key: 'sales',
+        label: 'Филиал продаж — Алматы',
+        lines: [
+          'A15G7D2',
+          'г. Алматы, ул. Ауэзова, д. 84',
+          'текстильная улица 69',
+        ],
+      },
+      {
+        key: 'production',
+        label: 'Производство и точка продаж — Каскелен',
+        lines: [
+          '050900 Алматинская обл.',
+          'Карасайский р-н, г. Каскелен',
+          'ул. Карасай Батыра 7А',
+        ],
+      },
     ],
   },
   kk: {
     legalName: '«Fistik» ЖШС',
     idLabel: 'БСН',
-    lines: [
-      '050900 Алматы обл.,',
-      'Карасай ауданы, Каскелен қ-сы,',
-      'Карасай Батыр к-сі 7A',
+    locations: [
+      {
+        key: 'sales',
+        label: 'Сату филиалы — Алматы',
+        lines: [
+          'A15G7D2',
+          'Алматы қ., Ауэзов к-сі 84',
+          'тоқымашы көшесі 69',
+        ],
+      },
+      {
+        key: 'production',
+        label: 'Өндіріс және сату нүктесі — Каскелен',
+        lines: [
+          '050900 Алматы обл.',
+          'Карасай ауданы, Каскелен қ-сы',
+          'Карасай Батыр к-сі 7A',
+        ],
+      },
     ],
   },
   tr: {
     legalName: 'Fistik LLP',
     idLabel: 'BIN',
-    lines: [
-      '050900 Almati Bölgesi,',
-      'Karasay İlçesi, Kaskelen,',
-      'Karasay Batır Caddesi 7A',
+    locations: [
+      {
+        key: 'sales',
+        label: 'Satış şubesi — Almatı',
+        lines: [
+          'A15G7D2',
+          'Almatı, Auezov caddesi 84',
+          'Tekstil sokağı 69',
+        ],
+      },
+      {
+        key: 'production',
+        label: 'Üretim ve satış noktası — Kaskelen',
+        lines: [
+          '050900 Almatı Bölgesi',
+          'Karasay İlçesi, Kaskelen',
+          'Karasay Batır Caddesi 7A',
+        ],
+      },
+    ],
+  },
+  en: {
+    legalName: 'Fistik LLP',
+    idLabel: 'BIN',
+    locations: [
+      {
+        key: 'sales',
+        label: 'Sales branch — Almaty',
+        lines: [
+          'A15G7D2',
+          'Almaty, 84 Auezov St.',
+          'Textile Street 69',
+        ],
+      },
+      {
+        key: 'production',
+        label: 'Production & sales — Kaskelen',
+        lines: [
+          '050900 Almaty Region',
+          'Karasay District, Kaskelen',
+          '7A Karasay Batyr Street',
+        ],
+      },
     ],
   },
 };
 
-export function getBusinessAddress(locale: Locale) {
+export function getBusinessAddress(locale: Locale): BusinessAddressBundle {
   return BUSINESS_ADDRESS[locale];
+}
+
+export function getBusinessLocation(
+  locale: Locale,
+  key: BusinessLocationKey
+): BusinessLocation | undefined {
+  return getBusinessAddress(locale).locations.find((loc) => loc.key === key);
 }
 
 export function getWhatsAppDigitsForLink(): string {
