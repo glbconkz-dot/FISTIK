@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { revalidateTag } from 'next/cache';
 import { CATALOG_REVALIDATE_SECONDS } from '@/lib/cache-config';
 import { getCatalogData } from '@/lib/catalog';
+import { excludeDrinksFromB2BCatalog } from '@/lib/coffee';
 import { tryCreateServiceClient } from '@/lib/supabase/service';
 import type { Product } from '@/types';
 
@@ -32,10 +33,11 @@ function applyB2BPrices(products: Product[], priceMap: Map<string, number>): Pro
 async function loadB2BCatalogData() {
   const catalog = await getCatalogData();
   const priceMap = await loadB2BPriceMap();
+  const withoutDrinks = excludeDrinksFromB2BCatalog(catalog);
 
   return {
-    ...catalog,
-    products: applyB2BPrices(catalog.products, priceMap),
+    ...withoutDrinks,
+    products: applyB2BPrices(withoutDrinks.products, priceMap),
   };
 }
 

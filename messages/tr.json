@@ -5,6 +5,7 @@
   },
   "nav": {
     "menu": "Menü",
+    "coffee": "Kahve",
     "catalog": "Menü",
     "cart": "Sepet",
     "checkout": "Sipariş",
@@ -29,6 +30,7 @@
     "categories": "Kategoriler",
     "coverTagline": "El yapımı lüks tatlar — sevgiyle hazırlanır",
     "openMenu": "Menü",
+    "openCoffee": "Kahve",
     "endOfDayDiscount": "Gün Sonu İndirimi",
     "endOfDayDiscountSub": "Bugün belirli saatlerde indirimli ürünler — saati gelince fiyat düşer"
   },
@@ -37,6 +39,67 @@
     "description": "Kategoriler ve tüm ürünler",
     "heading": "Menümüz",
     "subtitle": "Kategoriye göre seçin veya tüm ürünlere göz atın"
+  },
+  "coffee": {
+    "title": "Fıstık Signature — FISTIK",
+    "description": "Fıstık Signature içecekler",
+    "heading": "Fıstık Signature",
+    "subtitle": "İmza içecekler",
+    "backToMenu": "Pastane menüsüne dön",
+    "backToDrinks": "İçeceklere dön",
+    "empty": "Henüz ürün yok. Admin panelinden ekleyin.",
+    "add": "Sepete"
+  },
+  "drinks": {
+    "title": "İçecekler — FISTIK",
+    "description": "Signature, çikolata, çay ve diğer içecekler",
+    "heading": "İçecekler",
+    "subtitle": "Fıstık Signature, kahve, soğuk kahve, çikolata",
+    "sectionTitle": "İçecekler",
+    "sectionHint": "Signature, kahve, soğuk kahve",
+    "backToMenu": "Menüye dön",
+    "itemCount": "{count} ürün",
+    "comingSoon": "Yakında",
+    "futureHint": "Çay ve diğer içecekler yakında eklenecek."
+  },
+  "chocolate": {
+    "title": "Çikolata Serisi — FISTIK",
+    "description": "FISTIK sıcak çikolata menüsü",
+    "heading": "Çikolata Serisi",
+    "subtitle": "Sıcak çikolatalar",
+    "backToDrinks": "İçeceklere dön",
+    "empty": "Henüz çikolata ürünü yok. Admin panelinden ekleyin.",
+    "add": "Sepete"
+  },
+  "tea": {
+    "title": "Çaylar — FISTIK",
+    "description": "Çay menüsü",
+    "heading": "Çaylar",
+    "subtitle": "Yakında"
+  },
+  "otherDrinks": {
+    "title": "Diğer İçecekler — FISTIK",
+    "description": "Diğer içecekler",
+    "heading": "Diğer İçecekler",
+    "subtitle": "Yakında"
+  },
+  "classicCoffee": {
+    "title": "Kahve — FISTIK",
+    "description": "Klasik kahveler",
+    "heading": "Kahve",
+    "subtitle": "Espresso, Americano ve daha fazlası",
+    "backToDrinks": "İçeceklere dön",
+    "empty": "Henüz kahve ürünü yok.",
+    "add": "Sepete"
+  },
+  "icedCoffee": {
+    "title": "Soğuk Kahveler — FISTIK",
+    "description": "Soğuk kahve menüsü",
+    "heading": "Soğuk Kahveler",
+    "subtitle": "Buzlu kahveler",
+    "backToDrinks": "İçeceklere dön",
+    "empty": "Henüz soğuk kahve yok.",
+    "add": "Sepete"
   },
   "catalog": {
     "allCategories": "Tümü",

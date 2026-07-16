@@ -5,6 +5,7 @@
   },
   "nav": {
     "menu": "Мәзір",
+    "coffee": "Кофе",
     "catalog": "Мәзір",
     "cart": "Себет",
     "checkout": "Тапсырыс",
@@ -29,6 +30,7 @@
     "categories": "Санаттар",
     "coverTagline": "Қолмен жасалған люкс дәмдер — махаббатпен",
     "openMenu": "Мәзір",
+    "openCoffee": "Кофе",
     "endOfDayDiscount": "Күн соңы жеңілдігі",
     "endOfDayDiscountSub": "Бүгін белгілі сағаттарда — уақыт келгенде баға түседі"
   },
@@ -37,6 +39,67 @@
     "description": "Санаттар және барлық өнімдер",
     "heading": "Біздің мәзір",
     "subtitle": "Санат бойынша таңдаңыз немесе барлығын қараңыз"
+  },
+  "coffee": {
+    "title": "Fıstık Signature — FISTIK",
+    "description": "Fıstık Signature сусындары",
+    "heading": "Fıstık Signature",
+    "subtitle": "Фирмалық сусындар",
+    "backToMenu": "Наубайхана мәзіріне",
+    "backToDrinks": "Сусындарға",
+    "empty": "Әзірге өнім жоқ. Админ панельден қосыңыз.",
+    "add": "Себетке"
+  },
+  "drinks": {
+    "title": "Сусындар — FISTIK",
+    "description": "Signature, шоколад, шай және басқалары",
+    "heading": "Сусындар",
+    "subtitle": "Fıstık Signature, шоколад, шай және басқалары",
+    "sectionTitle": "Сусындар",
+    "sectionHint": "Signature, шоколад және тағы басқа",
+    "backToMenu": "Мәзірге",
+    "itemCount": "{count} өнім",
+    "comingSoon": "Жақында",
+    "futureHint": "Шай және басқа сусындар кейін қосылады."
+  },
+  "chocolate": {
+    "title": "Шоколад сериясы — FISTIK",
+    "description": "FISTIK ыстық шоколад мәзірі",
+    "heading": "Шоколад сериясы",
+    "subtitle": "Ыстық шоколадтар",
+    "backToDrinks": "Сусындарға",
+    "empty": "Әзірге шоколад жоқ. Админ панельден қосыңыз.",
+    "add": "Себетке"
+  },
+  "tea": {
+    "title": "Шайлар — FISTIK",
+    "description": "Шай мәзірі",
+    "heading": "Шайлар",
+    "subtitle": "Жақында"
+  },
+  "otherDrinks": {
+    "title": "Басқа сусындар — FISTIK",
+    "description": "Басқа сусындар",
+    "heading": "Басқа сусындар",
+    "subtitle": "Жақында"
+  },
+  "classicCoffee": {
+    "title": "Кофе — FISTIK",
+    "description": "Классикалық кофе",
+    "heading": "Кофе",
+    "subtitle": "Эспрессо, американо және тағы басқа",
+    "backToDrinks": "Сусындарға",
+    "empty": "Әзірге кофе жоқ.",
+    "add": "Себетке"
+  },
+  "icedCoffee": {
+    "title": "Суық кофе — FISTIK",
+    "description": "Суық кофе мәзірі",
+    "heading": "Суық кофе",
+    "subtitle": "Мұзды кофелер",
+    "backToDrinks": "Сусындарға",
+    "empty": "Әзірге суық кофе жоқ.",
+    "add": "Себетке"
   },
   "catalog": {
     "allCategories": "Барлығы",

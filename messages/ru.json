@@ -5,6 +5,7 @@
   },
   "nav": {
     "menu": "Меню",
+    "coffee": "Кофе",
     "catalog": "Каталог",
     "cart": "Корзина",
     "checkout": "Оформление",
@@ -29,6 +30,7 @@
     "categories": "Категории",
     "coverTagline": "Авторские десерты ручной работы — с любовью",
     "openMenu": "Меню",
+    "openCoffee": "Кофе",
     "endOfDayDiscount": "Скидка к концу дня",
     "endOfDayDiscountSub": "Сегодня в выбранные часы — цена снизится вовремя"
   },
@@ -37,6 +39,67 @@
     "description": "Категории и все товары",
     "heading": "Наше меню",
     "subtitle": "Выберите категорию или просмотрите все товары"
+  },
+  "coffee": {
+    "title": "Fıstık Signature — FISTIK",
+    "description": "Напитки Fıstık Signature",
+    "heading": "Fıstık Signature",
+    "subtitle": "Фирменные напитки",
+    "backToMenu": "К меню пекарни",
+    "backToDrinks": "К напиткам",
+    "empty": "Пока нет позиций. Добавьте в админ-панели.",
+    "add": "В корзину"
+  },
+  "drinks": {
+    "title": "Напитки — FISTIK",
+    "description": "Signature, шоколад, чай и другое",
+    "heading": "Напитки",
+    "subtitle": "Fıstık Signature, шоколад, чай и другое",
+    "sectionTitle": "Напитки",
+    "sectionHint": "Signature, шоколад и ещё",
+    "backToMenu": "К меню",
+    "itemCount": "{count} позиций",
+    "comingSoon": "Скоро",
+    "futureHint": "Чай и другие напитки появятся позже."
+  },
+  "chocolate": {
+    "title": "Шоколадная серия — FISTIK",
+    "description": "Меню горячего шоколада FISTIK",
+    "heading": "Шоколадная серия",
+    "subtitle": "Горячий шоколад",
+    "backToDrinks": "К напиткам",
+    "empty": "Пока нет шоколада. Добавьте в админ-панели.",
+    "add": "В корзину"
+  },
+  "tea": {
+    "title": "Чаи — FISTIK",
+    "description": "Чайное меню",
+    "heading": "Чаи",
+    "subtitle": "Скоро"
+  },
+  "otherDrinks": {
+    "title": "Другие напитки — FISTIK",
+    "description": "Другие напитки",
+    "heading": "Другие напитки",
+    "subtitle": "Скоро"
+  },
+  "classicCoffee": {
+    "title": "Кофе — FISTIK",
+    "description": "Классический кофе",
+    "heading": "Кофе",
+    "subtitle": "Эспрессо, американо и ещё",
+    "backToDrinks": "К напиткам",
+    "empty": "Пока нет кофе.",
+    "add": "В корзину"
+  },
+  "icedCoffee": {
+    "title": "Холодный кофе — FISTIK",
+    "description": "Меню холодного кофе",
+    "heading": "Холодный кофе",
+    "subtitle": "Кофе со льдом",
+    "backToDrinks": "К напиткам",
+    "empty": "Пока нет холодного кофе.",
+    "add": "В корзину"
   },
   "catalog": {
     "allCategories": "Все",

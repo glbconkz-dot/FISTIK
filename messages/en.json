@@ -5,6 +5,7 @@
   },
   "nav": {
     "menu": "Menu",
+    "coffee": "Coffee",
     "catalog": "Catalog",
     "cart": "Cart",
     "checkout": "Checkout",
@@ -29,6 +30,7 @@
     "categories": "Categories",
     "coverTagline": "Handcrafted luxury treats — made with love",
     "openMenu": "Menu",
+    "openCoffee": "Coffee",
     "endOfDayDiscount": "End of Day Discount",
     "endOfDayDiscountSub": "Today's timed deals — price drops when the hour starts"
   },
@@ -37,6 +39,67 @@
     "description": "Categories and all products",
     "heading": "Our menu",
     "subtitle": "Browse by category or see everything"
+  },
+  "coffee": {
+    "title": "Fıstık Signature — FISTIK",
+    "description": "Fıstık Signature drinks",
+    "heading": "Fıstık Signature",
+    "subtitle": "Signature drinks",
+    "backToMenu": "Back to bakery menu",
+    "backToDrinks": "Back to drinks",
+    "empty": "No items yet. Add them in the admin panel.",
+    "add": "Add"
+  },
+  "drinks": {
+    "title": "Drinks — FISTIK",
+    "description": "Signature, chocolate, tea and other drinks",
+    "heading": "Drinks",
+    "subtitle": "Fıstık Signature, chocolate, tea and more",
+    "sectionTitle": "Drinks",
+    "sectionHint": "Signature, chocolate and more",
+    "backToMenu": "Back to menu",
+    "itemCount": "{count} items",
+    "comingSoon": "Coming soon",
+    "futureHint": "Tea and other drinks will be added soon."
+  },
+  "chocolate": {
+    "title": "Chocolate Series — FISTIK",
+    "description": "FISTIK hot chocolate menu",
+    "heading": "Chocolate Series",
+    "subtitle": "Hot chocolates",
+    "backToDrinks": "Back to drinks",
+    "empty": "No chocolate items yet. Add them in the admin panel.",
+    "add": "Add"
+  },
+  "tea": {
+    "title": "Teas — FISTIK",
+    "description": "Tea menu",
+    "heading": "Teas",
+    "subtitle": "Coming soon"
+  },
+  "otherDrinks": {
+    "title": "Other drinks — FISTIK",
+    "description": "Other drinks",
+    "heading": "Other drinks",
+    "subtitle": "Coming soon"
+  },
+  "classicCoffee": {
+    "title": "Coffee — FISTIK",
+    "description": "Classic coffees",
+    "heading": "Coffee",
+    "subtitle": "Espresso, Americano and more",
+    "backToDrinks": "Back to drinks",
+    "empty": "No coffee items yet.",
+    "add": "Add"
+  },
+  "icedCoffee": {
+    "title": "Iced Coffee — FISTIK",
+    "description": "Cold coffee menu",
+    "heading": "Iced Coffee",
+    "subtitle": "Cold coffees",
+    "backToDrinks": "Back to drinks",
+    "empty": "No iced coffee yet.",
+    "add": "Add"
   },
   "catalog": {
     "allCategories": "All",

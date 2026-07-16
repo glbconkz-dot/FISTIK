@@ -6,7 +6,14 @@ export const CATEGORY_GROUP_SLUGS: Record<string, string[]> = {
   'semi-finished': ['semi-finished', 'frozen-boreks'],
 };
 
-export const HIDDEN_CATEGORY_SLUGS = new Set(['frozen-boreks']);
+export const HIDDEN_CATEGORY_SLUGS = new Set([
+  'frozen-boreks',
+  /** İçecekler: pastane grid’inde değil — /drinks hub */
+  'coffee',
+  'classic-coffee',
+  'iced-coffee',
+  'chocolate-series',
+]);
 
 export function getCategoryGroupSlugs(slug: string): string[] {
   return CATEGORY_GROUP_SLUGS[slug] ?? [slug];

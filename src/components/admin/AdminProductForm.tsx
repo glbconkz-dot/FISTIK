@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
 import { getDisplayCategories } from '@/lib/category-display';
+import { isDrinksCategorySlug } from '@/lib/coffee';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
@@ -46,13 +47,22 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const [deletePin, setDeletePin] = useState('');
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  const displayCategories = getDisplayCategories(categories);
+  const bakeryCategories = getDisplayCategories(categories);
+  const drinkCategories = categories
+    .filter((c) => c.is_active && isDrinksCategorySlug(c.slug))
+    .sort((a, b) => a.sort_order - b.sort_order);
+  const displayCategories = [...bakeryCategories, ...drinkCategories];
   const frozenCategory = categories.find((category) => category.slug === 'frozen-boreks');
   const semiFinishedCategory = categories.find((category) => category.slug === 'semi-finished');
   const defaultCategoryId =
     product?.category_id && frozenCategory && product.category_id === frozenCategory.id
       ? (semiFinishedCategory?.id ?? product.category_id)
       : (product?.category_id ?? '');
+  const [selectedCategoryId, setSelectedCategoryId] = useState(defaultCategoryId);
+  const selectedCategory = categories.find((c) => c.id === selectedCategoryId);
+  const isDrinksProduct = selectedCategory
+    ? isDrinksCategorySlug(selectedCategory.slug)
+    : false;
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -174,7 +184,12 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Category</label>
-          <select name="categoryId" className="input-field" defaultValue={defaultCategoryId}>
+          <select
+            name="categoryId"
+            className="input-field"
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(e.target.value)}
+          >
             <option value="">— None —</option>
             {displayCategories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -182,6 +197,11 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
               </option>
             ))}
           </select>
+          {isDrinksProduct ? (
+            <p className="mt-1 text-xs text-accent">
+              İçecek menüsü: dikey (portre) fotoğraf yükleyin — sitede 3:4 oranında gösterilir.
+            </p>
+          ) : null}
         </div>
         <div>
           <label className="mb-1 block text-sm font-medium">Fiyat (₸)</label>
@@ -199,7 +219,7 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
             min="0"
             step="1"
             className="input-field"
-            defaultValue={product?.stock_quantity ?? 30}
+            defaultValue={product?.stock_quantity ?? 8}
           />
           <p className="mt-1 text-xs text-muted">Sabah kaç adet satışa açıyorsanız buraya yazın. Sipariş geldikçe düşer.</p>
         </div>
@@ -208,6 +228,11 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       <div>
         <label className="mb-1 block text-sm font-medium">Ürün resmi</label>
         <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
+        {isCoffeeProduct ? (
+          <p className="mt-1 text-xs text-muted">
+            Öneri: dikey / portre çekim (telefon dikey). Yatay fotoğraf kırpılır.
+          </p>
+        ) : null}
         {uploading && <p className="mt-1 text-sm text-muted">Yükleniyor…</p>}
         {uploadNote && <p className="mt-1 text-sm text-accent">{uploadNote}</p>}
         {imageUrl ? (

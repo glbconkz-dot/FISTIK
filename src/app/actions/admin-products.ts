@@ -286,3 +286,46 @@ export async function upsertCategory(data: {
 export async function uploadCategoryImage(formData: FormData): Promise<{ url: string }> {
   return uploadProductImage(formData);
 }
+
+/** B2C Kahve kategorisi yoksa oluştur */
+export async function ensureCoffeeCategory(): Promise<
+  { ok: true; created: boolean } | { ok: false; error: string }
+> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+
+    const { data: existing } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', 'coffee')
+      .maybeSingle();
+
+    if (existing) {
+      return { ok: true, created: false };
+    }
+
+    const { error } = await supabase.from('categories').insert({
+      slug: 'coffee',
+      name_en: 'Fıstık Signature',
+      name_ru: 'Fıstık Signature',
+      name_kk: 'Fıstık Signature',
+      name_tr: 'Fıstık Signature',
+      sort_order: 16,
+      is_active: true,
+      show_on_home: false,
+      image_url: '',
+    });
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath('/admin/categories');
+    revalidatePath('/admin/products');
+    revalidateStorefront();
+    return { ok: true, created: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Başarısız' };
+  }
+}

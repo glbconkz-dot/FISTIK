@@ -8,5 +8,10 @@ export function revalidateStorefront() {
   for (const locale of routing.locales) {
     revalidatePath(`/${locale}`);
     revalidatePath(`/${locale}/menu`);
+    revalidatePath(`/${locale}/coffee`);
+    revalidatePath(`/${locale}/classic-coffee`);
+    revalidatePath(`/${locale}/iced-coffee`);
+    revalidatePath(`/${locale}/chocolate`);
+    revalidatePath(`/${locale}/drinks`);
   }
 }

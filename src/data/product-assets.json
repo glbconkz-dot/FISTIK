@@ -724,5 +724,173 @@
     "description_ru": "Упаковка 4 шт. · готовое блюдо, заморожено при −18 °C в специальной упаковке.",
     "description_kk": "4 даналық орама · арнайы орамада −18 °C-та қатырылған, пісірілген өнім.",
     "description_tr": "4'lü paket · Pişmiş ürün, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["coffee-fistik-latte"],
+    "image_url": "/products/coffee/fistik-latte.png",
+    "description_en": "Fıstık Signature — pistachio cream latte.",
+    "description_ru": "Fıstık Signature — фисташковый крем-латте.",
+    "description_kk": "Fıstık Signature — пісте крем-латте.",
+    "description_tr": "Fıstık Signature — fıstık kremalı latte."
+  },
+  {
+    "slugs": ["coffee-salted-caramel-latte"],
+    "image_url": "/products/coffee/salted-caramel-latte.png",
+    "description_en": "Fıstık Signature — salted caramel latte.",
+    "description_ru": "Fıstık Signature — солёная карамель латте.",
+    "description_kk": "Fıstık Signature — тұзды карамель латте.",
+    "description_tr": "Fıstık Signature — tuzlu karamel latte."
+  },
+  {
+    "slugs": ["coffee-lotus-latte"],
+    "image_url": "/products/coffee/lotus-latte.png",
+    "description_en": "Fıstık Signature — Lotus biscuit latte.",
+    "description_ru": "Fıstık Signature — латте с печеньем Lotus.",
+    "description_kk": "Fıstık Signature — Lotus печеньелі латте.",
+    "description_tr": "Fıstık Signature — Lotus bisküvili latte."
+  },
+  {
+    "slugs": ["coffee-spanish-latte"],
+    "image_url": "/products/coffee/spanish-latte.png",
+    "description_en": "Fıstık Signature — Spanish latte with caramelized top.",
+    "description_ru": "Fıstık Signature — испанский латте с карамельной корочкой.",
+    "description_kk": "Fıstık Signature — карамель қабыршақты Spanish латте.",
+    "description_tr": "Fıstık Signature — karamelize üstlü Spanish latte."
+  },
+  {
+    "slugs": ["chocolate-pistachio-hot"],
+    "image_url": "/products/chocolate/pistachio-hot-chocolate.png",
+    "description_en": "Çikolata Serisi — pistachio hot chocolate.",
+    "description_ru": "Шоколадная серия — фисташковый горячий шоколад.",
+    "description_kk": "Шоколад сериясы — пістелі ыстық шоколад.",
+    "description_tr": "Çikolata Serisi — fıstıklı sıcak çikolata."
+  },
+  {
+    "slugs": ["chocolate-white-hot"],
+    "image_url": "/products/chocolate/white-hot-chocolate.png",
+    "description_en": "Çikolata Serisi — white hot chocolate.",
+    "description_ru": "Шоколадная серия — белый горячий шоколад.",
+    "description_kk": "Шоколад сериясы — ақ ыстық шоколад.",
+    "description_tr": "Çikolata Serisi — beyaz sıcak çikolata."
+  },
+  {
+    "slugs": ["chocolate-hot"],
+    "image_url": "/products/chocolate/hot-chocolate.png",
+    "description_en": "Çikolata Serisi — classic hot chocolate.",
+    "description_ru": "Шоколадная серия — классический горячий шоколад.",
+    "description_kk": "Шоколад сериясы — классикалық ыстық шоколад.",
+    "description_tr": "Çikolata Serisi — klasik sıcak çikolata."
+  },
+  {
+    "slugs": ["classic-espresso"],
+    "image_url": "/products/classic-coffee/espresso.png",
+    "description_en": "Classic espresso shot.",
+    "description_ru": "Классический эспрессо.",
+    "description_kk": "Классикалық эспрессо.",
+    "description_tr": "Klasik espresso."
+  },
+  {
+    "slugs": ["classic-americano"],
+    "image_url": "/products/classic-coffee/americano.png",
+    "description_en": "Espresso with hot water.",
+    "description_ru": "Эспрессо с горячей водой.",
+    "description_kk": "Ыстық сумен эспрессо.",
+    "description_tr": "Sıcak su ile espresso."
+  },
+  {
+    "slugs": ["classic-cappuccino"],
+    "image_url": "/products/classic-coffee/cappuccino.png",
+    "description_en": "Espresso, steamed milk and foam.",
+    "description_ru": "Эспрессо, молоко и пенка.",
+    "description_kk": "Эспрессо, сүт және көбік.",
+    "description_tr": "Espresso, süt ve köpük."
+  },
+  {
+    "slugs": ["classic-flat-white"],
+    "image_url": "/products/classic-coffee/flat-white.png",
+    "description_en": "Espresso with silky microfoam.",
+    "description_ru": "Эспрессо с бархатистой микропенкой.",
+    "description_kk": "Жібектей микрокөбікті эспрессо.",
+    "description_tr": "İpeksi microfoam ile espresso."
+  },
+  {
+    "slugs": ["classic-turkish-coffee"],
+    "image_url": "/products/classic-coffee/turkish-coffee.png",
+    "description_en": "Traditional Turkish coffee.",
+    "description_ru": "Традиционный турецкий кофе.",
+    "description_kk": "Дәстүрлі түрік кофесі.",
+    "description_tr": "Geleneksel Türk kahvesi."
+  },
+  {
+    "slugs": ["iced-americano"],
+    "image_url": "/products/iced-coffee/iced-americano.png",
+    "description_en": "Iced americano with ice.",
+    "description_ru": "Холодный американо со льдом.",
+    "description_kk": "Мұзды iced americano.",
+    "description_tr": "Buzlu americano."
+  },
+  {
+    "slugs": ["iced-latte"],
+    "image_url": "/products/iced-coffee/iced-latte.png",
+    "description_en": "Iced latte with milk and ice.",
+    "description_ru": "Холодный латте с молоком и льдом.",
+    "description_kk": "Сүт пен мұзды iced latte.",
+    "description_tr": "Süt ve buzlu iced latte."
+  },
+  {
+    "slugs": ["iced-spanish-latte"],
+    "image_url": "/products/iced-coffee/iced-spanish-latte.png",
+    "description_en": "Espresso, condensed milk, milk, ice, cinnamon.",
+    "description_ru": "Эспрессо, сгущёнка, молоко, лёд, корица.",
+    "description_kk": "Эспрессо, қоюланған сүт, сүт, мұз, даршын.",
+    "description_tr": "Espresso, kondanse süt, süt, buz, tarçın."
+  },
+  {
+    "slugs": ["iced-caramel-latte"],
+    "image_url": "/products/iced-coffee/iced-caramel-latte.png",
+    "description_en": "Iced latte with caramel drizzle.",
+    "description_ru": "Холодный латте с карамелью.",
+    "description_kk": "Карамельді iced latte.",
+    "description_tr": "Karamelli iced latte."
+  },
+  {
+    "slugs": ["iced-mocha"],
+    "image_url": "/products/iced-coffee/iced-mocha.png",
+    "description_en": "Iced mocha with chocolate.",
+    "description_ru": "Холодный мокко с шоколадом.",
+    "description_kk": "Шоколадты iced mocha.",
+    "description_tr": "Çikolatalı iced mocha."
+  },
+  {
+    "slugs": ["iced-vanilla-latte"],
+    "image_url": "/products/iced-coffee/iced-vanilla-latte.png",
+    "description_en": "Iced latte with vanilla syrup.",
+    "description_ru": "Холодный латте с ванилью.",
+    "description_kk": "Ванильді iced latte.",
+    "description_tr": "Vanilyalı iced latte."
+  },
+  {
+    "slugs": ["cold-brew-latte"],
+    "image_url": "/products/iced-coffee/cold-brew-latte.png",
+    "description_en": "Cold brew with milk and ice.",
+    "description_ru": "Колд брю с молоком и льдом.",
+    "description_kk": "Сүт пен мұзды cold brew latte.",
+    "description_tr": "Süt ve buzlu cold brew latte."
+  },
+  {
+    "slugs": ["cold-brew"],
+    "image_url": "/products/iced-coffee/cold-brew.png",
+    "description_en": "Slow steeped cold brew coffee.",
+    "description_ru": "Медленной экстракции колд брю.",
+    "description_kk": "Баяу тұндырылған cold brew.",
+    "description_tr": "Yavaş demlenmiş cold brew."
+  },
+  {
+    "slugs": ["espresso-tonic"],
+    "image_url": "/products/iced-coffee/espresso-tonic.png",
+    "description_en": "Espresso, tonic water, ice.",
+    "description_ru": "Эспрессо, тоник, лёд.",
+    "description_kk": "Эспрессо, тоник, мұз.",
+    "description_tr": "Espresso, tonik, buz."
   }
 ]

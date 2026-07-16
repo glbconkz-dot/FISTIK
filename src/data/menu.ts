@@ -62,7 +62,7 @@ function product(
     price,
     image_url: PLACEHOLDER_IMAGE,
     is_active: true,
-    stock_quantity: 0,
+    stock_quantity: 8,
     sort_order,
     created_at: '',
   };
@@ -84,6 +84,10 @@ export const MENU_CATEGORIES: Category[] = [
   category('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 13),
   category('semi-finished', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 14),
   category('frozen-boreks', 'Semi-finished Products', 'Полуфабрикаты', 'Полуфабрикаты', 'Yarı Mamul Ürünler', 15),
+  category('coffee', 'Fıstık Signature', 'Fıstık Signature', 'Fıstık Signature', 'Fıstık Signature', 16),
+  category('classic-coffee', 'Coffee', 'Кофе', 'Кофе', 'Kahve', 17),
+  category('iced-coffee', 'Iced Coffee', 'Холодный кофе', 'Суық кофе', 'Soğuk Kahveler', 18),
+  category('chocolate-series', 'Chocolate Series', 'Шоколадная серия', 'Шоколад сериясы', 'Çikolata Serisi', 19),
 ];
 
 export const MENU_PRODUCTS: Product[] = [
@@ -214,6 +218,35 @@ export const MENU_PRODUCTS: Product[] = [
   product('pie-chicken', 'pies', 'Chicken Pie', 'Пирог с курицей', 'Пирог тауықпен', 2, 'Tavuklu Pirog', 3600),
   product('pie-spinach-cheese', 'pies', 'Spinach Cheese Pie', 'Пирог со шпинатом и сыром', 'Пирог спанат және ірімшікпен', 3, 'Ispanak Peynirli Pirog', 3800),
   product('pie-cheese', 'pies', 'Cheese Pie', 'Сырный пирог', 'Сырлы пирог', 4, 'Peynirli Pirog', 3400),
+
+  // Fıstık Signature (B2C coffee)
+  product('coffee-fistik-latte', 'coffee', 'Fıstık Latte', 'Fıstık Latte', 'Fıstık Latte', 1, 'Fıstık Latte', 1890),
+  product('coffee-salted-caramel-latte', 'coffee', 'Salted Caramel Latte', 'Salted Caramel Latte', 'Salted Caramel Latte', 2, 'Salted Caramel Latte', 1890),
+  product('coffee-lotus-latte', 'coffee', 'Lotus Latte', 'Lotus Latte', 'Lotus Latte', 3, 'Lotus Latte', 1890),
+  product('coffee-spanish-latte', 'coffee', 'Spanish Latte', 'Spanish Latte', 'Spanish Latte', 4, 'Spanish Latte', 1890),
+
+  // Normal Kahve
+  product('classic-espresso', 'classic-coffee', 'Espresso', 'Espresso', 'Espresso', 1, 'Espresso', 990),
+  product('classic-americano', 'classic-coffee', 'Americano', 'Americano', 'Americano', 2, 'Americano', 1290),
+  product('classic-cappuccino', 'classic-coffee', 'Cappuccino', 'Cappuccino', 'Cappuccino', 3, 'Cappuccino', 1590),
+  product('classic-flat-white', 'classic-coffee', 'Flat White', 'Flat White', 'Flat White', 4, 'Flat White', 1590),
+  product('classic-turkish-coffee', 'classic-coffee', 'Turkish Coffee', 'Turkish Coffee', 'Turkish Coffee', 5, 'Türk Kahvesi', 990),
+
+  // Soğuk Kahveler
+  product('iced-americano', 'iced-coffee', 'Iced Americano', 'Iced Americano', 'Iced Americano', 1, 'Iced Americano', 1490),
+  product('iced-latte', 'iced-coffee', 'Iced Latte', 'Iced Latte', 'Iced Latte', 2, 'Iced Latte', 1690),
+  product('iced-spanish-latte', 'iced-coffee', 'Iced Spanish Latte', 'Iced Spanish Latte', 'Iced Spanish Latte', 3, 'Iced Spanish Latte', 1690),
+  product('iced-caramel-latte', 'iced-coffee', 'Iced Caramel Latte', 'Iced Caramel Latte', 'Iced Caramel Latte', 4, 'Iced Caramel Latte', 1690),
+  product('iced-mocha', 'iced-coffee', 'Iced Mocha', 'Iced Mocha', 'Iced Mocha', 5, 'Iced Mocha', 1690),
+  product('iced-vanilla-latte', 'iced-coffee', 'Iced Vanilla Latte', 'Iced Vanilla Latte', 'Iced Vanilla Latte', 6, 'Iced Vanilla Latte', 1690),
+  product('cold-brew-latte', 'iced-coffee', 'Cold Brew Latte', 'Cold Brew Latte', 'Cold Brew Latte', 7, 'Cold Brew Latte', 1690),
+  product('cold-brew', 'iced-coffee', 'Cold Brew', 'Cold Brew', 'Cold Brew', 8, 'Cold Brew', 1490),
+  product('espresso-tonic', 'iced-coffee', 'Espresso Tonic', 'Espresso Tonic', 'Espresso Tonic', 9, 'Espresso Tonic', 1690),
+
+  // Çikolata Serisi (B2C drinks)
+  product('chocolate-pistachio-hot', 'chocolate-series', 'Pistachio Hot Chocolate', 'Pistachio Hot Chocolate', 'Pistachio Hot Chocolate', 1, 'Fıstıklı Sıcak Çikolata', 1890),
+  product('chocolate-white-hot', 'chocolate-series', 'White Hot Chocolate', 'White Hot Chocolate', 'White Hot Chocolate', 2, 'Beyaz Sıcak Çikolata', 1890),
+  product('chocolate-hot', 'chocolate-series', 'Hot Chocolate', 'Hot Chocolate', 'Hot Chocolate', 3, 'Sıcak Çikolata', 1890),
 ];
 
 function applyLocalizedNames(products: Product[]): Product[] {

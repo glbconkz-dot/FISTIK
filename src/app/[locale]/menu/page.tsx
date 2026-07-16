@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCatalogData } from '@/lib/catalog';
+import { excludeDrinksFromBakeryProducts } from '@/lib/coffee';
 import { CatalogSection } from '@/components/CatalogSection';
 import { HomeMenuSection } from '@/components/HomeMenuSection';
 import { Reveal } from '@/components/ui/Reveal';
@@ -30,6 +31,7 @@ export default async function MenuPage({
   const t = await getTranslations('menuPage');
 
   const { products, categories } = await getCatalogData();
+  const bakeryProducts = excludeDrinksFromBakeryProducts(products, categories);
 
   return (
     <div>
@@ -40,7 +42,7 @@ export default async function MenuPage({
 
       <HomeMenuSection categories={categories} products={products} locale={locale as Locale} />
 
-      <CatalogSection products={products} categories={categories} locale={locale as Locale} />
+      <CatalogSection products={bakeryProducts} categories={categories} locale={locale as Locale} />
     </div>
   );
 }
