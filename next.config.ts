@@ -50,6 +50,10 @@ const nextConfig: NextConfig = {
       headers: [{ key: 'Cache-Control', value: CATALOG_CACHE_CONTROL }],
     },
     {
+      source: '/:locale(kk|tr|ru|en)/:path*',
+      headers: [{ key: 'Cache-Control', value: CATALOG_CACHE_CONTROL }],
+    },
+    {
       source: '/api/catalog',
       headers: [{ key: 'Cache-Control', value: CATALOG_CACHE_CONTROL }],
     },

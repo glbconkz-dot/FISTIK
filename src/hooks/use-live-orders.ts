@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Order } from '@/types';
 
 const LIVE_STORAGE_KEY = 'fistik-admin-live-orders';
-const DEFAULT_INTERVAL_MS = 12_000;
+const DEFAULT_INTERVAL_MS = 20_000;
 
 export function readLiveOrdersEnabled(): boolean {
   if (typeof window === 'undefined') return true;
@@ -60,7 +60,18 @@ export function useLiveOrders(
         setNewArrivalCount((c) => c + arrivals);
       }
 
-      setOrders(fresh);
+      setOrders((prev) => {
+        const prevById = new Map(prev.map((o) => [o.id, o]));
+        return fresh.map((incoming) => {
+          const previous = prevById.get(incoming.id);
+          const keepItems =
+            Boolean(previous?.items?.length) &&
+            (!Array.isArray(incoming.items) || incoming.items.length === 0);
+          return keepItems
+            ? { ...incoming, items: previous!.items }
+            : { ...incoming, items: incoming.items ?? [] };
+        });
+      });
       setSyncedAt(new Date(data.syncedAt));
       setSyncError(null);
     } catch {

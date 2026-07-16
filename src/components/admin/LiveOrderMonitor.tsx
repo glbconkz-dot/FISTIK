@@ -92,7 +92,7 @@ export function LiveOrderMonitor({
       <div className="space-y-2 px-4 py-3 text-xs text-muted">
         <p>
           Son güncelleme: <span className="font-medium text-foreground">{formatSyncTime(syncedAt)}</span>
-          {enabled ? ' · her 12 sn' : null}
+          {enabled ? ' · her 20 sn' : null}
         </p>
         {syncError ? <p className="text-red-600">{syncError}</p> : null}
         {newArrivalCount > 0 ? (

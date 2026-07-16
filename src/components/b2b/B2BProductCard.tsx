@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ProductImageGallery } from '@/components/ProductImageGallery';
+import { ProductCardImage } from '@/components/ProductCardImage';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
@@ -75,10 +75,9 @@ export function B2BProductCard({ product, locale }: B2BProductCardProps) {
       )}
     >
       <div className="group block">
-        <ProductImageGallery
+        <ProductCardImage
           product={product}
           alt={name}
-          variant="card"
           topLeft={
             inCart ? (
               <div className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-accent shadow-sm tabular-nums">

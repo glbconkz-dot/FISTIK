@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient, getAdminUser } from '@/lib/supabase/server';
-import { getB2BCompanyNames } from '@/lib/b2b/order-enrich';
+import {
+  ADMIN_ORDER_LIST_COLUMNS,
+  ADMIN_ORDERS_LIST_LIMIT,
+  enrichAdminOrders,
+  getAdminOrdersListSince,
+} from '@/lib/admin/orders-query';
 import type { Order } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -14,28 +19,16 @@ export async function GET() {
   const supabase = await createClient();
   const { data: rows, error } = await supabase
     .from('orders')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .select(ADMIN_ORDER_LIST_COLUMNS)
+    .gte('created_at', getAdminOrdersListSince())
+    .order('created_at', { ascending: false })
+    .limit(ADMIN_ORDERS_LIST_LIMIT);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const orders = (rows as Order[]) ?? [];
-  const b2bIds = orders
-    .map((o) => o.b2b_customer_id)
-    .filter((id): id is string => Boolean(id));
-
-  const companyNames = await getB2BCompanyNames(b2bIds);
-
-  const enriched = orders.map((order) => ({
-    ...order,
-    order_channel: order.order_channel ?? 'b2c',
-    payment_status: order.payment_status ?? 'pending',
-    b2b_company_name: order.b2b_customer_id
-      ? (companyNames[order.b2b_customer_id] ?? null)
-      : null,
-  }));
+  const enriched = await enrichAdminOrders((rows as Order[]) ?? []);
 
   return NextResponse.json({
     orders: enriched,

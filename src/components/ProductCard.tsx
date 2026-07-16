@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
-import { ProductImageGallery } from '@/components/ProductImageGallery';
+import { ProductCardImage } from '@/components/ProductCardImage';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useIsClient } from '@/hooks/use-is-client';
 import { getEffectivePrice } from '@/lib/b2c/clearance';
@@ -87,10 +87,9 @@ export function ProductCard({ product, locale }: ProductCardProps) {
       )}
     >
       <div className="group">
-        <ProductImageGallery
+        <ProductCardImage
           product={product}
           alt={name}
-          variant="card"
           topRight={<FavoriteButton productId={product.id} size="sm" />}
           topLeft={
             inCart ? (

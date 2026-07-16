@@ -1,12 +1,7 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
-import type { ReactNode } from 'react';
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
+import type { ReactNode, CSSProperties } from 'react';
+import { cn } from '@/lib/utils';
 
 interface RevealProps {
   children: ReactNode;
@@ -15,31 +10,23 @@ interface RevealProps {
   once?: boolean;
 }
 
-export function Reveal({ children, className, delay = 0, once = true }: RevealProps) {
+/** CSS animasyon — menüde framer-motion yükü yok */
+export function Reveal({ children, className, delay = 0 }: RevealProps) {
+  const style = { animationDelay: `${delay}s` } as CSSProperties;
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, margin: '-40px' }}
-      variants={fadeUp}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}
-    >
+    <div className={cn('animate-reveal-up', className)} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 export function RevealScale({ children, className, delay = 0 }: RevealProps) {
+  const style = { animationDelay: `${delay}s` } as CSSProperties;
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, scale: 0.96 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay }}
-    >
+    <div className={cn('animate-reveal-scale', className)} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { setRequestLocale } from 'next-intl/server';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import {
   getCatalogData,
@@ -9,7 +9,8 @@ import {
 } from '@/lib/catalog';
 import { ProductDetailClient } from '@/components/ProductDetailClient';
 import type { Locale } from '@/types';
-import { getTranslations } from 'next-intl/server';
+
+export const revalidate = 60;
 
 export default async function ProductPage({
   params,

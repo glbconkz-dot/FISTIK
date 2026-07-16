@@ -214,36 +214,54 @@ export async function getCatalogData() {
   };
 }
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
+const PRODUCT_DETAIL_SELECT =
+  'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at, categories(id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at)';
+
+async function loadProductBySlug(slug: string): Promise<Product | null> {
   const supabase = createPublicSupabaseClient();
 
-  if (supabase) {
-    const { data, error } = await supabase
-      .from('products')
-      .select('*, categories(*)')
-      .eq('slug', slug)
-      .eq('is_active', true)
-      .maybeSingle();
-
-    if (!error && data) {
-      const product = normalizeStock(data as Product);
-      const categories = product.categories
-        ? [product.categories as Category]
-        : undefined;
-      const withAsset = applyProductAsset(product, categories);
-
-      const clearanceRules = await fetchClearanceRules(supabase);
-      const rule = clearanceRules.find((r) => r.product_slug === slug);
-      return applyClearanceToProduct(withAsset, rule);
-    }
-    return null;
+  if (!supabase) {
+    if (process.env.NODE_ENV === 'production') return null;
+    const { products } = getLocalCatalog();
+    const local = products.find((p) => p.slug === slug);
+    return local ? normalizeStock(local) : null;
   }
 
-  if (process.env.NODE_ENV === 'production') return null;
+  const { data, error } = await supabase
+    .from('products')
+    .select(PRODUCT_DETAIL_SELECT)
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .maybeSingle();
 
-  const { products } = getLocalCatalog();
-  const local = products.find((p) => p.slug === slug);
-  return local ? normalizeStock(local) : null;
+  if (error || !data) return null;
+
+  const row = data as Product & { categories?: Category | Category[] | null };
+  const joined = row.categories;
+  const category =
+    Array.isArray(joined) ? joined[0] ?? null : joined ?? null;
+
+  const product = normalizeStock({ ...row, categories: category });
+  const categories = category ? [category] : undefined;
+  return applyProductAsset(product, categories);
+}
+
+const getCachedProductBySlug = unstable_cache(
+  async (slug: string) => loadProductBySlug(slug),
+  ['fistik-product'],
+  {
+    revalidate: CATALOG_REVALIDATE_SECONDS,
+    tags: ['catalog'],
+  }
+);
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const product = await getCachedProductBySlug(slug);
+  if (!product) return null;
+
+  const { clearanceRules } = await getCachedCatalogData();
+  const rule = clearanceRules.find((r) => r.product_slug === slug);
+  return applyClearanceToProduct(product, rule);
 }
 
 export function getCategoryName(

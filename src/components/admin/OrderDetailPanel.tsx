@@ -35,6 +35,24 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
     setOrder(initialOrder);
   }, [initialOrder]);
 
+  useEffect(() => {
+    const hasItems = Array.isArray(initialOrder.items) && initialOrder.items.length > 0;
+    if (hasItems) return;
+
+    let cancelled = false;
+    void fetch(`/api/admin/orders/${initialOrder.id}`, { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { order?: Order } | null) => {
+        if (cancelled || !data?.order) return;
+        setOrder(data.order);
+        onOrderChange?.(data.order);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialOrder.id, initialOrder.items, onOrderChange]);
+
   const applyPatch = (patch: Partial<Order>) => {
     const next = { ...order, ...patch };
     setOrder(next);
