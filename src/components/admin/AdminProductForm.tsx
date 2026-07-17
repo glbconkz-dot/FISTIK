@@ -228,7 +228,7 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       <div>
         <label className="mb-1 block text-sm font-medium">Ürün resmi</label>
         <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-        {isCoffeeProduct ? (
+        {isDrinksProduct ? (
           <p className="mt-1 text-xs text-muted">
             Öneri: dikey / portre çekim (telefon dikey). Yatay fotoğraf kırpılır.
           </p>
