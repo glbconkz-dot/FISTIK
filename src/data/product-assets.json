@@ -1,8 +1,7 @@
 [
   {
     "slugs": [
-      "eclair-large-pistachio",
-      "eclair-mini-pistachio"
+      "eclair-large-pistachio"
     ],
     "names": [
       "фисташковый",
@@ -26,8 +25,7 @@
   },
   {
     "slugs": [
-      "eclair-large-vanilla",
-      "eclair-mini-vanilla"
+      "eclair-large-vanilla"
     ],
     "names": [
       "ванильный",
@@ -96,6 +94,26 @@
       "анanas эклер"
     ],
     "image_url": "/products/eclairs/pineapple.png"
+  },
+  {
+    "slugs": [
+      "eclair-mini-pistachio"
+    ],
+    "names": [
+      "pistachio eclair (mini)",
+      "mini fıstıklı"
+    ],
+    "image_url": "/products/eclairs/mini/pistachio.png"
+  },
+  {
+    "slugs": [
+      "eclair-mini-vanilla"
+    ],
+    "names": [
+      "vanilla eclair (mini)",
+      "mini vanilyalı"
+    ],
+    "image_url": "/products/eclairs/mini/vanilla.png"
   },
   {
     "slugs": [
