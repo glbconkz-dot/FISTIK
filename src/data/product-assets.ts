@@ -89,6 +89,21 @@ export function isAdminOrRemoteProductImage(url: string | null | undefined): boo
   return /^https?:\/\//i.test(value) || value.includes('/storage/v1/object/public/');
 }
 
+function isPlaceholderProductImage(url: string | null | undefined): boolean {
+  const value = url?.trim() ?? '';
+  if (!value) return true;
+  return (
+    value === '/product-placeholder.jpg' ||
+    value.endsWith('/product-placeholder.jpg') ||
+    value.includes('product-placeholder')
+  );
+}
+
+/** DB’de gerçekten seçilmiş ana görsel — static asset ile ezilmemeli. */
+export function hasDbPrimaryImage(url: string | null | undefined): boolean {
+  return Boolean(url?.trim()) && !isPlaceholderProductImage(url);
+}
+
 export function findProductAsset(
   product: Product,
   categories?: Category[]
@@ -127,26 +142,25 @@ export function applyProductAsset(
   const dbImage = product.image_url?.trim() ?? '';
   const dbExtras = (product.image_urls ?? [])
     .map((u) => u?.trim())
-    .filter((u): u is string => Boolean(u));
+    .filter((u): u is string => Boolean(u) && u !== dbImage);
 
-  // Admin-uploaded (or any remote) primary always wins — keep DB extras, else asset side photos
-  if (isAdminOrRemoteProductImage(dbImage)) {
-    const assetExtras = gallery.slice(1);
+  // Admin seçimi veya yüklü ana resim her zaman kazanır (remote + yerel DB yolu)
+  if (hasDbPrimaryImage(dbImage)) {
+    const assetExtras = gallery.filter((u) => u !== dbImage);
     const extras = dbExtras.length > 0 ? dbExtras : assetExtras;
     return {
       ...product,
       ...updates,
       image_url: dbImage,
-      image_urls: extras.length > 0 ? extras : product.image_urls,
+      image_urls: extras,
     };
   }
 
   if (gallery.length > 0) {
-    // Local/static primary: assets fill gallery unless DB already has extras
+    // Placeholder / boş: static asset galerisi
     updates.image_url = gallery[0];
     updates.image_urls = dbExtras.length > 0 ? dbExtras : gallery.slice(1);
   } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
-    // Explicit empty in assets → clear broken/local static image
     updates.image_url = '';
     updates.image_urls = [];
   }

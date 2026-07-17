@@ -89,7 +89,13 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       formData.append('file', file);
       const { url } = await uploadProductImage(formData);
       if (as === 'primary') {
+        const previousPrimary = imageUrl;
         setImageUrl(url);
+        if (previousPrimary && previousPrimary !== url) {
+          setGalleryUrls((prev) =>
+            uniqueUrls([previousPrimary, ...prev.filter((u) => u !== url)])
+          );
+        }
         setUploadNote('Ana resim yüklendi — kaydetmek için Update product’a basın.');
       } else {
         setGalleryUrls((prev) => uniqueUrls([...prev, url]).slice(0, 4));
