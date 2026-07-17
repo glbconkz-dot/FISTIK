@@ -144,10 +144,11 @@ export function applyProductAsset(
     .map((u) => u?.trim())
     .filter((u): u is string => Boolean(u) && u !== dbImage);
 
-  // Admin seçimi veya yüklü ana resim her zaman kazanır (remote + yerel DB yolu)
+  // Admin ana resmi kazanır; eksik ek fotoğraflar static asset’ten tamamlanır
   if (hasDbPrimaryImage(dbImage)) {
-    const assetExtras = gallery.filter((u) => u !== dbImage);
-    const extras = dbExtras.length > 0 ? dbExtras : assetExtras;
+    const extras = [
+      ...new Set([...dbExtras, ...gallery.filter((u) => u !== dbImage)]),
+    ];
     return {
       ...product,
       ...updates,
@@ -157,9 +158,14 @@ export function applyProductAsset(
   }
 
   if (gallery.length > 0) {
-    // Placeholder / boş: static asset galerisi
+    // Placeholder / boş: static asset galerisi (+ varsa DB ekleri)
     updates.image_url = gallery[0];
-    updates.image_urls = dbExtras.length > 0 ? dbExtras : gallery.slice(1);
+    updates.image_urls = [
+      ...new Set([
+        ...dbExtras.filter((u) => u !== gallery[0]),
+        ...gallery.slice(1),
+      ]),
+    ];
   } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
     updates.image_url = '';
     updates.image_urls = [];
