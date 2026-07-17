@@ -3,6 +3,7 @@ import type { Category, Product } from '@/types';
 /** Varsayılan kategori kapak görselleri (admin/DB boşsa) */
 const CATEGORY_COVER_IMAGES: Record<string, string> = {
   'american-cakes': '/products/american-cakes/ferrero-hazelnut.png',
+  'eclairs-mini': '/products/eclairs/mini/category-cover.png',
 };
 
 /** Supabase UUID veya local slug ile eslesme */
