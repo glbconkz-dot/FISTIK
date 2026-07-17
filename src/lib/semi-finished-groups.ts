@@ -10,6 +10,7 @@ export const SEMI_FINISHED_PRODUCT_GROUPS: SemiFinishedGroup[] = [
   { labelKey: 'semiGroupMini16', filter: (slug) => slug.startsWith('mini-borek-') },
   { labelKey: 'semiGroupSarma', filter: (slug) => slug.startsWith('sarma-borek-') },
   { labelKey: 'semiGroupWaffle', filter: (slug) => slug === 'semi-waffle' },
+  { labelKey: 'semiGroupCroissant', filter: (slug) => slug === 'semi-croissant' },
 ];
 
 export function groupSemiFinishedProducts(
@@ -37,6 +38,7 @@ export function getSemiFinishedPackLabelKey(slug: string): string | null {
   if (slug.startsWith('mini-borek-')) return 'packLabel16';
   if (slug.startsWith('sarma-borek-')) return 'packLabelSarma';
   if (slug === 'semi-waffle') return 'packLabel4';
+  if (slug === 'semi-croissant') return 'packLabel4';
   return null;
 }
 
@@ -49,5 +51,5 @@ export function getSemiFinishedPackLabel(
 }
 
 export function showsSemiFinishedPackNote(slug: string): boolean {
-  return isSemiFinishedBorekProduct(slug) || slug === 'semi-waffle';
+  return isSemiFinishedBorekProduct(slug) || slug === 'semi-waffle' || slug === 'semi-croissant';
 }

@@ -43,7 +43,8 @@ function product(
   name_kk: string,
   sort_order: number,
   name_tr?: string,
-  price = DEFAULT_MENU_PRICE
+  price = DEFAULT_MENU_PRICE,
+  stock_quantity = 8
 ): Product {
   const tr = name_tr ?? PRODUCT_TR[slug] ?? name_en;
   const kkName = name_kk || PRODUCT_KK[slug] || name_en;
@@ -62,7 +63,7 @@ function product(
     price,
     image_url: PLACEHOLDER_IMAGE,
     is_active: true,
-    stock_quantity: 8,
+    stock_quantity,
     sort_order,
     created_at: '',
   };
@@ -164,6 +165,7 @@ export const MENU_PRODUCTS: Product[] = [
 
   // Semi-finished
   product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle', 2969),
+  product('semi-croissant', 'semi-finished', 'Croissant', 'Круассан', 'Круассан', 2, 'Kruvasan', 0, 0),
 
   // Frozen boreks (semi-finished)
   product('frozen-borek-meat', 'frozen-boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 2220),

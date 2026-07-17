@@ -30,6 +30,9 @@ export function PriceDisplay({ product, className, size = 'md' }: PriceDisplayPr
       : null;
 
   if (!hasClearanceOffer(product) || product.sale_price == null) {
+    if (!(Number(product.price) > 0) && !(Number(effective) > 0)) {
+      return null;
+    }
     return (
       <p className={cn('font-semibold tabular-nums text-accent', sizes.price, className)}>
         {formatPrice(effective)}

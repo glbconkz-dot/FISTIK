@@ -407,7 +407,10 @@
       "dark chocolate tart",
       "bitter çikolatalı tart"
     ],
-    "image_url": "/products/tarts/dark-chocolate.png"
+    "image_url": "/products/tarts/dark-chocolate.png",
+    "image_urls": [
+      "/products/tarts/dark-chocolate-top.png"
+    ]
   },
   {
     "slugs": [
@@ -419,7 +422,10 @@
       "meyveli tart",
       "жидек микс"
     ],
-    "image_url": "/products/tarts/berry-mix.png"
+    "image_url": "/products/tarts/berry-mix.png",
+    "image_urls": [
+      "/products/tarts/berry-mix-top.png"
+    ]
   },
   {
     "slugs": [
@@ -431,7 +437,10 @@
       "limon tart",
       "лимон тарт"
     ],
-    "image_url": "/products/tarts/lemon.png"
+    "image_url": "/products/tarts/lemon.png",
+    "image_urls": [
+      "/products/tarts/lemon-top.png"
+    ]
   },
   {
     "slugs": [
@@ -443,7 +452,10 @@
       "fıstıklı tart",
       "фисташка тарт"
     ],
-    "image_url": "/products/tarts/pistachio.png"
+    "image_url": "/products/tarts/pistachio.png",
+    "image_urls": [
+      "/products/tarts/pistachio-top.png"
+    ]
   },
   {
     "slugs": [
@@ -686,20 +698,54 @@
     "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
-    "slugs": [
-      "mini-borek-meat",
-      "mini-borek-chicken",
-      "mini-borek-potato",
-      "mini-borek-spinach",
-      "mini-borek-brinza",
-      "mini-borek-lentils"
-    ],
-    "image_url": "/products/boreks/borek.png",
+    "slugs": ["mini-borek-meat"],
+    "image_url": "/products/semi-finished/mini-borek-meat.png",
     "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
     "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
     "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
     "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
+  {
+    "slugs": ["mini-borek-chicken"],
+    "image_url": "/products/semi-finished/mini-borek-chicken.png",
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["mini-borek-potato"],
+    "image_url": "/products/semi-finished/mini-borek-potato.png",
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["mini-borek-spinach"],
+    "image_url": "/products/semi-finished/mini-borek-spinach.png",
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["mini-borek-brinza"],
+    "image_url": "/products/semi-finished/mini-borek-brinza.png",
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["mini-borek-lentils"],
+    "image_url": "/products/semi-finished/mini-borek-lentils.png",
+    "description_en": "Pack of 16 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 16 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "16 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "16'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+
   {
     "slugs": [
       "sarma-borek-meat",
@@ -720,10 +766,21 @@
       "semi-waffle"
     ],
     "image_url": "/products/semi-finished/waffle.png",
+    "image_urls": [
+      "/products/semi-finished/waffle-plated.png"
+    ],
     "description_en": "Pack of 4 · cooked product, frozen at −18 °C in special packaging.",
     "description_ru": "Упаковка 4 шт. · готовое блюдо, заморожено при −18 °C в специальной упаковке.",
     "description_kk": "4 даналық орама · арнайы орамада −18 °C-та қатырылған, пісірілген өнім.",
     "description_tr": "4'lü paket · Pişmiş ürün, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["semi-croissant"],
+    "image_url": "/products/semi-finished/croissant-pack.png",
+    "description_en": "Pack of 4 · ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 4 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "4 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "4'lü paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
   },
   {
     "slugs": ["coffee-fistik-latte"],

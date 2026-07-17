@@ -111,4 +111,5 @@ export const B2B_PRICES_BY_SLUG: Record<string, number> = {
   'sarma-borek-spinach': 2520,
   'sarma-borek-lentils': 2520,
   'semi-waffle': 2399,
+  'semi-croissant': 0,
 };
