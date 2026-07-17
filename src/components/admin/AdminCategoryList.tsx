@@ -1,25 +1,29 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { upsertCategory, uploadCategoryImage } from '@/app/actions/admin-products';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category } from '@/types';
+
 interface AdminCategoryListProps {
   categories: Category[];
 }
 
 export function AdminCategoryList({ categories }: AdminCategoryListProps) {
+  const router = useRouter();
   const { locale } = useAdminLocale();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const [statusNote, setStatusNote] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const editing = categories.find((c) => c.id === editingId);
 
   const handleImageUpload = async (categoryId: string, file: File) => {
     setUploadingId(categoryId);
+    setStatusNote(null);
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -28,7 +32,7 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
       if (!cat) return;
 
       startTransition(async () => {
-        await upsertCategory({
+        const result = await upsertCategory({
           categoryId: cat.id,
           slug: cat.slug,
           nameEn: cat.name_en,
@@ -40,10 +44,16 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
           imageUrl: url,
           showOnHome: cat.show_on_home !== false,
         });
+        if (!result.ok) {
+          setStatusNote(result.error);
+          return;
+        }
+        setStatusNote('Kapak güncellendi.');
         setEditingId(null);
+        router.refresh();
       });
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Yükleme başarısız');
+      setStatusNote(err instanceof Error ? err.message : 'Yükleme başarısız');
     } finally {
       setUploadingId(null);
     }
@@ -52,9 +62,10 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
   const handleSave = (e: React.FormEvent<HTMLFormElement>, cat: Category) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    setStatusNote(null);
 
     startTransition(async () => {
-      await upsertCategory({
+      const result = await upsertCategory({
         categoryId: cat.id,
         slug: (form.get('slug') as string) || cat.slug,
         nameEn: form.get('nameEn') as string,
@@ -66,7 +77,13 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
         showOnHome: form.get('showOnHome') === 'on',
         imageUrl: (form.get('imageUrl') as string) || cat.image_url || '',
       });
+      if (!result.ok) {
+        setStatusNote(result.error);
+        return;
+      }
+      setStatusNote('Kategori kaydedildi.');
       setEditingId(null);
+      router.refresh();
     });
   };
 
@@ -76,6 +93,11 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
         Ana sayfadaki kategori kartlarının isimlerini ve kapak fotoğrafını buradan düzenleyin.
         Kapak boşsa ilk ürün fotoğrafı kullanılır.
       </p>
+      {statusNote ? (
+        <p className="rounded-lg border border-border bg-cream/50 px-3 py-2 text-sm text-accent">
+          {statusNote}
+        </p>
+      ) : null}
 
       <div className="space-y-3">
         {categories.map((cat) => {
@@ -87,19 +109,24 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
               <div className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
                 <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-xl bg-cream">
                   {cover ? (
-                    <Image src={cover} alt={cat.name_tr} fill className="object-cover" />
+                    // eslint-disable-next-line @next/next/no-img-element -- admin preview; remote/storage URLs
+                    <img src={cover} alt={cat.name_tr} className="h-full w-full object-cover" />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-xs text-muted">Kapak yok</div>
+                    <div className="flex h-full items-center justify-center text-xs text-muted">
+                      Kapak yok
+                    </div>
                   )}
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold">{getLocalizedName(cat, locale)}</p>
                   <p className="text-xs text-muted">
-                    {cat.slug} · sıra {cat.sort_order}                    {!cat.is_active ? ' · pasif' : ''}
+                    {cat.slug} · sıra {cat.sort_order}
+                    {!cat.is_active ? ' · pasif' : ''}
                     {cat.show_on_home === false ? ' · ana sayfada gizli' : ''}
                   </p>
-                  <p className="mt-1 text-sm text-muted">{cat.name_ru}</p>                </div>
+                  <p className="mt-1 text-sm text-muted">{cat.name_ru}</p>
+                </div>
 
                 <div className="flex shrink-0 gap-2">
                   <label className="btn-outline cursor-pointer text-sm">
@@ -111,7 +138,8 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
                       disabled={uploadingId === cat.id || isPending}
                       onChange={(e) => {
                         const file = e.target.files?.[0];
-                        if (file) handleImageUpload(cat.id, file);
+                        e.target.value = '';
+                        if (file) void handleImageUpload(cat.id, file);
                       }}
                     />
                   </label>

@@ -263,36 +263,62 @@ export async function upsertCategory(data: {
   imageUrl?: string;
   showOnHome?: boolean;
   categoryId?: string;
-}) {
-  await requireAdmin();
-  const supabase = await createClient();
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
 
-  const payload = {
-    slug: data.slug || slugify(data.nameEn),
-    name_en: data.nameEn,
-    name_ru: data.nameRu,
-    name_kk: data.nameKk,
-    name_tr: data.nameTr,
-    sort_order: data.sortOrder,
-    is_active: data.isActive,
-    image_url: data.imageUrl ?? '',
-    show_on_home: data.showOnHome ?? true,
-  };
+    const payload: Record<string, unknown> = {
+      slug: data.slug || slugify(data.nameEn),
+      name_en: data.nameEn,
+      name_ru: data.nameRu,
+      name_kk: data.nameKk,
+      name_tr: data.nameTr,
+      sort_order: data.sortOrder,
+      is_active: data.isActive,
+      image_url: data.imageUrl ?? '',
+      show_on_home: data.showOnHome ?? true,
+    };
 
-  if (data.categoryId) {
-    const { error } = await supabase
-      .from('categories')
-      .update(payload)
-      .eq('id', data.categoryId);
-    if (error) throw new Error(error.message);
-  } else {
-    const { error } = await supabase.from('categories').insert(payload);
-    if (error) throw new Error(error.message);
+    const save = async (body: Record<string, unknown>) => {
+      if (data.categoryId) {
+        return supabase.from('categories').update(body).eq('id', data.categoryId);
+      }
+      return supabase.from('categories').insert(body);
+    };
+
+    let { error } = await save(payload);
+    if (error && String(error.message).includes('show_on_home')) {
+      delete payload.show_on_home;
+      ({ error } = await save(payload));
+    }
+    if (error && String(error.message).includes('image_url')) {
+      delete payload.image_url;
+      ({ error } = await save(payload));
+      if (!error) {
+        return {
+          ok: false,
+          error:
+            'Kapak kaydedilemedi: categories.image_url sütunu yok. Supabase SQL’de image_url ekleyin.',
+        };
+      }
+    }
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    try {
+      revalidatePath('/admin/categories');
+      revalidatePath('/admin/products');
+      revalidateStorefront();
+    } catch {
+      // Cache yenileme başarısız olsa da kayıt tamamdır
+    }
+
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Kategori kaydedilemedi' };
   }
-
-  revalidatePath('/admin/categories');
-  revalidatePath('/admin/products');
-  revalidateStorefront();
 }
 
 export async function uploadCategoryImage(formData: FormData): Promise<{ url: string }> {
