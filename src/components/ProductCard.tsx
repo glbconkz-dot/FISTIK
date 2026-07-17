@@ -90,6 +90,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
         <ProductCardImage
           product={product}
           alt={name}
+          href={`/product/${product.slug}`}
           topRight={<FavoriteButton productId={product.id} size="sm" />}
           topLeft={
             inCart ? (
@@ -108,7 +109,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
           }
           overlay={
             outOfStock ? (
-              <div className="absolute inset-0 z-[5] flex items-center justify-center bg-black/45 text-sm font-semibold text-white">
+              <div className="absolute inset-0 z-[5] flex items-center justify-center bg-black/45 text-sm font-semibold text-white pointer-events-none">
                 {t('soldOut')}
               </div>
             ) : null

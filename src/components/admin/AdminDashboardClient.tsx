@@ -76,6 +76,9 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
   );
   const completedOnDay = filterOrdersCompletedOnDate(orders, selectedDate);
   const cancelledOnDay = filterOrdersCancelledOnDate(orders, selectedDate);
+  const createdTotal = createdOnDay.reduce((sum, order) => sum + Number(order.total), 0);
+  const completedTotal = completedOnDay.reduce((sum, order) => sum + Number(order.total), 0);
+  const cancelledTotal = cancelledOnDay.reduce((sum, order) => sum + Number(order.total), 0);
 
   const stats = [
     {
@@ -97,10 +100,12 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Dashboard</h1>
-      <p className="mt-1 text-muted">Günlük sipariş kayıtları</p>
+      <div className="print:hidden">
+        <h1 className="font-display text-3xl font-bold">Dashboard</h1>
+        <p className="mt-1 text-muted">Günlük sipariş kayıtları</p>
+      </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-2">
+      <div className="mt-6 flex flex-wrap items-center gap-2 print:hidden">
         <button
           type="button"
           className="btn-outline px-3 py-2 text-sm"
@@ -134,9 +139,16 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
             Bugün
           </button>
         ) : null}
+        <button
+          type="button"
+          className="btn-primary ml-auto px-3 py-2 text-sm"
+          onClick={() => window.print()}
+        >
+          Yazdır / PDF
+        </button>
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4 print:hidden">
         {stats.map((stat) => (
           <div key={stat.label} className="luxury-card p-5">
             <p className="text-sm text-muted">{stat.label}</p>
@@ -145,7 +157,7 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
         ))}
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-cream/40 p-2">
+      <div className="mt-6 rounded-xl border border-border bg-cream/40 p-2 print:hidden">
         <p className="mb-1 px-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
           Siparişler
         </p>
@@ -171,10 +183,33 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
         </div>
       </div>
 
-      <section className="mt-10">
+      <section className="dashboard-daily-print-root mt-10">
+        <div className="dashboard-daily-print-header hidden print:block">
+          <h1 className="text-xl font-bold">FISTIK · Günlük Dashboard Raporu</h1>
+          <p className="mt-1 text-sm">Tarih: {selectedDate}</p>
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            <div className="rounded border border-gray-300 p-3">
+              <p className="text-xs">Gelen sipariş</p>
+              <p className="font-semibold">{createdOnDay.length} · {formatPrice(createdTotal)}</p>
+            </div>
+            <div className="rounded border border-gray-300 p-3">
+              <p className="text-xs">Teslim edilen</p>
+              <p className="font-semibold">
+                {completedOnDay.length} · {formatPrice(completedTotal)}
+              </p>
+            </div>
+            <div className="rounded border border-gray-300 p-3">
+              <p className="text-xs">İptal edilen</p>
+              <p className="font-semibold">
+                {cancelledOnDay.length} · {formatPrice(cancelledTotal)}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <button
           type="button"
-          className="flex w-full items-center justify-between text-left"
+          className="flex w-full items-center justify-between text-left print:hidden"
           onClick={() => setLogOpen((v) => !v)}
         >
           <h2 className="font-display text-xl font-semibold">Günlük kayıt — {selectedDate}</h2>
@@ -182,7 +217,7 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
         </button>
 
         {logOpen ? (
-          <div className="mt-4 space-y-6">
+          <div className="mt-4 space-y-6 print:mt-6">
             <DailyLogSection
               title={`Gelen siparişler (${createdOnDay.length})`}
               orders={createdOnDay}
@@ -198,15 +233,36 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
               orders={cancelledOnDay}
               emptyText="Bu gün iptal yok."
             />
-            <Link href="/admin/orders" className="inline-block text-sm text-accent underline">
+            <Link
+              href="/admin/orders"
+              className="inline-block text-sm text-accent underline print:hidden"
+            >
               Tüm siparişler →
             </Link>
           </div>
-        ) : null}
+        ) : (
+          <div className="hidden space-y-6 print:block">
+            <DailyLogSection
+              title={`Gelen siparişler (${createdOnDay.length})`}
+              orders={createdOnDay}
+              emptyText="Bu gün sipariş yok."
+            />
+            <DailyLogSection
+              title={`Teslim edilenler (${completedOnDay.length})`}
+              orders={completedOnDay}
+              emptyText="Bu gün tamamlanan sipariş yok."
+            />
+            <DailyLogSection
+              title={`İptal edilenler (${cancelledOnDay.length})`}
+              orders={cancelledOnDay}
+              emptyText="Bu gün iptal yok."
+            />
+          </div>
+        )}
       </section>
 
       {isToday ? (
-        <section className="mt-10">
+        <section className="mt-10 print:hidden">
           <h2 className="font-display text-xl font-semibold">Bugün teslim edilecekler</h2>
           <div className="mt-4 space-y-2">
             {todayDeliveries.length === 0 ? (

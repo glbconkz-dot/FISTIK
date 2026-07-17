@@ -453,6 +453,19 @@ body[data-page='cover'] .cover-page-root {
     break-inside: avoid;
   }
 
+  .dashboard-daily-print-header {
+    display: block !important;
+    margin-bottom: 1.25rem;
+  }
+
+  .dashboard-daily-print-root {
+    margin-top: 0 !important;
+  }
+
+  .dashboard-daily-print-root .luxury-card {
+    break-inside: avoid;
+  }
+
   .luxury-card {
     box-shadow: none !important;
     border: 1px solid #ccc !important;
