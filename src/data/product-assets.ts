@@ -125,15 +125,26 @@ export function applyProductAsset(
 
   const gallery = getAssetGallery(asset);
   const dbImage = product.image_url?.trim() ?? '';
+  const dbExtras = (product.image_urls ?? [])
+    .map((u) => u?.trim())
+    .filter((u): u is string => Boolean(u));
 
-  // Admin-uploaded (or any remote) image always wins over product-assets.json
+  // Admin-uploaded (or any remote) primary always wins — keep DB extras, else asset side photos
   if (isAdminOrRemoteProductImage(dbImage)) {
-    return { ...product, ...updates };
+    const assetExtras = gallery.slice(1);
+    const extras = dbExtras.length > 0 ? dbExtras : assetExtras;
+    return {
+      ...product,
+      ...updates,
+      image_url: dbImage,
+      image_urls: extras.length > 0 ? extras : product.image_urls,
+    };
   }
 
   if (gallery.length > 0) {
+    // Local/static primary: assets fill gallery unless DB already has extras
     updates.image_url = gallery[0];
-    updates.image_urls = gallery.slice(1);
+    updates.image_urls = dbExtras.length > 0 ? dbExtras : gallery.slice(1);
   } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
     // Explicit empty in assets → clear broken/local static image
     updates.image_url = '';

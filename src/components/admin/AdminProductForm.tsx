@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
+import { findProductAsset } from '@/data/product-assets';
 import { getDisplayCategories } from '@/lib/category-display';
 import { isDrinksCategorySlug } from '@/lib/coffee';
 import { getLocalizedName } from '@/lib/utils';
@@ -36,10 +37,26 @@ const FORM_NAMES: Record<LangTab, { name: string; description: string }> = {
   en: { name: 'nameEn', description: 'descriptionEn' },
 };
 
+function uniqueUrls(urls: string[]): string[] {
+  return [...new Set(urls.map((u) => u.trim()).filter(Boolean))];
+}
+
 export function AdminProductForm({ categories, product }: AdminProductFormProps) {
   const router = useRouter();
   const [tab, setTab] = useState<LangTab>('tr');
+  const asset = useMemo(
+    () => (product ? findProductAsset(product, categories) : undefined),
+    [product, categories]
+  );
+  const initialExtras = useMemo(() => {
+    const fromDb = product?.image_urls ?? [];
+    if (fromDb.length > 0) return uniqueUrls(fromDb);
+    const fromAsset = (asset?.image_urls ?? []).filter(Boolean);
+    return uniqueUrls(fromAsset);
+  }, [product, asset]);
+
   const [imageUrl, setImageUrl] = useState(product?.image_url ?? '');
+  const [galleryUrls, setGalleryUrls] = useState<string[]>(initialExtras);
   const [uploading, setUploading] = useState(false);
   const [uploadNote, setUploadNote] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -64,24 +81,50 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
     ? isDrinksCategorySlug(selectedCategory.slug)
     : false;
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const uploadFile = async (file: File, as: 'primary' | 'extra') => {
     setUploading(true);
     setUploadNote(null);
     try {
       const formData = new FormData();
       formData.append('file', file);
       const { url } = await uploadProductImage(formData);
-      setImageUrl(url);
-      setUploadNote('Resim yüklendi — kaydetmek için Update product’a basın.');
+      if (as === 'primary') {
+        setImageUrl(url);
+        setUploadNote('Ana resim yüklendi — kaydetmek için Update product’a basın.');
+      } else {
+        setGalleryUrls((prev) => uniqueUrls([...prev, url]).slice(0, 4));
+        setUploadNote('Ek resim eklendi — kaydetmek için Update product’a basın.');
+      }
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setUploading(false);
-      e.target.value = '';
     }
+  };
+
+  const handlePrimaryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    await uploadFile(file, 'primary');
+  };
+
+  const handleExtraUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    await uploadFile(file, 'extra');
+  };
+
+  const makePrimary = (url: string) => {
+    if (!url || url === imageUrl) return;
+    setGalleryUrls((prev) => uniqueUrls([imageUrl, ...prev.filter((u) => u !== url)]));
+    setImageUrl(url);
+    setUploadNote('Ana resim değiştirildi — kaydetmeyi unutmayın.');
+  };
+
+  const removeExtra = (url: string) => {
+    setGalleryUrls((prev) => prev.filter((u) => u !== url));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,6 +148,7 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
             descriptionTr: form.get('descriptionTr') as string,
             price: Number(form.get('price')),
             imageUrl,
+            imageUrls: galleryUrls.filter((u) => u && u !== imageUrl),
             isActive: form.get('isActive') === 'on',
             stockQuantity: Number(form.get('stockQuantity') || 30),
             sortOrder: Number(form.get('sortOrder') || 0),
@@ -225,42 +269,67 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         </div>
       </div>
 
-      <div>
-        <label className="mb-1 block text-sm font-medium">Ürün resmi</label>
-        <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
-        {isDrinksProduct ? (
-          <p className="mt-1 text-xs text-muted">
-            Öneri: dikey / portre çekim (telefon dikey). Yatay fotoğraf kırpılır.
-          </p>
-        ) : null}
-        {uploading && <p className="mt-1 text-sm text-muted">Yükleniyor…</p>}
-        {uploadNote && <p className="mt-1 text-sm text-accent">{uploadNote}</p>}
+      <div className="space-y-3 rounded-xl border border-border bg-cream/40 p-4">
+        <p className="text-sm font-medium">Ürün resimleri</p>
+        <p className="text-xs text-muted">
+          Ana resmi değiştirmek için yeni dosya seçin, sonra <strong>Update product</strong> ile kaydedin.
+          2. / 3. fotoğraf için “Ek resim ekle” kullanın.
+        </p>
+
+        <div>
+          <label className="mb-1 block text-xs font-medium text-muted">Ana resim</label>
+          <input type="file" accept="image/*" onChange={handlePrimaryUpload} disabled={uploading} />
+          {isDrinksProduct ? (
+            <p className="mt-1 text-xs text-muted">Öneri: dikey / portre çekim.</p>
+          ) : null}
+        </div>
+
         {imageUrl ? (
-          <div className="relative mt-3 h-40 w-40 overflow-hidden rounded-lg border border-border bg-cream">
+          <div className="relative h-40 w-40 overflow-hidden rounded-lg border-2 border-accent bg-cream">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageUrl} alt="Önizleme" className="h-full w-full object-cover" />
+            <img key={imageUrl} src={imageUrl} alt="Ana resim" className="h-full w-full object-cover" />
+            <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] text-white">
+              Ana
+            </span>
           </div>
         ) : (
-          <p className="mt-2 text-xs text-muted">Henüz resim yok — dosya seçin.</p>
+          <p className="text-xs text-muted">Henüz ana resim yok.</p>
         )}
-        {product?.image_urls && product.image_urls.length > 0 ? (
-          <div className="mt-3">
-            <p className="mb-1.5 text-xs text-muted">
-              Ek galeri ({product.image_urls.length}) — site dosyalarından; ana resmi admin yüklemesiyle değişir
-            </p>
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {product.image_urls.map((url) => (
-                <div
-                  key={url}
-                  className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-border"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url} alt="" className="h-full w-full object-cover" />
+
+        <div>
+          <label className="mb-1 block text-xs font-medium text-muted">Ek resim ekle (2–3. foto)</label>
+          <input type="file" accept="image/*" onChange={handleExtraUpload} disabled={uploading} />
+        </div>
+
+        {galleryUrls.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {galleryUrls.map((url) => (
+              <div key={url} className="relative h-20 w-20 overflow-hidden rounded-lg border border-border">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={url} alt="" className="h-full w-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 flex gap-0.5 bg-black/55 p-0.5">
+                  <button
+                    type="button"
+                    className="flex-1 text-[9px] font-semibold text-white"
+                    onClick={() => makePrimary(url)}
+                  >
+                    Ana yap
+                  </button>
+                  <button
+                    type="button"
+                    className="px-1 text-[9px] font-semibold text-red-200"
+                    onClick={() => removeExtra(url)}
+                  >
+                    Sil
+                  </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         ) : null}
+
+        {uploading && <p className="text-sm text-muted">Yükleniyor…</p>}
+        {uploadNote && <p className="text-sm text-accent">{uploadNote}</p>}
       </div>
 
       <label className="flex items-center gap-2">

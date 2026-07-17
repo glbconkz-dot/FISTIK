@@ -121,14 +121,37 @@ async function loadCatalogData(): Promise<{
     };
   }
 
-  const [productsResult, categoriesResult, sectionsResult, clearanceResult] = await Promise.all([
-    supabase
+  const PRODUCT_SELECT_WITH_GALLERY =
+    'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, image_urls, is_active, stock_quantity, sort_order, created_at';
+  const PRODUCT_SELECT_BASIC =
+    'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at';
+
+  let productsRows: Product[] | null = null;
+  let productsError: string | null = null;
+
+  {
+    const withGallery = await supabase
       .from('products')
-      .select(
-        'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at'
-      )
+      .select(PRODUCT_SELECT_WITH_GALLERY)
       .eq('is_active', true)
-      .order('sort_order', { ascending: true }),
+      .order('sort_order', { ascending: true });
+
+    if (!withGallery.error) {
+      productsRows = withGallery.data as Product[] | null;
+    } else if (String(withGallery.error.message).includes('image_urls')) {
+      const basic = await supabase
+        .from('products')
+        .select(PRODUCT_SELECT_BASIC)
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+      if (basic.error) productsError = basic.error.message;
+      else productsRows = basic.data as Product[] | null;
+    } else {
+      productsError = withGallery.error.message;
+    }
+  }
+
+  const [categoriesResult, sectionsResult, clearanceResult] = await Promise.all([
     fetchActiveCategories(supabase),
     supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
     fetchClearanceRules(supabase),
@@ -149,8 +172,8 @@ async function loadCatalogData(): Promise<{
     })
   );
 
-  if (productsResult.error) {
-    console.error('[catalog] Supabase products:', productsResult.error.message);
+  if (productsError) {
+    console.error('[catalog] Supabase products:', productsError);
     return {
       categories,
       products: [],
@@ -161,7 +184,7 @@ async function loadCatalogData(): Promise<{
     };
   }
 
-  const products = ((productsResult.data as Product[] | null) ?? []).map(normalizeStock);
+  const products = (productsRows ?? []).map(normalizeStock);
 
   if (products.length === 0) {
     return {
@@ -215,6 +238,9 @@ export async function getCatalogData() {
 }
 
 const PRODUCT_DETAIL_SELECT =
+  'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, image_urls, is_active, stock_quantity, sort_order, created_at, categories(id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at)';
+
+const PRODUCT_DETAIL_SELECT_BASIC =
   'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at, categories(id, slug, name_en, name_ru, name_kk, name_tr, sort_order, is_active, created_at)';
 
 async function loadProductBySlug(slug: string): Promise<Product | null> {
@@ -227,12 +253,21 @@ async function loadProductBySlug(slug: string): Promise<Product | null> {
     return local ? normalizeStock(local) : null;
   }
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from('products')
     .select(PRODUCT_DETAIL_SELECT)
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
+
+  if (error && String(error.message).includes('image_urls')) {
+    ({ data, error } = await supabase
+      .from('products')
+      .select(PRODUCT_DETAIL_SELECT_BASIC)
+      .eq('slug', slug)
+      .eq('is_active', true)
+      .maybeSingle());
+  }
 
   if (error || !data) return null;
 

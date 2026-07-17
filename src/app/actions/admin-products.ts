@@ -17,7 +17,7 @@ export async function upsertProduct(data: ProductFormData, productId?: string) {
   await requireAdmin();
   const supabase = await createClient();
 
-  const payload = {
+  const payload: Record<string, unknown> = {
     slug: data.slug || slugify(data.nameEn),
     category_id: data.categoryId || null,
     name_en: data.nameEn,
@@ -35,11 +35,23 @@ export async function upsertProduct(data: ProductFormData, productId?: string) {
     sort_order: data.sortOrder,
   };
 
+  if (data.imageUrls !== undefined) {
+    payload.image_urls = data.imageUrls;
+  }
+
   if (productId) {
-    const { error } = await supabase.from('products').update(payload).eq('id', productId);
+    let { error } = await supabase.from('products').update(payload).eq('id', productId);
+    if (error && String(error.message).includes('image_urls')) {
+      delete payload.image_urls;
+      ({ error } = await supabase.from('products').update(payload).eq('id', productId));
+    }
     if (error) throw new Error(error.message);
   } else {
-    const { error } = await supabase.from('products').insert(payload);
+    let { error } = await supabase.from('products').insert(payload);
+    if (error && String(error.message).includes('image_urls')) {
+      delete payload.image_urls;
+      ({ error } = await supabase.from('products').insert(payload));
+    }
     if (error) throw new Error(error.message);
   }
 

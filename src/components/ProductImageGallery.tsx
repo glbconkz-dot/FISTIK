@@ -20,6 +20,8 @@ interface ProductImageGalleryProps {
   overlay?: ReactNode;
 }
 
+const SWIPE_MIN = 48;
+
 export function ProductImageGallery({
   product,
   alt,
@@ -35,7 +37,10 @@ export function ProductImageGallery({
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const touchStartX = useRef<number | null>(null);
-  const current = images[Math.min(index, Math.max(images.length - 1, 0))] ?? '';
+  const touchDeltaX = useRef(0);
+  const didSwipe = useRef(false);
+  const safeIndex = Math.min(index, Math.max(images.length - 1, 0));
+  const current = images[safeIndex] ?? '';
   const imageClasses = getProductImageClasses(product.slug, current || product.image_url);
   const multi = images.length > 1;
 
@@ -50,131 +55,175 @@ export function ProductImageGallery({
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.changedTouches[0]?.clientX ?? null;
+    touchDeltaX.current = 0;
+    didSwipe.current = false;
   };
 
-  const onTouchEnd = (e: React.TouchEvent) => {
+  const onTouchMove = (e: React.TouchEvent) => {
     if (touchStartX.current == null) return;
-    const endX = e.changedTouches[0]?.clientX ?? touchStartX.current;
-    const delta = endX - touchStartX.current;
+    const x = e.changedTouches[0]?.clientX ?? touchStartX.current;
+    touchDeltaX.current = x - touchStartX.current;
+    if (Math.abs(touchDeltaX.current) > 12) {
+      didSwipe.current = true;
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (touchStartX.current == null) return;
+    const delta = touchDeltaX.current;
     touchStartX.current = null;
-    if (Math.abs(delta) < 40) return;
-    go(index + (delta < 0 ? 1 : -1));
+    touchDeltaX.current = 0;
+    if (!multi || Math.abs(delta) < SWIPE_MIN) return;
+    go(safeIndex + (delta < 0 ? 1 : -1));
   };
 
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLightbox(false);
-      if (e.key === 'ArrowLeft') go(index - 1);
-      if (e.key === 'ArrowRight') go(index + 1);
+      if (e.key === 'ArrowLeft') go(safeIndex - 1);
+      if (e.key === 'ArrowRight') go(safeIndex + 1);
     };
+    const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = prev;
       window.removeEventListener('keydown', onKey);
     };
-  }, [lightbox, go, index]);
+  }, [lightbox, go, safeIndex]);
 
   const aspect =
     variant === 'detail'
       ? 'aspect-[3/4] w-full max-w-lg md:max-w-xl md:rounded-2xl'
       : 'aspect-[3/4]';
 
-  const openLightbox = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!current) return;
+  const openLightbox = () => {
+    if (didSwipe.current || !current) return;
     setLightbox(true);
   };
 
+  const navBtn =
+    'absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-2xl text-white touch-manipulation active:bg-black/70 sm:h-10 sm:w-10';
+
   return (
     <>
-      <div
-        className={cn('relative mx-auto w-full overflow-hidden', aspect, imageClasses.container, className)}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        {current ? (
-          <button
-            type="button"
-            className={cn(imageClasses.frame, 'cursor-zoom-in border-0 bg-transparent p-0')}
-            onClick={openLightbox}
-            aria-label={t('galleryOpen')}
-          >
-            <Image
-              key={current}
-              src={current}
-              alt={alt}
-              fill
-              priority={priority && index === 0}
-              className={cn(
-                variant === 'card' ? imageClasses.imageCard : imageClasses.image,
-                'object-center'
-              )}
-              sizes={
-                variant === 'detail'
-                  ? '(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 800px'
-                  : '(max-width: 768px) 50vw, 25vw'
-              }
-              draggable={false}
-            />
-          </button>
-        ) : (
-          <div className="flex h-full items-center justify-center font-display text-5xl text-accent/40">
-            F
-          </div>
-        )}
-
-        {topLeft ? <div className="absolute left-2 top-2 z-10">{topLeft}</div> : null}
-        {topRight ? <div className="absolute right-2 top-2 z-10 sm:right-4 sm:top-4">{topRight}</div> : null}
-        {overlay}
-
-        {multi ? (
-          <>
-            <div className="absolute inset-x-0 bottom-2 z-10 flex justify-center gap-1.5">
-              {images.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={t('galleryDot', { n: i + 1 })}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIndex(i);
-                  }}
-                  className={cn(
-                    'h-2.5 min-w-[10px] rounded-full transition-all',
-                    i === index ? 'w-5 bg-white shadow-sm' : 'w-2.5 bg-white/70'
-                  )}
-                />
-              ))}
+      <div className={cn('mx-auto w-full', variant === 'detail' && 'max-w-lg md:max-w-xl')}>
+        <div
+          className={cn(
+            'relative w-full overflow-hidden touch-pan-y',
+            aspect,
+            imageClasses.container,
+            className
+          )}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          {current ? (
+            <button
+              type="button"
+              className={cn(imageClasses.frame, 'cursor-zoom-in border-0 bg-transparent p-0')}
+              onClick={openLightbox}
+              aria-label={t('galleryOpen')}
+            >
+              <Image
+                key={current}
+                src={current}
+                alt={alt}
+                fill
+                priority={priority && safeIndex === 0}
+                className={cn(
+                  variant === 'card' ? imageClasses.imageCard : imageClasses.image,
+                  'object-center pointer-events-none'
+                )}
+                sizes={
+                  variant === 'detail'
+                    ? '(max-width: 768px) 100vw, (max-width: 1200px) 70vw, 800px'
+                    : '(max-width: 768px) 50vw, 25vw'
+                }
+                draggable={false}
+              />
+            </button>
+          ) : (
+            <div className="flex h-full items-center justify-center font-display text-5xl text-accent/40">
+              F
             </div>
-            <button
-              type="button"
-              aria-label={t('galleryPrev')}
-              className="absolute left-1.5 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-lg text-white sm:left-2"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                go(index - 1);
-              }}
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              aria-label={t('galleryNext')}
-              className="absolute right-1.5 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-lg text-white sm:right-2"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                go(index + 1);
-              }}
-            >
-              ›
-            </button>
-          </>
+          )}
+
+          {topLeft ? <div className="pointer-events-auto absolute left-2 top-2 z-30">{topLeft}</div> : null}
+          {topRight ? (
+            <div className="pointer-events-auto absolute right-2 top-2 z-30 sm:right-4 sm:top-4">
+              {topRight}
+            </div>
+          ) : null}
+          {overlay}
+
+          {multi ? (
+            <>
+              <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 flex justify-center gap-2">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={t('galleryDot', { n: i + 1 })}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIndex(i);
+                    }}
+                    className={cn(
+                      'pointer-events-auto h-3 min-h-[12px] rounded-full transition-all touch-manipulation',
+                      i === safeIndex ? 'w-6 bg-white shadow-sm' : 'w-3 bg-white/75'
+                    )}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                aria-label={t('galleryPrev')}
+                className={cn(navBtn, 'left-2')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  go(safeIndex - 1);
+                }}
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                aria-label={t('galleryNext')}
+                className={cn(navBtn, 'right-2')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  go(safeIndex + 1);
+                }}
+              >
+                ›
+              </button>
+            </>
+          ) : null}
+        </div>
+
+        {multi && variant === 'detail' ? (
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            {images.map((url, i) => (
+              <button
+                key={url}
+                type="button"
+                onClick={() => setIndex(i)}
+                className={cn(
+                  'relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 touch-manipulation',
+                  i === safeIndex ? 'border-accent' : 'border-border opacity-80'
+                )}
+                aria-label={t('galleryDot', { n: i + 1 })}
+              >
+                <Image src={url} alt="" fill className="object-cover" sizes="64px" />
+              </button>
+            ))}
+          </div>
         ) : null}
       </div>
 
@@ -188,7 +237,7 @@ export function ProductImageGallery({
         >
           <button
             type="button"
-            className="absolute right-3 top-3 z-[110] flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-2xl text-white"
+            className="absolute right-3 top-3 z-[110] flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-2xl text-white touch-manipulation"
             aria-label={t('galleryClose')}
             onClick={() => setLightbox(false)}
           >
@@ -196,18 +245,19 @@ export function ProductImageGallery({
           </button>
 
           <div
-            className="relative flex min-h-0 flex-1 items-center justify-center p-4 pt-14"
+            className="relative flex min-h-0 flex-1 items-center justify-center p-4 pt-16 touch-pan-y"
             onClick={(e) => e.stopPropagation()}
             onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
-            <div className="relative h-full max-h-[min(85vh,900px)] w-full max-w-3xl">
+            <div className="relative h-full max-h-[min(80vh,900px)] w-full max-w-3xl">
               <Image
                 key={`lb-${current}`}
                 src={current}
                 alt={alt}
                 fill
-                className="object-contain"
+                className="object-contain pointer-events-none"
                 sizes="100vw"
                 priority
               />
@@ -218,16 +268,16 @@ export function ProductImageGallery({
                 <button
                   type="button"
                   aria-label={t('galleryPrev')}
-                  className="absolute left-2 top-1/2 z-[110] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-2xl text-white sm:left-4"
-                  onClick={() => go(index - 1)}
+                  className="absolute left-2 top-1/2 z-[110] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-3xl text-white touch-manipulation sm:left-4"
+                  onClick={() => go(safeIndex - 1)}
                 >
                   ‹
                 </button>
                 <button
                   type="button"
                   aria-label={t('galleryNext')}
-                  className="absolute right-2 top-1/2 z-[110] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-2xl text-white sm:right-4"
-                  onClick={() => go(index + 1)}
+                  className="absolute right-2 top-1/2 z-[110] flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-3xl text-white touch-manipulation sm:right-4"
+                  onClick={() => go(safeIndex + 1)}
                 >
                   ›
                 </button>
@@ -236,7 +286,7 @@ export function ProductImageGallery({
           </div>
 
           {multi ? (
-            <div className="flex justify-center gap-2 pb-6 pt-2">
+            <div className="flex justify-center gap-2.5 pb-8 pt-2">
               {images.map((_, i) => (
                 <button
                   key={i}
@@ -247,8 +297,8 @@ export function ProductImageGallery({
                     setIndex(i);
                   }}
                   className={cn(
-                    'h-2.5 rounded-full transition-all',
-                    i === index ? 'w-6 bg-white' : 'w-2.5 bg-white/50'
+                    'h-3 rounded-full transition-all touch-manipulation',
+                    i === safeIndex ? 'w-7 bg-white' : 'w-3 bg-white/50'
                   )}
                 />
               ))}

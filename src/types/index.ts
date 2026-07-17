@@ -146,6 +146,8 @@ export interface ProductFormData {
   descriptionTr: string;
   price: number;
   imageUrl: string;
+  /** Extra gallery images (2nd, 3rd, …) */
+  imageUrls?: string[];
   isActive: boolean;
   stockQuantity: number;
   sortOrder: number;
