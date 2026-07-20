@@ -200,6 +200,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('kartoshka-strawberry', 'pirozhnye', 'Strawberry Potato', 'Strawberry Potato', 'Strawberry Potato', 10, 'Strawberry Potato', 550),
   product('kartoshka-oreo', 'pirozhnye', 'Oreo Potato', 'Oreo Potato', 'Oreo Potato', 11, 'Oreo Potato', 550),
   product('kartoshka-caramel', 'pirozhnye', 'Caramel Potato', 'Caramel Potato', 'Caramel Potato', 12, 'Caramel Potato', 550),
+  product('kartoshka-pack-4', 'pirozhnye', 'Potato 4-Pack', 'Картошка 4 шт.', 'Potato 4-Pack', 13, 'Patates 4\'lü Paket', 2100),
 
   // Rectangular box cakes (Latin names in all languages)
   product('american-tiramisu', 'american-cakes', 'Tiramisu Elite box', 'Tiramisu Elite box', 'Tiramisu Elite box', 1, 'Tiramisu Elite box', 15250),

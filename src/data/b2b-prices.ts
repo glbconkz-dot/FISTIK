@@ -29,6 +29,7 @@ export const B2B_PRICES_BY_SLUG: Record<string, number> = {
   'kartoshka-strawberry': 450,
   'kartoshka-oreo': 450,
   'kartoshka-caramel': 450,
+  'kartoshka-pack-4': 1800,
 
   'american-tiramisu': 12200,
   'american-strawberry-cake': 13000,
