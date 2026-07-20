@@ -160,7 +160,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('tart-pistachio', 'tarts', 'Pistachio Tart', 'Pistachio Tart', 'Pistachio Tart', 4, 'Pistachio Tart', 1250),
 
   // Turtalar (tatli turta — pirog ve tart degil)
-  product('pie-apple-walnut-cinnamon', 'turtas', 'Apple Pie', 'Apple Pie', 'Apple Pie', 1, 'Apple Pie', 3500),
+  product('pie-apple-walnut-cinnamon', 'turtas', 'Elmalı Turta', 'Elmalı Turta', 'Elmalı Turta', 1, 'Elmalı Turta', 3500),
   product('pie-snickers', 'turtas', 'Snikers Pie', 'Snikers Pie', 'Snikers Pie', 2, 'Snikers Pie', 3750),
 
   // Semi-finished

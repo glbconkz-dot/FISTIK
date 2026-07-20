@@ -476,6 +476,23 @@
     ]
   },
   {
+    "slugs": ["pie-apple-walnut-cinnamon"],
+    "names": [
+      "elmalı turta",
+      "apple pie",
+      "apple turta",
+      "яблочная турта"
+    ],
+    "image_url": "/products/turtas/apple.png",
+    "image_urls": [
+      "/products/turtas/apple-top.png"
+    ],
+    "name_en": "Elmalı Turta",
+    "name_ru": "Elmalı Turta",
+    "name_kk": "Elmalı Turta",
+    "name_tr": "Elmalı Turta"
+  },
+  {
     "slugs": [
       "pack-cherry-brownie"
     ],
