@@ -503,6 +503,12 @@
     "name_tr": "Elmalı Turta"
   },
   {
+    "slugs": ["pie-snickers"],
+    "names": ["snikers pie", "snickers pie", "snicers pie"],
+    "image_url": "/products/turtas/snickers.png",
+    "image_urls": ["/products/turtas/snickers-top.png"]
+  },
+  {
     "slugs": [
       "pack-cherry-brownie"
     ],
