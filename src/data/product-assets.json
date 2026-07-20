@@ -765,14 +765,47 @@
   },
 
   {
-    "slugs": [
-      "sarma-borek-meat",
-      "sarma-borek-chicken",
-      "sarma-borek-brinza",
-      "sarma-borek-spinach",
-      "sarma-borek-lentils",
-      "sarma-borek-potato"
-    ],
+    "slugs": ["sarma-borek-meat"],
+    "image_url": "/products/semi-finished/sarma-borek-meat.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["sarma-borek-chicken"],
+    "image_url": "/products/semi-finished/sarma-borek-chicken.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["sarma-borek-brinza"],
+    "image_url": "/products/semi-finished/sarma-borek-brinza.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["sarma-borek-spinach"],
+    "image_url": "/products/semi-finished/sarma-borek-spinach.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["sarma-borek-potato"],
+    "image_url": "/products/semi-finished/sarma-borek-potato.png",
+    "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
+    "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
+    "description_kk": "Сарма борек — пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
+    "description_tr": "Sarma börek · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
+  },
+  {
+    "slugs": ["sarma-borek-lentils"],
     "image_url": "/products/semi-finished/sarma-borek.png",
     "description_en": "Traditional rolled sarma borek — ready to bake, frozen at −18 °C in special packaging.",
     "description_ru": "Сарма борек — готов к выпечке, заморожен при −18 °C в специальной упаковке.",
