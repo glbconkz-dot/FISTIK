@@ -308,16 +308,26 @@
     "image_url": "/products/cookies/almond-kavala.png"
   },
   {
-    "slugs": [
-      "eskimo-dubai",
-      "eskimo-strawberry",
-      "eskimo-oreo",
-      "eskimo-caramel"
-    ],
-    "names": [
-      "эскимо",
-      "eskimo"
-    ],
+    "slugs": ["eskimo-dubai"],
+    "names": ["dubai eskimo", "эскимо dubai"],
+    "image_url": "/products/pirozhnye/eskimo-dubai.png",
+    "image_urls": ["/products/pirozhnye/eskimo-dubai-alt.png"]
+  },
+  {
+    "slugs": ["eskimo-strawberry"],
+    "names": ["strawberry eskimo", "эскимо strawberry"],
+    "image_url": "/products/pirozhnye/eskimo-strawberry.png",
+    "image_urls": ["/products/pirozhnye/eskimo-strawberry-alt.png"]
+  },
+  {
+    "slugs": ["eskimo-oreo"],
+    "names": ["oreo eskimo", "эскимо oreo"],
+    "image_url": "/products/pirozhnye/eskimo-oreo.png",
+    "image_urls": ["/products/pirozhnye/eskimo-oreo-alt.png"]
+  },
+  {
+    "slugs": ["eskimo-caramel"],
+    "names": ["caramel eskimo", "эскимо caramel", "эскимо", "eskimo"],
     "image_url": "/products/cookies/eskimo.png"
   },
   {
