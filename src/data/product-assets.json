@@ -670,6 +670,7 @@
   {
     "slugs": ["borek-meat"],
     "image_url": "/products/boreks/borek-meat.png",
+    "image_urls": ["/products/boreks/borek-meat-alt.png"],
     "description_en": "Fresh borek with seasoned meat filling.",
     "description_ru": "Свежий борек с мясной начинкой.",
     "description_kk": "Ет начинкасы бар жаңа борек.",
@@ -677,7 +678,7 @@
   },
   {
     "slugs": ["borek-chicken"],
-    "image_url": "/products/boreks/borek-chicken.png",
+    "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with chicken filling.",
     "description_ru": "Свежий борек с куриной начинкой.",
     "description_kk": "Тауық начинкасы бар жаңа борек.",
@@ -685,7 +686,7 @@
   },
   {
     "slugs": ["borek-potato"],
-    "image_url": "/products/boreks/borek-potato.png",
+    "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with potato filling.",
     "description_ru": "Свежий борек с картофельной начинкой.",
     "description_kk": "Картоп начинкасы бар жаңа борек.",
@@ -693,7 +694,7 @@
   },
   {
     "slugs": ["borek-brinza"],
-    "image_url": "/products/boreks/borek-brinza.png",
+    "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with brinza cheese filling.",
     "description_ru": "Свежий борек с сырной начинкой (брынза).",
     "description_kk": "Ірімшік начинкасы бар жаңа борек.",
@@ -701,7 +702,7 @@
   },
   {
     "slugs": ["borek-spinach"],
-    "image_url": "/products/boreks/borek-spinach.png",
+    "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with spinach filling.",
     "description_ru": "Свежий борек со шпинатной начинкой.",
     "description_kk": "Спанат начинкасы бар жаңа борек.",
@@ -709,7 +710,7 @@
   },
   {
     "slugs": ["borek-lentils"],
-    "image_url": "/products/boreks/borek-lentils.png",
+    "image_url": "/products/boreks/borek.png",
     "description_en": "Fresh borek with lentil filling.",
     "description_ru": "Свежий борек с начинкой из чечевицы.",
     "description_kk": "Бұршақ начинкасы бар жаңа борек.",
