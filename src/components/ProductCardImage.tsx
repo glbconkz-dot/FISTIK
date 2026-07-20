@@ -41,7 +41,7 @@ export function ProductCardImage({
         fill
         priority={priority}
         loading={priority ? undefined : 'lazy'}
-        className={cn(imageClasses.imageCard, 'object-center')}
+        className={cn(imageClasses.imageCard)}
         sizes="(max-width: 768px) 50vw, 25vw"
         draggable={false}
       />

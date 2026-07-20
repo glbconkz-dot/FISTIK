@@ -702,7 +702,8 @@
   },
   {
     "slugs": ["borek-spinach"],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/boreks/borek-spinach.png",
+    "image_urls": ["/products/boreks/borek-spinach-alt.png"],
     "description_en": "Fresh borek with spinach filling.",
     "description_ru": "Свежий борек со шпинатной начинкой.",
     "description_kk": "Спанат начинкасы бар жаңа борек.",

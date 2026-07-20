@@ -135,7 +135,7 @@ export function ProductImageGallery({
                 priority={priority && safeIndex === 0}
                 className={cn(
                   variant === 'card' ? imageClasses.imageCard : imageClasses.image,
-                  'object-center pointer-events-none'
+                  'pointer-events-none'
                 )}
                 sizes={
                   variant === 'detail'
