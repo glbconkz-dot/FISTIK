@@ -192,10 +192,14 @@ export const MENU_PRODUCTS: Product[] = [
   product('eskimo-strawberry', 'pirozhnye', 'Strawberry Eskimo', 'Strawberry Eskimo', 'Strawberry Eskimo', 2, 'Strawberry Eskimo', 1100),
   product('eskimo-oreo', 'pirozhnye', 'Oreo Eskimo', 'Oreo Eskimo', 'Oreo Eskimo', 3, 'Oreo Eskimo', 1100),
   product('eskimo-caramel', 'pirozhnye', 'Caramel Eskimo', 'Caramel Eskimo', 'Caramel Eskimo', 4, 'Caramel Eskimo', 1100),
-  product('kartoshka-dubai', 'pirozhnye', 'Dubai Potato', 'Dubai Potato', 'Dubai Potato', 5, 'Dubai Potato', 550),
-  product('kartoshka-strawberry', 'pirozhnye', 'Strawberry Potato', 'Strawberry Potato', 'Strawberry Potato', 6, 'Strawberry Potato', 550),
-  product('kartoshka-oreo', 'pirozhnye', 'Oreo Potato', 'Oreo Potato', 'Oreo Potato', 7, 'Oreo Potato', 550),
-  product('kartoshka-caramel', 'pirozhnye', 'Caramel Potato', 'Caramel Potato', 'Caramel Potato', 8, 'Caramel Potato', 550),
+  product('eskimo-mini-dubai', 'pirozhnye', 'Dubai Eskimo Mini', 'Дубайское Эскимо мини', 'Dubai Eskimo Mini', 5, 'Dubai Eskimo Mini', 550),
+  product('eskimo-mini-strawberry', 'pirozhnye', 'Strawberry Eskimo Mini', 'Клубничное Эскимо мини', 'Strawberry Eskimo Mini', 6, 'Strawberry Eskimo Mini', 550),
+  product('eskimo-mini-oreo', 'pirozhnye', 'Oreo Eskimo Mini', 'Oreo Эскимо мини', 'Oreo Eskimo Mini', 7, 'Oreo Eskimo Mini', 550),
+  product('eskimo-mini-caramel', 'pirozhnye', 'Caramel Eskimo Mini', 'Карамельное Эскимо мини', 'Caramel Eskimo Mini', 8, 'Caramel Eskimo Mini', 550),
+  product('kartoshka-dubai', 'pirozhnye', 'Dubai Potato', 'Dubai Potato', 'Dubai Potato', 9, 'Dubai Potato', 550),
+  product('kartoshka-strawberry', 'pirozhnye', 'Strawberry Potato', 'Strawberry Potato', 'Strawberry Potato', 10, 'Strawberry Potato', 550),
+  product('kartoshka-oreo', 'pirozhnye', 'Oreo Potato', 'Oreo Potato', 'Oreo Potato', 11, 'Oreo Potato', 550),
+  product('kartoshka-caramel', 'pirozhnye', 'Caramel Potato', 'Caramel Potato', 'Caramel Potato', 12, 'Caramel Potato', 550),
 
   // Rectangular box cakes (Latin names in all languages)
   product('american-tiramisu', 'american-cakes', 'Tiramisu Elite box', 'Tiramisu Elite box', 'Tiramisu Elite box', 1, 'Tiramisu Elite box', 15250),
