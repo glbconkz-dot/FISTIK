@@ -21,9 +21,7 @@ const CONTAIN_PATH_HINTS = [
 ];
 
 /** object-position overrides when cover-cropping still needed */
-const OBJECT_POSITION: Record<string, string> = {
-  'borek-meat': 'object-[42%_48%]',
-};
+const OBJECT_POSITION: Record<string, string> = {};
 
 export function shouldContainProductImage(slug: string, imageUrl?: string): boolean {
   if (CONTAIN_FIT_SLUGS.has(slug)) return true;
