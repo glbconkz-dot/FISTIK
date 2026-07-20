@@ -728,48 +728,15 @@
     "description_tr": "Mercimek dolgulu, taze pişmiş börek."
   },
   {
-    "slugs": ["frozen-borek-meat"],
-    "image_url": "/products/semi-finished/mini-borek-meat.png",
-    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
-    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
-    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
-    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
-  },
-  {
-    "slugs": ["frozen-borek-chicken"],
-    "image_url": "/products/semi-finished/mini-borek-chicken.png",
-    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
-    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
-    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
-    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
-  },
-  {
-    "slugs": ["frozen-borek-potato"],
-    "image_url": "/products/semi-finished/mini-borek-potato.png",
-    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
-    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
-    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
-    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
-  },
-  {
-    "slugs": ["frozen-borek-brinza"],
-    "image_url": "/products/semi-finished/mini-borek-brinza.png",
-    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
-    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
-    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
-    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
-  },
-  {
-    "slugs": ["frozen-borek-spinach"],
-    "image_url": "/products/semi-finished/mini-borek-spinach.png",
-    "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
-    "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
-    "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
-    "description_tr": "6'lı paket · Pişirmeye hazır, −18 °C'de özel olarak dondurulmuş."
-  },
-  {
-    "slugs": ["frozen-borek-lentils"],
-    "image_url": "/products/semi-finished/mini-borek-lentils.png",
+    "slugs": [
+      "frozen-borek-meat",
+      "frozen-borek-chicken",
+      "frozen-borek-potato",
+      "frozen-borek-brinza",
+      "frozen-borek-spinach",
+      "frozen-borek-lentils"
+    ],
+    "image_url": "/products/semi-finished/borek-pack-6.png",
     "description_en": "Pack of 6 · ready to bake, frozen at −18 °C in special packaging.",
     "description_ru": "Упаковка 6 шт. · готов к выпечке, заморожен при −18 °C в специальной упаковке.",
     "description_kk": "6 даналық орама · пісіруге дайын, арнайы орамада −18 °C-та қатырылған.",
