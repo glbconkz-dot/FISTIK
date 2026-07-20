@@ -8,9 +8,6 @@ const CONTAIN_FIT_SLUGS = new Set([
   'cake-milk-girl',
   'cake-pistachio-raspberry',
   'cake-red-velvet',
-  /** Pişmiş tekli börek — tabak fotoğrafları kırpılmadan ortalansın */
-  'borek-meat',
-  'borek-spinach',
 ]);
 
 const CONTAIN_PATH_HINTS = [
@@ -34,7 +31,7 @@ export function getProductImageClasses(slug: string, imageUrl?: string) {
   const position = OBJECT_POSITION[slug] ?? 'object-center';
 
   return {
-    container: contain ? 'bg-[#c9b090]' : 'bg-cream',
+    container: contain ? 'bg-[#e8dcc8]' : 'bg-cream',
     /** Inset frame — padding on fill images breaks Next/Image layout */
     frame: contain ? 'absolute inset-3 sm:inset-5' : 'absolute inset-0',
     image: contain ? `object-contain ${position}` : `object-cover ${position}`,

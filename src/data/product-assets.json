@@ -678,7 +678,8 @@
   },
   {
     "slugs": ["borek-chicken"],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/boreks/borek-chicken.png",
+    "image_urls": ["/products/boreks/borek-chicken-alt.png"],
     "description_en": "Fresh borek with chicken filling.",
     "description_ru": "Свежий борек с куриной начинкой.",
     "description_kk": "Тауық начинкасы бар жаңа борек.",
@@ -686,7 +687,8 @@
   },
   {
     "slugs": ["borek-potato"],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/boreks/borek-potato.png",
+    "image_urls": ["/products/boreks/borek-potato-alt.png"],
     "description_en": "Fresh borek with potato filling.",
     "description_ru": "Свежий борек с картофельной начинкой.",
     "description_kk": "Картоп начинкасы бар жаңа борек.",
@@ -694,7 +696,8 @@
   },
   {
     "slugs": ["borek-brinza"],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/boreks/borek-brinza.png",
+    "image_urls": ["/products/boreks/borek-brinza-alt.png"],
     "description_en": "Fresh borek with brinza cheese filling.",
     "description_ru": "Свежий борек с сырной начинкой (брынза).",
     "description_kk": "Ірімшік начинкасы бар жаңа борек.",
@@ -711,7 +714,8 @@
   },
   {
     "slugs": ["borek-lentils"],
-    "image_url": "/products/boreks/borek.png",
+    "image_url": "/products/boreks/borek-lentils.png",
+    "image_urls": ["/products/boreks/borek-lentils-alt.png"],
     "description_en": "Fresh borek with lentil filling.",
     "description_ru": "Свежий борек с начинкой из чечевицы.",
     "description_kk": "Бұршақ начинкасы бар жаңа борек.",
