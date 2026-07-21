@@ -166,8 +166,8 @@ export const MENU_PRODUCTS: Product[] = [
   // Semi-finished
   product('semi-waffle', 'semi-finished', 'Waffle', 'Вафли', 'Вафли', 1, 'Waffle', 2969),
   product('semi-croissant', 'semi-finished', 'Croissant', 'Круассан', 'Круассан', 2, 'Kruvasan', 0, 0),
-  product('frozen-samsa-chicken', 'semi-finished', 'Frozen Chicken Samsa', 'Замороженная самса с курицей', 'Мұздатылған тауықты самса', 3, 'Dondurulmuş Tavuklu Samsa', 1200, 5),
-  product('frozen-samsa-meat', 'semi-finished', 'Frozen Meat Samsa', 'Замороженная самса с мясом', 'Мұздатылған етті самса', 4, 'Dondurulmuş Etli Samsa', 1200, 5),
+  product('frozen-samsa-chicken', 'semi-finished', 'Frozen Chicken Samsa', 'Замороженная самса с курицей', 'Мұздатылған тауықты самса', 3, 'Dondurulmuş Tavuklu Samsa', 1800, 5),
+  product('frozen-samsa-meat', 'semi-finished', 'Frozen Meat Samsa', 'Замороженная самса с мясом', 'Мұздатылған етті самса', 4, 'Dondurulmuş Etli Samsa', 1800, 5),
 
   // Frozen boreks (semi-finished)
   product('frozen-borek-meat', 'frozen-boreks', 'Meat Borek', 'Борек с мясом', 'Борек етпен', 1, 'Etli Börek', 2220),
