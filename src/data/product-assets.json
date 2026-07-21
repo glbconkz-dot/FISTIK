@@ -216,7 +216,10 @@
       "art dessert lemon",
       "limon art tatlı"
     ],
-    "image_url": "/products/art-desserts/lemon.png"
+    "image_url": "/products/art-desserts/lemon.png",
+    "image_urls": [
+      "/products/art-desserts/lemon-top.png"
+    ]
   },
   {
     "slugs": [
@@ -280,7 +283,10 @@
       "yaban mersinli art tatlı",
       "қарақат"
     ],
-    "image_url": "/products/art-desserts/blueberry.png"
+    "image_url": "/products/art-desserts/blueberry.png",
+    "image_urls": [
+      "/products/art-desserts/blueberry-top.png"
+    ]
   },
   {
     "slugs": [
