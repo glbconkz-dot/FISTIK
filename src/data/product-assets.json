@@ -202,7 +202,10 @@
       "art dessert pistachio",
       "fıstık art tatlı"
     ],
-    "image_url": "/products/art-desserts/pistachio.png"
+    "image_url": "/products/art-desserts/pistachio.png",
+    "image_urls": [
+      "/products/art-desserts/pistachio-top.png"
+    ]
   },
   {
     "slugs": [
@@ -250,7 +253,10 @@
       "kalpli art tatlı",
       "жүрек"
     ],
-    "image_url": "/products/art-desserts/heart.png"
+    "image_url": "/products/art-desserts/heart.png",
+    "image_urls": [
+      "/products/art-desserts/heart-top.png"
+    ]
   },
   {
     "slugs": [
