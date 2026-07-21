@@ -224,7 +224,10 @@
       "art dessert mango",
       "mango art tatlı"
     ],
-    "image_url": "/products/art-desserts/mango.png"
+    "image_url": "/products/art-desserts/mango.png",
+    "image_urls": [
+      "/products/art-desserts/mango-top.png"
+    ]
   },
   {
     "slugs": [
