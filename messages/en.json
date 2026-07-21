@@ -111,6 +111,7 @@
     "stockLeft": "{count} left",
     "clearanceLiveUntil": "Sale until {end}",
     "clearanceStartsAt": "{start}–{end}: {percent}% off → {price}",
+    "semiGroupSamsa6": "Frozen samsa · pack of 6",
     "semiGroupBorek6": "Boreks · pack of 6",
     "semiGroupMini16": "Mini boreks · pack of 16",
     "semiGroupSarma": "Sarma boreks · 1 pc",
@@ -120,7 +121,7 @@
     "packLabel16": "Pack of 16",
     "packLabel4": "Pack of 4",
     "packLabelSarma": "1 pc",
-    "semiFrozenNotice": "Semi-finished products are frozen at −18 °C in special packaging. Boreks are ready to bake; waffle is pre-cooked — heat and serve at home."
+    "semiFrozenNotice": "Semi-finished products are frozen at −18 °C in special packaging. Samsa and boreks are ready to bake; waffle is pre-cooked — heat and serve at home."
   },
   "product": {
     "back": "Back to catalog",

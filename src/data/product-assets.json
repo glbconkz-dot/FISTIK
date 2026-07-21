@@ -692,6 +692,22 @@
     ]
   },
   {
+    "slugs": ["samsa-meat"],
+    "image_url": "/products/samsa/meat.png",
+    "description_en": "Fresh baked meat samsa.",
+    "description_ru": "Свежая выпеченная самса с мясом.",
+    "description_kk": "Жаңа пісірілген етті самса.",
+    "description_tr": "Taze pişmiş etli samsa."
+  },
+  {
+    "slugs": ["samsa-chicken"],
+    "image_url": "/products/samsa/chicken.png",
+    "description_en": "Fresh baked chicken samsa.",
+    "description_ru": "Свежая выпеченная самса с курицей.",
+    "description_kk": "Жаңа пісірілген тауықты самса.",
+    "description_tr": "Taze pişmiş tavuklu samsa."
+  },
+  {
     "slugs": ["borek-meat"],
     "image_url": "/products/boreks/borek-meat.png",
     "image_urls": ["/products/boreks/borek-meat-alt.png"],
@@ -744,6 +760,22 @@
     "description_ru": "Свежий борек с начинкой из чечевицы.",
     "description_kk": "Бұршақ начинкасы бар жаңа борек.",
     "description_tr": "Mercimek dolgulu, taze pişmiş börek."
+  },
+  {
+    "slugs": ["frozen-samsa-chicken"],
+    "image_url": "/products/semi-finished/frozen-samsa-chicken.png",
+    "description_en": "Pack of 6 · chicken samsa, ready to bake and frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 6 шт. · самса с курицей, готова к выпечке и заморожена при −18 °C в специальной упаковке.",
+    "description_kk": "6 даналық орама · тауықты самса, пісіруге дайын және арнайы орамада −18 °C-та мұздатылған.",
+    "description_tr": "6'lı paket · Tavuklu samsa, pişirmeye hazır ve özel ambalajında −18 °C'de dondurulmuştur."
+  },
+  {
+    "slugs": ["frozen-samsa-meat"],
+    "image_url": "/products/semi-finished/frozen-samsa-meat.png",
+    "description_en": "Pack of 6 · meat samsa, ready to bake and frozen at −18 °C in special packaging.",
+    "description_ru": "Упаковка 6 шт. · самса с мясом, готова к выпечке и заморожена при −18 °C в специальной упаковке.",
+    "description_kk": "6 даналық орама · етті самса, пісіруге дайын және арнайы орамада −18 °C-та мұздатылған.",
+    "description_tr": "6'lı paket · Etli samsa, pişirmeye hazır ve özel ambalajında −18 °C'de dondurulmuştur."
   },
   {
     "slugs": [

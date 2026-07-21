@@ -6,6 +6,7 @@ export interface SemiFinishedGroup {
 }
 
 export const SEMI_FINISHED_PRODUCT_GROUPS: SemiFinishedGroup[] = [
+  { labelKey: 'semiGroupSamsa6', filter: (slug) => slug.startsWith('frozen-samsa-') },
   { labelKey: 'semiGroupBorek6', filter: (slug) => slug.startsWith('frozen-borek-') },
   { labelKey: 'semiGroupMini16', filter: (slug) => slug.startsWith('mini-borek-') },
   { labelKey: 'semiGroupSarma', filter: (slug) => slug.startsWith('sarma-borek-') },
@@ -33,7 +34,12 @@ export function isSemiFinishedBorekProduct(slug: string): boolean {
   );
 }
 
+export function isFrozenSamsaProduct(slug: string): boolean {
+  return slug.startsWith('frozen-samsa-');
+}
+
 export function getSemiFinishedPackLabelKey(slug: string): string | null {
+  if (isFrozenSamsaProduct(slug)) return 'packLabel6';
   if (slug.startsWith('frozen-borek-')) return 'packLabel6';
   if (slug.startsWith('mini-borek-')) return 'packLabel16';
   if (slug.startsWith('sarma-borek-')) return 'packLabelSarma';
@@ -51,5 +57,10 @@ export function getSemiFinishedPackLabel(
 }
 
 export function showsSemiFinishedPackNote(slug: string): boolean {
-  return isSemiFinishedBorekProduct(slug) || slug === 'semi-waffle' || slug === 'semi-croissant';
+  return (
+    isFrozenSamsaProduct(slug) ||
+    isSemiFinishedBorekProduct(slug) ||
+    slug === 'semi-waffle' ||
+    slug === 'semi-croissant'
+  );
 }

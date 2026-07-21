@@ -111,6 +111,7 @@
     "stockLeft": "{count} adet kaldı",
     "clearanceLiveUntil": "İndirim {end}'e kadar",
     "clearanceStartsAt": "{start}–{end} arası %{percent} → {price}",
+    "semiGroupSamsa6": "Dondurulmuş samsalar · 6'lı paket",
     "semiGroupBorek6": "Börekler · 6'lı paket",
     "semiGroupMini16": "Mini börekler · 16'lı paket",
     "semiGroupSarma": "Sarma börekler · 1 adet",
@@ -120,7 +121,7 @@
     "packLabel16": "16'lı paket",
     "packLabel4": "4'lü paket",
     "packLabelSarma": "1 adet",
-    "semiFrozenNotice": "Börekler pişirmeye hazırdır ve −18 °C'de özel olarak dondurulur. Waffle pişmiş üründür — evde ısıtarak servis edin."
+    "semiFrozenNotice": "Samsa ve börekler pişirmeye hazırdır ve −18 °C'de özel olarak dondurulur. Waffle pişmiş üründür — evde ısıtarak servis edin."
   },
   "product": {
     "back": "Menüye dön",
