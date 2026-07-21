@@ -346,7 +346,28 @@
   {
     "slugs": ["eskimo-caramel", "eskimo-mini-caramel"],
     "names": ["caramel eskimo", "эскимо caramel", "эскимо", "eskimo"],
-    "image_url": "/products/cookies/eskimo.png"
+    "image_url": "/products/pirozhnye/eskimo-caramel.png",
+    "image_urls": ["/products/pirozhnye/eskimo-caramel-alt.png"]
+  },
+  {
+    "slugs": ["kartoshka-caramel"],
+    "image_url": "/products/pirozhnye/kartoshka-caramel.png",
+    "image_urls": ["/products/pirozhnye/kartoshka-caramel-alt.png"]
+  },
+  {
+    "slugs": ["kartoshka-dubai"],
+    "image_url": "/products/pirozhnye/kartoshka-dubai.png",
+    "image_urls": ["/products/pirozhnye/kartoshka-dubai-alt.png"]
+  },
+  {
+    "slugs": ["kartoshka-oreo"],
+    "image_url": "/products/pirozhnye/kartoshka-oreo.png",
+    "image_urls": ["/products/pirozhnye/kartoshka-oreo-alt.png"]
+  },
+  {
+    "slugs": ["kartoshka-strawberry"],
+    "image_url": "/products/pirozhnye/kartoshka-strawberry.png",
+    "image_urls": ["/products/pirozhnye/kartoshka-strawberry-alt.png"]
   },
   {
     "slugs": [
