@@ -427,6 +427,15 @@
   },
   {
     "slugs": [
+      "american-lotus"
+    ],
+    "image_url": "/products/american-cakes/lotus.png",
+    "image_urls": [
+      "/products/american-cakes/lotus-top.png"
+    ]
+  },
+  {
+    "slugs": [
       "ferrero-hazelnut-mousse"
     ],
     "names": [
@@ -435,6 +444,9 @@
       "ferrero fındık"
     ],
     "image_url": "/products/american-cakes/ferrero-hazelnut.png",
+    "image_urls": [
+      "/products/american-cakes/ferrero-hazelnut-detail.png"
+    ],
     "name_en": "Ferrero Musse Elite box",
     "name_ru": "Ferrero Musse Elite box",
     "name_kk": "Ferrero Musse Elite box",
