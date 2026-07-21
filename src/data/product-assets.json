@@ -394,6 +394,9 @@
       "mango hindistan cevizi mousse"
     ],
     "image_url": "/products/american-cakes/mango-coconut.png",
+    "image_urls": [
+      "/products/american-cakes/mango-coconut-detail.png"
+    ],
     "name_en": "Mango Musse Elite box",
     "name_ru": "Mango Musse Elite box",
     "name_kk": "Mango Musse Elite box",
@@ -402,6 +405,24 @@
     "description_ru": "Кокосовый мусс с манговой начинкой и манговым желе. Лёгкий, свежий и тропический вкус.",
     "description_kk": "Кокос муссы, манго начинкасы және манго желесі. Жеңіл, сергек, тропикалық дәм.",
     "description_tr": "Hindistan cevizi mus, mango dolgusu ve mango jölesi ile hafif, ferah ve tropikal bir lezzet."
+  },
+  {
+    "slugs": [
+      "american-tiramisu"
+    ],
+    "image_url": "/products/american-cakes/tiramisu.png",
+    "image_urls": [
+      "/products/american-cakes/tiramisu-top.png"
+    ]
+  },
+  {
+    "slugs": [
+      "american-strawberry-cake"
+    ],
+    "image_url": "/products/american-cakes/strawberry.png",
+    "image_urls": [
+      "/products/american-cakes/strawberry-top.png"
+    ]
   },
   {
     "slugs": [
