@@ -271,7 +271,10 @@
       "ahududulu art tatlı",
       "таңқурай"
     ],
-    "image_url": "/products/art-desserts/raspberry.png"
+    "image_url": "/products/art-desserts/raspberry.png",
+    "image_urls": [
+      "/products/art-desserts/raspberry-top.png"
+    ]
   },
   {
     "slugs": [
