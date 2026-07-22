@@ -610,7 +610,7 @@
       "шие брауни",
       "брауни вишневый"
     ],
-    "image_url": "/products/cherry-brownie.png",
+    "image_url": "/products/packaged-desserts/cherry-cube.png",
     "name_en": "Cherry Cube",
     "name_ru": "Cherry Cube",
     "name_kk": "Cherry Cube",
@@ -670,6 +670,26 @@
       "тирамису"
     ],
     "image_url": "/products/packaged-desserts/tiramisu.png"
+  },
+  {
+    "slugs": ["pack-lotus"],
+    "category": "packaged-desserts",
+    "names": ["lotus cube", "lotus", "лотус"],
+    "image_url": "/products/packaged-desserts/lotus-cube.png",
+    "name_en": "Lotus Cube",
+    "name_ru": "Lotus Cube",
+    "name_kk": "Lotus Cube",
+    "name_tr": "Lotus Cube"
+  },
+  {
+    "slugs": ["pack-crunch"],
+    "category": "packaged-desserts",
+    "names": ["crunch cube", "crunch", "кранч"],
+    "image_url": "/products/packaged-desserts/crunch-cube.png",
+    "name_en": "Crunch Cube",
+    "name_ru": "Crunch Cube",
+    "name_kk": "Crunch Cube",
+    "name_tr": "Crunch Cube"
   },
   {
     "slugs": [
