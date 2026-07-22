@@ -334,7 +334,20 @@
   {
     "slugs": ["kids-eskimo"],
     "names": ["kids eskimo", "детское эскимо"],
-    "image_url": "/product-placeholder.jpg"
+    "image_url": "/products/pirozhnye/kids-eskimo.png",
+    "description_en": "Kids Eskimo — 1 pc.",
+    "description_ru": "Kids Eskimo — 1 шт.",
+    "description_kk": "Kids Eskimo — 1 дана.",
+    "description_tr": "Kids Eskimo — 1 adet."
+  },
+  {
+    "slugs": ["kartoshka-pack-4"],
+    "names": ["potato asorti", "asorti potato", "картошка ассорти"],
+    "image_url": "/products/pirozhnye/kartoshka-asorti.png",
+    "description_en": "Potato Asorti — pack of 4.",
+    "description_ru": "Potato Asorti — упаковка 4 шт.",
+    "description_kk": "Potato Asorti — 4 даналық орама.",
+    "description_tr": "Potato Asorti — 4'lü paket."
   },
   {
     "slugs": ["eskimo-strawberry", "eskimo-mini-strawberry"],
