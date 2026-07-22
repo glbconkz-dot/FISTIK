@@ -5,13 +5,21 @@ const CATEGORY_COVER_IMAGES: Record<string, string> = {
   'american-cakes': '/products/american-cakes/lotus.png',
   'eclairs-mini': '/products/eclairs/mini/category-cover.png',
   'classic-round-cakes': '/products/classic-cakes/category-cover.png',
+  'art-desserts': '/products/art-desserts/category-cover.png',
+  pirozhnye: '/products/pirozhnye/category-cover.png',
 };
 
 /** Admin kapak seçicide görünen kategoriye özel yedek/kapak görselleri */
 export const CATEGORY_COVER_OPTIONS: Record<string, { url: string; label: string }[]> = {
   'classic-round-cakes': [
-    { url: '/products/classic-cakes/category-cover.png', label: 'Pastalar kapak 1' },
+    { url: '/products/classic-cakes/category-cover.png', label: 'Pastalar kapak' },
     { url: '/products/classic-cakes/category-cover-2.png', label: 'Pastalar kapak 2 (yedek)' },
+  ],
+  'art-desserts': [
+    { url: '/products/art-desserts/category-cover.png', label: 'Art ürünler kapak' },
+  ],
+  pirozhnye: [
+    { url: '/products/pirozhnye/category-cover.png', label: 'Mono Cake kapak' },
   ],
   'american-cakes': [
     { url: '/products/american-cakes/lotus.png', label: 'Lotus Elite box' },
