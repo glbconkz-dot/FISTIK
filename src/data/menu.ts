@@ -194,7 +194,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('eskimo-strawberry', 'pirozhnye', 'Strawberry Eskimo', 'Strawberry Eskimo', 'Strawberry Eskimo', 2, 'Strawberry Eskimo', 1100),
   product('eskimo-oreo', 'pirozhnye', 'Oreo Eskimo', 'Oreo Eskimo', 'Oreo Eskimo', 3, 'Oreo Eskimo', 1100),
   product('eskimo-caramel', 'pirozhnye', 'Caramel Eskimo', 'Caramel Eskimo', 'Caramel Eskimo', 4, 'Caramel Eskimo', 1100),
-  product('eskimo-mini-dubai', 'pirozhnye', 'Dubai Eskimo Mini', 'Дубайское Эскимо мини', 'Dubai Eskimo Mini', 5, 'Dubai Eskimo Mini', 550),
+  product('kids-eskimo', 'pirozhnye', 'Kids Eskimo', 'Kids Eskimo', 'Kids Eskimo', 5, 'Kids Eskimo', 550),
   product('eskimo-mini-strawberry', 'pirozhnye', 'Strawberry Eskimo Mini', 'Клубничное Эскимо мини', 'Strawberry Eskimo Mini', 6, 'Strawberry Eskimo Mini', 550),
   product('eskimo-mini-oreo', 'pirozhnye', 'Oreo Eskimo Mini', 'Oreo Эскимо мини', 'Oreo Eskimo Mini', 7, 'Oreo Eskimo Mini', 550),
   product('eskimo-mini-caramel', 'pirozhnye', 'Caramel Eskimo Mini', 'Карамельное Эскимо мини', 'Caramel Eskimo Mini', 8, 'Caramel Eskimo Mini', 550),

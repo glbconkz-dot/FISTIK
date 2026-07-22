@@ -21,7 +21,7 @@ export const B2B_PRICES_BY_SLUG: Record<string, number> = {
   'eskimo-strawberry': 850,
   'eskimo-oreo': 850,
   'eskimo-caramel': 850,
-  'eskimo-mini-dubai': 450,
+  'kids-eskimo': 450,
   'eskimo-mini-strawberry': 450,
   'eskimo-mini-oreo': 450,
   'eskimo-mini-caramel': 450,

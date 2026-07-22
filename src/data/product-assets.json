@@ -326,10 +326,15 @@
     "image_url": "/products/cookies/almond-kavala.png"
   },
   {
-    "slugs": ["eskimo-dubai", "eskimo-mini-dubai"],
+    "slugs": ["eskimo-dubai"],
     "names": ["dubai eskimo", "эскимо dubai"],
     "image_url": "/products/pirozhnye/eskimo-dubai.png",
     "image_urls": ["/products/pirozhnye/eskimo-dubai-alt.png"]
+  },
+  {
+    "slugs": ["kids-eskimo"],
+    "names": ["kids eskimo", "детское эскимо"],
+    "image_url": "/product-placeholder.jpg"
   },
   {
     "slugs": ["eskimo-strawberry", "eskimo-mini-strawberry"],
