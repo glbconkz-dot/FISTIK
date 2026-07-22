@@ -8,6 +8,7 @@ import {
   getCategoryGroupSlugs,
   productMatchesCategoryFilter,
 } from '@/lib/category-display';
+import { CATEGORY_COVER_OPTIONS } from '@/lib/category-utils';
 import { uploadAdminProductImage } from '@/lib/upload-admin-image';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
@@ -64,7 +65,14 @@ export function AdminCategoryList({
       const inCat = products
         .filter((p) => productMatchesCategoryFilter(p, cat.slug, allCategories))
         .sort((a, b) => a.sort_order - b.sort_order || a.name_en.localeCompare(b.name_en));
-      map.set(cat.id, uniqueCoverOptions(inCat, locale));
+      const fromProducts = uniqueCoverOptions(inCat, locale);
+      const presets = CATEGORY_COVER_OPTIONS[cat.slug] ?? [];
+      const seen = new Set(presets.map((p) => p.url));
+      const merged = [
+        ...presets,
+        ...fromProducts.filter((o) => !seen.has(o.url)),
+      ];
+      map.set(cat.id, merged);
     }
     return map;
   }, [categories, allCategories, products, locale]);

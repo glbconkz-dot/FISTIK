@@ -79,7 +79,7 @@ export const MENU_CATEGORIES: Category[] = [
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 7),
   category('cookies', 'Cookies', 'Печенья', 'Печеньелер', 'Kurabiyeler', 8),
   category('turtas', 'Turtas', 'Сладкие пироги', 'Тәтті пирогтар', 'Turtalar', 9),
-  category('classic-round-cakes', 'Gateau', 'Торты', 'Торттар', 'Yaş Pasta', 10),
+  category('classic-round-cakes', 'Gateau', 'Торты', 'Торттар', 'Yaş Pasta', 10, '/products/classic-cakes/category-cover.png'),
   category('pies', 'Pies', 'Пироги', 'Пирогтар', 'Piroglar', 11),
   category('boreks', 'Boreks', 'Бореки', 'Боректер', 'Börekler', 12),
   category('samsa', 'Samsa', 'Самса', 'Самса', 'Samsa', 13),

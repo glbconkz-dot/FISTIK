@@ -4,6 +4,21 @@ import type { Category, Product } from '@/types';
 const CATEGORY_COVER_IMAGES: Record<string, string> = {
   'american-cakes': '/products/american-cakes/lotus.png',
   'eclairs-mini': '/products/eclairs/mini/category-cover.png',
+  'classic-round-cakes': '/products/classic-cakes/category-cover.png',
+};
+
+/** Admin kapak seçicide görünen kategoriye özel yedek/kapak görselleri */
+export const CATEGORY_COVER_OPTIONS: Record<string, { url: string; label: string }[]> = {
+  'classic-round-cakes': [
+    { url: '/products/classic-cakes/category-cover.png', label: 'Pastalar kapak 1' },
+    { url: '/products/classic-cakes/category-cover-2.png', label: 'Pastalar kapak 2 (yedek)' },
+  ],
+  'american-cakes': [
+    { url: '/products/american-cakes/lotus.png', label: 'Lotus Elite box' },
+  ],
+  'eclairs-mini': [
+    { url: '/products/eclairs/mini/category-cover.png', label: 'Mini ekler kapak' },
+  ],
 };
 
 /** Supabase UUID veya local slug ile eslesme */
