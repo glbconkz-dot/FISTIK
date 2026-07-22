@@ -44,6 +44,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  // Admin image uploads no longer send file bodies through actions; keep headroom anyway.
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '8mb',
+    },
+  },
   headers: async () => [
     {
       source: '/:locale(kk|tr|ru|en)',

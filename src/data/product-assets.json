@@ -768,8 +768,9 @@
       "ред вельвет",
       "красный бархат"
     ],
-    "image_url": "/products/classic-cakes/red-velvet-cake.jpg",
+    "image_url": "/products/classic-cakes/red-velvet-cake-whole.png",
     "image_urls": [
+      "/products/classic-cakes/red-velvet-cake.jpg",
       "/products/classic-cakes/red-velvet-cake-top.jpg"
     ]
   },

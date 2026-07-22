@@ -205,6 +205,10 @@ export async function deleteProduct(
   }
 }
 
+/**
+ * @deprecated Use /api/admin/product-image-upload + browser upload.
+ * Kept only for rare legacy callers — large files will fail on Vercel.
+ */
 export async function uploadProductImage(formData: FormData): Promise<{ url: string }> {
   await requireAdmin();
 
@@ -215,6 +219,12 @@ export async function uploadProductImage(formData: FormData): Promise<{ url: str
 
   if (!file.type.startsWith('image/')) {
     throw new Error('Sadece resim dosyası yükleyin');
+  }
+
+  if (file.size > 4_000_000) {
+    throw new Error(
+      'Dosya çok büyük. Sayfayı yenileyin; yeni yükleme sistemi Storage’a doğrudan gider.'
+    );
   }
 
   const { tryCreateServiceClient } = await import('@/lib/supabase/service');

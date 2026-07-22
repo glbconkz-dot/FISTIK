@@ -2,10 +2,11 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
+import { deleteProduct, upsertProduct } from '@/app/actions/admin-products';
 import { findProductAsset } from '@/data/product-assets';
 import { getDisplayCategories } from '@/lib/category-display';
 import { isDrinksCategorySlug } from '@/lib/coffee';
+import { uploadAdminProductImage } from '@/lib/upload-admin-image';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
@@ -59,6 +60,7 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const [galleryUrls, setGalleryUrls] = useState<string[]>(initialExtras);
   const [uploading, setUploading] = useState(false);
   const [uploadNote, setUploadNote] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletePin, setDeletePin] = useState('');
@@ -84,10 +86,9 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const uploadFile = async (file: File, as: 'primary' | 'extra') => {
     setUploading(true);
     setUploadNote(null);
+    setUploadError(null);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const { url } = await uploadProductImage(formData);
+      const url = await uploadAdminProductImage(file);
       if (as === 'primary') {
         const previousPrimary = imageUrl;
         setImageUrl(url);
@@ -102,7 +103,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         setUploadNote('Ek resim eklendi — kaydetmek için Update product’a basın.');
       }
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Upload failed');
+      const message = err instanceof Error ? err.message : 'Upload failed';
+      setUploadError(message);
     } finally {
       setUploading(false);
     }
@@ -279,12 +281,18 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
         <p className="text-sm font-medium">Ürün resimleri</p>
         <p className="text-xs text-muted">
           Ana resmi değiştirmek için yeni dosya seçin, sonra <strong>Update product</strong> ile kaydedin.
-          2. / 3. fotoğraf için “Ek resim ekle” kullanın.
+          2. / 3. fotoğraf için “Ek resim ekle” kullanın. Büyük telefon fotoğrafları otomatik küçültülür.
+          iPhone HEIC yerine JPEG tercih edin.
         </p>
 
         <div>
           <label className="mb-1 block text-xs font-medium text-muted">Ana resim</label>
-          <input type="file" accept="image/*" onChange={handlePrimaryUpload} disabled={uploading} />
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
+            onChange={handlePrimaryUpload}
+            disabled={uploading}
+          />
           {isDrinksProduct ? (
             <p className="mt-1 text-xs text-muted">Öneri: dikey / portre çekim.</p>
           ) : null}
@@ -304,7 +312,12 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
 
         <div>
           <label className="mb-1 block text-xs font-medium text-muted">Ek resim ekle (2–3. foto)</label>
-          <input type="file" accept="image/*" onChange={handleExtraUpload} disabled={uploading} />
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
+            onChange={handleExtraUpload}
+            disabled={uploading}
+          />
         </div>
 
         {galleryUrls.length > 0 ? (
@@ -336,6 +349,7 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
 
         {uploading && <p className="text-sm text-muted">Yükleniyor…</p>}
         {uploadNote && <p className="text-sm text-accent">{uploadNote}</p>}
+        {uploadError && <p className="text-sm text-red-600">{uploadError}</p>}
       </div>
 
       <label className="flex items-center gap-2">
