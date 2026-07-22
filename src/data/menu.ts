@@ -73,7 +73,7 @@ export const MENU_CATEGORIES: Category[] = [
   category('eclairs-large', 'Large Eclairs', 'Эклеры', 'Эклерлер', 'Büyük Ekler', 1),
   category('eclairs-mini', 'Mini Eclairs', 'Мини-эклеры', 'Мини-эклерлер', 'Mini Ekler', 2),
   category('packaged-desserts', 'Cube Portion Desserts', 'Порционные торты в кубе', 'Кубтағы порциялық торттар', 'Küp Porsiyon Pastalar', 3),
-  category('american-cakes', 'Rectangular Box Cakes', 'Прямоугольные торты в боксах', 'Қораптағы тіктөртбұрышты торттар', 'Box Dikdörtgen Pastalar', 4, '/products/american-cakes/ferrero-hazelnut.png'),
+  category('american-cakes', 'Rectangular Box Cakes', 'Прямоугольные торты в боксах', 'Қораптағы тіктөртбұрышты торттар', 'Box Dikdörtgen Pastalar', 4, '/products/american-cakes/lotus.png'),
   category('art-desserts', 'Art Desserts', 'Арт-десерты', 'Арт-десерттер', 'Art Desserts', 5),
   category('pirozhnye', 'Pastries', 'Пирожные', 'Пирожныйлар', 'Mono Cakes', 6),
   category('tarts', 'Tarts', 'Тарты', 'Тарттар', 'Tartlar', 7),
