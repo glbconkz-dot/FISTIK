@@ -632,7 +632,7 @@
       "fıstıklı ahududulu",
       "фисташка-малина"
     ],
-    "image_url": "/products/pistachio-raspberry.png",
+    "image_url": "/products/packaged-desserts/pistachio-cube.png",
     "name_en": "Pistachio Cube",
     "name_ru": "Pistachio Cube",
     "name_kk": "Pistachio Cube",
@@ -651,7 +651,7 @@
       "oreo"
     ],
     "exact": true,
-    "image_url": "/products/oreo-dessert.png",
+    "image_url": "/products/packaged-desserts/oreo-cube.png",
     "name_en": "Oreo Cube",
     "name_ru": "Oreo Cube",
     "name_kk": "Oreo Cube",
@@ -669,7 +669,27 @@
       "tiramisu",
       "тирамису"
     ],
-    "image_url": "/products/packaged-desserts/tiramisu.png"
+    "image_url": "/products/packaged-desserts/tiramisu-cube.png"
+  },
+  {
+    "slugs": ["pack-strawberry-cake"],
+    "category": "packaged-desserts",
+    "names": ["strawberry cube", "strawberry", "клубничный"],
+    "image_url": "/products/packaged-desserts/strawberry-cube.png",
+    "name_en": "Strawberry Cube",
+    "name_ru": "Strawberry Cube",
+    "name_kk": "Strawberry Cube",
+    "name_tr": "Strawberry Cube"
+  },
+  {
+    "slugs": ["pack-meringue-cake"],
+    "category": "packaged-desserts",
+    "names": ["merenga cube", "meringue", "меренга"],
+    "image_url": "/products/packaged-desserts/merenga-cube.png",
+    "name_en": "Merenga Cube",
+    "name_ru": "Merenga Cube",
+    "name_kk": "Merenga Cube",
+    "name_tr": "Merenga Cube"
   },
   {
     "slugs": ["pack-lotus"],
