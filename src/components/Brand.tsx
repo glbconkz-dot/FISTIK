@@ -45,16 +45,19 @@ export function Logo({
 interface BrandWordmarkProps {
   className?: string;
   style?: CSSProperties;
+  /** sand: yeşil bant üzerinde; dark: kum beji zemin üzerinde */
+  tone?: 'sand' | 'dark';
 }
 
-export function BrandWordmark({ className = '', style }: BrandWordmarkProps) {
+export function BrandWordmark({ className = '', style, tone = 'sand' }: BrandWordmarkProps) {
   return (
     <Image
-      src="/logo-wordmark.png"
+      src={tone === 'dark' ? '/logo-wordmark-dark.png?v=1' : '/logo-wordmark.png?v=sand-2'}
       alt="Fistik"
       width={651}
       height={381}
       priority
+      unoptimized
       className={`h-14 w-auto object-contain sm:h-16 md:h-[4.25rem] ${className}`}
       style={style}
     />
@@ -105,20 +108,20 @@ export async function Footer({ locale }: FooterProps) {
         <div className="flex flex-col items-center gap-6 text-center md:flex-row md:items-start md:justify-between md:text-left">
           <div className="flex flex-col items-center md:items-start">
             <BrandWordmark className="h-16 sm:h-20" />
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-accent/85">{t('tagline')}</p>
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-cream/85">{t('tagline')}</p>
           </div>
 
-          <div className="text-sm leading-relaxed text-accent/90">
+          <div className="text-sm leading-relaxed text-cream/90">
             <p className="font-semibold">{address.legalName}</p>
-            <p className="text-accent/75">
+            <p className="text-cream/75">
               {address.idLabel} {BUSINESS.bin}
             </p>
             <div className="mt-3 space-y-4">
               {address.locations.map((location) => (
                 <div key={location.key}>
-                  <p className="font-medium text-accent">{location.label}</p>
+                  <p className="font-medium text-cream">{location.label}</p>
                   {location.lines.map((line) => (
-                    <p key={line} className="text-accent/85">
+                    <p key={line} className="text-cream/85">
                       {line}
                     </p>
                   ))}
@@ -131,7 +134,7 @@ export async function Footer({ locale }: FooterProps) {
                 href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-accent underline-offset-2 hover:underline"
+                className="font-medium text-cream underline-offset-2 hover:underline"
               >
                 {BUSINESS.phone}
               </a>
@@ -141,32 +144,32 @@ export async function Footer({ locale }: FooterProps) {
                 href={getInstagramLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-medium text-accent underline-offset-2 hover:underline"
+                className="inline-flex items-center gap-1 font-medium text-cream underline-offset-2 hover:underline"
               >
                 {t('instagramCta')}
               </a>
-              <span className="text-accent/75"> @{BUSINESS.instagram.handle}</span>
+              <span className="text-cream/75"> @{BUSINESS.instagram.handle}</span>
             </p>
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-accent/75">
+        <p className="mt-8 text-center text-xs text-cream/75">
           © {new Date().getFullYear()} Fistik ·{' '}
-          <Link href="/about" className="underline-offset-2 hover:text-accent hover:underline">
+          <Link href="/about" className="underline-offset-2 hover:text-cream hover:underline">
             {t('aboutLink')}
           </Link>
           {' · '}
-          <Link href="/contact" className="underline-offset-2 hover:text-accent hover:underline">
+          <Link href="/contact" className="underline-offset-2 hover:text-cream hover:underline">
             {t('contactLink')}
           </Link>
           {' · '}
-          <Link href="/b2b/login" className="underline-offset-2 hover:text-accent hover:underline">
+          <Link href="/b2b/login" className="underline-offset-2 hover:text-cream hover:underline">
             {t('b2bLink')}
           </Link>
           {' · '}
           <NextLink
             href="/admin/login"
-            className="underline-offset-2 hover:text-accent hover:underline"
+            className="underline-offset-2 hover:text-cream hover:underline"
           >
             {t('adminLink')}
           </NextLink>

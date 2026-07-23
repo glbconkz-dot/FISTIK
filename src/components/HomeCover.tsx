@@ -46,29 +46,38 @@ export function HomeCover({
     [inStock]
   );
 
+  const onSand = fullPage;
+
   return (
     <section
-      className={`home-cover relative overflow-x-hidden bg-brand px-4 sm:px-6 ${
+      className={`home-cover relative overflow-x-hidden px-4 sm:px-6 ${
+        onSand ? 'bg-sand' : 'bg-brand'
+      } ${
         fullPage
           ? 'rounded-none pb-6 pt-4 sm:pb-10 sm:pt-8'
           : '-mx-4 mb-10 rounded-b-[2rem] pb-8 pt-8 sm:-mx-0 sm:rounded-b-[2.5rem] sm:pb-10 sm:pt-10'
       }`}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
-        aria-hidden
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 20% 20%, #fff 0%, transparent 45%), radial-gradient(circle at 80% 0%, #fff 0%, transparent 35%)',
-        }}
-      />
+      {!onSand ? (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          aria-hidden
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, #fff 0%, transparent 45%), radial-gradient(circle at 80% 0%, #fff 0%, transparent 35%)',
+          }}
+        />
+      ) : null}
 
       <Reveal className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-2 text-center">
-        <BrandWordmark className={fullPage ? 'h-12 sm:h-20 md:h-24' : 'h-16 sm:h-20 md:h-24'} />
+        <BrandWordmark
+          tone={onSand ? 'dark' : 'sand'}
+          className={fullPage ? 'h-12 sm:h-20 md:h-24' : 'h-16 sm:h-20 md:h-24'}
+        />
         <p
-          className={`mt-2 max-w-md font-display font-semibold leading-snug text-accent sm:mt-3 ${
-            fullPage ? 'text-base sm:text-2xl' : 'text-xl sm:text-2xl'
-          }`}
+          className={`mt-2 max-w-md font-display font-semibold leading-snug sm:mt-3 ${
+            onSand ? 'text-accent' : 'text-cream'
+          } ${fullPage ? 'text-base sm:text-2xl' : 'text-xl sm:text-2xl'}`}
         >
           {t('coverTagline')}
         </p>

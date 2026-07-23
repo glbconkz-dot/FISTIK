@@ -6,7 +6,7 @@ interface CoverPageShellProps {
   children: ReactNode;
 }
 
-/** Kapak sayfasinda footer ve arka plan yesil tema */
+/** Kapak sayfasinda main genisligi / padding ayari */
 export function CoverPageShell({ children }: CoverPageShellProps) {
   useEffect(() => {
     document.body.dataset.page = 'cover';

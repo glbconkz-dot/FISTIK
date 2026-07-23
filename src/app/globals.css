@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --brand: #b8c97d;
-  --brand-dark: #9aad62;
+  /* Pantone Olive Branch 18-0527 TCX — sampled from swatch */
+  --brand: #696a3e;
+  --brand-dark: #555633;
   --background: #f7f5f0;
   --foreground: #3d2a14;
   --accent: #4a2c11;
@@ -10,7 +11,9 @@
   --muted: #7a6b58;
   --border: #e8e2d6;
   --cream: #faf8f4;
-  --pistachio-soft: rgba(184, 201, 125, 0.18);
+  /* Kum beji — ana kapak alt zemin */
+  --sand: #efe6d4;
+  --pistachio-soft: rgba(105, 106, 62, 0.18);
 }
 
 @theme inline {
@@ -23,6 +26,8 @@
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-pistachio-soft: var(--pistachio-soft);
   --font-display: var(--font-display-family), Georgia, serif;
   --font-sans: var(--font-body-family), system-ui, sans-serif;
 }
@@ -176,7 +181,7 @@ body[data-page='cover'] .cover-page-root {
 }
 
 .btn-outline:hover {
-  background: rgba(184, 201, 125, 0.25);
+  background: rgba(105, 106, 62, 0.25);
 }
 
 .input-field {
@@ -267,7 +272,7 @@ body[data-page='cover'] .cover-page-root {
   align-items: center;
   padding: 0 0.875rem;
   border-right: 1px solid var(--border);
-  background: rgba(184, 201, 125, 0.2);
+  background: rgba(105, 106, 62, 0.2);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--foreground);

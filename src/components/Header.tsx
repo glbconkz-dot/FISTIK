@@ -43,8 +43,8 @@ export function Header() {
                 className={cn(
                   'rounded-full px-4 py-2 text-sm font-medium transition-colors',
                   pathname === href || pathname.startsWith(`${href}/`)
-                    ? 'bg-accent text-surface'
-                    : 'text-accent/80 hover:text-accent'
+                    ? 'bg-cream/95 text-accent'
+                    : 'text-cream/90 hover:bg-cream/15 hover:text-cream'
                 )}
               >
                 {t(key)}
