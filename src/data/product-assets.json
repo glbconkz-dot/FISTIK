@@ -397,7 +397,10 @@
       "етli pirog",
       "мясной"
     ],
-    "image_url": "/products/pies/meat.png"
+    "image_url": "/products/pies/meat.png",
+    "image_urls": [
+      "/products/pies/meat-slice.png"
+    ]
   },
   {
     "slugs": [
@@ -409,7 +412,10 @@
       "тауокlu",
       "курин"
     ],
-    "image_url": "/products/pies/chicken.png"
+    "image_url": "/products/pies/chicken.png",
+    "image_urls": [
+      "/products/pies/chicken-slice.png"
+    ]
   },
   {
     "slugs": [
@@ -421,7 +427,22 @@
       "шпинат",
       "спанак"
     ],
-    "image_url": "/products/pies/spinach-cheese.png"
+    "image_url": "/products/pies/spinach-cheese.png",
+    "image_urls": [
+      "/products/pies/spinach-cheese-slice.png"
+    ]
+  },
+  {
+    "slugs": [
+      "pie-cheese"
+    ],
+    "names": [
+      "peynirli pirog",
+      "cheese pie",
+      "сырный",
+      "сырлы"
+    ],
+    "image_url": "/products/pies/cheese.png"
   },
   {
     "slugs": [
