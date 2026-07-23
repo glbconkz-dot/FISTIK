@@ -6,6 +6,7 @@ const CATEGORY_COVER_IMAGES: Record<string, string> = {
   'eclairs-mini': '/products/eclairs/mini/category-cover.png',
   'classic-round-cakes': '/products/classic-cakes/category-cover.png',
   'art-desserts': '/products/art-desserts/category-cover.png',
+  'packaged-desserts': '/products/packaged-desserts/category-cover.png',
   pirozhnye: '/products/pirozhnye/category-cover.png',
 };
 
@@ -14,6 +15,9 @@ export const CATEGORY_COVER_OPTIONS: Record<string, { url: string; label: string
   'classic-round-cakes': [
     { url: '/products/classic-cakes/category-cover.png', label: 'Pastalar kapak' },
     { url: '/products/classic-cakes/category-cover-2.png', label: 'Pastalar kapak 2 (yedek)' },
+  ],
+  'packaged-desserts': [
+    { url: '/products/packaged-desserts/category-cover.png', label: 'Cube kapak' },
   ],
   'art-desserts': [
     { url: '/products/art-desserts/category-cover.png', label: 'Art ürünler kapak' },
