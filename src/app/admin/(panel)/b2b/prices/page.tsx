@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getCatalogData } from '@/lib/catalog';
+import { applyProductAssets } from '@/data/product-assets';
 import { isB2BAdminGateOpen } from '@/app/actions/b2b-admin';
 import { listProductsForB2BPricing } from '@/app/actions/b2b-prices';
 import { B2BAdminGate } from '@/components/admin/B2BAdminGate';
@@ -24,7 +25,8 @@ export default async function AdminB2BPricesPage() {
   ]);
 
   const retailById = new Map(catalog.products.map((p) => [p.id, p.price]));
-  const productsWithRetail = products.map((p) => ({
+  const productsWithAssets = applyProductAssets(products, catalog.categories);
+  const productsWithRetail = productsWithAssets.map((p) => ({
     ...p,
     price: retailById.get(p.id) ?? p.price,
   }));
