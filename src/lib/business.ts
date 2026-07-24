@@ -22,8 +22,8 @@ export type OrderChannel = 'b2c' | 'b2b';
  * Şube / kanal hatları (sabit).
  * B2C sipariş WhatsApp hedefi: NEXT_PUBLIC_B2C_ORDER_BRANCH=kaskelen|almaty
  *   (şimdi kaskelen; Almatı satışa hazır olunca almaty)
- * Opsiyonel override: NEXT_PUBLIC_WHATSAPP_NUMBER
- * B2B override: NEXT_PUBLIC_B2B_WHATSAPP_NUMBER
+ * Opsiyonel B2C override: NEXT_PUBLIC_WHATSAPP_NUMBER
+ * B2B sipariş hattı kodda sabit (+77010995573) — eski Vercel env sapmasını engeller
  */
 export const BRANCH_WHATSAPP: Record<
   BranchKey,
@@ -74,8 +74,8 @@ function getB2cOrderDigits(): string {
 }
 
 function getB2bOrderDigits(): string {
-  const override = process.env.NEXT_PUBLIC_B2B_WHATSAPP_NUMBER?.trim();
-  if (override) return normalizeKzWhatsAppDigits(override);
+  // B2B sipariş hattı sabit: +77010995573
+  // (Vercel'de eski NEXT_PUBLIC_B2B_WHATSAPP_NUMBER kalsa bile yanlış numaraya düşmesin)
   return B2B_WHATSAPP_DIGITS_DEFAULT;
 }
 
