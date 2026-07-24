@@ -241,14 +241,17 @@
   "contact": {
     "title": "Contact",
     "description": "Get in touch with FISTIK",
-    "intro": "For orders, special requests or questions.",
-    "address": "Address",
+    "intro": "For orders, special requests or questions. Retail orders are placed on the website and confirmed on WhatsApp.",
+    "orderWhatsApp": "Order WhatsApp (retail)",
+    "orderWhatsAppHint": "Currently the {branch} line — your web order goes to this number.",
+    "address": "Address & branch lines",
     "hours": "Opening hours",
     "hoursValue": "Daily 09:00 – 21:00. Delivery time confirmed after order approval."
   },
   "footer": {
     "tagline": "Almaty sales branch & Kaskelen production — handcrafted cakes and pastries.",
     "phone": "Tel",
+    "orderWhatsApp": "Order WhatsApp",
     "instagramCta": "Back to Instagram",
     "aboutLink": "About",
     "contactLink": "Contact",

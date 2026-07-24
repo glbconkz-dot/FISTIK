@@ -1,5 +1,8 @@
 import { formatPhoneForDisplay } from '@/lib/checkout';
-import { getWhatsAppLink } from '@/lib/business';
+import {
+  getB2cFulfillmentBranchLabel,
+  getWhatsAppLink,
+} from '@/lib/business';
 import { formatOrderDateTime } from '@/lib/order-dates';
 import { formatPrice } from '@/lib/utils';
 import type { CartItem, Locale } from '@/types';
@@ -23,6 +26,8 @@ const labels: Record<
   Locale,
   {
     title: string;
+    channel: string;
+    branch: string;
     orderNo: string;
     orderTime: string;
     customer: string;
@@ -40,6 +45,8 @@ const labels: Record<
 > = {
   tr: {
     title: 'FISTIK — Yeni Sipariş',
+    channel: 'Perakende (B2C)',
+    branch: 'Şube hattı',
     orderNo: 'Sipariş No',
     orderTime: 'Sipariş saati',
     customer: 'Müşteri',
@@ -56,6 +63,8 @@ const labels: Record<
   },
   ru: {
     title: 'FISTIK — Новый заказ',
+    channel: 'Розница (B2C)',
+    branch: 'Линия филиала',
     orderNo: '№ заказа',
     orderTime: 'Время заказа',
     customer: 'Клиент',
@@ -72,6 +81,8 @@ const labels: Record<
   },
   kk: {
     title: 'FISTIK — Жаңа тапсырыс',
+    channel: 'Бөлшек (B2C)',
+    branch: 'Филиал желісі',
     orderNo: 'Тапсырыс №',
     orderTime: 'Тапсырыс уақыты',
     customer: 'Клиент',
@@ -88,6 +99,8 @@ const labels: Record<
   },
   en: {
     title: 'FISTIK — New Order',
+    channel: 'Retail (B2C)',
+    branch: 'Branch line',
     orderNo: 'Order No',
     orderTime: 'Order time',
     customer: 'Customer',
@@ -140,17 +153,21 @@ export function buildWhatsAppMessage(payload: WhatsAppOrderPayload): string {
 
   const l = labels[locale];
   const phoneDisplay = formatPhoneForDisplay(phone);
+  const branchLabel = getB2cFulfillmentBranchLabel(locale);
 
   const productLines = items.map((item, i) => {
     const subtotal = item.price * item.quantity;
     return `${i + 1}. ${item.name}  x${item.quantity}  —  ${formatPrice(subtotal)}`;
   });
 
-  const localeTag = locale === 'tr' ? 'tr-TR' : locale === 'ru' ? 'ru-RU' : locale === 'kk' ? 'kk-KZ' : 'en-GB';
+  const localeTag =
+    locale === 'tr' ? 'tr-TR' : locale === 'ru' ? 'ru-RU' : locale === 'kk' ? 'kk-KZ' : 'en-GB';
 
   const blocks: string[] = [
     [
-      `🎂 *${l.title}*`,
+      `*${l.title}*`,
+      field(l.channel, 'B2C'),
+      field(l.branch, branchLabel),
       field(l.orderNo, orderNumber),
       field(l.orderTime, formatOrderDateTime(orderPlacedAt, localeTag)),
     ]

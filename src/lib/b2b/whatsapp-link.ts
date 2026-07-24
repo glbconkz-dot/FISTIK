@@ -1,19 +1,14 @@
-function getB2BWhatsAppDigitsRaw(): string {
-  const digits = (
-    process.env.NEXT_PUBLIC_B2B_WHATSAPP_NUMBER ??
-    '77014537575'
-  ).replace(/\D/g, '');
+import {
+  buildWhatsAppWaMeUrl,
+  getOrderWhatsAppDigits,
+  normalizeKzWhatsAppDigits,
+} from '@/lib/business';
 
-  if (digits.length === 10) return `7${digits}`;
-  return digits;
-}
-
+/** B2B sipariş WhatsApp hattı (+77010995573; env ile override) */
 export function getB2BWhatsAppDigitsForLink(): string {
-  return getB2BWhatsAppDigitsRaw();
+  return getOrderWhatsAppDigits('b2b');
 }
 
 export function getB2BWhatsAppLink(message?: string): string {
-  const base = `https://wa.me/${getB2BWhatsAppDigitsRaw()}`;
-  if (!message) return base;
-  return `${base}?text=${encodeURIComponent(message)}`;
+  return buildWhatsAppWaMeUrl(normalizeKzWhatsAppDigits(getB2BWhatsAppDigitsForLink()), message);
 }

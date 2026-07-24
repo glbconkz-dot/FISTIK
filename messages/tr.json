@@ -241,14 +241,17 @@
   "contact": {
     "title": "İletişim",
     "description": "FISTIK ile iletişime geçin",
-    "intro": "Sipariş, özel talep veya sorularınız için bize ulaşın.",
-    "address": "Adres",
+    "intro": "Sipariş, özel talep veya sorularınız için bize ulaşın. Perakende siparişler siteden verilir; WhatsApp ile onaylanır.",
+    "orderWhatsApp": "Sipariş WhatsApp (perakende)",
+    "orderWhatsAppHint": "Şu an {branch} hattı — web siparişiniz bu numaraya düşer.",
+    "address": "Adres ve şube hatları",
     "hours": "Çalışma saatleri",
     "hoursValue": "Her gün 09:00 – 21:00. Teslimat saati sipariş onayından sonra bildirilir."
   },
   "footer": {
     "tagline": "Almatı satış şubesi ve Kaskelen üretim noktası — el yapımı pastalar ve unlu mamuller.",
     "phone": "Tel",
+    "orderWhatsApp": "Sipariş WhatsApp",
     "instagramCta": "Instagram'a dön",
     "aboutLink": "Hakkımızda",
     "contactLink": "İletişim",

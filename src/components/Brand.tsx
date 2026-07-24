@@ -125,11 +125,21 @@ export async function Footer({ locale }: FooterProps) {
                       {line}
                     </p>
                   ))}
+                  <p className="mt-1">
+                    <a
+                      href={`https://wa.me/${location.phoneWhatsApp}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-cream underline-offset-2 hover:underline"
+                    >
+                      {location.phoneDisplay}
+                    </a>
+                  </p>
                 </div>
               ))}
             </div>
-            <p className="mt-4">
-              {t('phone')}:{' '}
+            <p className="mt-4 text-cream/75">
+              {t('orderWhatsApp')}:{' '}
               <a
                 href={getWhatsAppLink()}
                 target="_blank"
