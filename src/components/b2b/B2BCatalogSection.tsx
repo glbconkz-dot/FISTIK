@@ -16,7 +16,7 @@ function B2BCatalogSectionInner(props: B2BCatalogSectionProps) {
 
 export function B2BCatalogSection(props: B2BCatalogSectionProps) {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div className="mt-10 min-h-[50vh]" aria-hidden />}>
       <B2BCatalogSectionInner {...props} />
     </Suspense>
   );

@@ -1,16 +1,16 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { productMatchesCategoryFilter } from '@/lib/category-display';
+import { scrollToCatalogProducts, CATALOG_PRODUCTS_ID } from '@/lib/catalog-scroll';
 import { groupSemiFinishedProducts } from '@/lib/semi-finished-groups';
 import { useLiveStockPatch } from '@/hooks/use-live-stock-patch';
-import type { Category, Product } from '@/types';
-import type { Locale } from '@/types';
+import type { Category, Locale, Product } from '@/types';
 
 export function normalizeCategoryParam(cat: string | null): string | null {
   if (!cat) return null;
@@ -27,21 +27,39 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
   const t = useTranslations('catalog');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const selectedCategory = normalizeCategoryParam(searchParams.get('cat'));
+  const urlCategory = normalizeCategoryParam(searchParams.get('cat'));
+
+  /** Chip tıklanınca anında filtre; URL yetişince temizlenir */
+  const [overrideCategory, setOverrideCategory] = useState<string | null | undefined>(undefined);
+  const selectedCategory = overrideCategory !== undefined ? overrideCategory : urlCategory;
+  const skipInitialScroll = useRef(urlCategory == null);
 
   const liveProducts = useLiveStockPatch(products);
 
-  // Product detail “back” lands on /menu?cat=… — jump to that category’s product grid.
   useEffect(() => {
-    if (!selectedCategory) return;
-    requestAnimationFrame(() => {
-      document.getElementById('all-products')?.scrollIntoView({ block: 'start', behavior: 'instant' });
-    });
+    setOverrideCategory(undefined);
+  }, [urlCategory]);
+
+  useEffect(() => {
+    const prev = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => {
+      window.history.scrollRestoration = prev;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (skipInitialScroll.current) {
+      skipInitialScroll.current = false;
+      return;
+    }
+    scrollToCatalogProducts();
   }, [selectedCategory]);
 
   const selectCategory = useCallback(
     (slug: string | null) => {
-      const opts = { scroll: false };
+      setOverrideCategory(slug);
+      const opts = { scroll: false } as const;
       if (slug) {
         router.replace({ pathname: '/menu', query: { cat: slug } }, opts);
       } else {
@@ -69,7 +87,7 @@ export function CatalogClient({ products, categories, locale }: CatalogClientPro
   );
 
   return (
-    <section id="all-products" className="mt-10 scroll-mt-24">
+    <section id={CATALOG_PRODUCTS_ID} className="mt-10 scroll-mt-24">
       <h2 className="section-title mb-5">{t('allProducts')}</h2>
       <CategoryFilter
         categories={categories}

@@ -1,12 +1,13 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/routing';
 import { B2BProductCard } from '@/components/b2b/B2BProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { productMatchesCategoryFilter } from '@/lib/category-display';
+import { scrollToCatalogProducts, CATALOG_PRODUCTS_ID } from '@/lib/catalog-scroll';
 import { groupSemiFinishedProducts } from '@/lib/semi-finished-groups';
 import type { Category, Locale, Product } from '@/types';
 
@@ -26,11 +27,35 @@ export function B2BCatalogClient({ products, categories, locale }: B2BCatalogCli
   const tB2b = useTranslations('b2b.catalog');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const selectedCategory = normalizeB2BCategoryParam(searchParams.get('cat'));
+  const urlCategory = normalizeB2BCategoryParam(searchParams.get('cat'));
+  const [overrideCategory, setOverrideCategory] = useState<string | null | undefined>(undefined);
+  const selectedCategory = overrideCategory !== undefined ? overrideCategory : urlCategory;
+  const skipInitialScroll = useRef(urlCategory == null);
+
+  useEffect(() => {
+    setOverrideCategory(undefined);
+  }, [urlCategory]);
+
+  useEffect(() => {
+    const prev = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => {
+      window.history.scrollRestoration = prev;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (skipInitialScroll.current) {
+      skipInitialScroll.current = false;
+      return;
+    }
+    scrollToCatalogProducts();
+  }, [selectedCategory]);
 
   const selectCategory = useCallback(
     (slug: string | null) => {
-      const opts = { scroll: false };
+      setOverrideCategory(slug);
+      const opts = { scroll: false } as const;
       if (slug) {
         router.replace({ pathname: '/b2b/menu', query: { cat: slug } }, opts);
       } else {
@@ -58,7 +83,7 @@ export function B2BCatalogClient({ products, categories, locale }: B2BCatalogCli
   );
 
   return (
-    <section id="all-products" className="mt-10 scroll-mt-24">
+    <section id={CATALOG_PRODUCTS_ID} className="mt-10 scroll-mt-24">
       <h2 className="section-title mb-5">{t('allProducts')}</h2>
       <p className="mb-4 text-sm text-muted">{tB2b('stockNote')}</p>
       <CategoryFilter

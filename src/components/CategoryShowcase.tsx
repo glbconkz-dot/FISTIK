@@ -18,12 +18,6 @@ interface CategoryShowcaseProps {
   menuPath?: '/menu' | '/b2b/menu';
 }
 
-function scrollToProducts() {
-  requestAnimationFrame(() => {
-    document.getElementById('all-products')?.scrollIntoView({ block: 'start', behavior: 'instant' });
-  });
-}
-
 export function CategoryShowcase({
   categories,
   products,
@@ -46,16 +40,16 @@ export function CategoryShowcase({
   if (active.length === 0 && !showDrinksTile) return null;
 
   const openCategory = (slug: string) => {
-    const href = { pathname: menuPath, query: { cat: slug } };
-    const opts = { scroll: false };
+    const href = { pathname: menuPath, query: { cat: slug } } as const;
+    const opts = { scroll: false } as const;
 
+    // Aynı sayfada sadece URL güncelle — scroll’u CatalogClient layout sonrası yapsın
+    // (erken scroll + ürün listesi yüksekliği değişimi “eski yere dön” hissi yaratıyordu)
     if (pathname === menuPath) {
       router.replace(href, opts);
     } else {
       router.push(href, opts);
     }
-
-    scrollToProducts();
   };
 
   return (

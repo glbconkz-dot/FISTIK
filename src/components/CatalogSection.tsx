@@ -17,7 +17,9 @@ function CatalogSectionInner(props: CatalogSectionProps) {
 
 export function CatalogSection(props: CatalogSectionProps) {
   return (
-    <Suspense fallback={null}>
+    <Suspense
+      fallback={<div className="mt-10 min-h-[50vh]" aria-hidden />}
+    >
       <CatalogSectionInner {...props} />
     </Suspense>
   );
