@@ -1,5 +1,24 @@
 # FISTIK — Kaldığımız Yer (Devam Notları)
-> Son güncelleme: 23 Haziran 2026 (akşam)
+> Son güncelleme: 28 Temmuz 2026
+
+---
+
+## Ürün yönü (kayıt)
+
+- **Operasyon / yönetim** giderek **admin panel** üzerinden yürütülüyor (siparişler, B2B fiyatlar, ürünler, vitrin).
+- **Sonraki adım:** aynı altyapı üzerinde **mobil uygulama** (müşteri + gerekirse B2B) — henüz ayrı repo yok; API/katalog Supabase + Next ile uyumlu kalacak şekilde planlanmalı.
+
+---
+
+## Son oturumda bitenler (28 Temmuz)
+
+- **www SSL:** `www.fistik.kz` Vercel’e eklendi; sertifika düzeldi. `www` → `fistik.kz` yönlendirmesi (`acfabf3`).
+- **Menü kategori geçişi:** scroll zıplaması / eski liste (`813f248`).
+- **WhatsApp hatları:** B2C Kaskelen, B2B `77010995573`, Almatı şube numaraları (`e287e03`, `f28da8b`); Vercel env B2B güncellendi.
+- **B2B admin fiyat listesi** görselleri (`53dfc4e`); **B2B header** krem metin (`d515483`).
+- **Pirog fotoğrafları** isimle yerleştirildi (`a6d8602`).
+
+Git: `main` = `origin/main` (temiz working tree; yalnızca yerel yardımcı script’ler untracked olabilir).
 
 ---
 
