@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteProduct, upsertProduct } from '@/app/actions/admin-products';
-import { findProductAsset } from '@/data/product-assets';
+import { findProductAsset, hasDbPrimaryImage } from '@/data/product-assets';
 import { getDisplayCategories } from '@/lib/category-display';
 import { isDrinksCategorySlug } from '@/lib/coffee';
 import { uploadAdminProductImage } from '@/lib/upload-admin-image';
@@ -52,6 +52,8 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
   const initialExtras = useMemo(() => {
     const fromDb = product?.image_urls ?? [];
     if (fromDb.length > 0) return uniqueUrls(fromDb);
+    // Ana resim DB’de varsa static galeriyi forma basma (silinmiş gibi geri gelmesin)
+    if (hasDbPrimaryImage(product?.image_url)) return [];
     const fromAsset = (asset?.image_urls ?? []).filter(Boolean);
     return uniqueUrls(fromAsset);
   }, [product, asset]);
