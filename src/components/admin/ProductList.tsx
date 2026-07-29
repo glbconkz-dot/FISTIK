@@ -9,6 +9,7 @@ import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
 import { getLocalizedName } from '@/lib/utils';
+import { getProductGallery } from '@/lib/product-gallery';
 import type { Category, Product } from '@/types';
 
 interface ProductListProps {
@@ -147,6 +148,8 @@ export function ProductList({ products, categories }: ProductListProps) {
     const stock = parseStockInput(stockInputs[product.id] ?? '0');
     const outOfStock = stock <= 0;
     const displayName = getLocalizedProductName(product, locale);
+    const thumb = getProductGallery(product)[0] ?? '';
+    const galleryCount = getProductGallery(product).length;
 
     return (
       <div
@@ -154,9 +157,9 @@ export function ProductList({ products, categories }: ProductListProps) {
         className="luxury-card flex flex-wrap items-center gap-2.5 p-2.5 sm:gap-3 sm:p-3"
       >
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-border/30">
-          {product.image_url ? (
+          {thumb ? (
             <Image
-              src={product.image_url}
+              src={thumb}
               alt={displayName}
               fill
               className="object-cover"
@@ -165,9 +168,9 @@ export function ProductList({ products, categories }: ProductListProps) {
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-accent">F</div>
           )}
-          {product.image_urls && product.image_urls.length > 1 ? (
+          {galleryCount > 1 ? (
             <span className="absolute bottom-0 inset-x-0 bg-black/55 text-center text-[9px] font-semibold text-white">
-              {product.image_urls.length}
+              {galleryCount}
             </span>
           ) : null}
         </div>

@@ -6,6 +6,7 @@ import { Link } from '@/i18n/routing';
 import { Reveal } from '@/components/ui/Reveal';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { getLocalizedName } from '@/lib/utils';
+import { getProductGallery } from '@/lib/product-gallery';
 import { getProductImageClasses } from '@/lib/product-image';
 import type { Locale, Product } from '@/types';
 
@@ -46,17 +47,19 @@ export function CoverProductGrid({
           const name = getLocalizedName(product, locale);
           const stock = Number(product.stock_quantity ?? 0);
           const outOfStock = stock <= 0;
+          const coverSrc = getProductGallery(product)[0] ?? '';
+          const imageClasses = getProductImageClasses(product.slug, coverSrc || product.image_url);
 
           return (
             <Link key={product.id} href={`/product/${product.slug}`} className="cover-product-card group">
-              <div className={`cover-product-photo ${getProductImageClasses(product.slug, product.image_url).container}`}>
-                {product.image_url ? (
+              <div className={`cover-product-photo ${imageClasses.container}`}>
+                {coverSrc ? (
                   <Image
-                    src={product.image_url}
+                    src={coverSrc}
                     alt={name}
                     fill
                     priority={i < 2}
-                    className={`${getProductImageClasses(product.slug, product.image_url).image} object-center transition-transform duration-500 group-hover:scale-[1.03]`}
+                    className={`${imageClasses.image} object-center transition-transform duration-500 group-hover:scale-[1.03]`}
                     sizes="(max-width: 640px) 45vw, 180px"
                   />
                 ) : (

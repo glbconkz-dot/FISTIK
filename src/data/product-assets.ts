@@ -143,9 +143,10 @@ export function applyProductAsset(
   const dbExtras = (product.image_urls ?? [])
     .map((u) => u?.trim())
     .filter((u): u is string => Boolean(u) && u !== dbImage);
+  /** null/undefined = legacy; [] = admin galeriyi bilinçli yönetmiş (boş dahil) */
+  const hasExplicitGalleryField = Array.isArray(product.image_urls);
 
-  // DB’de gerçek ana resim varsa yalnızca DB galerisi — static sızıntı yok
-  // (admin silinen eski /products/... dosyaları canlıya geri eklenmesin)
+  // DB’de gerçek ana resim varsa yalnızca DB — static sızıntı yok
   if (hasDbPrimaryImage(dbImage)) {
     return {
       ...product,
@@ -155,8 +156,18 @@ export function applyProductAsset(
     };
   }
 
+  // Admin ana/galeriyi boşaltmışsa static’i geri getirme
+  if (hasExplicitGalleryField) {
+    return {
+      ...product,
+      ...updates,
+      image_url: '',
+      image_urls: dbExtras,
+    };
+  }
+
   if (gallery.length > 0) {
-    // Placeholder / boş: yalnızca henüz admin yüklemesi yoksa static fallback
+    // Yerel katalog / henüz image_urls kullanılmayan satırlar
     updates.image_url = gallery[0];
     updates.image_urls = [
       ...new Set([

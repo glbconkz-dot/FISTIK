@@ -8,6 +8,7 @@ import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
 import { getSemiFinishedPackLabel } from '@/lib/semi-finished-groups';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
+import { getProductGallery } from '@/lib/product-gallery';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
@@ -93,6 +94,7 @@ export function B2BPriceList({ products, categories, b2bPrices }: B2BPriceListPr
     const hasB2b = b2bPrices[product.id] != null;
     const displayName = getLocalizedProductName(product, locale);
     const packLabel = getSemiFinishedPackLabel(product.slug, (key) => t(key as 'packLabel6'));
+    const thumb = getProductGallery(product)[0] ?? '';
 
     return (
       <div
@@ -100,8 +102,8 @@ export function B2BPriceList({ products, categories, b2bPrices }: B2BPriceListPr
         className="luxury-card flex flex-wrap items-center gap-2.5 p-2.5 sm:gap-3 sm:p-3"
       >
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-border/30">
-          {product.image_url ? (
-            <Image src={product.image_url} alt={displayName} fill className="object-cover" sizes="40px" />
+          {thumb ? (
+            <Image src={thumb} alt={displayName} fill className="object-cover" sizes="40px" />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-accent">F</div>
           )}

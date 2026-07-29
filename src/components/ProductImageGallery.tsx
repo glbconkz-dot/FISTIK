@@ -44,6 +44,10 @@ export function ProductImageGallery({
   const imageClasses = getProductImageClasses(product.slug, current || product.image_url);
   const multi = images.length > 1;
 
+  useEffect(() => {
+    setIndex(0);
+  }, [product.id, images.join('|')]);
+
   const go = useCallback(
     (next: number) => {
       if (!multi) return;
@@ -207,7 +211,7 @@ export function ProductImageGallery({
           ) : null}
         </div>
 
-        {multi && variant === 'detail' ? (
+        {variant === 'detail' && images.length > 0 ? (
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
             {images.map((url, i) => (
               <button

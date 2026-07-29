@@ -7,6 +7,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { getLocalizedDescription, getLocalizedName } from '@/lib/utils';
+import { getProductGallery } from '@/lib/product-gallery';
 import { getProductImageClasses } from '@/lib/product-image';
 import type { Locale, Product } from '@/types';
 
@@ -50,7 +51,8 @@ export function CuratedSection({
           const description = getLocalizedDescription(product, locale);
           const stock = Number(product.stock_quantity ?? 0);
           const outOfStock = stock <= 0;
-          const imageClasses = getProductImageClasses(product.slug, product.image_url);
+          const imageSrc = getProductGallery(product)[0] ?? '';
+          const imageClasses = getProductImageClasses(product.slug, imageSrc || product.image_url);
 
           return (
             <Link
@@ -62,10 +64,10 @@ export function CuratedSection({
             >
               <article className="luxury-card overflow-hidden transition-transform duration-300 group-hover:-translate-y-1">
                 <div className={`relative aspect-[3/4] overflow-hidden ${imageClasses.container}`}>
-                  {product.image_url ? (
+                  {imageSrc ? (
                     <div className={imageClasses.frame}>
                       <Image
-                        src={product.image_url}
+                        src={imageSrc}
                         alt={name}
                         fill
                         className={imageClasses.imageCard}

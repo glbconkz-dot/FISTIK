@@ -92,17 +92,13 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
     try {
       const url = await uploadAdminProductImage(file);
       if (as === 'primary') {
-        const previousPrimary = imageUrl;
+        // Eski ana resmi galeriye otomatik taşınmaz — temiz değişim
         setImageUrl(url);
-        if (previousPrimary && previousPrimary !== url) {
-          setGalleryUrls((prev) =>
-            uniqueUrls([previousPrimary, ...prev.filter((u) => u !== url)])
-          );
-        }
-        setUploadNote('Ana resim yüklendi — kaydetmek için Update product’a basın.');
+        setGalleryUrls((prev) => prev.filter((u) => u !== url));
+        setUploadNote('Ana resim değiştirildi — Update product ile kaydedin.');
       } else {
         setGalleryUrls((prev) => uniqueUrls([...prev, url]).slice(0, 4));
-        setUploadNote('Ek resim eklendi — kaydetmek için Update product’a basın.');
+        setUploadNote('Ek resim eklendi — Update product ile kaydedin.');
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Upload failed';
@@ -128,13 +124,29 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
 
   const makePrimary = (url: string) => {
     if (!url || url === imageUrl) return;
-    setGalleryUrls((prev) => uniqueUrls([imageUrl, ...prev.filter((u) => u !== url)]));
+    setGalleryUrls((prev) => {
+      const without = prev.filter((u) => u !== url);
+      return uniqueUrls(imageUrl ? [imageUrl, ...without] : without);
+    });
     setImageUrl(url);
     setUploadNote('Ana resim değiştirildi — kaydetmeyi unutmayın.');
   };
 
   const removeExtra = (url: string) => {
     setGalleryUrls((prev) => prev.filter((u) => u !== url));
+    setUploadNote('Ek resim kaldırıldı — Update product ile kaydedin.');
+  };
+
+  const clearPrimary = () => {
+    if (!imageUrl) return;
+    setImageUrl('');
+    setUploadNote('Ana resim silindi — Update product ile kaydedin.');
+  };
+
+  const clearAllImages = () => {
+    setImageUrl('');
+    setGalleryUrls([]);
+    setUploadNote('Tüm resimler temizlendi — Update product ile kaydedin.');
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -280,74 +292,103 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
       </div>
 
       <div className="space-y-3 rounded-xl border border-border bg-cream/40 p-4">
-        <p className="text-sm font-medium">Ürün resimleri</p>
-        <p className="text-xs text-muted">
-          Ana resmi değiştirmek için yeni dosya seçin, sonra <strong>Update product</strong> ile kaydedin.
-          2. / 3. fotoğraf için “Ek resim ekle” kullanın. Büyük telefon fotoğrafları otomatik küçültülür.
-          iPhone HEIC yerine JPEG tercih edin.
-        </p>
-
-        <div>
-          <label className="mb-1 block text-xs font-medium text-muted">Ana resim</label>
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
-            onChange={handlePrimaryUpload}
-            disabled={uploading}
-          />
-          {isDrinksProduct ? (
-            <p className="mt-1 text-xs text-muted">Öneri: dikey / portre çekim.</p>
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <p className="text-sm font-medium">Ürün resimleri</p>
+            <p className="mt-1 text-xs text-muted">
+              Yeni dosya = değiştir. Sil = kaldır. Her değişiklikte <strong>Update product</strong> ile
+              kaydedin. Büyük telefon fotoğrafları otomatik küçültülür.
+            </p>
+          </div>
+          {imageUrl || galleryUrls.length > 0 ? (
+            <button
+              type="button"
+              className="rounded-lg border border-red-200 bg-white px-2.5 py-1 text-xs font-medium text-red-700"
+              onClick={clearAllImages}
+              disabled={uploading}
+            >
+              Tümünü sil
+            </button>
           ) : null}
         </div>
 
-        {imageUrl ? (
-          <div className="relative h-40 w-40 overflow-hidden rounded-lg border-2 border-accent bg-cream">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img key={imageUrl} src={imageUrl} alt="Ana resim" className="h-full w-full object-cover" />
-            <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] text-white">
-              Ana
-            </span>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-xs font-medium text-muted">
+              Ana resmi değiştir / yükle
+            </label>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
+              onChange={handlePrimaryUpload}
+              disabled={uploading}
+            />
+            {isDrinksProduct ? (
+              <p className="mt-1 text-xs text-muted">Öneri: dikey / portre çekim.</p>
+            ) : null}
           </div>
-        ) : (
-          <p className="text-xs text-muted">Henüz ana resim yok.</p>
-        )}
-
-        <div>
-          <label className="mb-1 block text-xs font-medium text-muted">Ek resim ekle (2–3. foto)</label>
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
-            onChange={handleExtraUpload}
-            disabled={uploading}
-          />
+          <div>
+            <label className="mb-1 block text-xs font-medium text-muted">Ek resim ekle (2–4.)</label>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp"
+              onChange={handleExtraUpload}
+              disabled={uploading || (!imageUrl && galleryUrls.length === 0)}
+            />
+            {!imageUrl && galleryUrls.length === 0 ? (
+              <p className="mt-1 text-xs text-muted">Önce ana resim yükleyin.</p>
+            ) : null}
+          </div>
         </div>
 
-        {galleryUrls.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {galleryUrls.map((url) => (
-              <div key={url} className="relative h-20 w-20 overflow-hidden rounded-lg border border-border">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt="" className="h-full w-full object-cover" />
-                <div className="absolute inset-x-0 bottom-0 flex gap-0.5 bg-black/55 p-0.5">
-                  <button
-                    type="button"
-                    className="flex-1 text-[9px] font-semibold text-white"
-                    onClick={() => makePrimary(url)}
-                  >
-                    Ana yap
-                  </button>
-                  <button
-                    type="button"
-                    className="px-1 text-[9px] font-semibold text-red-200"
-                    onClick={() => removeExtra(url)}
-                  >
-                    Sil
-                  </button>
-                </div>
+        <div className="flex flex-wrap gap-3">
+          {imageUrl ? (
+            <div className="relative h-36 w-36 overflow-hidden rounded-lg border-2 border-accent bg-cream sm:h-40 sm:w-40">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img key={imageUrl} src={imageUrl} alt="Ana resim" className="h-full w-full object-cover" />
+              <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[10px] text-white">
+                Ana
+              </span>
+              <button
+                type="button"
+                onClick={clearPrimary}
+                className="absolute right-1 top-1 rounded bg-red-700/90 px-2 py-0.5 text-[10px] font-semibold text-white"
+              >
+                Sil
+              </button>
+            </div>
+          ) : (
+            <div className="flex h-36 w-36 items-center justify-center rounded-lg border border-dashed border-border bg-white text-center text-xs text-muted sm:h-40 sm:w-40">
+              Ana resim yok
+            </div>
+          )}
+
+          {galleryUrls.map((url) => (
+            <div
+              key={url}
+              className="relative h-36 w-36 overflow-hidden rounded-lg border border-border bg-cream sm:h-40 sm:w-40"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt="" className="h-full w-full object-cover" />
+              <div className="absolute inset-x-0 bottom-0 flex gap-0.5 bg-black/55 p-1">
+                <button
+                  type="button"
+                  className="flex-1 rounded text-[10px] font-semibold text-white"
+                  onClick={() => makePrimary(url)}
+                >
+                  Ana yap
+                </button>
+                <button
+                  type="button"
+                  className="rounded px-2 text-[10px] font-semibold text-red-200"
+                  onClick={() => removeExtra(url)}
+                >
+                  Sil
+                </button>
               </div>
-            ))}
-          </div>
-        ) : null}
+            </div>
+          ))}
+        </div>
 
         {uploading && <p className="text-sm text-muted">Yükleniyor…</p>}
         {uploadNote && <p className="text-sm text-accent">{uploadNote}</p>}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useIsClient } from '@/hooks/use-is-client';
 import { getEffectivePrice } from '@/lib/b2c/clearance';
+import { getProductGallery } from '@/lib/product-gallery';
 import { cn, formatPrice, getLocalizedDescription, getLocalizedName } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import type { Locale, Product } from '@/types';
@@ -48,7 +49,7 @@ export function CoffeeProductCard({ product, locale }: CoffeeProductCardProps) {
   const atMax = remaining <= 0;
   const name = getLocalizedName(product, locale);
   const lines = descLines(getLocalizedDescription(product, locale));
-  const src = product.image_url?.trim() ?? '';
+  const src = getProductGallery(product)[0] ?? '';
   const price = getEffectivePrice(product);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export function CoffeeProductCard({ product, locale }: CoffeeProductCardProps) {
         slug: product.slug,
         name,
         price,
-        image: product.image_url,
+        image: src || product.image_url,
         stockMax: stock,
       },
       1
