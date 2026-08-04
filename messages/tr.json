@@ -273,11 +273,16 @@
       "subtitle": "Admin tarafından verilen telefon ve şifre ile giriş yapın.",
       "phone": "Telefon",
       "password": "Şifre",
-      "phoneHint": "Sadece numarayı yazın — +7 solda hazır.",
+      "phoneHint": "Kendi kayıtlı numaranızı yazın — +7 solda hazır. Bu alan Fistik hattı değildir.",
+      "phonePlaceholder": "XXX XXX XX XX",
       "signIn": "Giriş yap",
       "signingIn": "Giriş yapılıyor…",
       "backHome": "Ana sayfaya dön",
-      "helpNote": "Giriş ile ilgili sorunlar için geçici olarak +7 701 453 75 75 numarasından iletişime geçin."
+      "helpNote": "Giriş sorunu veya sipariş öncesi sorular için B2B müşteri hattı: {phone}"
+    },
+    "support": {
+      "label": "B2B müşteri hattı",
+      "hint": "Sipariş vermeden önce soru sorabilirsiniz (WhatsApp)"
     },
     "terms": {
       "title": "B2B Sözleşmesi",

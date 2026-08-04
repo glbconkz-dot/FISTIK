@@ -6,6 +6,7 @@ import { Home } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { signInB2B } from '@/app/actions/b2b-auth';
 import { PhoneNationalInput } from '@/components/PhoneNationalInput';
+import { getOrderPhoneDisplay } from '@/lib/business';
 import type { Locale } from '@/types';
 
 interface B2BLoginClientProps {
@@ -14,6 +15,7 @@ interface B2BLoginClientProps {
 
 export function B2BLoginClient({ locale }: B2BLoginClientProps) {
   const t = useTranslations('b2b');
+  const supportPhone = getOrderPhoneDisplay('b2b');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [phoneNational, setPhoneNational] = useState('');
@@ -52,7 +54,7 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
               value={phoneNational}
               onChange={setPhoneNational}
               onBlur={() => undefined}
-              placeholder="701 453 75 75"
+              placeholder={t('login.phonePlaceholder')}
             />
             <p className="mt-1 text-xs text-muted">{t('login.phoneHint')}</p>
           </div>
@@ -87,7 +89,7 @@ export function B2BLoginClient({ locale }: B2BLoginClientProps) {
         </Link>
 
         <p className="mt-4 rounded-lg border border-border bg-cream/50 px-3 py-2.5 text-xs leading-relaxed text-muted">
-          {t('login.helpNote')}
+          {t('login.helpNote', { phone: supportPhone })}
         </p>
       </div>
     </div>
