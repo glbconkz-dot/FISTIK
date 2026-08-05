@@ -3,7 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 import { BrandLink } from '@/components/Brand';
-import { LogOut, ShoppingBag, ClipboardList } from 'lucide-react';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { FileText, LogOut, ShoppingBag, ClipboardList } from 'lucide-react';
 import { signOutB2B } from '@/app/actions/b2b-auth';
 import { useIsClient } from '@/hooks/use-is-client';
 import { useB2BCartStore } from '@/stores/b2b-cart';
@@ -33,11 +34,25 @@ export function B2BHeader({ customer, locale }: B2BHeaderProps) {
             <span className="hidden max-w-[10rem] truncate text-sm text-cream/90 lg:inline">
               {customer.company_name}
             </span>
+            <LanguageSwitcher tone="brand" />
             <Link
               href="/b2b/menu"
               className="rounded-lg px-2 py-2 text-sm font-medium text-cream/90 hover:bg-cream/15 hover:text-cream sm:px-3"
             >
               {t('nav.menu')}
+            </Link>
+            <Link
+              href="/b2b/terms"
+              className="hidden rounded-lg px-2 py-2 text-sm font-medium text-cream/90 hover:bg-cream/15 hover:text-cream sm:inline sm:px-3"
+            >
+              {t('nav.terms')}
+            </Link>
+            <Link
+              href="/b2b/terms"
+              className="flex min-h-[40px] min-w-[40px] items-center justify-center rounded-lg text-cream/90 hover:bg-cream/15 hover:text-cream sm:hidden"
+              aria-label={t('nav.terms')}
+            >
+              <FileText className="h-5 w-5" />
             </Link>
             <Link
               href="/b2b/orders"
@@ -75,12 +90,15 @@ export function B2BHeader({ customer, locale }: B2BHeaderProps) {
             </form>
           </div>
         ) : (
-          <Link
-            href="/b2b/login"
-            className="rounded-lg bg-cream/15 px-4 py-2 text-sm font-medium text-cream ring-1 ring-cream/35 hover:bg-cream/25"
-          >
-            {t('nav.signIn')}
-          </Link>
+          <div className="flex shrink-0 items-center gap-2">
+            <LanguageSwitcher tone="brand" />
+            <Link
+              href="/b2b/login"
+              className="rounded-lg bg-cream/15 px-4 py-2 text-sm font-medium text-cream ring-1 ring-cream/35 hover:bg-cream/25"
+            >
+              {t('nav.signIn')}
+            </Link>
+          </div>
         )}
       </div>
     </header>

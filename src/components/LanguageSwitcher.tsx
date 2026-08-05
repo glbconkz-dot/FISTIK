@@ -11,13 +11,20 @@ const locales = [
   { code: 'en' as const, label: 'EN' },
 ];
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ tone = 'default' }: { tone?: 'default' | 'brand' }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-border bg-surface p-1">
+    <div
+      className={cn(
+        'flex items-center gap-1 rounded-full p-1',
+        tone === 'brand'
+          ? 'border border-cream/35 bg-cream/10'
+          : 'border border-border bg-surface'
+      )}
+    >
       {locales.map((l) => (
         <button
           key={l.code}
@@ -25,9 +32,13 @@ export function LanguageSwitcher() {
           onClick={() => router.replace(pathname, { locale: l.code })}
           className={cn(
             'min-h-[32px] min-w-[36px] rounded-full px-2 text-xs font-semibold transition-colors',
-            locale === l.code
-              ? 'bg-foreground text-background'
-              : 'text-muted hover:text-foreground'
+            tone === 'brand'
+              ? locale === l.code
+                ? 'bg-cream text-brand-dark'
+                : 'text-cream/80 hover:bg-cream/15 hover:text-cream'
+              : locale === l.code
+                ? 'bg-foreground text-background'
+                : 'text-muted hover:text-foreground'
           )}
         >
           {l.label}

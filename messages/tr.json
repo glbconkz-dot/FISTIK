@@ -266,6 +266,7 @@
       "signOut": "Çıkış",
       "cart": "Sepet",
       "orders": "Siparişler",
+      "terms": "Sözleşme",
       "backToStore": "Perakende menü"
     },
     "login": {
@@ -287,6 +288,14 @@
     "terms": {
       "title": "B2B Sözleşmesi",
       "subtitle": "Firma: {company}. İlk girişte sözleşmeyi onaylayın.",
+      "viewTitle": "B2B Sözleşmesi",
+      "viewSubtitle": "Firma: {company}. Sözleşmeyi istediğiniz zaman bu dilde okuyabilirsiniz.",
+      "summaryLabel": "Ön sözleşme özeti",
+      "wordTitle": "Word sözleşme dosyası",
+      "downloadWord": "Word sözleşmeyi indir",
+      "wordPending": "Word sözleşme dosyası yakında eklenecek. Şimdilik aşağıdaki özeti kullanın.",
+      "acceptedAt": "Kabul tarihi: {date}",
+      "backToMenu": "Menüye dön",
       "body": "1. Bu sözleşme FISTIK ürünlerinin toptan siparişlerini düzenler.\n2. Minimum sipariş tutarı 30.000 ₸'dir.\n3. B2B fiyatları perakende fiyatlardan farklıdır ve admin tarafından belirlenir.\n4. Ay içinde ödenen toplam 500.000 ₸'yi aşınca bir sonraki siparişte %3; 1.000.000 ₸'yi aşınca %6 indirim uygulanır (yeni ayı beklemeye gerek yok). Kazanılan kademe bir sonraki aya taşınır; yeni ayda eşik aşılmazsa indirim düşer veya iptal olur.\n5. Teslimat, seçilen şube adresine göre planlanır.\n6. Ödeme ve sipariş onayı WhatsApp üzerinden tamamlanır.",
       "acceptLabel": "Sözleşme şartlarını okudum ve kabul ediyorum",
       "accept": "Kabul et ve devam et",
