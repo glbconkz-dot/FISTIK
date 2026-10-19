@@ -1,8 +1,48 @@
 import type { Order, OrderStatus } from '@/types';
+import type { AdminMessageKey } from '@/lib/admin-messages';
 import { formatDeliveryTimeLabel, getTodayInStoreTimezone, STORE_TIMEZONE } from '@/lib/order-dates';
 
 export type OrderSection = OrderStatus;
 
+export const ORDER_SECTION_KEYS: OrderSection[] = [
+  'new',
+  'confirmed',
+  'shipped',
+  'completed',
+  'cancelled',
+];
+
+const ORDER_SECTION_LABEL_KEYS: Record<OrderSection, AdminMessageKey> = {
+  new: 'ordersSectionNew',
+  confirmed: 'ordersSectionConfirmed',
+  shipped: 'ordersSectionShipped',
+  completed: 'ordersSectionCompleted',
+  cancelled: 'ordersSectionCancelled',
+};
+
+const ORDER_SECTION_HINT_KEYS: Record<OrderSection, AdminMessageKey> = {
+  new: 'ordersSectionNewHint',
+  confirmed: 'ordersSectionConfirmedHint',
+  shipped: 'ordersSectionShippedHint',
+  completed: 'ordersSectionCompletedHint',
+  cancelled: 'ordersSectionCancelledHint',
+};
+
+export function getOrderSectionLabel(
+  key: OrderSection,
+  t: (key: AdminMessageKey) => string
+): string {
+  return t(ORDER_SECTION_LABEL_KEYS[key]);
+}
+
+export function getOrderSectionHint(
+  key: OrderSection,
+  t: (key: AdminMessageKey) => string
+): string {
+  return t(ORDER_SECTION_HINT_KEYS[key]);
+}
+
+/** @deprecated Prefer ORDER_SECTION_KEYS + getOrderSectionLabel/Hint with admin locale */
 export const ORDER_SECTIONS: {
   key: OrderSection;
   label: string;
@@ -85,9 +125,9 @@ export function countOrdersBySection(orders: Order[], section: OrderSection): nu
   return orders.filter((o) => o.status === section).length;
 }
 
-export function formatDeliverySchedule(order: Order): string {
+export function formatDeliverySchedule(order: Order, todayLabel = 'Bugün'): string {
   const today = getTodayInStoreTimezone();
-  const day = order.delivery_date.slice(0, 10) === today ? 'Bugün' : order.delivery_date;
+  const day = order.delivery_date.slice(0, 10) === today ? todayLabel : order.delivery_date;
   return `${day} · ${formatDeliveryTimeLabel(order.delivery_time)}`;
 }
 

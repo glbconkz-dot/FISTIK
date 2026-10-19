@@ -5,6 +5,8 @@ import { useEffect, useState, useTransition } from 'react';
 import type { Order } from '@/types';
 import { AdminActionModal } from '@/components/admin/AdminActionModal';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { adminDateLocaleTag } from '@/lib/admin-messages';
 import { getCurrentAlmatyTimeValue, getCancelReason, getCustomerNotes } from '@/lib/order-admin';
 import { formatOrderDateTime, formatDeliveryTimeLabel } from '@/lib/order-dates';
 import { formatPrice } from '@/lib/utils';
@@ -22,6 +24,8 @@ type ModalKind = 'confirm' | 'ship' | 'cancel' | null;
 
 export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDetailPanelProps) {
   const router = useRouter();
+  const { t, locale } = useAdminLocale();
+  const dateLocale = adminDateLocaleTag(locale);
   const [order, setOrder] = useState(initialOrder);
   const [modal, setModal] = useState<ModalKind>(null);
   const [timeValue, setTimeValue] = useState(getCurrentAlmatyTimeValue());
@@ -48,16 +52,15 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
 
       if (!result.success) {
         const errors: Record<string, string> = {
-          insufficientStock: 'Stok yetersiz — ürün adetlerini kontrol edin.',
-          invalidDeliveryTime: 'Geçerli teslim saati girin (24 saat, örn. 14:30).',
-          invalidShipTime: 'Geçerli sevkiyat saati girin (24 saat, örn. 15:00).',
-          cancelReasonRequired: 'İptal nedeni en az 3 karakter olmalı.',
-          mustShipFirst: 'Önce kuryeye teslim edin.',
-          invalidTransition: 'Bu işlem bu aşamada yapılamaz.',
-          runOrderMigration:
-            'Supabase SQL gerekli: fix-order-workflow.sql dosyasını çalıştırın (shipped + saat sütunları).',
+          insufficientStock: t('ordersErrorInsufficientStock'),
+          invalidDeliveryTime: t('ordersErrorInvalidDeliveryTime'),
+          invalidShipTime: t('ordersErrorInvalidShipTime'),
+          cancelReasonRequired: t('ordersErrorCancelReasonRequired'),
+          mustShipFirst: t('ordersErrorMustShipFirst'),
+          invalidTransition: t('ordersErrorInvalidTransition'),
+          runOrderMigration: t('ordersErrorRunMigration'),
         };
-        setError(errors[result.error ?? ''] ?? result.error ?? 'İşlem başarısız.');
+        setError(errors[result.error ?? ''] ?? result.error ?? t('ordersErrorGeneric'));
         return;
       }
 
@@ -65,7 +68,7 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
       setModal(null);
       setCancelReason('');
       if (result.migrationNeeded) {
-        setNotice('Durum kaydedildi. Tam saat kaydı için fix-order-workflow.sql çalıştırın.');
+        setNotice(t('ordersNoticeMigration'));
       }
       router.refresh();
     });
@@ -90,16 +93,16 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
       const result = await setB2BOrderPaymentStatus(order.id, status);
       if (!result.success) {
         const errors: Record<string, string> = {
-          notB2B: 'Bu sipariş B2B değil.',
-          notFound: 'Sipariş bulunamadı.',
-          saveFailed: 'Kayıt başarısız.',
-          unauthorized: 'Yetkisiz.',
+          notB2B: t('ordersErrorNotB2b'),
+          notFound: t('ordersErrorNotFound'),
+          saveFailed: t('ordersErrorSaveFailed'),
+          unauthorized: t('unauthorized'),
         };
-        setError(errors[result.error ?? ''] ?? 'İşlem başarısız.');
+        setError(errors[result.error ?? ''] ?? t('ordersErrorGeneric'));
         return;
       }
       if (result.order) applyPatch(result.order);
-      setNotice(status === 'paid' ? 'Ödeme işaretlendi.' : 'Ödeme işareti kaldırıldı.');
+      setNotice(status === 'paid' ? t('ordersNoticePaid') : t('ordersNoticeUnpaid'));
       router.refresh();
     });
   };
@@ -122,39 +125,45 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
 
         <dl className="grid gap-2 text-sm">
           <div>
-            <dt className="text-muted">Sipariş saati</dt>
-            <dd className="font-medium">{formatOrderDateTime(order.created_at)}</dd>
+            <dt className="text-muted">{t('ordersFieldPlacedAt')}</dt>
+            <dd className="font-medium">{formatOrderDateTime(order.created_at, dateLocale)}</dd>
           </div>
           {order.confirmed_at ? (
             <div>
-              <dt className="text-muted">Onay saati</dt>
-              <dd className="font-medium">{formatOrderDateTime(order.confirmed_at)}</dd>
+              <dt className="text-muted">{t('ordersFieldConfirmedAt')}</dt>
+              <dd className="font-medium">
+                {formatOrderDateTime(order.confirmed_at, dateLocale)}
+              </dd>
             </div>
           ) : null}
           {order.shipped_at ? (
             <div>
-              <dt className="text-muted">Sevkiyat saati</dt>
-              <dd className="font-medium">{formatOrderDateTime(order.shipped_at)}</dd>
+              <dt className="text-muted">{t('ordersFieldShippedAt')}</dt>
+              <dd className="font-medium">{formatOrderDateTime(order.shipped_at, dateLocale)}</dd>
             </div>
           ) : null}
           {order.completed_at ? (
             <div>
-              <dt className="text-muted">Tamamlanma saati</dt>
-              <dd className="font-medium">{formatOrderDateTime(order.completed_at)}</dd>
+              <dt className="text-muted">{t('ordersFieldCompletedAt')}</dt>
+              <dd className="font-medium">
+                {formatOrderDateTime(order.completed_at, dateLocale)}
+              </dd>
             </div>
           ) : null}
           {order.cancelled_at ? (
             <div>
-              <dt className="text-muted">İptal saati</dt>
-              <dd className="font-medium">{formatOrderDateTime(order.cancelled_at)}</dd>
+              <dt className="text-muted">{t('ordersFieldCancelledAt')}</dt>
+              <dd className="font-medium">
+                {formatOrderDateTime(order.cancelled_at, dateLocale)}
+              </dd>
             </div>
           ) : null}
           <div>
-            <dt className="text-muted">Müşteri</dt>
+            <dt className="text-muted">{t('ordersFieldCustomer')}</dt>
             <dd className="font-medium">{order.customer_name}</dd>
           </div>
           <div>
-            <dt className="text-muted">Telefon</dt>
+            <dt className="text-muted">{t('ordersFieldPhone')}</dt>
             <dd>
               <a href={`tel:${order.phone}`} className="font-medium text-accent underline">
                 {order.phone}
@@ -162,39 +171,41 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
             </dd>
           </div>
           <div>
-            <dt className="text-muted">Teslimat günü</dt>
+            <dt className="text-muted">{t('ordersFieldDeliveryDate')}</dt>
             <dd className="font-medium">{order.delivery_date}</dd>
           </div>
           <div>
-            <dt className="text-muted">Teslim saati</dt>
-            <dd className="font-medium tabular-nums">{formatDeliveryTimeLabel(order.delivery_time)}</dd>
+            <dt className="text-muted">{t('ordersFieldDeliveryTime')}</dt>
+            <dd className="font-medium tabular-nums">
+              {formatDeliveryTimeLabel(order.delivery_time)}
+            </dd>
           </div>
           <div>
-            <dt className="text-muted">Adres</dt>
+            <dt className="text-muted">{t('ordersFieldAddress')}</dt>
             <dd>{order.address}</dd>
           </div>
           {order.cake_text ? (
             <div>
-              <dt className="text-muted">Pasta yazısı</dt>
+              <dt className="text-muted">{t('ordersFieldCakeText')}</dt>
               <dd>{order.cake_text}</dd>
             </div>
           ) : null}
           {customerNotes ? (
             <div>
-              <dt className="text-muted">Not</dt>
+              <dt className="text-muted">{t('ordersFieldNotes')}</dt>
               <dd>{customerNotes}</dd>
             </div>
           ) : null}
           {savedCancelReason ? (
             <div>
-              <dt className="text-muted">İptal nedeni</dt>
+              <dt className="text-muted">{t('ordersFieldCancelReason')}</dt>
               <dd className="font-medium text-red-700">{savedCancelReason}</dd>
             </div>
           ) : null}
         </dl>
 
         <div>
-          <p className="mb-2 text-sm font-medium">Ürünler</p>
+          <p className="mb-2 text-sm font-medium">{t('ordersProducts')}</p>
           <ul className="space-y-1 text-sm">
             {items.map((item, i) => (
               <li key={i} className="flex justify-between gap-3">
@@ -208,31 +219,31 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
           {b2b && order.subtotal != null && Number(order.discount_percent) > 0 ? (
             <div className="mt-2 space-y-1 text-sm">
               <div className="flex justify-between text-muted">
-                <span>Ara toplam</span>
+                <span>{t('ordersSubtotal')}</span>
                 <span>{formatPrice(Number(order.subtotal))}</span>
               </div>
               <div className="flex justify-between text-muted">
-                <span>İndirim ({order.discount_percent}%)</span>
                 <span>
-                  −{formatPrice(Number(order.subtotal) - Number(order.total))}
+                  {t('ordersDiscount')} ({order.discount_percent}%)
                 </span>
+                <span>−{formatPrice(Number(order.subtotal) - Number(order.total))}</span>
               </div>
             </div>
           ) : null}
-          <p className="mt-2 font-semibold text-accent">Toplam: {formatPrice(Number(order.total))}</p>
+          <p className="mt-2 font-semibold text-accent">
+            {t('ordersTotal')} {formatPrice(Number(order.total))}
+          </p>
           {b2b && order.paid_at ? (
             <p className="mt-1 text-xs text-green-700">
-              Ödeme: {formatOrderDateTime(order.paid_at)}
+              {t('ordersPaymentAt')} {formatOrderDateTime(order.paid_at, dateLocale)}
             </p>
           ) : null}
         </div>
 
         {b2b ? (
           <div className="space-y-2 border-t border-border pt-4">
-            <p className="text-sm font-medium">B2B ödeme</p>
-            <p className="text-xs text-muted">
-              Ödendi işaretleyince aylık toplam güncellenir (gelecek ay indirimi için).
-            </p>
+            <p className="text-sm font-medium">{t('ordersB2bPayment')}</p>
+            <p className="text-xs text-muted">{t('ordersB2bPaymentHint')}</p>
             {isPaid ? (
               <button
                 type="button"
@@ -240,7 +251,7 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => togglePayment('pending')}
                 className="btn-outline w-full border-amber-300 text-amber-900"
               >
-                Ödeme işaretini kaldır
+                {t('ordersUnmarkPaid')}
               </button>
             ) : (
               <button
@@ -249,21 +260,19 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => togglePayment('paid')}
                 className="btn-primary w-full"
               >
-                Ödendi olarak işaretle
+                {t('ordersMarkPaid')}
               </button>
             )}
           </div>
         ) : null}
 
         <div className="space-y-3 border-t border-border pt-4">
-          <p className="text-sm font-medium">İşlemler</p>
+          <p className="text-sm font-medium">{t('ordersActions')}</p>
 
           {order.status === 'new' && (
             <>
               <p className="text-xs text-muted">
-                {b2b
-                  ? 'B2B sipariş — stok düşülmez. Müşteriyi arayın ve teslim saatini onaylayın.'
-                  : 'Müşteriyi arayın. Onaylarken mutabık kalınan teslim saatini yazın.'}
+                {b2b ? t('ordersHintNewB2b') : t('ordersHintNewB2c')}
               </p>
               <button
                 type="button"
@@ -271,7 +280,7 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => openModal('confirm')}
                 className="btn-primary w-full py-3 text-base"
               >
-                Siparişi onayla
+                {t('ordersConfirmBtn')}
               </button>
               <button
                 type="button"
@@ -279,23 +288,21 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => openModal('cancel')}
                 className="btn-outline w-full border-red-300 text-red-700"
               >
-                İptal et
+                {t('ordersCancelBtn')}
               </button>
             </>
           )}
 
           {order.status === 'confirmed' && (
             <>
-              <p className="text-xs text-muted">
-                Ürün hazır — kuryeye verince sevkiyat saatini kaydedin.
-              </p>
+              <p className="text-xs text-muted">{t('ordersHintConfirmed')}</p>
               <button
                 type="button"
                 disabled={isPending}
                 onClick={() => openModal('ship')}
                 className="btn-primary w-full"
               >
-                Kuryeye teslim edildi
+                {t('ordersShipBtn')}
               </button>
               <button
                 type="button"
@@ -303,23 +310,21 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => openModal('cancel')}
                 className="btn-outline w-full border-red-300 text-red-700"
               >
-                İptal et
+                {t('ordersCancelBtn')}
               </button>
             </>
           )}
 
           {order.status === 'shipped' && (
             <>
-              <p className="text-xs text-muted">
-                Müşteriden teslim bilgisi gelince tamamlayın.
-              </p>
+              <p className="text-xs text-muted">{t('ordersHintShipped')}</p>
               <button
                 type="button"
                 disabled={isPending}
                 onClick={() => runAction({ orderId: order.id, action: 'complete' })}
                 className="btn-primary w-full"
               >
-                {isPending ? 'Kaydediliyor...' : 'Teslim edildi — Tamamla'}
+                {isPending ? t('ordersSaving') : t('ordersCompleteBtn')}
               </button>
               <button
                 type="button"
@@ -327,30 +332,31 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
                 onClick={() => openModal('cancel')}
                 className="btn-outline w-full border-red-300 text-red-700"
               >
-                İptal et
+                {t('ordersCancelBtn')}
               </button>
             </>
           )}
 
           {order.status === 'completed' && (
             <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800">
-              Tamamlanan sipariş.
+              {t('ordersCompletedNotice')}
             </p>
           )}
 
-        {order.status === 'cancelled' && (
-          <div className="space-y-2">
-            {savedCancelReason ? (
-              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
-                <span className="font-semibold">İptal nedeni:</span> {savedCancelReason}
-              </p>
-            ) : (
-              <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
-                İptal edilmiş sipariş (neden kaydı yok).
-              </p>
-            )}
-          </div>
-        )}
+          {order.status === 'cancelled' && (
+            <div className="space-y-2">
+              {savedCancelReason ? (
+                <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
+                  <span className="font-semibold">{t('ordersCancelReasonLabel')}</span>{' '}
+                  {savedCancelReason}
+                </p>
+              ) : (
+                <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800">
+                  {t('ordersCancelledNoReason')}
+                </p>
+              )}
+            </div>
+          )}
 
           {notice ? <p className="text-sm text-amber-700">{notice}</p> : null}
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
@@ -359,9 +365,9 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
 
       <AdminActionModal
         open={modal === 'confirm'}
-        title="Siparişi onayla"
-        description="Müşteriyle mutabık kalınan teslim saatini girin."
-        label="Teslim saati"
+        title={t('ordersModalConfirmTitle')}
+        description={t('ordersModalConfirmDesc')}
+        label={t('ordersModalConfirmLabel')}
         inputType="time"
         value={timeValue}
         onChange={setTimeValue}
@@ -369,38 +375,38 @@ export function OrderDetailPanel({ order: initialOrder, onOrderChange }: OrderDe
         onSubmit={() =>
           runAction({ orderId: order.id, action: 'confirm', deliveryTime: timeValue })
         }
-        submitLabel="Onayla"
+        submitLabel={t('ordersModalConfirmSubmit')}
         pending={isPending}
       />
 
       <AdminActionModal
         open={modal === 'ship'}
-        title="Kuryeye teslim"
-        description="Kuryeye verdiğiniz saati kaydedin."
-        label="Sevkiyat saati"
+        title={t('ordersModalShipTitle')}
+        description={t('ordersModalShipDesc')}
+        label={t('ordersModalShipLabel')}
         inputType="time"
         value={timeValue}
         onChange={setTimeValue}
         onClose={() => setModal(null)}
         onSubmit={() => runAction({ orderId: order.id, action: 'ship', shipTime: timeValue })}
-        submitLabel="Sevkiyata ver"
+        submitLabel={t('ordersModalShipSubmit')}
         pending={isPending}
       />
 
       <AdminActionModal
         open={modal === 'cancel'}
-        title="Siparişi iptal et"
-        description="Kısa iptal nedenini yazın."
-        label="İptal nedeni"
+        title={t('ordersModalCancelTitle')}
+        description={t('ordersModalCancelDesc')}
+        label={t('ordersModalCancelLabel')}
         inputType="textarea"
-        placeholder="Örn: Müşteri ulaşılamadı"
+        placeholder={t('ordersModalCancelPlaceholder')}
         value={cancelReason}
         onChange={setCancelReason}
         onClose={() => setModal(null)}
         onSubmit={() =>
           runAction({ orderId: order.id, action: 'cancel', reason: cancelReason })
         }
-        submitLabel="İptali kaydet"
+        submitLabel={t('ordersModalCancelSubmit')}
         pending={isPending}
       />
     </>

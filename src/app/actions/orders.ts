@@ -407,7 +407,7 @@ export async function clearOrderHistory(): Promise<
 > {
   const admin = await getAdminUser();
   if (!admin) {
-    return { ok: false, error: 'Yetkisiz' };
+    return { ok: false, error: 'unauthorized' };
   }
 
   const supabase = await createClient();
@@ -421,8 +421,7 @@ export async function clearOrderHistory(): Promise<
     if (/policy|permission|denied/i.test(error.message)) {
       return {
         ok: false,
-        error:
-          'Silme yetkisi yok. Supabase SQL Editor\'de fix-pies-tarts-orders-kopyala.sql dosyasini calistirin.',
+        error: 'deleteForbidden',
       };
     }
     return { ok: false, error: error.message };

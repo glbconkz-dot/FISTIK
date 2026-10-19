@@ -1,5 +1,9 @@
+'use client';
+
 import { cn } from '@/lib/utils';
 import type { OrderStatus } from '@/types';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import type { AdminMessageKey } from '@/lib/admin-messages';
 
 const styles: Record<OrderStatus, string> = {
   new: 'bg-blue-100 text-blue-800',
@@ -9,15 +13,17 @@ const styles: Record<OrderStatus, string> = {
   cancelled: 'bg-red-100 text-red-800',
 };
 
-const labels: Record<OrderStatus, string> = {
-  new: 'Yeni',
-  confirmed: 'Sevkiyat bekliyor',
-  shipped: 'Sevkiyata verildi',
-  completed: 'Tamamlandı',
-  cancelled: 'İptal',
+const labelKeys: Record<OrderStatus, AdminMessageKey> = {
+  new: 'ordersStatusNew',
+  confirmed: 'ordersStatusConfirmed',
+  shipped: 'ordersStatusShipped',
+  completed: 'ordersStatusCompleted',
+  cancelled: 'ordersStatusCancelled',
 };
 
 export function OrderStatusBadge({ status }: { status: OrderStatus }) {
+  const { t } = useAdminLocale();
+
   return (
     <span
       className={cn(
@@ -25,7 +31,7 @@ export function OrderStatusBadge({ status }: { status: OrderStatus }) {
         styles[status]
       )}
     >
-      {labels[status]}
+      {t(labelKeys[status])}
     </span>
   );
 }

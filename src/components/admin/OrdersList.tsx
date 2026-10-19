@@ -7,11 +7,15 @@ import type { Order } from '@/types';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
 import { OrderChannelBadge, B2BPaymentBadge } from '@/components/admin/OrderChannelBadge';
 import { OrderDetailPanel } from '@/components/admin/OrderDetailPanel';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { adminDateLocaleTag } from '@/lib/admin-messages';
 import {
-  ORDER_SECTIONS,
+  ORDER_SECTION_KEYS,
   filterOrdersBySection,
   formatDeliverySchedule,
   getCancelReason,
+  getOrderSectionHint,
+  getOrderSectionLabel,
   sortOrdersForSection,
   type OrderSection,
 } from '@/lib/order-admin';
@@ -29,6 +33,8 @@ interface OrdersListProps {
 
 export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   const router = useRouter();
+  const { t, locale } = useAdminLocale();
+  const dateLocale = adminDateLocaleTag(locale);
   const [orders, setOrders] = useState(initialOrders);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [section, setSection] = useState<OrderSection>('new');
@@ -60,18 +66,14 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
   const b2cCount = orders.length - b2bCount;
 
   const selected = orders.find((o) => o.id === selectedId) ?? null;
-  const activeSection = ORDER_SECTIONS.find((s) => s.key === section);
+  const activeHint = getOrderSectionHint(section, t);
 
   const handleOrderChange = (updated: Order) => {
     setOrders((prev) => prev.map((o) => (o.id === updated.id ? { ...o, ...updated } : o)));
   };
 
   const handleClearHistory = () => {
-    if (
-      !window.confirm(
-        'Tamamlanan ve iptal edilen tüm siparişler kalıcı olarak silinsin mi? Yeni ve onaylı siparişler kalır.'
-      )
-    ) {
+    if (!window.confirm(t('ordersClearConfirm'))) {
       return;
     }
 
@@ -79,7 +81,13 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
     startClearTransition(async () => {
       const result = await clearOrderHistory();
       if (!result.ok) {
-        setClearError(result.error);
+        if (result.error === 'unauthorized') {
+          setClearError(t('unauthorized'));
+        } else if (result.error === 'deleteForbidden') {
+          setClearError(t('ordersClearForbidden'));
+        } else {
+          setClearError(result.error);
+        }
         return;
       }
       setOrders((prev) => prev.filter((o) => o.status !== 'completed' && o.status !== 'cancelled'));
@@ -97,7 +105,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
         {historyCount > 0 ? (
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-cream/50 px-3 py-2.5">
             <p className="text-xs text-muted">
-              Geçmiş: {historyCount} sipariş (teslim + iptal)
+              {t('ordersHistoryLabel')} {historyCount} {t('ordersHistoryDetail')}
             </p>
             <button
               type="button"
@@ -105,7 +113,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
               onClick={handleClearHistory}
               className="btn-outline border-red-300 px-3 py-1.5 text-xs text-red-700"
             >
-              {isClearing ? 'Siliniyor…' : 'Geçmişi temizle'}
+              {isClearing ? t('ordersClearing') : t('ordersClearHistory')}
             </button>
           </div>
         ) : null}
@@ -119,7 +127,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
         <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
           {(
             [
-              { key: 'all' as const, label: 'Tümü', count: orders.length },
+              { key: 'all' as const, label: t('ordersChannelAll'), count: orders.length },
               { key: 'b2c' as const, label: 'B2C', count: b2cCount },
               { key: 'b2b' as const, label: 'B2B', count: b2bCount },
             ] as const
@@ -140,87 +148,87 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
         </div>
 
         <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
-          {ORDER_SECTIONS.map((s) => {
-            const count = filterOrdersBySection(channelOrders, s.key).length;
+          {ORDER_SECTION_KEYS.map((key) => {
+            const count = filterOrdersBySection(channelOrders, key).length;
             return (
               <button
-                key={s.key}
+                key={key}
                 type="button"
                 onClick={() => {
-                  setSection(s.key);
+                  setSection(key);
                   setSelectedId(null);
                 }}
-                className={`chip shrink-0 ${section === s.key ? 'chip-active' : ''}`}
+                className={`chip shrink-0 ${section === key ? 'chip-active' : ''}`}
               >
-                {s.label}
+                {getOrderSectionLabel(key, t)}
                 {count > 0 ? ` (${count})` : ''}
               </button>
             );
           })}
         </div>
 
-        {activeSection ? (
-          <p className="mb-3 text-xs text-muted">{activeSection.hint}</p>
-        ) : null}
+        <p className="mb-3 text-xs text-muted">{activeHint}</p>
 
         <div className="space-y-2">
           {filtered.map((order) => {
             const cancelReason = getCancelReason(order);
             return (
-            <button
-              key={order.id}
-              type="button"
-              onClick={() => setSelectedId(order.id)}
-              className={`luxury-card w-full p-4 text-left transition-colors ${
-                selectedId === order.id ? 'ring-2 ring-accent' : ''
-              }`}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-medium">#{order.order_number}</span>
-                <div className="flex flex-wrap items-center justify-end gap-1.5">
-                  <OrderChannelBadge order={order} />
-                  <B2BPaymentBadge order={order} />
-                  <OrderStatusBadge status={order.status} />
+              <button
+                key={order.id}
+                type="button"
+                onClick={() => setSelectedId(order.id)}
+                className={`luxury-card w-full p-4 text-left transition-colors ${
+                  selectedId === order.id ? 'ring-2 ring-accent' : ''
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium">#{order.order_number}</span>
+                  <div className="flex flex-wrap items-center justify-end gap-1.5">
+                    <OrderChannelBadge order={order} />
+                    <B2BPaymentBadge order={order} />
+                    <OrderStatusBadge status={order.status} />
+                  </div>
                 </div>
-              </div>
-              <p className="mt-1 text-sm font-medium">{order.customer_name}</p>
-              {isB2BOrder(order) && order.b2b_company_name ? (
-                <p className="text-xs text-muted">{order.b2b_company_name}</p>
-              ) : null}
-              <p className="text-sm text-muted">
-                Sipariş: {formatOrderDateTime(order.created_at)}
-              </p>
-              {section !== 'new' && section !== 'cancelled' ? (
-                <p className="text-sm font-medium text-accent">
-                  {formatDeliverySchedule(order)}
+                <p className="mt-1 text-sm font-medium">{order.customer_name}</p>
+                {isB2BOrder(order) && order.b2b_company_name ? (
+                  <p className="text-xs text-muted">{order.b2b_company_name}</p>
+                ) : null}
+                <p className="text-sm text-muted">
+                  {t('ordersLabelPlaced')} {formatOrderDateTime(order.created_at, dateLocale)}
                 </p>
-              ) : null}
-              {order.shipped_at && section === 'shipped' ? (
-                <p className="text-sm text-sky-800">
-                  Sevk: {formatOrderDateTime(order.shipped_at)}
-                </p>
-              ) : null}
-              {order.confirmed_at && section === 'confirmed' ? (
-                <p className="text-sm text-amber-800">
-                  Onay: {formatOrderDateTime(order.confirmed_at)}
-                </p>
-              ) : null}
-              {order.completed_at && section === 'completed' ? (
-                <p className="text-sm text-green-800">
-                  Teslim: {formatOrderDateTime(order.completed_at)}
-                </p>
-              ) : null}
-              {cancelReason && section === 'cancelled' ? (
-                <p className="text-sm font-medium text-red-700 line-clamp-3">
-                  Neden: {cancelReason}
-                </p>
-              ) : null}
-              <p className="mt-1 text-sm font-semibold">{formatPrice(Number(order.total))}</p>
-            </button>
+                {section !== 'new' && section !== 'cancelled' ? (
+                  <p className="text-sm font-medium text-accent">
+                    {formatDeliverySchedule(order, t('ordersToday'))}
+                  </p>
+                ) : null}
+                {order.shipped_at && section === 'shipped' ? (
+                  <p className="text-sm text-sky-800">
+                    {t('ordersLabelShipped')} {formatOrderDateTime(order.shipped_at, dateLocale)}
+                  </p>
+                ) : null}
+                {order.confirmed_at && section === 'confirmed' ? (
+                  <p className="text-sm text-amber-800">
+                    {t('ordersLabelConfirmed')}{' '}
+                    {formatOrderDateTime(order.confirmed_at, dateLocale)}
+                  </p>
+                ) : null}
+                {order.completed_at && section === 'completed' ? (
+                  <p className="text-sm text-green-800">
+                    {t('ordersLabelDelivered')}{' '}
+                    {formatOrderDateTime(order.completed_at, dateLocale)}
+                  </p>
+                ) : null}
+                {cancelReason && section === 'cancelled' ? (
+                  <p className="text-sm font-medium text-red-700 line-clamp-3">
+                    {t('ordersLabelReason')} {cancelReason}
+                  </p>
+                ) : null}
+                <p className="mt-1 text-sm font-semibold">{formatPrice(Number(order.total))}</p>
+              </button>
             );
           })}
           {filtered.length === 0 && (
-            <p className="py-8 text-center text-muted">Bu bölümde sipariş yok.</p>
+            <p className="py-8 text-center text-muted">{t('ordersEmptySection')}</p>
           )}
         </div>
       </div>
@@ -230,7 +238,7 @@ export function OrdersList({ orders: initialOrders }: OrdersListProps) {
           <OrderDetailPanel order={selected} onOrderChange={handleOrderChange} />
         ) : (
           <div className="luxury-card flex min-h-48 items-center justify-center p-6 text-center text-muted">
-            Soldan bir sipariş seçin
+            {t('ordersSelectPrompt')}
           </div>
         )}
       </div>

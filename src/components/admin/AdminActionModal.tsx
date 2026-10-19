@@ -1,5 +1,7 @@
 'use client';
 
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+
 interface AdminActionModalProps {
   open: boolean;
   title: string;
@@ -29,6 +31,8 @@ export function AdminActionModal({
   inputType = 'text',
   placeholder,
 }: AdminActionModalProps) {
+  const { t } = useAdminLocale();
+
   if (!open) return null;
 
   return (
@@ -75,15 +79,15 @@ export function AdminActionModal({
         )}
 
         <p className="mt-1.5 text-xs text-muted">
-          {inputType === 'time' ? '24 saat formatı: 14:30' : null}
+          {inputType === 'time' ? t('ordersTimeFormatHint') : null}
         </p>
 
         <div className="mt-5 flex gap-2">
           <button type="button" className="btn-outline flex-1" onClick={onClose} disabled={pending}>
-            Vazgeç
+            {t('ordersModalDismiss')}
           </button>
           <button type="button" className="btn-primary flex-1" onClick={onSubmit} disabled={pending}>
-            {pending ? 'Kaydediliyor...' : submitLabel}
+            {pending ? t('ordersSaving') : submitLabel}
           </button>
         </div>
       </div>

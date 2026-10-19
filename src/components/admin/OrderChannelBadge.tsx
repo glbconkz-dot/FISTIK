@@ -1,5 +1,8 @@
+'use client';
+
 import type { Order } from '@/types';
 import { isB2BOrder } from '@/lib/b2b/order-filter';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 
 export function OrderChannelBadge({ order }: { order: Order }) {
   if (!isB2BOrder(order)) {
@@ -18,6 +21,7 @@ export function OrderChannelBadge({ order }: { order: Order }) {
 }
 
 export function B2BPaymentBadge({ order }: { order: Order }) {
+  const { t } = useAdminLocale();
   if (!isB2BOrder(order)) return null;
 
   const paid = order.payment_status === 'paid';
@@ -28,7 +32,7 @@ export function B2BPaymentBadge({ order }: { order: Order }) {
         paid ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-900'
       }`}
     >
-      {paid ? 'Ödendi' : 'Ödeme bekliyor'}
+      {paid ? t('ordersPaid') : t('ordersPaymentPending')}
     </span>
   );
 }

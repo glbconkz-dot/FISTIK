@@ -4,14 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { Order } from '@/types';
 import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge';
+import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import {
-  ORDER_SECTIONS,
+  ORDER_SECTION_KEYS,
   countOrdersBySection,
   filterOrdersCancelledOnDate,
   filterOrdersCompletedOnDate,
   filterOrdersCreatedOnDate,
   formatDeliverySchedule,
   getCancelReason,
+  getOrderSectionLabel,
   shiftStoreDate,
 } from '@/lib/order-admin';
 import { getTodayInStoreTimezone } from '@/lib/order-dates';
@@ -26,10 +28,14 @@ function DailyLogSection({
   title,
   orders,
   emptyText,
+  todayLabel,
+  reasonLabel,
 }: {
   title: string;
   orders: Order[];
   emptyText: string;
+  todayLabel: string;
+  reasonLabel: string;
 }) {
   return (
     <div>
@@ -47,9 +53,13 @@ function DailyLogSection({
                 <p className="font-medium">
                   #{order.order_number} · {order.customer_name}
                 </p>
-                <p className="text-sm text-muted">{formatDeliverySchedule(order)}</p>
+                <p className="text-sm text-muted">
+                  {formatDeliverySchedule(order, todayLabel)}
+                </p>
                 {getCancelReason(order) ? (
-                  <p className="text-sm text-red-700">İptal: {getCancelReason(order)}</p>
+                  <p className="text-sm text-red-700">
+                    {reasonLabel} {getCancelReason(order)}
+                  </p>
                 ) : null}
               </div>
               <div className="text-left sm:text-right">
@@ -65,6 +75,7 @@ function DailyLogSection({
 }
 
 export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardClientProps) {
+  const { t } = useAdminLocale();
   const today = getTodayInStoreTimezone();
   const [selectedDate, setSelectedDate] = useState(today);
   const [logOpen, setLogOpen] = useState(true);
@@ -146,15 +157,15 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        {ORDER_SECTIONS.map((section) => {
-          const count = countOrdersBySection(orders, section.key);
+        {ORDER_SECTION_KEYS.map((key) => {
+          const count = countOrdersBySection(orders, key);
           return (
             <Link
-              key={section.key}
+              key={key}
               href="/admin/orders"
               className="chip shrink-0 hover:bg-brand/20"
             >
-              {section.label}: {count}
+              {getOrderSectionLabel(key, t)}: {count}
             </Link>
           );
         })}
@@ -176,19 +187,25 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
               title={`Gelen siparişler (${createdOnDay.length})`}
               orders={createdOnDay}
               emptyText="Bu gün sipariş yok."
+              todayLabel={t('ordersToday')}
+              reasonLabel={t('ordersLabelReason')}
             />
             <DailyLogSection
               title={`Teslim edilenler (${completedOnDay.length})`}
               orders={completedOnDay}
               emptyText="Bu gün tamamlanan sipariş yok."
+              todayLabel={t('ordersToday')}
+              reasonLabel={t('ordersLabelReason')}
             />
             <DailyLogSection
               title={`İptal edilenler (${cancelledOnDay.length})`}
               orders={cancelledOnDay}
               emptyText="Bu gün iptal yok."
+              todayLabel={t('ordersToday')}
+              reasonLabel={t('ordersLabelReason')}
             />
             <Link href="/admin/orders" className="inline-block text-sm text-accent underline">
-              Tüm siparişler →
+              {t('orders')} →
             </Link>
           </div>
         ) : null}
@@ -206,7 +223,9 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
                   <div>
                     <p className="font-medium">#{order.order_number}</p>
                     <p className="text-sm text-muted">{order.customer_name}</p>
-                    <p className="text-sm font-medium">{formatDeliverySchedule(order)}</p>
+                    <p className="text-sm font-medium">
+                      {formatDeliverySchedule(order, t('ordersToday'))}
+                    </p>
                   </div>
                   <OrderStatusBadge status={order.status} />
                 </div>
