@@ -90,12 +90,12 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
 
   const stats = [
     {
-      label: isToday ? 'Bugün gelen sipariş' : 'Gelen sipariş',
+      label: isToday ? t('dashStatOrdersToday') : t('dashStatOrdersDay'),
       value: createdOnDay.length,
     },
-    { label: 'Yeni (onay bekliyor)', value: countOrdersBySection(orders, 'new') },
-    { label: 'Sevkiyat bekleyen', value: countOrdersBySection(orders, 'confirmed') },
-    { label: 'Aktif ürün', value: activeProducts },
+    { label: t('dashStatNew'), value: countOrdersBySection(orders, 'new') },
+    { label: t('dashStatConfirmed'), value: countOrdersBySection(orders, 'confirmed') },
+    { label: t('dashStatActiveProducts'), value: activeProducts },
   ];
 
   const todayDeliveries = orders
@@ -108,8 +108,8 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold">Dashboard</h1>
-      <p className="mt-1 text-muted">Günlük sipariş kayıtları</p>
+      <h1 className="font-display text-3xl font-bold">{t('dashTitle')}</h1>
+      <p className="mt-1 text-muted">{t('dashSubtitle')}</p>
 
       <div className="mt-6 flex flex-wrap items-center gap-2">
         <button
@@ -117,7 +117,7 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
           className="btn-outline px-3 py-2 text-sm"
           onClick={() => setSelectedDate((d) => shiftStoreDate(d, -1))}
         >
-          ← Önceki gün
+          {t('dashPrevDay')}
         </button>
         <input
           type="date"
@@ -134,7 +134,7 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
           disabled={isToday}
           onClick={() => setSelectedDate((d) => shiftStoreDate(d, 1))}
         >
-          Sonraki gün →
+          {t('dashNextDay')}
         </button>
         {!isToday ? (
           <button
@@ -142,7 +142,7 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
             className="chip"
             onClick={() => setSelectedDate(today)}
           >
-            Bugün
+            {t('ordersToday')}
           </button>
         ) : null}
       </div>
@@ -177,30 +177,32 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
           className="flex w-full items-center justify-between text-left"
           onClick={() => setLogOpen((v) => !v)}
         >
-          <h2 className="font-display text-xl font-semibold">Günlük kayıt — {selectedDate}</h2>
-          <span className="text-sm text-muted">{logOpen ? 'Gizle ▲' : 'Göster ▼'}</span>
+          <h2 className="font-display text-xl font-semibold">
+            {t('dashDailyLog')} — {selectedDate}
+          </h2>
+          <span className="text-sm text-muted">{logOpen ? t('dashHide') : t('dashShow')}</span>
         </button>
 
         {logOpen ? (
           <div className="mt-4 space-y-6">
             <DailyLogSection
-              title={`Gelen siparişler (${createdOnDay.length})`}
+              title={`${t('dashIncoming')} (${createdOnDay.length})`}
               orders={createdOnDay}
-              emptyText="Bu gün sipariş yok."
+              emptyText={t('dashIncomingEmpty')}
               todayLabel={t('ordersToday')}
               reasonLabel={t('ordersLabelReason')}
             />
             <DailyLogSection
-              title={`Teslim edilenler (${completedOnDay.length})`}
+              title={`${t('dashCompleted')} (${completedOnDay.length})`}
               orders={completedOnDay}
-              emptyText="Bu gün tamamlanan sipariş yok."
+              emptyText={t('dashCompletedEmpty')}
               todayLabel={t('ordersToday')}
               reasonLabel={t('ordersLabelReason')}
             />
             <DailyLogSection
-              title={`İptal edilenler (${cancelledOnDay.length})`}
+              title={`${t('dashCancelled')} (${cancelledOnDay.length})`}
               orders={cancelledOnDay}
-              emptyText="Bu gün iptal yok."
+              emptyText={t('dashCancelledEmpty')}
               todayLabel={t('ordersToday')}
               reasonLabel={t('ordersLabelReason')}
             />
@@ -213,10 +215,10 @@ export function AdminDashboardClient({ orders, activeProducts }: AdminDashboardC
 
       {isToday ? (
         <section className="mt-10">
-          <h2 className="font-display text-xl font-semibold">Bugün teslim edilecekler</h2>
+          <h2 className="font-display text-xl font-semibold">{t('dashTodayDeliveries')}</h2>
           <div className="mt-4 space-y-2">
             {todayDeliveries.length === 0 ? (
-              <p className="text-muted">Bugün teslimat yok.</p>
+              <p className="text-muted">{t('dashTodayDeliveriesEmpty')}</p>
             ) : (
               todayDeliveries.map((order) => (
                 <div key={order.id} className="luxury-card flex items-center justify-between p-4">
