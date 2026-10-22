@@ -10,6 +10,7 @@ import { buildB2BWhatsAppMessage } from '@/lib/b2b/whatsapp';
 import { getB2BWhatsAppLink } from '@/lib/b2b/whatsapp-link';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
 import { isValidB2BPhone, normalizeB2BPhone } from '@/lib/b2b/phone';
+import { scheduleManagerOrderPush } from '@/lib/schedule-manager-push';
 import { tryCreateClient } from '@/lib/supabase/server';
 import { tryCreateServiceClient } from '@/lib/supabase/service';
 import type { CartItem, Locale } from '@/types';
@@ -138,6 +139,15 @@ export async function createB2BOrder(
 
   revalidatePath('/admin/orders');
   revalidatePath('/admin');
+
+  scheduleManagerOrderPush({
+    orderNumber,
+    channel: 'b2b',
+    customerName: contactName,
+    companyName: customer.company_name,
+    total,
+    phone: phoneE164,
+  });
 
   const message = buildB2BWhatsAppMessage({
     orderNumber,

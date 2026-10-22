@@ -9,6 +9,7 @@ import {
   normalizeTimeInput,
 } from '@/lib/order-admin';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
+import { scheduleManagerOrderPush } from '@/lib/schedule-manager-push';
 import { createClient, getAdminUser, tryCreateClient } from '@/lib/supabase/server';
 import { isUuid } from '@/lib/utils';
 import type { CartItem, CheckoutFormData, Locale, Order, OrderStatus } from '@/types';
@@ -234,6 +235,14 @@ export async function createOrder(
     if (!saved) {
       return { success: false, error: 'saveFailed' };
     }
+
+    scheduleManagerOrderPush({
+      orderNumber,
+      channel: 'b2c',
+      customerName: formData.customerName,
+      total,
+      phone: formData.phone,
+    });
 
     const message = buildWhatsAppMessage({
       orderNumber,
