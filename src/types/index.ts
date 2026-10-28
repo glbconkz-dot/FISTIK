@@ -46,6 +46,25 @@ export interface Product {
   sort_order: number;
   created_at: string;
   categories?: Category | null;
+  /** End-of-day clearance (computed, not always in DB) */
+  clearance_active?: boolean;
+  clearance_scheduled?: boolean;
+  sale_price?: number;
+  sale_discount_percent?: number;
+  clearance_start_time?: string;
+  clearance_end_time?: string;
+}
+
+export interface ClearanceRule {
+  id: string;
+  product_slug: string;
+  product_id?: string | null;
+  discount_percent: number;
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+  sort_order: number;
+  updated_at?: string;
 }
 
 export interface OrderItem {

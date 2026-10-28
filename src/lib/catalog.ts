@@ -97,7 +97,10 @@ async function loadCatalogData(): Promise<{
   const productSelectBasic =
     'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at';
 
-  let productsResult = await supabase
+  let productsResult: {
+    data: Product[] | null;
+    error: { message: string } | null;
+  } = await supabase
     .from('products')
     .select(productSelectWithGallery)
     .eq('is_active', true)

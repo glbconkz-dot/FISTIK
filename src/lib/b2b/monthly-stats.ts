@@ -2,9 +2,45 @@ import {
   B2B_DISCOUNT_TIER_3_THRESHOLD,
   B2B_DISCOUNT_TIER_6_THRESHOLD,
 } from '@/lib/b2b/constants';
+import { STORE_TIMEZONE } from '@/lib/order-dates';
 
 export function yearMonthFromDate(iso: string): string {
   return iso.slice(0, 7);
+}
+
+/** Current YYYY-MM in bakery timezone (Asia/Almaty). */
+export function yearMonthInStoreTimezone(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: STORE_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+  }).formatToParts(now);
+  const year = parts.find((p) => p.type === 'year')?.value ?? '1970';
+  const month = parts.find((p) => p.type === 'month')?.value ?? '01';
+  return `${year}-${month}`;
+}
+
+/** Current-month active discount comes from previous month paid volume. */
+export function resolveActiveDiscount(
+  _currentMonthPaid: number,
+  previousMonthPaid: number
+): 0 | 3 | 6 {
+  return discountForPaidTotal(previousMonthPaid);
+}
+
+export async function syncAllB2BCustomerDiscountTiers(): Promise<void> {
+  const { tryCreateServiceClient } = await import('@/lib/supabase/service');
+  const supabase = tryCreateServiceClient();
+  if (!supabase) return;
+
+  const { data: customers } = await supabase.from('b2b_customers').select('id');
+  for (const customer of customers ?? []) {
+    const tier = await getActiveDiscountTier(customer.id as string);
+    await supabase
+      .from('b2b_customers')
+      .update({ discount_tier: tier, updated_at: new Date().toISOString() })
+      .eq('id', customer.id);
+  }
 }
 
 export function discountForPaidTotal(paidTotal: number): 0 | 3 | 6 {

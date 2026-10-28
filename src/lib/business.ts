@@ -76,6 +76,49 @@ export function getBusinessAddress(locale: Locale) {
   return BUSINESS_ADDRESS[locale];
 }
 
+export type BusinessLocation = {
+  key: string;
+  label: string;
+  lines: string[];
+  phoneDisplay: string;
+  phoneWhatsApp: string;
+};
+
+export type BusinessAddressBundle = {
+  legalName: string;
+  locations: BusinessLocation[];
+};
+
+/** Footer / about — single production location bundle */
+export function getBusinessAddressBundle(locale: Locale): BusinessAddressBundle {
+  const address = BUSINESS_ADDRESS[locale];
+  return {
+    legalName: address.legalName,
+    locations: [
+      {
+        key: 'kaskelen',
+        label: address.lines[1] ?? address.legalName,
+        lines: address.lines,
+        phoneDisplay: BUSINESS.phone,
+        phoneWhatsApp: BUSINESS.phoneWhatsApp,
+      },
+    ],
+  };
+}
+
+export function getOrderPhoneDisplay(channel: 'b2c' | 'b2b' = 'b2c'): string {
+  if (channel === 'b2b') {
+    const digits = (
+      process.env.NEXT_PUBLIC_B2B_WHATSAPP_NUMBER ??
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ??
+      '77782681755'
+    ).replace(/\D/g, '');
+    const normalized = digits.length === 10 ? `7${digits}` : digits;
+    return formatKzPhone(normalized);
+  }
+  return BUSINESS.phone;
+}
+
 export function getWhatsAppDigitsForLink(): string {
   return getWhatsAppDigits();
 }

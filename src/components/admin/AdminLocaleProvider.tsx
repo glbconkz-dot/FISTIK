@@ -18,7 +18,7 @@ import {
 
 type AdminLocaleContextValue = {
   locale: AdminLocale;
-  t: (key: AdminMessageKey) => string;
+  t: (key: AdminMessageKey, vars?: Record<string, string | number>) => string;
   setLocale: (locale: AdminLocale) => void;
 };
 
@@ -35,7 +35,13 @@ export function AdminLocaleProvider({
   const [, startTransition] = useTransition();
   const dict = useMemo(() => getAdminMessages(locale), [locale]);
 
-  const t = useCallback((key: AdminMessageKey) => dict[key], [dict]);
+  const t = useCallback((key: AdminMessageKey, vars?: Record<string, string | number>) => {
+    const template = dict[key] ?? String(key);
+    if (!vars) return template;
+    return template.replace(/\{(\w+)\}/g, (_, name: string) =>
+      vars[name] != null ? String(vars[name]) : `{${name}}`
+    );
+  }, [dict]);
 
   const setLocale = useCallback(
     (next: AdminLocale) => {

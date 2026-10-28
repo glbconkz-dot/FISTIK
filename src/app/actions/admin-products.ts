@@ -258,3 +258,47 @@ export async function upsertCategory(data: {
 export async function uploadCategoryImage(formData: FormData): Promise<{ url: string }> {
   return uploadProductImage(formData);
 }
+
+/** Ensure Fıstık Signature coffee category exists for drinks hub. */
+export async function ensureCoffeeCategory(): Promise<
+  { ok: true; created: boolean } | { ok: false; error: string }
+> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+    const { data: existing, error: selectError } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', 'coffee')
+      .maybeSingle();
+
+    if (selectError) {
+      return { ok: false, error: selectError.message };
+    }
+    if (existing?.id) {
+      return { ok: true, created: false };
+    }
+
+    const { error } = await supabase.from('categories').insert({
+      slug: 'coffee',
+      name_en: 'Fistik Signature',
+      name_ru: 'Fistik Signature',
+      name_kk: 'Fistik Signature',
+      name_tr: 'Fıstık Signature',
+      sort_order: 90,
+      is_active: true,
+      show_on_home: false,
+    });
+
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath('/admin/categories');
+    revalidatePath('/admin/products');
+    revalidateStorefront();
+    return { ok: true, created: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Kategori oluşturulamadı' };
+  }
+}
