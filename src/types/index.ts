@@ -39,6 +39,8 @@ export interface Product {
   description_en: string;
   price: number;
   image_url: string;
+  /** Optional gallery extras; primary remains image_url */
+  image_urls?: string[];
   is_active: boolean;
   stock_quantity: number;
   sort_order: number;

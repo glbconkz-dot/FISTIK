@@ -4,7 +4,7 @@ import { motion, type Variants } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -21,9 +21,9 @@ export function Reveal({ children, className, delay = 0, once = true }: RevealPr
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once, margin: '-40px' }}
+      viewport={{ once, margin: '-24px', amount: 0.15 }}
       variants={fadeUp}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}
+      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay }}
     >
       {children}
     </motion.div>
@@ -34,10 +34,10 @@ export function RevealScale({ children, className, delay = 0 }: RevealProps) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={{ opacity: 0, scale: 0.98 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay }}
+      viewport={{ once: true, margin: '-24px', amount: 0.15 }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1], delay }}
     >
       {children}
     </motion.div>

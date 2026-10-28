@@ -7,6 +7,8 @@ export interface ProductAsset {
   names?: string[];
   exact?: boolean;
   image_url: string;
+  /** Extra gallery images; image_url is always first/primary */
+  image_urls?: string[];
   name_en?: string;
   name_ru?: string;
   name_kk?: string;
@@ -19,8 +21,8 @@ export interface ProductAsset {
 
 export const PRODUCT_ASSETS = productAssets as ProductAsset[];
 
-const MERGE_FIELDS = [
-  'image_url',
+/** Text/name fields only — image_url handled separately so admin uploads win. */
+const TEXT_MERGE_FIELDS = [
   'name_en',
   'name_ru',
   'name_kk',
@@ -80,6 +82,15 @@ function namesMatch(product: Product, asset: ProductAsset): boolean {
   });
 }
 
+/** Admin/DB’de gerçek görsel varsa static asset üzerine yazılmaz. */
+export function hasDbPrimaryImage(imageUrl?: string | null): boolean {
+  const value = imageUrl?.trim() ?? '';
+  if (!value) return false;
+  if (value.startsWith('https://') || value.startsWith('http://')) return true;
+  if (value.startsWith('/')) return true;
+  return false;
+}
+
 export function findProductAsset(
   product: Product,
   categories?: Category[]
@@ -99,6 +110,13 @@ export function findProductAsset(
   });
 }
 
+function getAssetGallery(asset: ProductAsset): string[] {
+  const urls = [asset.image_url, ...(asset.image_urls ?? [])]
+    .map((u) => u?.trim())
+    .filter((u): u is string => Boolean(u));
+  return [...new Set(urls)];
+}
+
 export function applyProductAsset(
   product: Product,
   categories?: Category[]
@@ -107,11 +125,52 @@ export function applyProductAsset(
   if (!asset) return product;
 
   const updates: Partial<Product> = {};
-  for (const field of MERGE_FIELDS) {
+  for (const field of TEXT_MERGE_FIELDS) {
     const value = asset[field];
     if (value !== undefined) {
       updates[field] = value;
     }
+  }
+
+  const gallery = getAssetGallery(asset);
+  const dbImage = product.image_url?.trim() ?? '';
+  const dbExtras = (product.image_urls ?? [])
+    .map((u) => u?.trim())
+    .filter((u): u is string => Boolean(u) && u !== dbImage);
+  /** null/undefined = legacy; [] = admin galeriyi bilinçli yönetmiş (boş dahil) */
+  const hasExplicitGalleryField = Array.isArray(product.image_urls);
+
+  // DB’de gerçek ana resim varsa yalnızca DB — static sızıntı yok
+  if (hasDbPrimaryImage(dbImage)) {
+    return {
+      ...product,
+      ...updates,
+      image_url: dbImage,
+      image_urls: dbExtras,
+    };
+  }
+
+  // Admin ana/galeriyi boşaltmışsa static’i geri getirme
+  if (hasExplicitGalleryField) {
+    return {
+      ...product,
+      ...updates,
+      image_url: '',
+      image_urls: dbExtras,
+    };
+  }
+
+  if (gallery.length > 0) {
+    updates.image_url = gallery[0];
+    updates.image_urls = [
+      ...new Set([
+        ...dbExtras.filter((u) => u !== gallery[0]),
+        ...gallery.slice(1),
+      ]),
+    ];
+  } else if (asset.image_url !== undefined && !asset.image_url.trim()) {
+    updates.image_url = '';
+    updates.image_urls = [];
   }
 
   return { ...product, ...updates };

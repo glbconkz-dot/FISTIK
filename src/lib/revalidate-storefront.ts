@@ -4,6 +4,7 @@ import { routing } from '@/i18n/routing';
 /** Admin degisikliklerinden sonra canli siteyi yenile */
 export function revalidateStorefront() {
   revalidateTag('catalog', 'max');
+  revalidateTag('b2b-catalog', 'max');
   revalidatePath('/', 'layout');
   for (const locale of routing.locales) {
     revalidatePath(`/${locale}`);

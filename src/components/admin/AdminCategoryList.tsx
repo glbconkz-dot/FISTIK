@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from 'react';
 import Image from 'next/image';
-import { upsertCategory, uploadCategoryImage } from '@/app/actions/admin-products';
+import { upsertCategory } from '@/app/actions/admin-products';
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
+import { uploadAdminProductImage } from '@/lib/upload-admin-image';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category } from '@/types';
 interface AdminCategoryListProps {
@@ -21,9 +22,7 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
   const handleImageUpload = async (categoryId: string, file: File) => {
     setUploadingId(categoryId);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const { url } = await uploadCategoryImage(formData);
+      const url = await uploadAdminProductImage(file);
       const cat = categories.find((c) => c.id === categoryId);
       if (!cat) return;
 

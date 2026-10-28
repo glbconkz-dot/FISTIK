@@ -3,8 +3,9 @@
 import { useState, useTransition } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { deleteProduct, upsertProduct, uploadProductImage } from '@/app/actions/admin-products';
+import { deleteProduct, upsertProduct } from '@/app/actions/admin-products';
 import { getDisplayCategories } from '@/lib/category-display';
+import { uploadAdminProductImage } from '@/lib/upload-admin-image';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
@@ -59,14 +60,13 @@ export function AdminProductForm({ categories, product }: AdminProductFormProps)
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const { url } = await uploadProductImage(formData);
+      const url = await uploadAdminProductImage(file);
       setImageUrl(url);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setUploading(false);
+      e.target.value = '';
     }
   };
 

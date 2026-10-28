@@ -92,14 +92,26 @@ async function loadCatalogData(): Promise<{
     };
   }
 
-  const [productsResult, categoriesResult, sectionsResult] = await Promise.all([
-    supabase
+  const productSelectWithGallery =
+    'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, image_urls, is_active, stock_quantity, sort_order, created_at';
+  const productSelectBasic =
+    'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at';
+
+  let productsResult = await supabase
+    .from('products')
+    .select(productSelectWithGallery)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+
+  if (productsResult.error && String(productsResult.error.message).includes('image_urls')) {
+    productsResult = await supabase
       .from('products')
-      .select(
-        'id, slug, category_id, name_en, name_ru, name_kk, name_tr, description_en, description_ru, description_kk, description_tr, price, image_url, is_active, stock_quantity, sort_order, created_at'
-      )
+      .select(productSelectBasic)
       .eq('is_active', true)
-      .order('sort_order', { ascending: true }),
+      .order('sort_order', { ascending: true });
+  }
+
+  const [categoriesResult, sectionsResult] = await Promise.all([
     fetchActiveCategories(supabase),
     supabase.from('storefront_sections').select('key, product_ids, product_slugs, updated_at'),
   ]);
