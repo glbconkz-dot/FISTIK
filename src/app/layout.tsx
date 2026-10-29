@@ -1,7 +1,7 @@
 import { Cormorant_Garamond, Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import './globals.css';
-import { sharedSiteMetadata, SITE_NAME } from '@/lib/site-metadata';
+import { brandJsonLd, sharedSiteMetadata, SITE_NAME } from '@/lib/site-metadata';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin', 'cyrillic'],
@@ -33,9 +33,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = brandJsonLd();
+
   return (
     <html suppressHydrationWarning className={`${cormorant.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-background text-foreground antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
       </body>
     </html>

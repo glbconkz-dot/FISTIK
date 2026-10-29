@@ -255,6 +255,42 @@ export async function upsertCategory(data: {
   revalidateStorefront();
 }
 
+export async function deleteCategory(
+  categoryId: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    await requireAdmin();
+    const supabase = await createClient();
+
+    const { count, error: countError } = await supabase
+      .from('products')
+      .select('id', { count: 'exact', head: true })
+      .eq('category_id', categoryId);
+
+    if (countError) {
+      return { ok: false, error: countError.message };
+    }
+    if ((count ?? 0) > 0) {
+      return {
+        ok: false,
+        error: `Bu kategoride ${count} ürün var. Önce ürünleri başka kategoriye taşıyın veya silin.`,
+      };
+    }
+
+    const { error } = await supabase.from('categories').delete().eq('id', categoryId);
+    if (error) {
+      return { ok: false, error: error.message };
+    }
+
+    revalidatePath('/admin/categories');
+    revalidatePath('/admin/products');
+    revalidateStorefront();
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Silinemedi' };
+  }
+}
+
 export async function uploadCategoryImage(formData: FormData): Promise<{ url: string }> {
   return uploadProductImage(formData);
 }
