@@ -1,0 +1,1 @@
+-- Deprecated: use fix-cube-names-latin.sql instead (all locales use Latin Cube names)

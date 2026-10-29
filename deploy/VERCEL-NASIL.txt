@@ -1,0 +1,11 @@
+VERCEL (fistik.kz) — 1 dakika
+
+1. vercel.com → FISTIK projesi → Settings → Environment Variables
+2. "Import .env" veya içe aktar → deploy/VERCEL-ORTAM-DEGISKENLERI.env dosyasını aç, TÜMÜNÜ kopyala, yapıştır
+3. Production + Preview + Development işaretle → Kaydet
+4. Deployments → Redeploy
+
+SUPABASE — 1 dakika
+
+1. supabase.com → SQL Editor → New query
+2. deploy/SUPABASE-TEK-YAPISTIR.sql dosyasının TÜMÜNÜ kopyala → yapıştır → Run
