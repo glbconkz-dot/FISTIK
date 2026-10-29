@@ -174,7 +174,7 @@ export function AdminCategoryList({ categories }: AdminCategoryListProps) {
         </button>
       </div>
 
-      {message ? <p className="text-sm text-pistachio-dark">{message}</p> : null}
+      {message ? <p className="text-sm font-medium text-foreground">{message}</p> : null}
 
       {creating ? (
         <form onSubmit={handleCreate} className="luxury-card space-y-3 p-4">
