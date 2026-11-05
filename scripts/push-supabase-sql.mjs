@@ -29,7 +29,7 @@ const CUBE = {
   'pack-cherry-brownie': 'Cherry Cube',
   'pack-pistachio-raspberry': 'Pistachio Cube',
   'pack-oreo': 'Oreo Cube',
-  'pack-meringue-cake': 'Merenga Cube',
+  'pack-meringue-cake': 'Tiramisu Pistachio Cube',
 };
 
 const env = loadEnv();

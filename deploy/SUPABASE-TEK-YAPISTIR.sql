@@ -9,7 +9,7 @@ UPDATE products SET name_en = 'Lotus Cube', name_ru = 'Lotus Cube', name_kk = 'L
 UPDATE products SET name_en = 'Cherry Cube', name_ru = 'Cherry Cube', name_kk = 'Cherry Cube', name_tr = 'Cherry Cube' WHERE slug = 'pack-cherry-brownie';
 UPDATE products SET name_en = 'Pistachio Cube', name_ru = 'Pistachio Cube', name_kk = 'Pistachio Cube', name_tr = 'Pistachio Cube' WHERE slug = 'pack-pistachio-raspberry';
 UPDATE products SET name_en = 'Oreo Cube', name_ru = 'Oreo Cube', name_kk = 'Oreo Cube', name_tr = 'Oreo Cube' WHERE slug = 'pack-oreo';
-UPDATE products SET name_en = 'Merenga Cube', name_ru = 'Merenga Cube', name_kk = 'Merenga Cube', name_tr = 'Merenga Cube' WHERE slug = 'pack-meringue-cake';
+UPDATE products SET name_en = 'Tiramisu Pistachio Cube', name_ru = 'Tiramisu Pistachio Cube', name_kk = 'Tiramisu Pistachio Cube', name_tr = 'Tiramisu Pistachio Cube' WHERE slug = 'pack-meringue-cake';
 
 -- === 2) B2B tabloları (zaten varsa atlanır) ===
 

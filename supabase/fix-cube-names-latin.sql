@@ -50,11 +50,11 @@ UPDATE products SET
 WHERE slug = 'pack-oreo';
 
 UPDATE products SET
-  name_en = 'Merenga Cube',
-  name_ru = 'Merenga Cube',
-  name_kk = 'Merenga Cube',
-  name_tr = 'Merenga Cube'
-WHERE slug = 'pack-meringue-cake';
+  name_en = 'Tiramisu Pistachio Cube',
+  name_ru = 'Tiramisu Pistachio Cube',
+  name_kk = 'Tiramisu Pistachio Cube',
+  name_tr = 'Tiramisu Pistachio Cube'
+  WHERE slug = 'pack-meringue-cake';
 
 SELECT slug, name_en, name_ru, name_kk, name_tr
 FROM products

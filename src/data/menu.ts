@@ -136,7 +136,7 @@ export const MENU_PRODUCTS: Product[] = [
   product('pack-cherry-brownie', 'packaged-desserts', 'Cherry Cube', 'Cherry Cube', 'Cherry Cube', 5, 'Cherry Cube', 2150),
   product('pack-pistachio-raspberry', 'packaged-desserts', 'Pistachio Cube', 'Pistachio Cube', 'Pistachio Cube', 6, 'Pistachio Cube', 2550),
   product('pack-oreo', 'packaged-desserts', 'Oreo Cube', 'Oreo Cube', 'Oreo Cube', 7, 'Oreo Cube', 1950),
-  product('pack-meringue-cake', 'packaged-desserts', 'Merenga Cube', 'Merenga Cube', 'Merenga Cube', 8, 'Merenga Cube', 2050),
+  product('pack-meringue-cake', 'packaged-desserts', 'Tiramisu Pistachio Cube', 'Tiramisu Pistachio Cube', 'Tiramisu Pistachio Cube', 8, 'Tiramisu Pistachio Cube', 2050),
 
   // Art desserts
   product('art-pistachio', 'art-desserts', 'Pistachio Art', 'Pistachio Art', 'Pistachio Art', 1, 'Pistachio Art', 1850),
