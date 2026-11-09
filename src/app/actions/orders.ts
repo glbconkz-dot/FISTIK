@@ -10,6 +10,7 @@ import {
 } from '@/lib/order-admin';
 import { makeFallbackOrderNumber } from '@/lib/order-numbers';
 import { scheduleManagerOrderPush } from '@/lib/schedule-manager-push';
+import { isArchivedStorefrontProduct } from '@/lib/hidden-storefront';
 import { createClient, getAdminUser, tryCreateClient } from '@/lib/supabase/server';
 import { isUuid } from '@/lib/utils';
 import type { CartItem, CheckoutFormData, Locale, Order, OrderStatus } from '@/types';
@@ -34,6 +35,7 @@ export interface OrderActionResult {
 }
 
 async function resolveCartItems(items: CartItem[]): Promise<CartItem[]> {
+  items = items.filter((item) => !isArchivedStorefrontProduct(item.slug));
   const supabase = await tryCreateClient();
   if (!supabase) return items;
 
@@ -217,6 +219,9 @@ export async function createOrder(
 
   try {
     const resolvedItems = await resolveCartItems(items);
+    if (resolvedItems.length === 0) {
+      return { success: false, error: 'cartEmpty' };
+    }
     const stockError = await checkStockIfAvailable(resolvedItems);
 
     if (stockError) {

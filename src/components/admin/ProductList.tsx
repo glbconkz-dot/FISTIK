@@ -8,6 +8,7 @@ import { setProductPrice, setProductStock, toggleProductActive } from '@/app/act
 import { useAdminLocale } from '@/components/admin/AdminLocaleProvider';
 import { getLocalizedProductName } from '@/lib/admin-messages';
 import { groupProductsByDisplayCategory } from '@/lib/category-display';
+import { isArchivedStorefrontProduct } from '@/lib/hidden-storefront';
 import { getLocalizedName } from '@/lib/utils';
 import type { Category, Product } from '@/types';
 
@@ -168,6 +169,9 @@ export function ProductList({ products, categories }: ProductListProps) {
         </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium sm:text-base">{displayName}</p>
+          {isArchivedStorefrontProduct(product.slug) ? (
+            <p className="text-[11px] text-muted">{t('archivedOffSite')}</p>
+          ) : null}
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5">

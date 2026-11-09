@@ -2,6 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { applyProductAssets, applyProductAsset } from '@/data/product-assets';
 import { CATALOG_REVALIDATE_SECONDS } from '@/lib/cache-config';
 import { getLocalCatalog } from '@/data/menu';
+import { filterPublicCatalog, isArchivedStorefrontProduct } from '@/lib/hidden-storefront';
 import { getSupabaseEnv } from '@/lib/supabase/env';
 import { createPublicSupabaseClient } from '@/lib/supabase/public';
 import { getLocalizedName } from '@/lib/utils';
@@ -83,13 +84,13 @@ async function loadCatalogData(): Promise<{
       return { categories: [], products: [], storefrontSections: [], storefrontError: null, source: 'missing' };
     }
     const local = getLocalCatalog();
-    return {
+    return filterPublicCatalog({
       categories: local.categories,
       products: local.products.map(normalizeStock),
       storefrontSections: [],
       storefrontError: null,
-      source: 'local',
-    };
+      source: 'local' as const,
+    });
   }
 
   const productSelectWithGallery =
@@ -136,13 +137,25 @@ async function loadCatalogData(): Promise<{
 
   if (productsResult.error) {
     console.error('[catalog] Supabase products:', productsResult.error.message);
-    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
+    return filterPublicCatalog({
+      categories,
+      products: [],
+      storefrontSections,
+      storefrontError: sectionsResult.error?.message ?? null,
+      source: 'supabase' as const,
+    });
   }
 
   const products = ((productsResult.data as Product[] | null) ?? []).map(normalizeStock);
 
   if (products.length === 0) {
-    return { categories, products: [], storefrontSections, storefrontError: sectionsResult.error?.message ?? null, source: 'supabase' };
+    return filterPublicCatalog({
+      categories,
+      products: [],
+      storefrontSections,
+      storefrontError: sectionsResult.error?.message ?? null,
+      source: 'supabase' as const,
+    });
   }
 
   const categoryOrder = new Map(categories.map((c) => [c.id, c.sort_order]));
@@ -153,13 +166,13 @@ async function loadCatalogData(): Promise<{
     return a.sort_order - b.sort_order;
   });
 
-  return {
+  return filterPublicCatalog({
     products: applyProductAssets(sortedProducts, categories),
     categories,
     storefrontSections,
     storefrontError: sectionsResult.error?.message ?? null,
-    source: 'supabase',
-  };
+    source: 'supabase' as const,
+  });
 }
 
 const getCachedCatalogData = unstable_cache(loadCatalogData, ['fistik-catalog'], {
@@ -176,6 +189,8 @@ export async function getCatalogData() {
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (isArchivedStorefrontProduct(slug)) return null;
+
   const supabase = createPublicSupabaseClient();
 
   if (supabase) {
@@ -199,8 +214,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (process.env.NODE_ENV === 'production') return null;
 
   const { products } = getLocalCatalog();
-  const local = products.find((p) => p.slug === slug);
-  return local ? normalizeStock(local) : null;
+  const local = products.find((p) => p.slug === slug && p.is_active !== false);
+  if (!local || isArchivedStorefrontProduct(local.slug)) return null;
+  return normalizeStock(local);
 }
 
 export function getCategoryName(
