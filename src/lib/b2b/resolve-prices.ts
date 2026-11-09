@@ -1,5 +1,6 @@
 import { tryCreateServiceClient } from '@/lib/supabase/service';
 import { getCatalogData } from '@/lib/catalog';
+import { isArchivedStorefrontProduct } from '@/lib/hidden-storefront';
 import type { CartItem } from '@/types';
 
 export async function resolveB2BCartItems(
@@ -27,6 +28,9 @@ export async function resolveB2BCartItems(
   const resolved: CartItem[] = [];
 
   for (const item of items) {
+    if (isArchivedStorefrontProduct(item.slug)) {
+      return { items: [], error: 'productUnavailable' };
+    }
     const retail = retailById.get(item.productId);
     if (retail == null) {
       return { items: [], error: 'productUnavailable' };

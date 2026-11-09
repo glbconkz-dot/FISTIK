@@ -1,5 +1,6 @@
 import { applyProductAssets } from '@/data/product-assets';
 import { CATEGORY_KK, CATEGORY_RU, CATEGORY_TR, PRODUCT_KK, PRODUCT_RU, PRODUCT_TR } from '@/data/menu-names';
+import { isArchivedStorefrontProduct } from '@/lib/hidden-storefront';
 import type { Category, Product } from '@/types';
 
 export const PLACEHOLDER_IMAGE = '/product-placeholder.jpg';
@@ -61,7 +62,7 @@ function product(
     description_tr: desc.tr,
     price,
     image_url: PLACEHOLDER_IMAGE,
-    is_active: true,
+    is_active: !isArchivedStorefrontProduct(slug),
     stock_quantity: 0,
     sort_order,
     created_at: '',
