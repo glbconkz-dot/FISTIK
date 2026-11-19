@@ -4,10 +4,12 @@ import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { STUDIO } from '@/lib/studio';
 
 const NAV = [
+  { href: '/projects' as const, key: 'studio' },
   { href: '/work' as const, key: 'work' },
+  { href: '/departments' as const, key: 'departments' },
+  { href: '/agents' as const, key: 'agents' },
+  { href: '/playbook' as const, key: 'playbook' },
   { href: '/practice' as const, key: 'practice' },
-  { href: '/team' as const, key: 'team' },
-  { href: '/services' as const, key: 'services' },
   { href: '/contact' as const, key: 'contact' },
 ];
 
@@ -24,7 +26,7 @@ export async function Header() {
           </p>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-4 xl:gap-5 lg:flex">
           {NAV.map((item) => (
             <Link
               key={item.key}
