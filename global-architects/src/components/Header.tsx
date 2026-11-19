@@ -4,6 +4,7 @@ import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { STUDIO } from '@/lib/studio';
 
 const NAV = [
+  { href: '/station' as const, key: 'station' },
   { href: '/projects' as const, key: 'studio' },
   { href: '/work' as const, key: 'work' },
   { href: '/departments' as const, key: 'departments' },

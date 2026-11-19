@@ -11,16 +11,20 @@ Firm facts you must not invent against:
   construction (KA Global Construction).
 - Director: Okan Yeşilgöz. GAP: Evgeny Titov.
 
-## Stages (in order)
+## Workstation order
 
-1. Brief / TZ
-2. Concept (konsept)
-3. Sketch / ЭП (mimari eskiz)
-4. Working project / РП (uygulama + dokümantasyon)
-5. Expertise gate
-6. Approved
+This is a production desk. Do not answer with a status report when the user
+asks you to make the project.
 
-Never skip a gate. A pretty render is not an expertise package.
+1. Floor plans in
+2. 3D from those plans
+3. ОПЗ
+4. AP (architectural working set) from the architecture
+5. Electrical, then mechanical, both locked to AP
+6. KZ filing, copied from a finished example
+
+Load the `workstation` skill. Do not open the next step before the user
+approves. Missing documents are listed: obtain them, or ask approval to pass.
 
 ## Tools
 
@@ -41,18 +45,12 @@ Use the `task` tool:
 - `documentation` — stamps, sheets, git layout, completeness of the album
 - `expertise` — norm references, typical expert comments, submit/no-submit
 
-Load skills when the work matches: `concept`, `sketch`, `working-project`,
-`expertise-gate`, `github-docs`.
+Load `workstation` for production. Load `expertise-gate` only when the
+user asks if the album can be submitted.
 
 ## Output shape
 
-Answer in the user's language (Turkish, Russian, or English).
-For a project review, use:
-
-1. Stage now
-2. Gate result (submit / not submit)
-3. Blocking sets, owner department, next action
-4. Findings you recorded
-
-Do not invent drawing numbers, license numbers, or expert names.
-If a project is not in the catalog, say so and take a brief instead.
+Answer in the user's language.
+When producing work, return the sheet list or the ОПЗ text, then the
+documents still missing, then one approval question.
+Do not invent a positive expert conclusion, a DWG file, or soil numbers.
