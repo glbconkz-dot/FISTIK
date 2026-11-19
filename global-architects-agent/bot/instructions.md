@@ -25,9 +25,9 @@ asks you to make the project.
 
 Load the `workstation` skill. Call `study_base` before you produce.
 The portfolio notes are in `global-architects/baza`. The office drawings
-are the folder in `baza/disk.json` (`root`) or `DISK_ROOT`. If that path
-is not a folder on this machine, say so. Do not invent a scan. Do not
-open the next step before the user approves.
+are the Synology in `baza/disk.json` (`url`). If `disk.connected` is
+false, the NAS answered but the file list was not read. Do not invent a
+scan. Do not open the next step before the user approves.
 
 ## Tools
 

@@ -1,6 +1,6 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import { filesForProject, scanDisk } from "@/lib/disk-scan";
+import { filesForProject, scanOfficeDisk } from "@/lib/disk-scan";
 
 export const dynamic = "force-dynamic";
 
@@ -32,8 +32,12 @@ export async function GET() {
   }
   const diskFile = JSON.parse(await readFile(path.join(root, "disk.json"), "utf8").catch(() => "{}")) as {
     root?: string;
+    url?: string;
   };
-  const disk = await scanDisk(process.env.DISK_ROOT || diskFile.root || "");
+  const disk = await scanOfficeDisk({
+    root: process.env.DISK_ROOT || diskFile.root || "",
+    url: process.env.SYNO_URL || diskFile.url || "",
+  });
   const projectsWithDisk = projects.map((project) => ({
     ...project,
     diskFiles: filesForProject(disk, project.id),

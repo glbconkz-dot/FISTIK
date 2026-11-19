@@ -10,6 +10,6 @@ Her iş:
 
 Orijinal pafta yoksa ajan albümü görmüş sayılmaz. Portföy kaydını çizim diye yazmaz.
 
-Ofis disk yolu `disk.json` içindeki `root` alanıdır (veya `DISK_ROOT`). Bu ajan bulut makinesindedir ve ofis ağını görmez. Yol bu makinede klasör olarak yoksa tarama yapılmaz. Yol, ajanın çalıştığı bilgisayarda açık bir klasör olmalıdır.
+Ofis disk adresi `disk.json` içindeki `url` alanıdır. Bu Synology DSM’dir. Dosya listesi oturum ister. Hesap `SYNO_ACCOUNT` ve `SYNO_PASSWORD` ile okunur; şifre bu dosyaya yazılmaz. Oturum yoksa ajan paylaşımı taramış sayılmaz.
 
 HALAVET süren iştir. Dosya kapağı ondan kopyalanmaz.

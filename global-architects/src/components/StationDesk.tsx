@@ -397,6 +397,7 @@ function DiskBanner({ disk }: { disk: DiskScan | null }) {
     <div className="mt-6 max-w-2xl border border-rule p-4">
       <p className="label">{disk.connected ? "Disk sunucu" : "Disk sunucu bağlı değil"}</p>
       <p className="mt-2 text-sm leading-relaxed">{disk.reason}</p>
+      {disk.root ? <p className="mt-2 text-xs text-muted">{disk.root}</p> : null}
       {disk.connected ? (
         <p className="mt-2 text-xs text-muted">{disk.folders.slice(0, 12).join(" · ")}</p>
       ) : null}

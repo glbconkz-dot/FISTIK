@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { prompt } from "@grok/agent-sdk";
 import { defineTool } from "@grok/agent-sdk/tools";
 import * as z from "zod/v4";
-import { filesForProject, scanDisk } from "../../../global-architects/src/lib/disk-scan";
+import { filesForProject, scanOfficeDisk } from "../../../global-architects/src/lib/disk-scan";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../global-architects/baza");
 
@@ -51,8 +51,12 @@ export default defineTool({
   async execute({ project }) {
     const diskFile = JSON.parse(await readFile(path.join(root, "disk.json"), "utf8").catch(() => "{}")) as {
       root?: string;
+      url?: string;
     };
-    const disk = await scanDisk(process.env.DISK_ROOT || diskFile.root || "");
+    const disk = await scanOfficeDisk({
+      root: process.env.DISK_ROOT || diskFile.root || "",
+      url: process.env.SYNO_URL || diskFile.url || "",
+    });
     const needle = project.trim().toLowerCase();
     if (needle === "disk") return { found: true as const, disk };
     const ids = (await readdir(root, { withFileTypes: true }))
