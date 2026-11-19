@@ -30,6 +30,9 @@ export function StationDesk() {
   });
   const [planName, setPlanName] = useState("");
   const [planNote, setPlanNote] = useState("");
+  const [bases, setBases] = useState<BaseRecord[]>([]);
+  const [disk, setDisk] = useState<DiskScan | null>(null);
+  const [bazaState, setBazaState] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -45,6 +48,33 @@ export function StationDesk() {
       }
     }
     setReady(true);
+    fetch("/api/baza")
+      .then(async (response) => {
+        if (!response.ok) throw new Error(String(response.status));
+        return response.json() as Promise<{ projects?: BaseRecord[]; disk?: DiskScan }>;
+      })
+      .then((body) => {
+        if (!Array.isArray(body.projects) || body.projects.length === 0) throw new Error("baza");
+        setBases(body.projects);
+        if (body.disk) setDisk(body.disk);
+        setBazaState("ready");
+        setDraft((value) =>
+          body.projects!.some((item) => item.id === value.exampleId)
+            ? value
+            : { ...value, exampleId: body.projects!.find((item) => item.learnFrom)?.id ?? body.projects![0].id },
+        );
+      })
+      .catch(() => {
+        setBazaState("error");
+        setDisk({
+          configured: false,
+          connected: false,
+          root: "",
+          reason: "Baza adresi açılmadı. /api/baza okunamadı.",
+          fileCount: 0,
+          folders: [],
+        });
+      });
   }, []);
 
   useEffect(() => {
@@ -80,7 +110,8 @@ export function StationDesk() {
   function runStage(stage: StageId) {
     if (!job) return;
     if (stage === "plans" && job.plans.length === 0) return;
-    const output = produce(job, stage);
+    const picked = bases.find((item) => item.id === job.exampleId);
+    const output = produce(job, stage, baseNote(picked, disk));
     patchStage(stage, "draft", output);
   }
 
@@ -90,14 +121,15 @@ export function StationDesk() {
       <h1 className="display mt-3 text-5xl italic sm:text-6xl">Plandan dosyaya.</h1>
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
         Kat planı girilir. Masa sırayla 3D görünüş listesini, ОПЗ’yi, AP paftalarını, elektrik ve mekanik paftalarını yazar.
-        Eksik evrakı ya ister ya onayınıza bırakır. Bir sonraki adım, öncekinin onayı olmadan açılmaz. Çizgi dosyası (DWG) bu ekrandan çıkmaz; pafta kilitlenir.
+        Eksik evrakı ya ister ya onayınıza bırakır. Bir sonraki adım, öncekinin onayı olmadan açılmaz.         Çizgi dosyası (DWG) bu ekrandan çıkmaz; pafta kilitlenir.
       </p>
+      <DiskBanner disk={disk} />
 
       <form
         className="mt-8 grid gap-3 border border-rule p-4 sm:grid-cols-4"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!draft.name.trim()) return;
+          if (!draft.name.trim() || bazaState !== "ready") return;
           const created = blankJob({
             name: draft.name.trim(),
             client: draft.client.trim() || "—",
@@ -160,11 +192,15 @@ export function StationDesk() {
           onChange={(event) => setDraft({ ...draft, exampleId: event.target.value })}
           className="field-input border-b border-rule"
         >
-          {EXAMPLES.map((example) => (
-            <option key={example.id} value={example.id}>
-              Örnek: {example.name}
-            </option>
-          ))}
+          {bazaState !== "ready" ? (
+            <option value="">{bazaState === "loading" ? "Baza okunuyor" : "Baza okunamadı"}</option>
+          ) : (
+            bases.map((example) => (
+              <option key={example.id} value={example.id}>
+                {example.learnFrom ? "Baza" : "Süren"}: {example.name}
+              </option>
+            ))
+          )}
         </select>
       </form>
 
@@ -199,7 +235,8 @@ export function StationDesk() {
           </ol>
 
           <section className="border border-rule p-4 sm:p-6">
-            <p className="label">{current ? STAGE_LABEL[current] : "Kapandı"}</p>
+            <BaseCard record={bases.find((item) => item.id === job.exampleId)} />
+            <p className="label mt-6">{current ? STAGE_LABEL[current] : "Kapandı"}</p>
             <h2 className="mt-2 font-display text-3xl">{job.name}</h2>
             <p className="mt-1 text-sm text-muted">
               {job.client} · {job.city} · {job.typology} · {planCount} plan · {missingDocs} eksik evrak
@@ -295,7 +332,7 @@ export function StationDesk() {
           <aside className="border border-rule p-4">
             <p className="label">Alınacak evrak</p>
             <p className="mt-2 text-xs leading-relaxed text-muted">
-              Örnek albüm: {EXAMPLES.find((item) => item.id === job.exampleId)?.name}. Eksik evrak işi durdurur veya onayınızla geçer.
+              Örnek albüm: {bases.find((item) => item.id === job.exampleId)?.name ?? job.exampleId}. Eksik evrak işi durdurur veya onayınızla geçer.
             </p>
             <ul className="mt-4 space-y-3">
               {job.docs.map((doc) => (
@@ -318,6 +355,72 @@ export function StationDesk() {
       ) : (
         <p className="mt-10 text-sm text-muted">Henüz masa yok. Nesne adını yazıp masa açın, kat planını ekleyin.</p>
       )}
+    </div>
+  );
+}
+
+type DiskScan = {
+  configured: boolean;
+  connected: boolean;
+  root: string;
+  reason: string;
+  fileCount: number;
+  folders: string[];
+};
+
+type BaseRecord = {
+  id: string;
+  name: string;
+  learnFrom: boolean;
+  outcome: string;
+  copyRules: string[];
+  originalFiles: string[];
+};
+
+function baseNote(record: BaseRecord | undefined, disk: DiskScan | null): string {
+  if (!record) return "Baza kaydı yok. Örnek albüm seçin.";
+  const files = record.originalFiles.length
+    ? `Orijinal dosya: ${record.originalFiles.join(", ")}`
+    : "Orijinal pafta yok. Yalnız portföy kaydı. Çizim uydurulmaz.";
+  const gate = record.learnFrom
+    ? "Bu albümden kopyalanır."
+    : "Bu süren iştir. Dosya kapağı buradan kopyalanmaz.";
+  const diskLine = disk?.connected
+    ? `Disk tarandı: ${disk.fileCount} dosya.`
+    : (disk?.reason ?? "Disk taranmadı.");
+  return [diskLine, record.name, record.outcome, gate, files, ...record.copyRules].join("\n");
+}
+
+function DiskBanner({ disk }: { disk: DiskScan | null }) {
+  if (!disk) return null;
+  return (
+    <div className="mt-6 max-w-2xl border border-rule p-4">
+      <p className="label">{disk.connected ? "Disk sunucu" : "Disk sunucu bağlı değil"}</p>
+      <p className="mt-2 text-sm leading-relaxed">{disk.reason}</p>
+      {disk.connected ? (
+        <p className="mt-2 text-xs text-muted">{disk.folders.slice(0, 12).join(" · ")}</p>
+      ) : null}
+    </div>
+  );
+}
+
+function BaseCard({ record }: { record: BaseRecord | undefined }) {
+  if (!record) return null;
+  return (
+    <div className="border border-rule p-4">
+      <p className="label">{record.learnFrom ? "Öğrenme bazı" : "Süren iş, kopyalanmaz"}</p>
+      <p className="mt-2 font-display text-2xl">{record.name}</p>
+      <p className="mt-2 text-sm text-muted">{record.outcome}</p>
+      <ul className="mt-3 space-y-1 text-sm">
+        {record.copyRules.map((rule) => (
+          <li key={rule}>{rule}</li>
+        ))}
+      </ul>
+      <p className="mt-3 text-xs text-muted">
+        {record.originalFiles.length
+          ? `Orijinal: ${record.originalFiles.join(", ")}`
+          : "original/ klasörü boş. PDF veya DWG konunca ajan onları da okur."}
+      </p>
     </div>
   );
 }

@@ -6,3 +6,5 @@ build
 .env*
 *.tsbuildinfo
 next-env.d.ts
+baza/*/original/*
+!baza/*/original/.gitkeep

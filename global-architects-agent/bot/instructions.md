@@ -23,8 +23,11 @@ asks you to make the project.
 5. Electrical, then mechanical, both locked to AP
 6. KZ filing, copied from a finished example
 
-Load the `workstation` skill. Do not open the next step before the user
-approves. Missing documents are listed: obtain them, or ask approval to pass.
+Load the `workstation` skill. Call `study_base` before you produce.
+The portfolio notes are in `global-architects/baza`. The office drawings
+are the folder in `baza/disk.json` (`root`) or `DISK_ROOT`. If that path
+is not a folder on this machine, say so. Do not invent a scan. Do not
+open the next step before the user approves.
 
 ## Tools
 

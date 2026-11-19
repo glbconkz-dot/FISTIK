@@ -111,10 +111,11 @@ function sheet(code: string, title: string, from: string): string {
   return `${code}  ${title}  ← ${from}`;
 }
 
-export function produce(job: StationJob, stage: StageId): string {
+export function produce(job: StationJob, stage: StageId, baseNote = ""): string {
   const planLines = job.plans.map((plan, index) => `${index + 1}. ${plan.name}${plan.note ? ` — ${plan.note}` : ""}`);
   const example = EXAMPLES.find((item) => item.id === job.exampleId) ?? EXAMPLES[0];
   const head = `${job.name} · ${job.client} · ${job.city} · ${job.floors} kat · ${job.area}`;
+  const learned = baseNote ? [`Bazadan:`, baseNote, ""] : [];
 
   if (stage === "plans") {
     return ["Kilitlenen kat planları:", ...planLines].join("\n");
@@ -126,6 +127,7 @@ export function produce(job: StationJob, stage: StageId): string {
       sheet(`R-${String(index + 1).padStart(2, "0")}b`, `İç perspektif — ${plan.name}`, "aynı aks"),
     ]);
     return [
+      ...learned,
       head,
       "3D, yüklenen planların aks ve kat sınırına kilitli. Yeni kütle uydurulmaz.",
       ...views,
@@ -142,6 +144,7 @@ export function produce(job: StationJob, stage: StageId): string {
   if (stage === "opz") {
     const missing = job.docs.filter((doc) => doc.state === "missing").map((doc) => `- ${doc.title}`);
     return [
+      ...learned,
       `ОПЗ — ${head}`,
       "1. Основание: ТЗ, APZ, kadastro.",
       `2. Gösterge: ${job.typology}, ${job.area}, ${job.floors} kat, ${job.city}.`,
@@ -160,6 +163,7 @@ export function produce(job: StationJob, stage: StageId): string {
       sheet(`AP-${String(index + 3).padStart(2, "0")}`, `Kat planı — ${plan.name}`, "işveren planı"),
     );
     return [
+      ...learned,
       `AP — mimari uygulama. Kaynak: kilitli plan + onaylı 3D + ОПЗ.`,
       "Ölçek 1:100. Aks, kapı, MGN ve yangın çıkışı planın dışına taşmaz.",
       sheet("AP-01", "Kapak / pafta listesi", example.name),
@@ -174,6 +178,7 @@ export function produce(job: StationJob, stage: StageId): string {
 
   if (stage === "electrical") {
     return [
+      ...learned,
       "EO / SS — aks AP kat planından kopyalanır. Plan değiştirilmez.",
       ...job.plans.flatMap((plan, index) => [
         sheet(`EO-L${index + 1}`, `Aydınlatma — ${plan.name}`, "AP kat"),
@@ -187,6 +192,7 @@ export function produce(job: StationJob, stage: StageId): string {
 
   if (stage === "mechanical") {
     return [
+      ...learned,
       "OV / VK — şaft ve cihaz yeri AP’de işaretli olandan çıkar.",
       ...job.plans.flatMap((plan, index) => [
         sheet(`OV-H${index + 1}`, `Isıtma — ${plan.name}`, "AP kat"),
@@ -201,6 +207,7 @@ export function produce(job: StationJob, stage: StageId): string {
 
   const openDocs = job.docs.filter((doc) => doc.state === "missing" || doc.state === "waiting");
   return [
+    ...learned,
     `KZ ekspertiz dosyası. Örnek albüm: ${example.name}. ${example.use}`,
     "Kopyalanan düzen: kapak, açıklama, GP, AP, KR yeri, OV, VK, EO, SS, PB, POS, OOS, MGN, EE, SM.",
     "Bu masanın kapattığı ciltler: 3D, ОПЗ, AP, EO/SS, OV/VK.",
