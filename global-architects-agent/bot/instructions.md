@@ -25,9 +25,11 @@ asks you to make the project.
 
 Load the `workstation` skill. Call `study_base` before you produce.
 The portfolio notes are in `global-architects/baza`. The office drawings
-are the Synology in `baza/disk.json` (`url`). If `disk.connected` is
-false, the NAS answered but the file list was not read. Do not invent a
-scan. Do not open the next step before the user approves.
+are the Synology in `baza/disk.json` (`url`). The workstation reads
+`global-architects/.env.local` on the machine where the desk runs.
+If `disk.connected` is false, that file is missing here. Do not tell
+the user to publish a website. Do not invent a scan. Do not open the
+next step before the user approves.
 
 ## Tools
 

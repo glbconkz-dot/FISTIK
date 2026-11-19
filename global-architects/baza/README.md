@@ -10,6 +10,6 @@ Her iş:
 
 Orijinal pafta yoksa ajan albümü görmüş sayılmaz. Portföy kaydını çizim diye yazmaz.
 
-Ofis disk adresi `disk.json` içindeki `url` alanıdır. Bu Synology DSM’dir. Dosya listesi oturum ister. Hesap `SYNO_ACCOUNT` ve `SYNO_PASSWORD` ile okunur; şifre bu dosyaya yazılmaz. Oturum yoksa ajan paylaşımı taramış sayılmaz.
+Ofis disk adresi `disk.json` içindeki `url` alanıdır. İş istasyonu bu adrese kendi bilgisayarından bağlanır. Hesap `global-architects/.env.local` içindedir (`SYNO_ACCOUNT`, `SYNO_PASSWORD`). Bu dosya GitHub’a gitmez. Masa `npm run dev` ile açılınca paylaşımı tarar.
 
 HALAVET süren iştir. Dosya kapağı ondan kopyalanmaz.

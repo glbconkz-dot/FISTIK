@@ -1,5 +1,6 @@
-import { readdir, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const DRAWING = new Set([".pdf", ".dwg", ".dxf", ".rvt", ".rfa", ".ifc", ".plt", ".dwf", ".dwfx"]);
 const MAX_FILES = 400;
@@ -60,8 +61,7 @@ async function scanSynology(rawUrl: string): Promise<DiskScan> {
     return { ...EMPTY, configured: true, root: parsed.host, reason: "Disk adresi https olmalı ve şifre içermemeli." };
   }
   const base = parsed.origin;
-  const account = process.env.SYNO_ACCOUNT?.trim() ?? "";
-  const password = process.env.SYNO_PASSWORD ?? "";
+  const { account, password } = await workstationAccount();
   if (!account || !password) {
     const alive = await synoCall(base, {
       api: "SYNO.FileStation.List",
@@ -76,7 +76,7 @@ async function scanSynology(rawUrl: string): Promise<DiskScan> {
       configured: true,
       root: base,
       reason:
-        "Synology açıldı (Global NAS). Dosya listesi oturum istiyor. Hesap bu makinede yok. Şifre sohbete yazılmaz.",
+        "Synology açık. Bu iş istasyonunda .env.local yok. global-architects klasöründe o dosyayı doldurup masayı yeniden başlatın. Masa paylaşımı oradan tarar.",
     };
   }
 
@@ -176,6 +176,46 @@ async function walkSynology(
     offset += batch.length;
     if (batch.length < limit) break;
   }
+}
+
+async function workstationAccount(): Promise<{ account: string; password: string }> {
+  const account = process.env.SYNO_ACCOUNT?.trim() ?? "";
+  const password = process.env.SYNO_PASSWORD ?? "";
+  if (account && password) return { account, password };
+  const candidates = [
+    path.join(process.cwd(), ".env.local"),
+    path.join(process.cwd(), "global-architects", ".env.local"),
+  ];
+  try {
+    candidates.push(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../.env.local"));
+  } catch {
+    /* paket içinde url yok */
+  }
+  for (const file of candidates) {
+    const text = await readFile(file, "utf8").catch(() => "");
+    if (!text) continue;
+    const parsed = parseEnv(text);
+    const nextAccount = account || parsed.SYNO_ACCOUNT?.trim() || "";
+    const nextPassword = password || parsed.SYNO_PASSWORD || "";
+    if (nextAccount && nextPassword) return { account: nextAccount, password: nextPassword };
+  }
+  return { account, password };
+}
+
+function parseEnv(text: string): Record<string, string> {
+  const values: Record<string, string> = {};
+  for (const line of text.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#") || !trimmed.includes("=")) continue;
+    const index = trimmed.indexOf("=");
+    const key = trimmed.slice(0, index).trim();
+    let value = trimmed.slice(index + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    values[key] = value;
+  }
+  return values;
 }
 
 async function synoCall(base: string, fields: Record<string, string>): Promise<SynoEnvelope | null> {

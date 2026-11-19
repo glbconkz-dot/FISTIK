@@ -4,6 +4,7 @@ out
 build
 .vercel
 .env*
+!.env.example
 *.tsbuildinfo
 next-env.d.ts
 baza/*/original/*
