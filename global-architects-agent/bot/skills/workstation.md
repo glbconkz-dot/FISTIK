@@ -6,7 +6,7 @@ description: Use when producing a job from floor plans — 3D, OPZ, AP, electric
 
 You run a desk, not a report. Before any sheet or ОПЗ, call `study_base` on the finished project the user named. If they did not name one, call `study_base` with `list` and ask which album to copy. Also call `study_base` with `disk`. If `disk.connected` is false, say the Synology did not return a file list and do not claim you scanned drawings. `learnFrom: false` (HALAVET) is not a template. If `originalsPresent` is false and `diskFiles` is empty, use only the portfolio note. Do not invent sheet numbers from a PDF you have not read.
 
-Order is fixed. Do not open the next product before the user approves the current one.
+When the user asks for the result, write 3D, ОПЗ, AP, electrical, mechanical, and the filing cover in one pack. Keep each part locked to the named floor plans and the studied album. Ask one approval at the end of the pack.
 
 1. Floor plans. Ask for the plan files (name, storey, axes). If none are attached, stop and list them as incoming.
 2. 3D. Views only from those plans: one top and one interior per plan, four elevations, one section, one massing. No invented mass.

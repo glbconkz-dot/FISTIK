@@ -33,6 +33,9 @@ export type StationJob = {
   area: string;
   typology: string;
   exampleId: string;
+  exampleName?: string;
+  exampleUse?: string;
+  learnFrom?: boolean;
   plans: PlanFile[];
   stages: Record<StageId, { state: StageState; output: string }>;
   docs: IncomingDoc[];
@@ -81,7 +84,7 @@ export const EXAMPLES = [
   },
 ] as const;
 
-const DOC_SEED: Array<Omit<IncomingDoc, "state">> = [
+export const DOC_SEED: Array<Omit<IncomingDoc, "state">> = [
   { id: "tz", title: "İşveren görev tanımı (ТЗ)", why: "Program ve TEP ОПЗ’ye buradan girer." },
   { id: "apz", title: "APZ / planlama görevi", why: "Yükseklik, çekme, işlev. Ekspertiz ilk buna bakar." },
   { id: "topo", title: "Topoğrafya", why: "Vaziyet ve kotlar." },
@@ -111,7 +114,7 @@ function sheet(code: string, title: string, from: string): string {
   return `${code}  ${title}  ← ${from}`;
 }
 
-export function produce(job: StationJob, stage: StageId, baseNote = ""): string {
+export function produce(job: StationJob, stage: StageId, baseNote = "", pack = false): string {
   const planLines = job.plans.map((plan, index) => `${index + 1}. ${plan.name}${plan.note ? ` — ${plan.note}` : ""}`);
   const example = EXAMPLES.find((item) => item.id === job.exampleId) ?? EXAMPLES[0];
   const head = `${job.name} · ${job.client} · ${job.city} · ${job.floors} kat · ${job.area}`;
@@ -137,7 +140,7 @@ export function produce(job: StationJob, stage: StageId, baseNote = ""): string 
       sheet("R-C4", "Batı cephe", "plan konturu"),
       sheet("R-S1", "Enine kesit", "plan + kat yüksekliği"),
       sheet("R-M1", "Vaziyet kütlesi", `${job.floors} kat`),
-      "Onaylanmadan ОПЗ açılmaz.",
+      ...(pack ? [] : ["Onaylanmadan ОПЗ açılmaz."]),
     ].join("\n");
   }
 
@@ -206,15 +209,27 @@ export function produce(job: StationJob, stage: StageId, baseNote = ""): string 
   }
 
   const openDocs = job.docs.filter((doc) => doc.state === "missing" || doc.state === "waiting");
+  const albumName = job.exampleName ?? example.name;
+  const albumUse = job.exampleUse ?? example.use;
+  if (job.learnFrom === false) {
+    return [...learned, `${albumName} süren iştir. Dosya kapağı buradan kopyalanmaz.`, albumUse].filter(Boolean).join("\n");
+  }
   return [
     ...learned,
-    `KZ ekspertiz dosyası. Örnek albüm: ${example.name}. ${example.use}`,
+    `KZ ekspertiz dosyası. Örnek albüm: ${albumName}. ${albumUse}`,
     "Kopyalanan düzen: kapak, açıklama, GP, AP, KR yeri, OV, VK, EO, SS, PB, POS, OOS, MGN, EE, SM.",
     "Bu masanın kapattığı ciltler: 3D, ОПЗ, AP, EO/SS, OV/VK.",
     "Bu masanın kapatmadığı, örnek albümde ayrı duran ciltler: KR, POS, OOS, SM. Zemin ve metraj evrakı gelmeden yazılmaz.",
     openDocs.length ? "Dosyaya girmeden kapanmayan evrak:" : "Gelen evrak tamam. Dosya kapağı yazılabilir.",
     ...openDocs.map((doc) => `- ${doc.title} (${doc.state === "waiting" ? "onay bekliyor" : "yok"})`),
   ].join("\n");
+}
+
+export function deliver(job: StationJob, baseNote: string): string {
+  const sections = (["render", "opz", "ap", "electrical", "mechanical", "filing"] as StageId[]).map((stage) =>
+    produce(job, stage, "", true),
+  );
+  return [baseNote, ...sections].filter((part) => part.trim()).join("\n\n");
 }
 
 export function nextOpen(job: StationJob): StageId {
