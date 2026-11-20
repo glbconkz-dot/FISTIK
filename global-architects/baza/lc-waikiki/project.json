@@ -1,0 +1,17 @@
+{
+  "id": "lc-waikiki",
+  "name": "LC Waikiki idari ve depo",
+  "learnFrom": true,
+  "client": "TEMA RETAIL KZ",
+  "city": "Almatı bölgesi, M. Tuymebay",
+  "typology": "Sanayi",
+  "year": "2022",
+  "plotHa": 7.351,
+  "floors": "1–3",
+  "outcome": "İdari ve depo kompleksi çalışma projesi, olumlu ekspertiz.",
+  "copyRules": [
+    "Depo ve idare ayrı kütle. Tek çatı altında birleştirilmez.",
+    "1–3 kat. Yüksek konut tip-kat kuralı uygulanmaz.",
+    "Arsa hektar cinsindense GP, AP’den önce gelir."
+  ]
+}

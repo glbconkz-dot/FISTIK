@@ -1,0 +1,18 @@
+{
+  "id": "union",
+  "name": "UNION MRC",
+  "learnFrom": true,
+  "client": "TUR-KHAN",
+  "city": "Almatı bölgesi, Besagaş",
+  "typology": "Konut",
+  "year": "2021",
+  "areaM2": 134372,
+  "plotHa": 5.39,
+  "floors": "9",
+  "outcome": "Çalışma projesi 23.06.2021 olumlu ekspertiz.",
+  "copyRules": [
+    "Arsa büyükse (hektar) vaziyet, kat planından önce kapanır.",
+    "9 kat konutta tip kat bir kez çizilir, diğer katlar fark paftasıdır.",
+    "Olumlu sonuç tarihi dosya kapağına yazılır; ajan kendi sonuç tarihi uydurmaz."
+  ]
+}
