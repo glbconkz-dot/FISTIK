@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f3efe6;
+  --stone: #e4ddd0;
+  --rule: #c9c2b5;
+  --charcoal: #1a1916;
+  --ink: #2c2a26;
+  --muted: #6f6a62;
+  --bronze: #6e6258;
+  --surface: #faf8f3;
+  --blueprint: #1f4f68;
+  --stamp: #8c3b32;
+  --ready: #2f5d3a;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-stone: var(--stone);
+  --color-rule: var(--rule);
+  --color-charcoal: var(--charcoal);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-bronze: var(--bronze);
+  --color-surface: var(--surface);
+  --color-blueprint: var(--blueprint);
+  --color-stamp: var(--stamp);
+  --color-ready: var(--ready);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --font-display: var(--font-display-family), "Times New Roman", serif;
+  --font-sans: var(--font-body-family), "Helvetica Neue", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--charcoal);
+  color: var(--paper);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.hairline {
+  border-color: var(--rule);
+}
+
+.label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.prose-studio p + p {
+  margin-top: 1rem;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border-radius: 0;
+}
+
+button {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.sheet {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+.stamp {
+  display: inline-block;
+  border: 1px solid var(--stamp);
+  color: var(--stamp);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+.stamp-open {
+  border-color: var(--ready);
+  color: var(--ready);
+}
+
+.stamp-closed {
+  border-color: var(--stamp);
+  color: var(--stamp);
+}
+
+.blueprint {
+  color: var(--blueprint);
+}
+
+.ready {
+  color: var(--ready);
+}
+
+.field-input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.65rem 0;
+  outline: none;
+}

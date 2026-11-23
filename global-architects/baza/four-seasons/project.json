@@ -1,0 +1,19 @@
+{
+  "id": "four-seasons",
+  "name": "Four Seasons MRC",
+  "learnFrom": true,
+  "client": "ALFA stroy",
+  "city": "Almatı, Bostandyk",
+  "typology": "Konut",
+  "year": "2020–2021",
+  "areaM2": 42524,
+  "floors": "12",
+  "outcome": "Eskiz ve çalışma projesi. Her iki kademe olumlu ekspertiz.",
+  "copyRules": [
+    "TZ ve APZ kilitlenmeden AP kat paftası açılmaz.",
+    "3D, kilitli kat planının aksından çıkar.",
+    "ОПЗ içinde TEP, alandan ve kattan yazılır; uydurulmaz.",
+    "EO ve OV, AP aksı kilitlendikten sonra açılır.",
+    "Ekspertiz kapağı bu albümün düzenini kopyalar: ЭП + РП."
+  ]
+}
