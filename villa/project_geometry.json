@@ -5,7 +5,7 @@
   "siteBoundary": null,
   "source": "TEK KATLI AVLU VILLA sheet",
   "certainty": "estimated",
-  "generatedAt": "24 Kasım 2026, 19:58 (Qyzylorda, UTC+5)",
+  "generatedAt": "24 Kasım 2026, 20:13 (Qyzylorda, UTC+5)",
   "scale": {
     "method": "Bedroom-wing door openings on the sheet measure 22 px. That opening is taken as an 800 mm leaf.",
     "doorPx": 22,
@@ -690,7 +690,7 @@
         ],
         [
           -150,
-          -18250
+          -18170
         ]
       ],
       "thicknessMm": 300,
@@ -707,7 +707,7 @@
       "axis": [
         [
           -150,
-          -18250
+          -18170
         ],
         [
           -150,
@@ -853,11 +853,11 @@
       "id": "W-mutfak-hol",
       "axis": [
         [
-          6210,
+          6290,
           -2980
         ],
         [
-          6210,
+          6290,
           -5300
         ]
       ],
@@ -937,11 +937,11 @@
       "id": "W-bed1",
       "axis": [
         [
-          17850,
+          17770,
           150
         ],
         [
-          17850,
+          17770,
           -2900
         ]
       ],
@@ -958,11 +958,11 @@
       "id": "W-bed2-hol",
       "axis": [
         [
-          17850,
+          17770,
           -2900
         ],
         [
-          17850,
+          17770,
           -5300
         ]
       ],
@@ -1403,7 +1403,7 @@
           150
         ],
         [
-          17850,
+          17770,
           150
         ]
       ],
@@ -1420,7 +1420,7 @@
       "id": "W-n-bed1",
       "axis": [
         [
-          17850,
+          17770,
           150
         ],
         [
@@ -1487,7 +1487,7 @@
           -2980
         ],
         [
-          6210,
+          6290,
           -2980
         ]
       ],
@@ -1504,7 +1504,7 @@
       "id": "W-s-depo-hol",
       "axis": [
         [
-          6210,
+          6290,
           -2980
         ],
         [
@@ -1652,11 +1652,11 @@
       "axis": [
         [
           -150,
-          -18250
+          -18170
         ],
         [
           6210,
-          -18250
+          -18170
         ]
       ],
       "thicknessMm": 140,
@@ -1714,7 +1714,7 @@
       "id": "W-bed12",
       "axis": [
         [
-          17850,
+          17770,
           -2900
         ],
         [
@@ -1924,7 +1924,7 @@
       "widthMm": 2400,
       "heightMm": 2400,
       "sillMm": 0,
-      "offsetMm": 4875,
+      "offsetMm": 4835,
       "swing": "sliding",
       "hinge": null,
       "rooms": [
@@ -1956,10 +1956,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 2450,
+      "offsetMm": 2380,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -1975,10 +1975,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 1800,
+      "offsetMm": 1650,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -1994,10 +1994,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2013,10 +2013,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2032,10 +2032,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2051,10 +2051,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2070,10 +2070,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2089,10 +2089,10 @@
       "widthMm": 1000,
       "heightMm": 2400,
       "sillMm": 0,
-      "offsetMm": 1435,
+      "offsetMm": 1470,
       "swing": "right",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2108,10 +2108,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 1855,
+      "offsetMm": 1895,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2130,7 +2130,7 @@
       "offsetMm": 1020,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2146,10 +2146,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 620,
+      "offsetMm": 580,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2168,7 +2168,7 @@
       "offsetMm": 1145,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2184,10 +2184,10 @@
       "widthMm": 2000,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 1435,
+      "offsetMm": 1470,
       "swing": "right",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2203,10 +2203,10 @@
       "widthMm": 700,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 1000,
+      "offsetMm": 965,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2225,7 +2225,7 @@
       "offsetMm": 5820,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2241,10 +2241,10 @@
       "widthMm": 900,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 5610,
+      "offsetMm": 5460,
       "swing": "right",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2263,7 +2263,7 @@
       "offsetMm": 3180,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2295,10 +2295,10 @@
       "widthMm": 800,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 600,
+      "offsetMm": 670,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2314,10 +2314,10 @@
       "widthMm": 700,
       "heightMm": 2100,
       "sillMm": 0,
-      "offsetMm": 1635,
+      "offsetMm": 1595,
       "swing": "left",
       "hinge": [
-        21535,
+        21495,
         -17120
       ],
       "rooms": [
@@ -2334,7 +2334,7 @@
       "widthMm": 1200,
       "heightMm": 1500,
       "sillMm": 900,
-      "offsetMm": 980,
+      "offsetMm": 1070,
       "certainty": "estimated"
     },
     {
@@ -2343,7 +2343,7 @@
       "widthMm": 2000,
       "heightMm": 2200,
       "sillMm": 200,
-      "offsetMm": 4875,
+      "offsetMm": 4835,
       "certainty": "estimated"
     },
     {
@@ -2352,7 +2352,7 @@
       "widthMm": 1000,
       "heightMm": 1500,
       "sillMm": 900,
-      "offsetMm": 2545,
+      "offsetMm": 970,
       "certainty": "estimated"
     },
     {
@@ -2361,7 +2361,7 @@
       "widthMm": 2000,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 1838,
+      "offsetMm": 1470,
       "certainty": "estimated"
     },
     {
@@ -2370,7 +2370,7 @@
       "widthMm": 2000,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 7912,
+      "offsetMm": 8200,
       "certainty": "estimated"
     },
     {
@@ -2379,7 +2379,7 @@
       "widthMm": 1200,
       "heightMm": 2200,
       "sillMm": 200,
-      "offsetMm": 872,
+      "offsetMm": 1145,
       "certainty": "estimated"
     },
     {
@@ -2388,7 +2388,7 @@
       "widthMm": 1200,
       "heightMm": 2200,
       "sillMm": 200,
-      "offsetMm": 4218,
+      "offsetMm": 3945,
       "certainty": "estimated"
     },
     {
@@ -2397,7 +2397,7 @@
       "widthMm": 1500,
       "heightMm": 1500,
       "sillMm": 900,
-      "offsetMm": 1525,
+      "offsetMm": 1565,
       "certainty": "estimated"
     },
     {
@@ -2442,7 +2442,7 @@
       "widthMm": 900,
       "heightMm": 600,
       "sillMm": 1600,
-      "offsetMm": 2560,
+      "offsetMm": 2520,
       "certainty": "estimated"
     },
     {
@@ -2451,7 +2451,7 @@
       "widthMm": 1200,
       "heightMm": 1500,
       "sillMm": 900,
-      "offsetMm": 1855,
+      "offsetMm": 1895,
       "certainty": "estimated"
     },
     {
@@ -2487,7 +2487,7 @@
       "widthMm": 600,
       "heightMm": 500,
       "sillMm": 1700,
-      "offsetMm": 1000,
+      "offsetMm": 965,
       "certainty": "estimated"
     },
     {
@@ -2496,7 +2496,7 @@
       "widthMm": 1800,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 2510,
+      "offsetMm": 1450,
       "certainty": "estimated"
     },
     {
@@ -2505,7 +2505,7 @@
       "widthMm": 1800,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 9130,
+      "offsetMm": 10190,
       "certainty": "estimated"
     },
     {
@@ -2514,7 +2514,7 @@
       "widthMm": 2200,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 2110,
+      "offsetMm": 1650,
       "certainty": "estimated"
     },
     {
@@ -2523,7 +2523,7 @@
       "widthMm": 2200,
       "heightMm": 2400,
       "sillMm": 100,
-      "offsetMm": 9530,
+      "offsetMm": 9990,
       "certainty": "estimated"
     },
     {
@@ -2541,7 +2541,7 @@
       "widthMm": 1600,
       "heightMm": 1500,
       "sillMm": 900,
-      "offsetMm": 1200,
+      "offsetMm": 1240,
       "certainty": "estimated"
     }
   ],

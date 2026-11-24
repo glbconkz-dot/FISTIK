@@ -1,6 +1,6 @@
 # PROJECT_STATUS — Tek katlı avlu villa
 
-Durum tarihi: 24 Kasım 2026, 19:58 (Qyzylorda, UTC+5).
+Durum tarihi: 24 Kasım 2026, 20:13 (Qyzylorda, UTC+5).
 
 Aşama 02 işlendi. Onaylı U plan korundu. Yeni kat planı çizilmedi. Arsa sınırı modele alınmadı. CAD dosyası üretildi ve DXF geri okunarak kontrol edildi.
 

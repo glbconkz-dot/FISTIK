@@ -421,6 +421,140 @@ def main():
     add_h("W-s-ebe", yEs, Xm, Xe, EXT_T, "ebeveyn-banyo", "bahce")
     add_h("W-stall", y_stall, Xm, Xe, INT_T, "ebeveyn-banyo", "ebeveyn-banyo")
 
+    # Colinear thick/thin runs share one outer face. The thinner wall shifts
+    # onto that face so the joint is one square return, not a step on both sides.
+    # Corners are extended later, to the far face of the wall they meet.
+    OUTER_ROOMS = {"bahce", "avlu", "ana-teras", "mutfak-terasi", "giris-sacagi"}
+
+    def toward_room(wall, room_id, depth=0):
+        if depth > 2:
+            return None
+        mid = wall.point_at(wall.length / 2)
+        if room_id in rooms:
+            for sign in (1, -1):
+                probe = Point(mid[0] + wall.lx * sign * 500, mid[1] + wall.ly * sign * 500)
+                if rooms[room_id]["polygon"].buffer(120).covers(probe):
+                    return (wall.lx * sign, wall.ly * sign)
+            return None
+        other = wall.rooms[1] if wall.rooms[0] == room_id else wall.rooms[0]
+        back = toward_room(wall, other, depth + 1) if other in rooms else None
+        if back:
+            return (-back[0], -back[1])
+        return None
+
+    runs = {}
+    for wall in walls:
+        if abs(wall.ux) >= 0.9:
+            key = ("H", round(wall.p1[1]))
+        else:
+            key = ("V", round(wall.p1[0]))
+        runs.setdefault(key, []).append(wall)
+    for run in runs.values():
+        normal = [wall for wall in run if wall.thickness <= 400]
+        if len(normal) < 2:
+            continue
+        thickest = max(normal, key=lambda wall: wall.thickness)
+        flush = None
+        for room_id in thickest.rooms:
+            if room_id in OUTER_ROOMS:
+                flush = toward_room(thickest, room_id)
+                if flush:
+                    break
+        if flush is None:
+            for room_id in thickest.rooms:
+                flush = toward_room(thickest, room_id)
+                if flush:
+                    break
+        if flush is None:
+            continue
+        for wall in normal:
+            delta = (thickest.thickness - wall.thickness) / 2
+            if delta < 1:
+                continue
+            wall.p1 = (wall.p1[0] + flush[0] * delta, wall.p1[1] + flush[1] * delta)
+            wall.p2 = (wall.p2[0] + flush[0] * delta, wall.p2[1] + flush[1] * delta)
+
+    def retie(wall):
+        dx, dy = wall.p2[0] - wall.p1[0], wall.p2[1] - wall.p1[1]
+        wall.length = math.hypot(dx, dy)
+        wall.ux, wall.uy = dx / wall.length, dy / wall.length
+        wall.lx, wall.ly = -wall.uy, wall.ux
+
+    # A partition that used to stop on the old centreline is pulled onto the
+    # shifted wall so its end does not stick out past the face.
+    for wall in walls:
+        for at_start in (True, False):
+            pt = wall.p1 if at_start else wall.p2
+            sitting = False
+            for other in walls:
+                if other is wall:
+                    continue
+                if abs(wall.ux * other.ux + wall.uy * other.uy) > 0.2:
+                    continue
+                along = (pt[0] - other.p1[0]) * other.ux + (pt[1] - other.p1[1]) * other.uy
+                across = (pt[0] - other.p1[0]) * other.lx + (pt[1] - other.p1[1]) * other.ly
+                if -5 <= along <= other.length + 5 and abs(across) < 3:
+                    sitting = True
+                    break
+            if sitting:
+                continue
+            best = None
+            for other in walls:
+                if other is wall or abs(wall.ux * other.ux + wall.uy * other.uy) > 0.2:
+                    continue
+                along = (pt[0] - other.p1[0]) * other.ux + (pt[1] - other.p1[1]) * other.uy
+                if along < -30 or along > other.length + 30:
+                    continue
+                foot = (other.p1[0] + other.ux * along, other.p1[1] + other.uy * along)
+                shift = (foot[0] - pt[0], foot[1] - pt[1])
+                dist = math.hypot(*shift)
+                # Only the small shift from aligning a thin wall. Do not pull an
+                # end from a thick core's face to its centre.
+                if dist < 2 or dist > 120:
+                    continue
+                # Only slide along this wall. A sideways slide would move the whole run.
+                if abs(shift[0] * wall.lx + shift[1] * wall.ly) > 3:
+                    continue
+                if best is None or dist < best[0]:
+                    best = (dist, foot)
+            if best is None:
+                continue
+            nxt = best[1]
+            other_end = wall.p2 if at_start else wall.p1
+            if math.hypot(nxt[0] - other_end[0], nxt[1] - other_end[1]) < 200:
+                continue
+            if at_start:
+                wall.p1 = nxt
+            else:
+                wall.p2 = nxt
+            retie(wall)
+
+    def end_extension(wall, at_start):
+        sign = -1 if at_start else 1
+        ox, oy = wall.ux * sign, wall.uy * sign
+        pt = wall.p1 if at_start else wall.p2
+        half = wall.thickness / 2
+        reach = 0.0
+        for other in walls:
+            if other is wall:
+                continue
+            if abs(wall.ux * other.ux + wall.uy * other.uy) > 0.2:
+                continue
+            dist = (other.p1[0] - pt[0]) * ox + (other.p1[1] - pt[1]) * oy
+            far = dist + other.thickness / 2
+            if far < 5 or far > 500:
+                continue
+            along = (pt[0] - other.p1[0]) * other.ux + (pt[1] - other.p1[1]) * other.uy
+            overlap = min(along + half, other.length) - max(along - half, 0)
+            if overlap < 10:
+                continue
+            reach = max(reach, far)
+        return reach
+
+    for wall in walls:
+        wall.ext_start = end_extension(wall, True)
+        wall.ext_end = end_extension(wall, False)
+
     by_id = {wall.id: wall for wall in walls}
     findings = []
 
@@ -443,13 +577,28 @@ def main():
         return opening
 
     def centered(wall_id, width):
-        return by_id[wall_id].length / 2
+        wall = by_id[wall_id]
+        start = wall.ext_start
+        end = wall.length - wall.ext_end
+        if end - start < width + 80:
+            return wall.length / 2
+        return (start + end) / 2
 
     def near_end(wall_id, width, margin=200):
-        return by_id[wall_id].length - margin - width / 2
+        wall = by_id[wall_id]
+        pos = wall.length - (wall.ext_end + margin) - width / 2
+        limit = wall.ext_start + margin + width / 2
+        if pos < limit:
+            return wall.length / 2
+        return pos
 
     def near_start(wall_id, width, margin=200):
-        return margin + width / 2
+        wall = by_id[wall_id]
+        pos = wall.ext_start + margin + width / 2
+        limit = wall.length - (wall.ext_end + margin) - width / 2
+        if pos > limit:
+            return wall.length / 2
+        return pos
 
     # Doors. Offset is the opening centre, measured from the wall start
     # (north end of a vertical wall, west end of a horizontal wall).
@@ -479,9 +628,11 @@ def main():
         add_opening("W-stall", "single", 700, 2100, 0, centered("W-stall", 700), "ebeveyn-banyo", "ebeveyn-banyo", "left"),
     ]
 
-    def free_gaps(wall):
+    def free_gaps(wall, margin=200):
+        # Stay clear of the wall the end joins, and leave a pier before a door.
         spans = sorted(wall.openings, key=lambda item: item["offsetMm"])
-        cursor = 0.0
+        cursor = wall.ext_start + margin
+        limit = max(cursor, wall.length - wall.ext_end - margin)
         found = []
         for item in spans:
             a = item["offsetMm"] - item["widthMm"] / 2
@@ -489,23 +640,47 @@ def main():
             if a - cursor > 1:
                 found.append((cursor, a))
             cursor = max(cursor, b)
-        if wall.length - cursor > 1:
-            found.append((cursor, wall.length))
+        if limit - cursor > 1:
+            found.append((cursor, limit))
         return found
 
     def add_window(wall_id, width, height, sill, which="largest"):
         wall = by_id[wall_id]
-        fits = [(a, b) for a, b in free_gaps(wall) if b - a >= width + 200]
+        fits = []
+        for margin in (200, 100, 0):
+            fits = [(a, b) for a, b in free_gaps(wall, margin) if b - a >= width + 40]
+            if fits:
+                break
         if not fits:
             findings.append(f"Pencere sığmadı: {wall_id} {width} mm")
             return None
         if which == "start":
             a, b = fits[0]
+            spare = (b - a) - width
+            offset = a + width / 2 + min(200, max(0, spare))
         elif which == "end":
             a, b = fits[-1]
+            spare = (b - a) - width
+            offset = b - width / 2 - min(200, max(0, spare))
         else:
             a, b = max(fits, key=lambda gap: gap[1] - gap[0])
-        return add_opening(wall_id, "window", width, height, sill, (a + b) / 2, None, None)
+            offset = (a + b) / 2
+        return add_opening(wall_id, "window", width, height, sill, offset, None, None)
+
+    for wall in walls:
+        ordered = sorted(wall.openings, key=lambda item: item["offsetMm"])
+        for left, right in zip(ordered, ordered[1:]):
+            gap = (right["offsetMm"] - right["widthMm"] / 2) - (left["offsetMm"] + left["widthMm"] / 2)
+            if gap >= 200:
+                continue
+            push = (200 - gap) / 2
+            left["offsetMm"] -= push
+            right["offsetMm"] += push
+        lo = wall.ext_start + 40
+        hi = wall.length - wall.ext_end - 40
+        for opening in ordered:
+            half = opening["widthMm"] / 2
+            opening["offsetMm"] = min(max(opening["offsetMm"], lo + half), hi - half)
 
     for wid in ("W-n-teknik", "W-n-camasir", "W-n-depo", "W-n-port"):
         add_window(wid, 1200, 1500, 900)
@@ -927,7 +1102,7 @@ def main():
         ]
 
     def wall_body(wall):
-        return Polygon(wall_quad(wall, 0, wall.length))
+        return Polygon(wall_quad(wall, -wall.ext_start, wall.length + wall.ext_end))
 
     def opening_cut(wall, opening):
         # Cut past both faces so the boolean removes the wall, including the
@@ -967,6 +1142,39 @@ def main():
     cuts = unary_union([opening_cut(wall, opening) for wall, _body in bodies for opening in wall.openings])
     raw_mass = unary_union([body for _wall, body in bodies])
     mass = raw_mass.difference(cuts) if not cuts.is_empty else raw_mass
+    notch_edges = []
+
+    def tooth(length):
+        return length < 100 or (length < 180 and abs(length - 140) > 3 and abs(length - 160) > 3)
+
+    for part in pieces(mass):
+        for ring in (part.exterior, *part.interiors):
+            coords = list(ring.coords)
+            lengths = [
+                math.hypot(coords[i + 1][0] - coords[i][0], coords[i + 1][1] - coords[i][1])
+                for i in range(len(coords) - 1)
+            ]
+            for i, length in enumerate(lengths):
+                if length < 2:
+                    continue
+                prev = lengths[i - 1]
+                nxt = lengths[(i + 1) % len(lengths)]
+                p0, p1 = coords[i], coords[i + 1]
+                p2 = coords[(i + 2) % (len(coords) - 1)]
+                # A vertex dropped onto a straight face is not a step.
+                v1 = (p1[0] - p0[0], p1[1] - p0[1])
+                v2 = (p2[0] - p1[0], p2[1] - p1[1])
+                n1, n2 = math.hypot(*v1), math.hypot(*v2)
+                if n1 > 1 and n2 > 1 and abs(v1[0] * v2[0] + v1[1] * v2[1]) / (n1 * n2) > 0.99:
+                    continue
+                # A corner step is two short returns in a row. A jamb is one return.
+                if tooth(length) and (length < 100 or tooth(nxt) or tooth(prev)):
+                    notch_edges.append(round(length, 1))
+    check(
+        "Köşe ve kalın-ince birleşim net, basamak yok",
+        not notch_edges,
+        "kısa kademe mm: " + ", ".join(str(item) for item in sorted(notch_edges)[:12]),
+    )
     exterior_zone = unary_union([body for wall, body in bodies if wall.exterior]).buffer(2)
 
     def edge_layer(p1, p2):
