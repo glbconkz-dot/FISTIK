@@ -904,6 +904,7 @@ def main():
     doc = ezdxf.new("R2010", setup=True)
     doc.units = ezdxf.units.MM
     doc.header["$INSUNITS"] = 4
+    doc.header["$LWDISPLAY"] = 1
     if "ARCH" not in doc.styles:
         doc.styles.add("ARCH", font="DejaVuSans.ttf")
     for name, color in LAYERS.items():
@@ -925,9 +926,56 @@ def main():
             (a[0] - wall.lx * half, a[1] - wall.ly * half),
         ]
 
+    def wall_body(wall):
+        return Polygon(wall_quad(wall, 0, wall.length))
+
+    def opening_cut(wall, opening):
+        # Cut past both faces so the boolean removes the wall, including the
+        # joint line that used to run straight through the door.
+        a = opening["offsetMm"] - opening["widthMm"] / 2
+        b = opening["offsetMm"] + opening["widthMm"] / 2
+        reach = wall.thickness / 2 + 25
+        pa, pb = wall.point_at(a), wall.point_at(b)
+        return Polygon(
+            [
+                (pa[0] + wall.lx * reach, pa[1] + wall.ly * reach),
+                (pb[0] + wall.lx * reach, pb[1] + wall.ly * reach),
+                (pb[0] - wall.lx * reach, pb[1] - wall.ly * reach),
+                (pa[0] - wall.lx * reach, pa[1] - wall.ly * reach),
+            ]
+        )
+
+    def pieces(geom):
+        if geom.is_empty:
+            return
+        kind = geom.geom_type
+        if kind == "Polygon":
+            yield geom
+        elif kind == "MultiPolygon":
+            yield from geom.geoms
+        elif kind == "GeometryCollection":
+            for part in geom.geoms:
+                yield from pieces(part)
+
+    def ring_pts(ring):
+        pts = [(round(x, 1), round(y, 1)) for x, y in ring.coords]
+        if len(pts) > 1 and pts[0] == pts[-1]:
+            pts = pts[:-1]
+        return pts
+
+    bodies = [(wall, wall_body(wall)) for wall in walls]
+    cuts = unary_union([opening_cut(wall, opening) for wall, _body in bodies for opening in wall.openings])
+    raw_mass = unary_union([body for _wall, body in bodies])
+    mass = raw_mass.difference(cuts) if not cuts.is_empty else raw_mass
+    exterior_zone = unary_union([body for wall, body in bodies if wall.exterior]).buffer(2)
+
+    def edge_layer(p1, p2):
+        mid = Point((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
+        return "A-WALL-EXT" if exterior_zone.covers(mid) else "A-WALL-INT"
+
     for room in rooms.values():
-        layer = "A-TERR" if room["id"] in ("ana-teras", "mutfak-terasi", "giris-sacagi") else "A-AREA"
-        msp.add_lwpolyline(room["coords"], close=True, dxfattribs={"layer": layer})
+        # Room polygons sit on the wall face. Drawing them makes a second line
+        # on top of the wall, so the plan keeps the name and the area as text.
         c = room["polygon"].centroid
         add_text(room["name"], c.x, c.y + 180, 220, "A-TEXT")
         if room["clearHeightMm"]:
@@ -936,49 +984,88 @@ def main():
             label = f"{room['areaM2']:.2f} m²"
         add_text(label, c.x, c.y - 180, 180, "A-AREA")
 
-    msp.add_lwpolyline(list(pool.exterior.coords), close=True, dxfattribs={"layer": "A-POOL"})
+    for rid in ("ana-teras", "mutfak-terasi", "giris-sacagi"):
+        terrace = rooms[rid]["polygon"].difference(raw_mass.buffer(40))
+        for part in pieces(terrace):
+            if part.area < 1000:
+                continue
+            msp.add_lwpolyline(ring_pts(part.exterior), close=True, dxfattribs={"layer": "A-TERR"})
+
+    msp.add_lwpolyline(list(pool.exterior.coords)[:-1], close=True, dxfattribs={"layer": "A-POOL"})
     add_text("HAVUZ", pool.centroid.x, pool.centroid.y, 180, "A-TEXT")
     msp.add_circle(tree.centroid.coords[0], 1100, dxfattribs={"layer": "A-FURN"})
     add_text("AĞAÇ", tree.centroid.x, tree.centroid.y, 160, "A-TEXT")
 
+    def add_wall_hatch(geom, layer):
+        for part in pieces(geom):
+            if part.area < 200:
+                continue
+            hatch = msp.add_hatch(dxfattribs={"layer": layer})
+            hatch.set_solid_fill(color=250 if layer == "A-WALL-EXT" else 8)
+            shell = ring_pts(part.exterior)
+            if len(shell) < 3:
+                continue
+            hatch.paths.add_polyline_path(shell, is_closed=True)
+            for hole in part.interiors:
+                pts = ring_pts(hole)
+                if len(pts) >= 3:
+                    hatch.paths.add_polyline_path(pts, is_closed=True)
+
+    exterior_mass = unary_union([body for wall, body in bodies if wall.exterior])
+    interior_mass = unary_union([body for wall, body in bodies if not wall.exterior]).difference(exterior_mass)
+    if not cuts.is_empty:
+        exterior_mass = exterior_mass.difference(cuts)
+        interior_mass = interior_mass.difference(cuts)
+    add_wall_hatch(exterior_mass, "A-WALL-EXT")
+    add_wall_hatch(interior_mass, "A-WALL-INT")
+
+    # One cleaned outline: corners join, colinear pieces fuse, openings stay open.
+    for part in pieces(mass):
+        if part.area < 200:
+            continue
+        for ring in (part.exterior, *part.interiors):
+            coords = list(ring.coords)
+            for i in range(len(coords) - 1):
+                p1 = (round(coords[i][0], 1), round(coords[i][1], 1))
+                p2 = (round(coords[i + 1][0], 1), round(coords[i + 1][1], 1))
+                if math.hypot(p2[0] - p1[0], p2[1] - p1[1]) < 2:
+                    continue
+                layer = edge_layer(p1, p2)
+                weight = 50 if layer == "A-WALL-EXT" else 25
+                msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": weight})
+
     for wall in walls:
-        layer = "A-WALL-EXT" if wall.exterior else "A-WALL-INT"
-        cuts = sorted(wall.openings, key=lambda item: item["offsetMm"])
-        cursor = 0.0
-        for opening in cuts:
-            a = opening["offsetMm"] - opening["widthMm"] / 2
-            b = opening["offsetMm"] + opening["widthMm"] / 2
-            if a - cursor > 5:
-                msp.add_lwpolyline(wall_quad(wall, cursor, a), close=True, dxfattribs={"layer": layer})
-            cursor = b
-        if wall.length - cursor > 5:
-            msp.add_lwpolyline(wall_quad(wall, cursor, wall.length), close=True, dxfattribs={"layer": layer})
-        for opening in cuts:
+        for opening in wall.openings:
             a = opening["offsetMm"] - opening["widthMm"] / 2
             b = opening["offsetMm"] + opening["widthMm"] / 2
             pa, pb = wall.point_at(a), wall.point_at(b)
             if opening["kind"] == "window":
-                msp.add_line(pa, pb, dxfattribs={"layer": "A-GLAZ"})
-                for side in (0.35, -0.35):
+                for side, layer in ((0.32, "A-WIND"), (0.0, "A-GLAZ"), (-0.32, "A-WIND")):
                     shift = (wall.lx * wall.thickness * side, wall.ly * wall.thickness * side)
-                    msp.add_line((pa[0] + shift[0], pa[1] + shift[1]), (pb[0] + shift[0], pb[1] + shift[1]), dxfattribs={"layer": "A-WIND"})
-                msp.add_line(pa, (pa[0] + wall.lx * wall.thickness / 2, pa[1] + wall.ly * wall.thickness / 2), dxfattribs={"layer": "A-WIND"})
-                msp.add_line(pa, (pa[0] - wall.lx * wall.thickness / 2, pa[1] - wall.ly * wall.thickness / 2), dxfattribs={"layer": "A-WIND"})
-                msp.add_line(pb, (pb[0] + wall.lx * wall.thickness / 2, pb[1] + wall.ly * wall.thickness / 2), dxfattribs={"layer": "A-WIND"})
-                msp.add_line(pb, (pb[0] - wall.lx * wall.thickness / 2, pb[1] - wall.ly * wall.thickness / 2), dxfattribs={"layer": "A-WIND"})
+                    msp.add_line(
+                        (pa[0] + shift[0], pa[1] + shift[1]),
+                        (pb[0] + shift[0], pb[1] + shift[1]),
+                        dxfattribs={"layer": layer, "lineweight": 18},
+                    )
             elif opening["kind"] == "sliding":
-                msp.add_line(pa, pb, dxfattribs={"layer": "A-GLAZ"})
-                mid = wall.point_at(opening["offsetMm"])
-                msp.add_line(pa, mid, dxfattribs={"layer": "A-DOOR"})
-                msp.add_line(mid, pb, dxfattribs={"layer": "A-DOOR"})
+                span = b - a
+                for side, t0, t1 in ((1, a, a + span * 0.62), (-1, b - span * 0.62, b)):
+                    p0, p1 = wall.point_at(t0), wall.point_at(t1)
+                    shift = (wall.lx * wall.thickness * 0.18 * side, wall.ly * wall.thickness * 0.18 * side)
+                    msp.add_line(
+                        (p0[0] + shift[0], p0[1] + shift[1]),
+                        (p1[0] + shift[0], p1[1] + shift[1]),
+                        dxfattribs={"layer": "A-DOOR", "lineweight": 18},
+                    )
             else:
-                msp.add_line(pa, pb, dxfattribs={"layer": "A-DOOR"})
                 for leaf in opening.get("leaves", []):
                     hinge = leaf["hinge"]
                     end = leaf["end"]
-                    msp.add_line(hinge, end, dxfattribs={"layer": "A-DOOR"})
-                    start_angle = math.degrees(math.atan2(pb[1] - hinge[1] if False else (wall.point_at(opening["offsetMm"])[1] - hinge[1]), wall.point_at(opening["offsetMm"])[0] - hinge[0]))
-                    closed = (wall.point_at(opening["offsetMm"])[0] - hinge[0], wall.point_at(opening["offsetMm"])[1] - hinge[1])
+                    msp.add_line(hinge, end, dxfattribs={"layer": "A-DOOR", "lineweight": 18})
+                    closed = (
+                        wall.point_at(opening["offsetMm"])[0] - hinge[0],
+                        wall.point_at(opening["offsetMm"])[1] - hinge[1],
+                    )
                     opened = (end[0] - hinge[0], end[1] - hinge[1])
                     a0 = math.degrees(math.atan2(closed[1], closed[0])) % 360
                     a1 = math.degrees(math.atan2(opened[1], opened[0])) % 360
@@ -1031,9 +1118,73 @@ def main():
     for entity in read_back.modelspace():
         kinds[entity.dxftype()] = kinds.get(entity.dxftype(), 0) + 1
     check(
-        "DXF duvar dolgusu, kapı yayı ve yazı içeriyor",
-        kinds.get("LWPOLYLINE", 0) > 40 and kinds.get("ARC", 0) > 10 and kinds.get("TEXT", 0) > 15,
+        "DXF duvar çizgisi, kapı yayı ve yazı içeriyor",
+        kinds.get("LINE", 0) > 80 and kinds.get("ARC", 0) > 10 and kinds.get("HATCH", 0) > 5 and kinds.get("TEXT", 0) > 15,
         str(kinds),
+    )
+
+    def overlaps_opening(line, wall, opening):
+        if line.dxf.layer not in ("A-WALL-EXT", "A-WALL-INT", "A-DOOR"):
+            return False
+        p1, p2 = line.dxf.start, line.dxf.end
+        def along(pt):
+            return (pt[0] - wall.p1[0]) * wall.ux + (pt[1] - wall.p1[1]) * wall.uy
+        def across(pt):
+            return (pt[0] - wall.p1[0]) * wall.lx + (pt[1] - wall.p1[1]) * wall.ly
+        if abs(across(p1)) > 20 or abs(across(p2)) > 20:
+            return False
+        span = opening["widthMm"]
+        a = opening["offsetMm"] - span / 2
+        b = opening["offsetMm"] + span / 2
+        lo, hi = sorted((along(p1), along(p2)))
+        shared = min(hi, b) - max(lo, a)
+        return shared > span * 0.55
+
+    crossed = []
+    wall_lines = [entity for entity in read_back.modelspace() if entity.dxftype() == "LINE"]
+    for wall in walls:
+        for opening in wall.openings:
+            if opening["kind"] not in ("single", "double", "sliding"):
+                continue
+            for line in wall_lines:
+                if overlaps_opening(line, wall, opening):
+                    crossed.append(f"{opening['id']} {line.dxf.layer}")
+                    break
+    check("Kapı boşluğundan duvar çizgisi geçmiyor", not crossed, "; ".join(crossed[:8]))
+
+    stacked = []
+    wall_only = [entity for entity in wall_lines if entity.dxf.layer in ("A-WALL-EXT", "A-WALL-INT")]
+    for i, left in enumerate(wall_only):
+        a1, a2 = left.dxf.start, left.dxf.end
+        ax, ay = a2[0] - a1[0], a2[1] - a1[1]
+        alen = math.hypot(ax, ay)
+        if alen < 30:
+            continue
+        for right in wall_only[i + 1 :]:
+            b1, b2 = right.dxf.start, right.dxf.end
+            bx, by = b2[0] - b1[0], b2[1] - b1[1]
+            blen = math.hypot(bx, by)
+            if blen < 30:
+                continue
+            cross = abs(ax * by - ay * bx) / (alen * blen)
+            if cross > 0.02:
+                continue
+            # Distance from each endpoint of the shorter sense to the other line.
+            dist = abs(ay * b1[0] - ax * b1[1] + a2[0] * a1[1] - a2[1] * a1[0]) / alen
+            if dist > 2:
+                continue
+            def project(pt):
+                return ((pt[0] - a1[0]) * ax + (pt[1] - a1[1]) * ay) / alen
+            lo, hi = sorted((project(b1), project(b2)))
+            shared = min(hi, alen) - max(lo, 0)
+            if shared > 25:
+                stacked.append(f"{shared:.0f} mm")
+                break
+        if len(stacked) >= 6:
+            break
+    check("Duvar çizgileri üst üste binmiyor", not stacked, "; ".join(stacked))
+    findings.append(
+        "Duvarlar AP paftasındaki gibi tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde."
     )
 
     write_reports(geometry, rooms, walls, checks, findings, kinds, stamp, pool, A, px)
@@ -1076,7 +1227,7 @@ def render_dxf(dxf_path: Path, png_path: Path):
     for entity in msp:
         layer = entity.dxf.layer
         color = colors.get(layer, "#222222")
-        width = 0.4 if layer.startswith("A-WALL") else 0.6
+        width = 1.15 if layer.startswith("A-WALL") else 0.6
         if layer == "A-AXIS":
             width = 0.3
         if entity.dxftype() == "LWPOLYLINE":
@@ -1086,13 +1237,25 @@ def render_dxf(dxf_path: Path, png_path: Path):
             if entity.closed:
                 face = colors.get(layer, "#cccccc")
                 alpha = 0.9 if layer in ("A-WALL-EXT", "A-WALL-INT", "A-POOL", "A-FIRE") else 0.35
-                if layer in fills:
-                    ax.add_patch(MplPolygon(pts, closed=True, facecolor=face, edgecolor=color, linewidth=width, alpha=alpha, zorder=2 if layer.startswith("A-WALL") else 1))
+                if layer in fills and not layer.startswith("A-WALL"):
+                    ax.add_patch(MplPolygon(pts, closed=True, facecolor=face, edgecolor=color, linewidth=width, alpha=alpha, zorder=2.4))
                 else:
                     closed = pts + [pts[0]]
                     ax.plot([p[0] for p in closed], [p[1] for p in closed], color=color, lw=width, zorder=3)
             else:
                 ax.plot([p[0] for p in pts], [p[1] for p in pts], color=color, lw=width, zorder=3)
+        elif entity.dxftype() == "HATCH":
+            paths = []
+            for path in entity.paths:
+                if hasattr(path, "vertices"):
+                    pts = [(v[0], v[1]) for v in path.vertices]
+                    if len(pts) >= 3:
+                        paths.append(pts)
+            if not paths:
+                continue
+            ax.add_patch(MplPolygon(paths[0], closed=True, facecolor=color, edgecolor="none", alpha=0.92, zorder=1.5))
+            for hole in paths[1:]:
+                ax.add_patch(MplPolygon(hole, closed=True, facecolor="#f7f4ef", edgecolor="none", zorder=1.6))
         elif entity.dxftype() == "LINE":
             ax.plot([entity.dxf.start[0], entity.dxf.end[0]], [entity.dxf.start[1], entity.dxf.end[1]], color=color, lw=width, zorder=4)
         elif entity.dxftype() == "ARC":
