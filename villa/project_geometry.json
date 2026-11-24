@@ -1,0 +1,2942 @@
+{
+  "id": "tek-katli-avlu-villa",
+  "units": "mm",
+  "north": "+Y",
+  "siteBoundary": null,
+  "source": "TEK KATLI AVLU VILLA sheet",
+  "certainty": "estimated",
+  "generatedAt": "24 Kasım 2026, 14:47 (Qyzylorda, UTC+5)",
+  "scale": {
+    "method": "Bedroom-wing door openings on the sheet measure 22 px. That opening is taken as an 800 mm leaf.",
+    "doorPx": 22,
+    "doorMm": 800,
+    "mmPerPx": 36.3636,
+    "certainty": "estimated",
+    "siteBoundaryUsed": false
+  },
+  "wallThicknessPolicy": {
+    "exteriorMm": 300,
+    "interiorMm": 140,
+    "coreBetweenVestibuleAndWcMm": 1890,
+    "status": "temporary-modeling-values",
+    "notAVerifiedNorm": true,
+    "note": "300 mm ve 140 mm, Kazakistan СН РК veya СП РК hükmü olarak doğrulanmadı."
+  },
+  "origin": "U planın kuzeybatı iç köşesi. +X doğu, +Y kuzey.",
+  "anchorsPx": {
+    "west": 151,
+    "terrace_west": 90,
+    "tech_laundry": 253,
+    "laundry_store": 309,
+    "store_cloak": 360,
+    "cloak_vest": 423,
+    "core_west": 502,
+    "core_east": 554,
+    "wc_east": 609,
+    "kitchen_east": 326,
+    "wing_west": 646,
+    "suite": 712,
+    "east": 802,
+    "north": 130,
+    "canopy_north": 92,
+    "bar_south": 216,
+    "hall_south": 280,
+    "kitchen_south": 368,
+    "bed12": 214,
+    "bed23": 304,
+    "bed_bath": 394,
+    "bath_master": 456,
+    "dress_bath": 557,
+    "wing_south": 698,
+    "court_south": 636,
+    "south": 776,
+    "pool_w": 420,
+    "pool_e": 606,
+    "pool_n": 580,
+    "pool_s": 618
+  },
+  "anchorsMm": {
+    "west": -150,
+    "terrace_west": -2370,
+    "tech_laundry": 3560,
+    "laundry_store": 5600,
+    "store_cloak": 7450,
+    "cloak_vest": 9740,
+    "core_west": 12610,
+    "core_east": 14500,
+    "wc_east": 16500,
+    "kitchen_east": 6210,
+    "wing_west": 17850,
+    "suite": 20250,
+    "east": 23520,
+    "north": 150,
+    "canopy_north": 1530,
+    "bar_south": -2980,
+    "hall_south": -5300,
+    "kitchen_south": -8500,
+    "bed12": -2900,
+    "bed23": -6180,
+    "bed_bath": -9450,
+    "bath_master": -11700,
+    "dress_bath": -15380,
+    "wing_south": -20500,
+    "court_south": -18250,
+    "south": -23340,
+    "pool_w": 9630,
+    "pool_e": 16400,
+    "pool_n": -16210,
+    "pool_s": -17600
+  },
+  "rooms": [
+    {
+      "id": "teknik-oda",
+      "name": "Teknik oda",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          0,
+          0
+        ],
+        [
+          3490,
+          0
+        ],
+        [
+          3490,
+          -2910
+        ],
+        [
+          0,
+          -2910
+        ]
+      ],
+      "areaM2": 10.16,
+      "certainty": "estimated"
+    },
+    {
+      "id": "camasir-odasi",
+      "name": "Çamaşır odası",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          3630,
+          0
+        ],
+        [
+          5530,
+          0
+        ],
+        [
+          5530,
+          -2910
+        ],
+        [
+          3630,
+          -2910
+        ]
+      ],
+      "areaM2": 5.53,
+      "certainty": "estimated"
+    },
+    {
+      "id": "depo",
+      "name": "Depo",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          5670,
+          0
+        ],
+        [
+          7380,
+          0
+        ],
+        [
+          7380,
+          -2910
+        ],
+        [
+          5670,
+          -2910
+        ]
+      ],
+      "areaM2": 4.98,
+      "certainty": "estimated"
+    },
+    {
+      "id": "portmanto",
+      "name": "Portmanto",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          7520,
+          0
+        ],
+        [
+          9670,
+          0
+        ],
+        [
+          9670,
+          -2910
+        ],
+        [
+          7520,
+          -2910
+        ]
+      ],
+      "areaM2": 6.26,
+      "certainty": "estimated"
+    },
+    {
+      "id": "ruzgarlik",
+      "name": "Rüzgarlık",
+      "clearHeightMm": 4200,
+      "polygon": [
+        [
+          9810,
+          0
+        ],
+        [
+          12610,
+          0
+        ],
+        [
+          12610,
+          -2910
+        ],
+        [
+          9810,
+          -2910
+        ]
+      ],
+      "areaM2": 8.15,
+      "certainty": "estimated"
+    },
+    {
+      "id": "misafir-wc",
+      "name": "Misafir WC",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          14500,
+          0
+        ],
+        [
+          16430,
+          0
+        ],
+        [
+          16430,
+          -2910
+        ],
+        [
+          14500,
+          -2910
+        ]
+      ],
+      "areaM2": 5.62,
+      "certainty": "estimated"
+    },
+    {
+      "id": "giris-holu",
+      "name": "Giriş holü",
+      "clearHeightMm": 4200,
+      "polygon": [
+        [
+          6280,
+          -5150
+        ],
+        [
+          6280,
+          -3050
+        ],
+        [
+          16570,
+          -3050
+        ],
+        [
+          16570,
+          0
+        ],
+        [
+          17780,
+          0
+        ],
+        [
+          17780,
+          -5150
+        ]
+      ],
+      "areaM2": 27.84,
+      "certainty": "estimated"
+    },
+    {
+      "id": "mutfak",
+      "name": "Mutfak",
+      "clearHeightMm": 3600,
+      "polygon": [
+        [
+          0,
+          -3050
+        ],
+        [
+          6140,
+          -3050
+        ],
+        [
+          6140,
+          -5300
+        ],
+        [
+          6060,
+          -5300
+        ],
+        [
+          6060,
+          -8430
+        ],
+        [
+          0,
+          -8430
+        ]
+      ],
+      "areaM2": 32.78,
+      "certainty": "estimated"
+    },
+    {
+      "id": "salon",
+      "name": "Salon",
+      "clearHeightMm": 4200,
+      "polygon": [
+        [
+          0,
+          -8570
+        ],
+        [
+          6060,
+          -8570
+        ],
+        [
+          6060,
+          -18180
+        ],
+        [
+          0,
+          -18180
+        ]
+      ],
+      "areaM2": 58.24,
+      "certainty": "estimated"
+    },
+    {
+      "id": "kis-bahcesi",
+      "name": "Kış bahçesi",
+      "clearHeightMm": 4200,
+      "polygon": [
+        [
+          0,
+          -18320
+        ],
+        [
+          6060,
+          -18320
+        ],
+        [
+          6060,
+          -23190
+        ],
+        [
+          0,
+          -23190
+        ]
+      ],
+      "areaM2": 29.51,
+      "certainty": "estimated"
+    },
+    {
+      "id": "yatak-1",
+      "name": "Yatak odası 1",
+      "clearHeightMm": 3300,
+      "polygon": [
+        [
+          17920,
+          0
+        ],
+        [
+          23370,
+          0
+        ],
+        [
+          23370,
+          -2830
+        ],
+        [
+          17920,
+          -2830
+        ]
+      ],
+      "areaM2": 15.42,
+      "certainty": "estimated"
+    },
+    {
+      "id": "yatak-2",
+      "name": "Yatak odası 2",
+      "clearHeightMm": 3300,
+      "polygon": [
+        [
+          17920,
+          -2970
+        ],
+        [
+          23370,
+          -2970
+        ],
+        [
+          23370,
+          -6110
+        ],
+        [
+          18000,
+          -6110
+        ],
+        [
+          18000,
+          -5300
+        ],
+        [
+          17920,
+          -5300
+        ]
+      ],
+      "areaM2": 17.05,
+      "certainty": "estimated"
+    },
+    {
+      "id": "yatak-3",
+      "name": "Yatak odası 3",
+      "clearHeightMm": 3300,
+      "polygon": [
+        [
+          18000,
+          -6250
+        ],
+        [
+          23370,
+          -6250
+        ],
+        [
+          23370,
+          -9380
+        ],
+        [
+          18000,
+          -9380
+        ]
+      ],
+      "areaM2": 16.81,
+      "certainty": "estimated"
+    },
+    {
+      "id": "ortak-banyo",
+      "name": "Ortak banyo",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          18000,
+          -9520
+        ],
+        [
+          23370,
+          -9520
+        ],
+        [
+          23370,
+          -11630
+        ],
+        [
+          18000,
+          -11630
+        ]
+      ],
+      "areaM2": 11.33,
+      "certainty": "estimated"
+    },
+    {
+      "id": "master",
+      "name": "Master yatak odası",
+      "clearHeightMm": 3600,
+      "polygon": [
+        [
+          18000,
+          -11770
+        ],
+        [
+          20180,
+          -11770
+        ],
+        [
+          20180,
+          -20350
+        ],
+        [
+          18000,
+          -20350
+        ]
+      ],
+      "areaM2": 18.7,
+      "certainty": "estimated"
+    },
+    {
+      "id": "giyinme",
+      "name": "Giyinme odası",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          20320,
+          -11770
+        ],
+        [
+          23370,
+          -11770
+        ],
+        [
+          23370,
+          -15310
+        ],
+        [
+          20320,
+          -15310
+        ]
+      ],
+      "areaM2": 10.8,
+      "certainty": "estimated"
+    },
+    {
+      "id": "ebeveyn-banyo",
+      "name": "Ebeveyn banyosu",
+      "clearHeightMm": 3000,
+      "polygon": [
+        [
+          20320,
+          -15450
+        ],
+        [
+          23370,
+          -15450
+        ],
+        [
+          23370,
+          -20350
+        ],
+        [
+          20320,
+          -20350
+        ]
+      ],
+      "areaM2": 14.95,
+      "certainty": "estimated"
+    },
+    {
+      "id": "avlu",
+      "name": "Avlu",
+      "clearHeightMm": null,
+      "polygon": [
+        [
+          6360,
+          -5450
+        ],
+        [
+          17700,
+          -5450
+        ],
+        [
+          17700,
+          -18100
+        ],
+        [
+          6360,
+          -18100
+        ]
+      ],
+      "areaM2": 143.45,
+      "certainty": "estimated"
+    },
+    {
+      "id": "ana-teras",
+      "name": "Ana teras",
+      "clearHeightMm": null,
+      "polygon": [
+        [
+          6360,
+          -18400
+        ],
+        [
+          17700,
+          -18400
+        ],
+        [
+          17700,
+          -23490
+        ],
+        [
+          6360,
+          -23490
+        ]
+      ],
+      "areaM2": 57.72,
+      "certainty": "estimated"
+    },
+    {
+      "id": "mutfak-terasi",
+      "name": "Mutfak terası",
+      "clearHeightMm": null,
+      "polygon": [
+        [
+          -2370,
+          -2980
+        ],
+        [
+          -300,
+          -2980
+        ],
+        [
+          -300,
+          -8500
+        ],
+        [
+          -2370,
+          -8500
+        ]
+      ],
+      "areaM2": 11.43,
+      "certainty": "estimated"
+    },
+    {
+      "id": "giris-sacagi",
+      "name": "Giriş saçağı",
+      "clearHeightMm": 4200,
+      "polygon": [
+        [
+          9740,
+          1530
+        ],
+        [
+          12610,
+          1530
+        ],
+        [
+          12610,
+          300
+        ],
+        [
+          9740,
+          300
+        ]
+      ],
+      "areaM2": 3.53,
+      "certainty": "estimated"
+    }
+  ],
+  "walls": [
+    {
+      "id": "W-west-teknik",
+      "axis": [
+        [
+          -150,
+          150
+        ],
+        [
+          -150,
+          -2980
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "teknik-oda"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-west-mutfak",
+      "axis": [
+        [
+          -150,
+          -2980
+        ],
+        [
+          -150,
+          -8500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3600,
+      "rooms": [
+        "mutfak-terasi",
+        "mutfak"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-west-salon",
+      "axis": [
+        [
+          -150,
+          -8500
+        ],
+        [
+          -150,
+          -18250
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "bahce",
+        "salon"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-west-kis",
+      "axis": [
+        [
+          -150,
+          -18250
+        ],
+        [
+          -150,
+          -23340
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "bahce",
+        "kis-bahcesi"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-teknik-camasir",
+      "axis": [
+        [
+          3560,
+          150
+        ],
+        [
+          3560,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "teknik-oda",
+        "camasir-odasi"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-camasir-depo",
+      "axis": [
+        [
+          5600,
+          150
+        ],
+        [
+          5600,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "camasir-odasi",
+        "depo"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-depo-port",
+      "axis": [
+        [
+          7450,
+          150
+        ],
+        [
+          7450,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "depo",
+        "portmanto"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-port-ruz",
+      "axis": [
+        [
+          9740,
+          150
+        ],
+        [
+          9740,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "portmanto",
+        "ruzgarlik"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-cekirdek",
+      "axis": [
+        [
+          13555,
+          150
+        ],
+        [
+          13555,
+          -2980
+        ]
+      ],
+      "thicknessMm": 1890,
+      "heightMm": 3000,
+      "rooms": [
+        "ruzgarlik",
+        "misafir-wc"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-wc-hol",
+      "axis": [
+        [
+          16500,
+          150
+        ],
+        [
+          16500,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "misafir-wc",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-mutfak-hol",
+      "axis": [
+        [
+          6210,
+          -2980
+        ],
+        [
+          6210,
+          -5300
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "mutfak",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-mutfak-avlu",
+      "axis": [
+        [
+          6210,
+          -5300
+        ],
+        [
+          6210,
+          -8500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3600,
+      "rooms": [
+        "mutfak",
+        "avlu"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-salon-avlu",
+      "axis": [
+        [
+          6210,
+          -8500
+        ],
+        [
+          6210,
+          -18250
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "salon",
+        "avlu"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-kis-teras",
+      "axis": [
+        [
+          6210,
+          -18250
+        ],
+        [
+          6210,
+          -23340
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "kis-bahcesi",
+        "ana-teras"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed1",
+      "axis": [
+        [
+          17850,
+          150
+        ],
+        [
+          17850,
+          -2900
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "giris-holu",
+        "yatak-1"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed2-hol",
+      "axis": [
+        [
+          17850,
+          -2900
+        ],
+        [
+          17850,
+          -5300
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "giris-holu",
+        "yatak-2"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed2-avlu",
+      "axis": [
+        [
+          17850,
+          -5300
+        ],
+        [
+          17850,
+          -6180
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "avlu",
+        "yatak-2"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed3",
+      "axis": [
+        [
+          17850,
+          -6180
+        ],
+        [
+          17850,
+          -9450
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "avlu",
+        "yatak-3"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-banyo",
+      "axis": [
+        [
+          17850,
+          -9450
+        ],
+        [
+          17850,
+          -11700
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "avlu",
+        "ortak-banyo"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-master-avlu",
+      "axis": [
+        [
+          17850,
+          -11700
+        ],
+        [
+          17850,
+          -18250
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3600,
+      "rooms": [
+        "avlu",
+        "master"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-master-teras",
+      "axis": [
+        [
+          17850,
+          -18250
+        ],
+        [
+          17850,
+          -20500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3600,
+      "rooms": [
+        "ana-teras",
+        "master"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-master-giy",
+      "axis": [
+        [
+          20250,
+          -11700
+        ],
+        [
+          20250,
+          -15380
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "master",
+        "giyinme"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-master-ebe",
+      "axis": [
+        [
+          20250,
+          -15380
+        ],
+        [
+          20250,
+          -20500
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "master",
+        "ebeveyn-banyo"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-bed1",
+      "axis": [
+        [
+          23520,
+          150
+        ],
+        [
+          23520,
+          -2900
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-1",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-bed2",
+      "axis": [
+        [
+          23520,
+          -2900
+        ],
+        [
+          23520,
+          -6180
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-2",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-bed3",
+      "axis": [
+        [
+          23520,
+          -6180
+        ],
+        [
+          23520,
+          -9450
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-3",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-banyo",
+      "axis": [
+        [
+          23520,
+          -9450
+        ],
+        [
+          23520,
+          -11700
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "ortak-banyo",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-giy",
+      "axis": [
+        [
+          23520,
+          -11700
+        ],
+        [
+          23520,
+          -15380
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "giyinme",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-east-ebe",
+      "axis": [
+        [
+          23520,
+          -15380
+        ],
+        [
+          23520,
+          -20500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "ebeveyn-banyo",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-teknik",
+      "axis": [
+        [
+          -150,
+          150
+        ],
+        [
+          3560,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "teknik-oda"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-camasir",
+      "axis": [
+        [
+          3560,
+          150
+        ],
+        [
+          5600,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "camasir-odasi"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-depo",
+      "axis": [
+        [
+          5600,
+          150
+        ],
+        [
+          7450,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "depo"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-port",
+      "axis": [
+        [
+          7450,
+          150
+        ],
+        [
+          9740,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "portmanto"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-ruz",
+      "axis": [
+        [
+          9740,
+          150
+        ],
+        [
+          12610,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "giris-sacagi",
+        "ruzgarlik"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-core",
+      "axis": [
+        [
+          12610,
+          150
+        ],
+        [
+          14500,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "cekirdek"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-wc",
+      "axis": [
+        [
+          14500,
+          150
+        ],
+        [
+          16500,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "bahce",
+        "misafir-wc"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-nis",
+      "axis": [
+        [
+          16500,
+          150
+        ],
+        [
+          17850,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "bahce",
+        "giris-holu"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-n-bed1",
+      "axis": [
+        [
+          17850,
+          150
+        ],
+        [
+          23520,
+          150
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3300,
+      "rooms": [
+        "bahce",
+        "yatak-1"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-teknik",
+      "axis": [
+        [
+          -150,
+          -2980
+        ],
+        [
+          3560,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "teknik-oda",
+        "mutfak"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-camasir",
+      "axis": [
+        [
+          3560,
+          -2980
+        ],
+        [
+          5600,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "camasir-odasi",
+        "mutfak"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-depo-mut",
+      "axis": [
+        [
+          5600,
+          -2980
+        ],
+        [
+          6210,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "depo",
+        "mutfak"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-depo-hol",
+      "axis": [
+        [
+          6210,
+          -2980
+        ],
+        [
+          7450,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "depo",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-port",
+      "axis": [
+        [
+          7450,
+          -2980
+        ],
+        [
+          9740,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "portmanto",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-ruz",
+      "axis": [
+        [
+          9740,
+          -2980
+        ],
+        [
+          12610,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "ruzgarlik",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-core",
+      "axis": [
+        [
+          12610,
+          -2980
+        ],
+        [
+          14500,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "cekirdek",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-wc",
+      "axis": [
+        [
+          14500,
+          -2980
+        ],
+        [
+          16500,
+          -2980
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "misafir-wc",
+        "giris-holu"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-hol-avlu",
+      "axis": [
+        [
+          6210,
+          -5300
+        ],
+        [
+          17850,
+          -5300
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "giris-holu",
+        "avlu"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-mut-salon",
+      "axis": [
+        [
+          -150,
+          -8500
+        ],
+        [
+          6210,
+          -8500
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "mutfak",
+        "salon"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-salon-kis",
+      "axis": [
+        [
+          -150,
+          -18250
+        ],
+        [
+          6210,
+          -18250
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 4200,
+      "rooms": [
+        "salon",
+        "kis-bahcesi"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-avlu-teras",
+      "axis": [
+        [
+          6210,
+          -18250
+        ],
+        [
+          17850,
+          -18250
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "avlu",
+        "ana-teras"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-kis",
+      "axis": [
+        [
+          -150,
+          -23340
+        ],
+        [
+          6210,
+          -23340
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 4200,
+      "rooms": [
+        "kis-bahcesi",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed12",
+      "axis": [
+        [
+          17850,
+          -2900
+        ],
+        [
+          23520,
+          -2900
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-1",
+        "yatak-2"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed23",
+      "axis": [
+        [
+          17850,
+          -6180
+        ],
+        [
+          23520,
+          -6180
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-2",
+        "yatak-3"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bed-bath",
+      "axis": [
+        [
+          17850,
+          -9450
+        ],
+        [
+          23520,
+          -9450
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3300,
+      "rooms": [
+        "yatak-3",
+        "ortak-banyo"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bath-master",
+      "axis": [
+        [
+          17850,
+          -11700
+        ],
+        [
+          20250,
+          -11700
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3600,
+      "rooms": [
+        "ortak-banyo",
+        "master"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-bath-giy",
+      "axis": [
+        [
+          20250,
+          -11700
+        ],
+        [
+          23520,
+          -11700
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "ortak-banyo",
+        "giyinme"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-giy-ebe",
+      "axis": [
+        [
+          20250,
+          -15380
+        ],
+        [
+          23520,
+          -15380
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "giyinme",
+        "ebeveyn-banyo"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-master",
+      "axis": [
+        [
+          17850,
+          -20500
+        ],
+        [
+          20250,
+          -20500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3600,
+      "rooms": [
+        "master",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-s-ebe",
+      "axis": [
+        [
+          20250,
+          -20500
+        ],
+        [
+          23520,
+          -20500
+        ]
+      ],
+      "thicknessMm": 300,
+      "heightMm": 3000,
+      "rooms": [
+        "ebeveyn-banyo",
+        "bahce"
+      ],
+      "exterior": true,
+      "certainty": "estimated"
+    },
+    {
+      "id": "W-stall",
+      "axis": [
+        [
+          20250,
+          -17120
+        ],
+        [
+          23520,
+          -17120
+        ]
+      ],
+      "thicknessMm": 140,
+      "heightMm": 3000,
+      "rooms": [
+        "ebeveyn-banyo",
+        "ebeveyn-banyo"
+      ],
+      "exterior": false,
+      "certainty": "estimated"
+    }
+  ],
+  "doors": [
+    {
+      "id": "D-019",
+      "wallId": "W-west-mutfak",
+      "kind": "sliding",
+      "widthMm": 1600,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 2760,
+      "swing": "sliding",
+      "hinge": null,
+      "rooms": [
+        "mutfak",
+        "mutfak-terasi"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-016",
+      "wallId": "W-salon-avlu",
+      "kind": "sliding",
+      "widthMm": 2400,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 4875,
+      "swing": "sliding",
+      "hinge": null,
+      "rooms": [
+        "salon",
+        "avlu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-017",
+      "wallId": "W-kis-teras",
+      "kind": "sliding",
+      "widthMm": 1600,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 2545,
+      "swing": "sliding",
+      "hinge": null,
+      "rooms": [
+        "kis-bahcesi",
+        "ana-teras"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-008",
+      "wallId": "W-bed1",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 2450,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "yatak-1",
+        "giris-holu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-009",
+      "wallId": "W-bed2-hol",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1800,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "yatak-2",
+        "giris-holu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-010",
+      "wallId": "W-bed3",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "yatak-3",
+        "avlu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-011",
+      "wallId": "W-banyo",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "ortak-banyo",
+        "avlu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-012",
+      "wallId": "W-master-avlu",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "master",
+        "avlu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-020",
+      "wallId": "W-master-giy",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "giyinme",
+        "master"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-021",
+      "wallId": "W-master-ebe",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "ebeveyn-banyo",
+        "master"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-001",
+      "wallId": "W-n-ruz",
+      "kind": "single",
+      "widthMm": 1000,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 1435,
+      "swing": "right",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "ruzgarlik",
+        "giris-sacagi"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-006",
+      "wallId": "W-s-teknik",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1855,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "teknik-oda",
+        "mutfak"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-007",
+      "wallId": "W-s-camasir",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1020,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "camasir-odasi",
+        "mutfak"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-004",
+      "wallId": "W-s-depo-hol",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 620,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "depo",
+        "giris-holu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-003",
+      "wallId": "W-s-port",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1145,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "portmanto",
+        "giris-holu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-002",
+      "wallId": "W-s-ruz",
+      "kind": "double",
+      "widthMm": 2000,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1435,
+      "swing": "right",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "giris-holu",
+        "ruzgarlik"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-005",
+      "wallId": "W-s-wc",
+      "kind": "single",
+      "widthMm": 700,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1000,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "misafir-wc",
+        "giris-holu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-015",
+      "wallId": "W-hol-avlu",
+      "kind": "double",
+      "widthMm": 1600,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 5820,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "giris-holu",
+        "avlu"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-013",
+      "wallId": "W-mut-salon",
+      "kind": "single",
+      "widthMm": 900,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 5610,
+      "swing": "right",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "salon",
+        "mutfak"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-014",
+      "wallId": "W-salon-kis",
+      "kind": "double",
+      "widthMm": 1600,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 3180,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "salon",
+        "kis-bahcesi"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-018",
+      "wallId": "W-avlu-teras",
+      "kind": "sliding",
+      "widthMm": 3200,
+      "heightMm": 2400,
+      "sillMm": 0,
+      "offsetMm": 5820,
+      "swing": "sliding",
+      "hinge": null,
+      "rooms": [
+        "avlu",
+        "ana-teras"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-022",
+      "wallId": "W-giy-ebe",
+      "kind": "single",
+      "widthMm": 800,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 600,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "giyinme",
+        "ebeveyn-banyo"
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "D-023",
+      "wallId": "W-stall",
+      "kind": "single",
+      "widthMm": 700,
+      "heightMm": 2100,
+      "sillMm": 0,
+      "offsetMm": 1635,
+      "swing": "left",
+      "hinge": [
+        21535,
+        -17120
+      ],
+      "rooms": [
+        "ebeveyn-banyo",
+        "ebeveyn-banyo"
+      ],
+      "certainty": "estimated"
+    }
+  ],
+  "windows": [
+    {
+      "id": "N-045",
+      "wallId": "W-west-mutfak",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 980,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-037",
+      "wallId": "W-west-salon",
+      "widthMm": 2000,
+      "heightMm": 2200,
+      "sillMm": 200,
+      "offsetMm": 4875,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-038",
+      "wallId": "W-west-kis",
+      "widthMm": 1000,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 2545,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-039",
+      "wallId": "W-salon-avlu",
+      "widthMm": 2000,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 1838,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-040",
+      "wallId": "W-salon-avlu",
+      "widthMm": 2000,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 7912,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-046",
+      "wallId": "W-kis-teras",
+      "widthMm": 1200,
+      "heightMm": 2200,
+      "sillMm": 200,
+      "offsetMm": 872,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-047",
+      "wallId": "W-kis-teras",
+      "widthMm": 1200,
+      "heightMm": 2200,
+      "sillMm": 200,
+      "offsetMm": 4218,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-029",
+      "wallId": "W-east-bed1",
+      "widthMm": 1500,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1525,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-030",
+      "wallId": "W-east-bed2",
+      "widthMm": 1500,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1640,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-031",
+      "wallId": "W-east-bed3",
+      "widthMm": 1500,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1635,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-032",
+      "wallId": "W-east-banyo",
+      "widthMm": 900,
+      "heightMm": 600,
+      "sillMm": 1600,
+      "offsetMm": 1125,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-033",
+      "wallId": "W-east-giy",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1840,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-034",
+      "wallId": "W-east-ebe",
+      "widthMm": 900,
+      "heightMm": 600,
+      "sillMm": 1600,
+      "offsetMm": 2560,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-024",
+      "wallId": "W-n-teknik",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1855,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-025",
+      "wallId": "W-n-camasir",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1020,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-026",
+      "wallId": "W-n-depo",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 925,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-027",
+      "wallId": "W-n-port",
+      "widthMm": 1200,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1145,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-028",
+      "wallId": "W-n-wc",
+      "widthMm": 600,
+      "heightMm": 500,
+      "sillMm": 1700,
+      "offsetMm": 1000,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-041",
+      "wallId": "W-hol-avlu",
+      "widthMm": 1800,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 2510,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-042",
+      "wallId": "W-hol-avlu",
+      "widthMm": 1800,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 9130,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-043",
+      "wallId": "W-avlu-teras",
+      "widthMm": 2200,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 2110,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-044",
+      "wallId": "W-avlu-teras",
+      "widthMm": 2200,
+      "heightMm": 2400,
+      "sillMm": 100,
+      "offsetMm": 9530,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-036",
+      "wallId": "W-s-kis",
+      "widthMm": 2200,
+      "heightMm": 2200,
+      "sillMm": 200,
+      "offsetMm": 3180,
+      "certainty": "estimated"
+    },
+    {
+      "id": "N-035",
+      "wallId": "W-s-master",
+      "widthMm": 1600,
+      "heightMm": 1500,
+      "sillMm": 900,
+      "offsetMm": 1200,
+      "certainty": "estimated"
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "F-001",
+      "roomId": "yatak-1",
+      "kind": "yatak",
+      "layer": "A-FURN",
+      "name": "Yatak 1600×2000",
+      "boundsMm": [
+        19845,
+        -2415,
+        21445,
+        -415
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-002",
+      "roomId": "yatak-2",
+      "kind": "yatak",
+      "layer": "A-FURN",
+      "name": "Yatak 1600×2000",
+      "boundsMm": [
+        19845,
+        -5540,
+        21445,
+        -3540
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-003",
+      "roomId": "yatak-3",
+      "kind": "yatak",
+      "layer": "A-FURN",
+      "name": "Yatak 1600×2000",
+      "boundsMm": [
+        19885,
+        -8815,
+        21485,
+        -6815
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-004",
+      "roomId": "master",
+      "kind": "yatak",
+      "layer": "A-FURN",
+      "name": "Yatak 1600×2000",
+      "boundsMm": [
+        18290,
+        -19650,
+        19890,
+        -17650
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-005",
+      "roomId": "mutfak",
+      "kind": "ada",
+      "layer": "A-FURN",
+      "name": "Mutfak adası",
+      "boundsMm": [
+        2370,
+        -6190,
+        3770,
+        -5290
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-006",
+      "roomId": "mutfak",
+      "kind": "tezgah",
+      "layer": "A-FURN",
+      "name": "Tezgah",
+      "boundsMm": [
+        0,
+        -3750,
+        2600,
+        -3050
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-007",
+      "roomId": "salon",
+      "kind": "yemek",
+      "layer": "A-FURN",
+      "name": "Yemek masası",
+      "boundsMm": [
+        1400,
+        -11370,
+        3200,
+        -10170
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-008",
+      "roomId": "salon",
+      "kind": "oturma",
+      "layer": "A-FURN",
+      "name": "Oturma",
+      "boundsMm": [
+        1630,
+        -16580,
+        4430,
+        -14780
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-009",
+      "roomId": "kis-bahcesi",
+      "kind": "somine",
+      "layer": "A-FIRE",
+      "name": "Şömine",
+      "boundsMm": [
+        0,
+        -22790,
+        700,
+        -21590
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-010",
+      "roomId": "giyinme",
+      "kind": "dolap",
+      "layer": "A-FURN",
+      "name": "Gardırop",
+      "boundsMm": [
+        22720,
+        -14440,
+        23370,
+        -12640
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-011",
+      "roomId": "mutfak-terasi",
+      "kind": "masa",
+      "layer": "A-FURN",
+      "name": "Teras masası",
+      "boundsMm": [
+        -1935,
+        -6190,
+        -735,
+        -5290
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-012",
+      "roomId": "ana-teras",
+      "kind": "oturma",
+      "layer": "A-FURN",
+      "name": "Teras oturması",
+      "boundsMm": [
+        7160,
+        -22690,
+        9560,
+        -20890
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-013",
+      "roomId": "ana-teras",
+      "kind": "yemek",
+      "layer": "A-FURN",
+      "name": "Teras yemeği",
+      "boundsMm": [
+        14900,
+        -21445,
+        16700,
+        -20245
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-014",
+      "roomId": "ebeveyn-banyo",
+      "kind": "klozet",
+      "layer": "A-SANI",
+      "name": "Klozet",
+      "boundsMm": [
+        20670,
+        -16250,
+        21370,
+        -15600
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-015",
+      "roomId": "ebeveyn-banyo",
+      "kind": "bide",
+      "layer": "A-SANI",
+      "name": "Bide",
+      "boundsMm": [
+        21520,
+        -16200,
+        22120,
+        -15600
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-016",
+      "roomId": "ebeveyn-banyo",
+      "kind": "dus",
+      "layer": "A-SANI",
+      "name": "Duş",
+      "boundsMm": [
+        20370,
+        -18220,
+        21270,
+        -17270
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-017",
+      "roomId": "ebeveyn-banyo",
+      "kind": "kuvet",
+      "layer": "A-SANI",
+      "name": "Küvet",
+      "boundsMm": [
+        21645,
+        -20270,
+        23345,
+        -19500
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-018",
+      "roomId": "ebeveyn-banyo",
+      "kind": "dolap",
+      "layer": "A-SANI",
+      "name": "Çift lavabo dolabı",
+      "boundsMm": [
+        22770,
+        -18920,
+        23330,
+        -17420
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-019",
+      "roomId": "ebeveyn-banyo",
+      "kind": "lavabo",
+      "layer": "A-SANI",
+      "name": "Lavabo",
+      "boundsMm": [
+        22850,
+        -18020,
+        23250,
+        -17520
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-020",
+      "roomId": "ebeveyn-banyo",
+      "kind": "lavabo",
+      "layer": "A-SANI",
+      "name": "Lavabo",
+      "boundsMm": [
+        22850,
+        -18720,
+        23250,
+        -18220
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-021",
+      "roomId": "ortak-banyo",
+      "kind": "dolap",
+      "layer": "A-SANI",
+      "name": "Lavabo dolabı",
+      "boundsMm": [
+        21770,
+        -10140,
+        23170,
+        -9600
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-022",
+      "roomId": "ortak-banyo",
+      "kind": "lavabo",
+      "layer": "A-SANI",
+      "name": "Lavabo",
+      "boundsMm": [
+        22270,
+        -10080,
+        22770,
+        -9660
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-023",
+      "roomId": "ortak-banyo",
+      "kind": "dus",
+      "layer": "A-SANI",
+      "name": "Duş",
+      "boundsMm": [
+        22370,
+        -11550,
+        23290,
+        -10650
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-024",
+      "roomId": "ortak-banyo",
+      "kind": "klozet",
+      "layer": "A-SANI",
+      "name": "Klozet",
+      "boundsMm": [
+        19400,
+        -11550,
+        20100,
+        -10850
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-025",
+      "roomId": "ortak-banyo",
+      "kind": "bide",
+      "layer": "A-SANI",
+      "name": "Bide",
+      "boundsMm": [
+        20300,
+        -11550,
+        20900,
+        -10930
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-026",
+      "roomId": "misafir-wc",
+      "kind": "lavabo",
+      "layer": "A-SANI",
+      "name": "Lavabo",
+      "boundsMm": [
+        14650,
+        -700,
+        15250,
+        -200
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-027",
+      "roomId": "misafir-wc",
+      "kind": "klozet",
+      "layer": "A-SANI",
+      "name": "Klozet",
+      "boundsMm": [
+        14700,
+        -2710,
+        15400,
+        -2010
+      ],
+      "certainty": "estimated"
+    },
+    {
+      "id": "F-028",
+      "roomId": "misafir-wc",
+      "kind": "dolap",
+      "layer": "A-SANI",
+      "name": "Dolap",
+      "boundsMm": [
+        14620,
+        -760,
+        15400,
+        -160
+      ],
+      "certainty": "estimated"
+    }
+  ]
+}
