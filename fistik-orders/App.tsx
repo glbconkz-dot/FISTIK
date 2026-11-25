@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Component, useCallback, useEffect, useRef, useState, type ErrorInfo, type ReactNode } from 'react';
 import {
   ActivityIndicator,
   AppState,
   FlatList,
-  KeyboardAvoidingView,
   Linking,
-  Platform,
   Pressable,
   RefreshControl,
   SafeAreaView,
@@ -19,12 +17,38 @@ import * as Notifications from 'expo-notifications';
 import { fetchHealth, fetchOrders } from './src/api';
 import { getManagerSecret, loadStoredSecret, saveManagerSecret } from './src/config';
 import { channelLabel, formatMoney, formatWhen, statusLabel } from './src/format';
-import { registerForPush } from './src/notifications';
+import { registerForPush, setupNotificationHandler } from './src/notifications';
 import type { ManagerOrder } from './src/types';
 
 type LoadError = 'secret-missing' | 'unauthorized' | 'network' | null;
 
-export default function App() {
+class ErrorBoundary extends Component<{ children: ReactNode }, { error: string | null }> {
+  state = { error: null as string | null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error: error.message || 'Uygulama hatası' };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('manager-app', error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <SafeAreaView style={styles.safe}>
+          <View style={styles.center}>
+            <Text style={styles.setupTitle}>Uygulama açılamadı</Text>
+            <Text style={styles.setupHint}>{this.state.error}</Text>
+          </View>
+        </SafeAreaView>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function OrdersApp() {
   const [ready, setReady] = useState(false);
   const [orders, setOrders] = useState<ManagerOrder[]>([]);
   const [adminUrl, setAdminUrl] = useState('https://fistik.kz/admin/orders');
@@ -67,6 +91,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    setupNotificationHandler();
     void (async () => {
       await loadStoredSecret();
       setReady(true);
@@ -164,10 +189,7 @@ export default function App() {
       </View>
 
       {needsSecret ? (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.setup}
-        >
+        <View style={styles.setup}>
           <Text style={styles.setupTitle}>
             {error === 'unauthorized' ? 'Anahtar eşleşmedi' : 'Uygulama anahtarı'}
           </Text>
@@ -192,7 +214,7 @@ export default function App() {
           >
             <Text style={styles.saveBtnText}>{saving ? 'Kaydediliyor…' : 'Kaydet'}</Text>
           </Pressable>
-        </KeyboardAvoidingView>
+        </View>
       ) : error === 'network' ? (
         <View style={styles.errorBanner}>
           <Text style={styles.errorText}>Sunucuya ulaşılamadı. Aşağı çekerek yenileyin.</Text>
@@ -226,6 +248,14 @@ export default function App() {
         />
       ) : null}
     </SafeAreaView>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <OrdersApp />
+    </ErrorBoundary>
   );
 }
 
@@ -307,7 +337,7 @@ const styles = StyleSheet.create({
   setupTitle: { fontSize: 18, fontWeight: '700', color: '#4A2C11' },
   setupHint: { fontSize: 14, color: '#6B5420', lineHeight: 20 },
   input: {
-    backgroundColor: '#FFFdf6',
+    backgroundColor: '#FFFDF6',
     borderWidth: 1,
     borderColor: '#E4DCC4',
     borderRadius: 12,
@@ -338,7 +368,7 @@ const styles = StyleSheet.create({
   emptyList: { flexGrow: 1, justifyContent: 'center', padding: 32 },
   empty: { textAlign: 'center', color: '#6B5420', fontSize: 15 },
   card: {
-    backgroundColor: '#FFFdf6',
+    backgroundColor: '#FFFDF6',
     borderRadius: 16,
     padding: 16,
     borderWidth: 1,

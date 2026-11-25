@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const API_URL = (
   process.env.EXPO_PUBLIC_API_URL ?? 'https://fistik.kz'
@@ -35,10 +35,10 @@ export function authHeaders(): HeadersInit {
 export async function loadStoredSecret(): Promise<string> {
   if (runtimeSecret) return runtimeSecret;
   try {
-    const stored = (await SecureStore.getItemAsync(SECRET_KEY))?.trim() ?? '';
+    const stored = (await AsyncStorage.getItem(SECRET_KEY))?.trim() ?? '';
     if (stored) runtimeSecret = stored;
   } catch {
-    // SecureStore unavailable (web / first launch)
+    // storage unavailable on first launch
   }
   return runtimeSecret;
 }
@@ -46,9 +46,10 @@ export async function loadStoredSecret(): Promise<string> {
 export async function saveManagerSecret(value: string): Promise<void> {
   const next = value.trim();
   runtimeSecret = next;
-  if (next) {
-    await SecureStore.setItemAsync(SECRET_KEY, next);
-  } else {
-    await SecureStore.deleteItemAsync(SECRET_KEY);
+  try {
+    if (next) await AsyncStorage.setItem(SECRET_KEY, next);
+    else await AsyncStorage.removeItem(SECRET_KEY);
+  } catch {
+    // in-memory secret still works for this session
   }
 }

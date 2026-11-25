@@ -4,15 +4,20 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { registerDevice } from './api';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+let handlerReady = false;
+
+export function setupNotificationHandler(): void {
+  if (handlerReady) return;
+  handlerReady = true;
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+}
 
 export async function setupPushChannel(): Promise<void> {
   if (Platform.OS !== 'android') return;
@@ -26,6 +31,7 @@ export async function setupPushChannel(): Promise<void> {
 }
 
 export async function registerForPush(): Promise<string | null> {
+  setupNotificationHandler();
   await setupPushChannel();
 
   if (!Device.isDevice) {
