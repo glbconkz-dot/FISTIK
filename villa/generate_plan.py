@@ -207,6 +207,7 @@ def main():
         "depo-giris": 3000,
         "misafir-wc": 3000,
         "giris-holu": 4200,
+        "yatak-koridor": 4200,
         "giris-sacagi": 4200,
         "mutfak": 3600,
         "salon": 4200,
@@ -231,6 +232,7 @@ def main():
         "depo-giris": "Кладовая 2",
         "misafir-wc": "Гостевой санузел",
         "giris-holu": "Холл",
+        "yatak-koridor": "Коридор",
         "giris-sacagi": "Козырёк входа",
         "mutfak": "Кухня",
         "salon": "Гостиная",
@@ -248,6 +250,8 @@ def main():
     }
 
     Xw, Xk, Xew, Xe = A["west"], A["kitchen_east"], A["wing_west"], A["east"]
+    # Glass line of the bedroom gallery, measured on the poster just west of the bedroom wall.
+    Xg = X(607)
     Xtc, Xcd, Xdp = A["tech_laundry"], A["laundry_store"], A["store_cloak"]
     Xpr, Xcw, Xce, Xwe = A["cloak_vest"], A["core_west"], A["core_east"], A["wc_east"]
     Xm = A["suite"]
@@ -292,7 +296,19 @@ def main():
             (Xwe + ih, yNs - ih),
             (Xwe + ih, yN - eh),
             (Xew - ih, yN - eh),
-            (Xew - ih, yHs + eh),
+            (Xew - ih, yHs - eh),
+            (Xg + eh, yHs - eh),
+            (Xg + eh, yHs + eh),
+        ],
+    )
+    # Glazed gallery between the courtyard and the bedrooms. Doors open here.
+    add_room(
+        "yatak-koridor",
+        [
+            (Xg + eh, yHs - eh),
+            (Xew - ih, yHs - eh),
+            (Xew - ih, yEs + eh),
+            (Xg + eh, yEs + eh),
         ],
     )
     add_room(
@@ -309,24 +325,24 @@ def main():
     add_room("salon", rect(Xw + eh, Xk - eh, yKs - ih, yCs + ih))
     add_room("kis-bahcesi", rect(Xw + eh, Xk - eh, yCs - ih, yS + eh))
     add_room("yatak-1", rect(Xew + ih, Xe - eh, yN - eh, y12 + ih))
-    add_room(
-        "yatak-2",
-        [
-            (Xew + ih, y12 - ih),
-            (Xe - eh, y12 - ih),
-            (Xe - eh, y23 + ih),
-            (Xew + eh, y23 + ih),
-            (Xew + eh, yHs),
-            (Xew + ih, yHs),
-        ],
-    )
-    add_room("yatak-3", rect(Xew + eh, Xe - eh, y23 - ih, y3b + ih))
-    add_room("ortak-banyo", rect(Xew + eh, Xe - eh, y3b - ih, yBm + ih))
-    add_room("master", rect(Xew + eh, Xm - ih, yBm - ih, yEs + eh))
+    add_room("yatak-2", rect(Xew + ih, Xe - eh, y12 - ih, y23 + ih))
+    add_room("yatak-3", rect(Xew + ih, Xe - eh, y23 - ih, y3b + ih))
+    add_room("ortak-banyo", rect(Xew + ih, Xe - eh, y3b - ih, yBm + ih))
+    add_room("master", rect(Xew + ih, Xm - ih, yBm - ih, yEs + eh))
     add_room("giyinme", rect(Xm + ih, Xe - eh, yBm - ih, yDs + ih))
     add_room("ebeveyn-banyo", rect(Xm + ih, Xe - eh, yDs - ih, yEs + eh))
-    add_room("avlu", rect(Xk + eh, Xew - eh, yHs - eh, yCs + eh))
-    add_room("ana-teras", rect(Xk + eh, Xew - eh, yCs - eh, yS - eh))
+    add_room("avlu", rect(Xk + eh, Xg - eh, yHs - eh, yCs + eh))
+    add_room(
+        "ana-teras",
+        [
+            (Xk + eh, yCs - eh),
+            (Xg - eh, yCs - eh),
+            (Xg - eh, yEs - eh),
+            (Xew - eh, yEs - eh),
+            (Xew - eh, yS - eh),
+            (Xk + eh, yS - eh),
+        ],
+    )
     add_room(
         "mutfak-terasi",
         rect(A["terrace_west"], Xw - eh, yNs, yKs),
@@ -380,11 +396,12 @@ def main():
     add_v("W-kis-teras", Xk, yCs, yS, EXT_T, "kis-bahcesi", "ana-teras")
     add_v("W-bed1", Xew, yN, y12, INT_T, "giris-holu", "yatak-1")
     add_v("W-bed2-hol", Xew, y12, yHs, INT_T, "giris-holu", "yatak-2")
-    add_v("W-bed2-avlu", Xew, yHs, y23, EXT_T, "avlu", "yatak-2")
-    add_v("W-bed3", Xew, y23, y3b, EXT_T, "avlu", "yatak-3")
-    add_v("W-banyo", Xew, y3b, yBm, EXT_T, "avlu", "ortak-banyo")
-    add_v("W-master-avlu", Xew, yBm, yCs, EXT_T, "avlu", "master")
-    add_v("W-master-teras", Xew, yCs, yEs, EXT_T, "ana-teras", "master")
+    add_v("W-cam-avlu", Xg, yHs, yCs, EXT_T, "avlu", "yatak-koridor")
+    add_v("W-cam-teras", Xg, yCs, yEs, EXT_T, "ana-teras", "yatak-koridor")
+    add_v("W-bed2-koridor", Xew, yHs, y23, INT_T, "yatak-koridor", "yatak-2")
+    add_v("W-bed3", Xew, y23, y3b, INT_T, "yatak-koridor", "yatak-3")
+    add_v("W-banyo", Xew, y3b, yBm, INT_T, "yatak-koridor", "ortak-banyo")
+    add_v("W-master-koridor", Xew, yBm, yEs, INT_T, "yatak-koridor", "master")
     add_v("W-master-giy", Xm, yBm, yDs, INT_T, "master", "giyinme")
     add_v("W-master-ebe", Xm, yDs, yEs, INT_T, "master", "ebeveyn-banyo")
     add_v("W-east-bed1", Xe, yN, y12, EXT_T, "yatak-1", "bahce")
@@ -411,10 +428,11 @@ def main():
     add_h("W-s-ruz", yNs, Xpr, Xcw, INT_T, "ruzgarlik", "giris-holu")
     add_h("W-s-core", yNs, Xcw, Xce, INT_T, "depo-giris", "giris-holu")
     add_h("W-s-wc", yNs, Xce, Xwe, INT_T, "misafir-wc", "giris-holu")
-    add_h("W-hol-avlu", yHs, Xk, Xew, EXT_T, "giris-holu", "avlu")
+    add_h("W-hol-avlu", yHs, Xk, Xg, EXT_T, "giris-holu", "avlu")
     add_h("W-mut-salon", yKs, Xw, Xk, INT_T, "mutfak", "salon")
     add_h("W-salon-kis", yCs, Xw, Xk, INT_T, "salon", "kis-bahcesi")
-    add_h("W-avlu-teras", yCs, Xk, Xew, EXT_T, "avlu", "ana-teras")
+    add_h("W-avlu-teras", yCs, Xk, Xg, EXT_T, "avlu", "ana-teras")
+    add_h("W-s-koridor", yEs, Xg, Xew, EXT_T, "yatak-koridor", "bahce")
     add_h("W-s-kis", yS, Xw, Xk, EXT_T, "kis-bahcesi", "bahce")
     add_h("W-bed12", y12, Xew, Xe, INT_T, "yatak-1", "yatak-2")
     add_h("W-bed23", y23, Xew, Xe, INT_T, "yatak-2", "yatak-3")
@@ -620,9 +638,9 @@ def main():
         add_opening("W-s-camasir", "single", 800, 2100, 0, centered("W-s-camasir", 800), "camasir-odasi", "mutfak"),
         add_opening("W-bed1", "single", 800, 2100, 0, near_end("W-bed1", 800), "yatak-1", "giris-holu"),
         add_opening("W-bed2-hol", "single", 800, 2100, 0, near_end("W-bed2-hol", 800), "yatak-2", "giris-holu"),
-        add_opening("W-bed3", "single", 800, 2100, 0, near_start("W-bed3", 800), "yatak-3", "avlu"),
-        add_opening("W-banyo", "single", 800, 2100, 0, near_start("W-banyo", 800), "ortak-banyo", "avlu"),
-        add_opening("W-master-avlu", "single", 800, 2100, 0, near_start("W-master-avlu", 800), "master", "avlu"),
+        add_opening("W-bed3", "single", 800, 2100, 0, near_start("W-bed3", 800), "yatak-koridor", "yatak-3"),
+        add_opening("W-banyo", "single", 800, 2100, 0, near_start("W-banyo", 800), "yatak-koridor", "ortak-banyo"),
+        add_opening("W-master-koridor", "single", 800, 2100, 0, near_start("W-master-koridor", 800), "yatak-koridor", "master"),
         add_opening("W-mut-salon", "single", 900, 2100, 0, near_end("W-mut-salon", 900, 300), "salon", "mutfak"),
         add_opening("W-salon-kis", "double", 1600, 2400, 0, centered("W-salon-kis", 1600), "salon", "kis-bahcesi"),
         add_opening("W-hol-avlu", "double", 1600, 2400, 0, centered("W-hol-avlu", 1600), "giris-holu", "avlu"),
@@ -706,6 +724,10 @@ def main():
     add_window("W-salon-avlu", 2000, 2400, 100, "end")
     add_window("W-hol-avlu", 1800, 2400, 100, "start")
     add_window("W-hol-avlu", 1800, 2400, 100, "end")
+    add_window("W-cam-avlu", 3600, 2400, 100, "start")
+    add_window("W-cam-avlu", 3600, 2400, 100, "end")
+    add_window("W-cam-teras", 1400, 2400, 100)
+    add_window("W-s-koridor", 800, 2400, 100)
     add_window("W-avlu-teras", 2200, 2400, 100, "start")
     add_window("W-avlu-teras", 2200, 2400, 100, "end")
     add_window("W-west-mutfak", 1200, 1500, 900, "start")
@@ -821,7 +843,7 @@ def main():
         add_box("mutfak-terasi", "A-FURN", "masa", (tb[0] + tb[2]) / 2 - 600, (tb[1] + tb[3]) / 2 - 450, (tb[0] + tb[2]) / 2 + 600, (tb[1] + tb[3]) / 2 + 450, "Teras masası")
     ab = rooms["ana-teras"]["polygon"].bounds
     add_box("ana-teras", "A-FURN", "oturma", ab[0] + 800, ab[1] + 800, ab[0] + 3200, ab[1] + 2600, "Teras oturması")
-    add_box("ana-teras", "A-FURN", "yemek", ab[2] - 2800, (ab[1] + ab[3]) / 2 - 500, ab[2] - 1000, (ab[1] + ab[3]) / 2 + 700, "Teras yemeği")
+    add_box("ana-teras", "A-FURN", "yemek", ab[0] + 4200, ab[1] + 700, ab[0] + 6400, ab[1] + 2100, "Teras yemeği")
     court = rooms["avlu"]["polygon"]
     cc = court.centroid
     tree = Point(cc.x, cc.y + 1800).buffer(1100)
@@ -848,7 +870,7 @@ def main():
     add_box("misafir-wc", "A-SANI", "klozet", wc[0] + 200, wc[1] + 200, wc[0] + 900, wc[1] + 900, "Klozet")
     add_box("misafir-wc", "A-SANI", "dolap", wc[0] + 120, wc[3] - 760, wc[0] + 900, wc[3] - 160, "Dolap")
 
-    pool = poly(rect(A["pool_w"], A["pool_e"], A["pool_n"], A["pool_s"]))
+    pool = poly(rect(A["pool_w"], min(A["pool_e"], Xg - eh - 80), A["pool_n"], A["pool_s"]))
 
     checks = []
 
@@ -914,6 +936,7 @@ def main():
             if opening["kind"] == "window":
                 continue
             link(opening["swingRoom"], opening["otherRoom"])
+    link("giris-holu", "yatak-koridor")
     link("giris-sacagi", "bahce")
     link("mutfak-terasi", "bahce")
     link("ana-teras", "bahce")
@@ -927,7 +950,7 @@ def main():
         stack.extend(graph.get(node, ()))
     interior = [
         "teknik-oda", "camasir-odasi", "depo", "portmanto", "ruzgarlik", "misafir-wc",
-        "giris-holu", "mutfak", "salon", "kis-bahcesi", "yatak-1", "yatak-2", "yatak-3",
+        "giris-holu", "yatak-koridor", "depo-giris", "mutfak", "salon", "kis-bahcesi", "yatak-1", "yatak-2", "yatak-3",
         "ortak-banyo", "master", "giyinme", "ebeveyn-banyo", "avlu", "ana-teras",
         "mutfak-terasi", "giris-sacagi",
     ]
@@ -1202,7 +1225,7 @@ def main():
 
     room_order = [
         "teknik-oda", "camasir-odasi", "depo", "portmanto", "ruzgarlik", "depo-giris",
-        "misafir-wc", "giris-holu", "mutfak", "salon", "kis-bahcesi", "yatak-1",
+        "misafir-wc", "giris-holu", "yatak-koridor", "mutfak", "salon", "kis-bahcesi", "yatak-1",
         "yatak-2", "yatak-3", "ortak-banyo", "master", "giyinme", "ebeveyn-banyo",
         "avlu", "ana-teras", "mutfak-terasi", "giris-sacagi",
     ]
@@ -1565,7 +1588,7 @@ def main():
         "Duvarlar tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde."
     )
     findings.append(
-        "Pafta dili Rusça. Çerçeve, пятно 2.2 planlarındaki A2 yaprağı ve 185×55 damga. Akslar 300 mm taşıyıcı duvarın merkezinden geçiyor. 140 mm bölme, kalın duvarın yüzüne bağlı; merkezi akstan 80 mm içeride. Düzenlenen dosyadaki depo, eski masif çekirdeğin içinde Кладовая 2 oldu. Mutfak–hol kapısı, çizilen kanadın yerine, mutfağa açılıyor."
+        "Yatak kanadının avlu tarafındaki camlı koridor duruyor. Yatak 3, ortak banyo ve master bu koridora açılır. Orta terasa kapı yok."
     )
 
     write_reports(geometry, rooms, walls, checks, findings, kinds, stamp, pool, A, px)
@@ -1723,7 +1746,7 @@ Ortak banyo net ölçüleri yaklaşık {(bath_b[2]-bath_b[0])/1000:.2f} m × {(b
 
 Avlu ve kış bahçesi, afiş etiketinden belirgin büyük çıktı. Yatak odaları aynı ölçekte 16 m² etiketine yakın. Fark, avlu sınırının izinden geliyor. Sınır, etikete düşsün diye içeri alınmadı.
 
-Yatak odası 2'nin kapısı, hol ile avlunun birleştiği köşede. Kapı hol tarafına bağlandı; avluya ayrı bir kanat uydurulmadı.
+Yatak 1 ve yatak 2 hole açılır. Yatak 3, ortak banyo ve master, avlu ile yatak kanadı arasındaki camlı koridora açılır. Orta terasa kapı yoktur.
 
 ## Kapılar
 

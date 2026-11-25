@@ -1,6 +1,6 @@
 # PROJECT_STATUS — Tek katlı avlu villa
 
-Durum tarihi: 25 Kasım 2026, 13:36 (Qyzylorda, UTC+5).
+Durum tarihi: 25 Kasım 2026, 13:44 (Qyzylorda, UTC+5).
 
 Aşama 02 işlendi. Onaylı U plan korundu. Yeni kat planı çizilmedi. Arsa sınırı modele alınmadı. CAD dosyası üretildi ve DXF geri okunarak kontrol edildi.
 
@@ -39,21 +39,22 @@ Afiş sayıları kopyalanmadı. Ayrıntı `villa/GEOMETRY_VALIDATION.md` içinde
 | Гардероб | 6.26 |
 | Тамбур | 8.15 |
 | Гостевой санузел | 5.62 |
-| Холл | 27.84 |
+| Холл | 28.20 |
 | Кухня | 32.78 |
 | Гостиная | 58.24 |
 | Зимний сад | 29.51 |
 | Спальня 1 | 15.42 |
-| Спальня 2 | 17.05 |
-| Спальня 3 | 16.81 |
-| Общая ванная | 11.33 |
-| Спальня хозяев | 18.70 |
+| Спальня 2 | 17.11 |
+| Спальня 3 | 17.06 |
+| Общая ванная | 11.50 |
+| Спальня хозяев | 19.39 |
 | Гардеробная | 10.80 |
 | Ванная хозяев | 14.95 |
-| Внутренний двор | 143.45 |
-| Терраса | 57.72 |
+| Внутренний двор | 125.49 |
+| Терраса | 54.53 |
 | Терраса кухни | 11.43 |
 | Кладовая 2 | 4.69 |
+| Коридор | 17.88 |
 | Козырёк входа | 3.53 |
 
 ## Kontroller
