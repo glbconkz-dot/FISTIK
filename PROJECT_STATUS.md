@@ -1,6 +1,6 @@
 # PROJECT_STATUS — Tek katlı avlu villa
 
-Durum tarihi: 25 Kasım 2026, 11:51 (Qyzylorda, UTC+5).
+Durum tarihi: 25 Kasım 2026, 13:36 (Qyzylorda, UTC+5).
 
 Aşama 02 işlendi. Onaylı U plan korundu. Yeni kat planı çizilmedi. Arsa sınırı modele alınmadı. CAD dosyası üretildi ve DXF geri okunarak kontrol edildi.
 
@@ -21,7 +21,7 @@ Orijin, U planın kuzeybatı iç köşesidir.
 
 ## Korunan ilişki
 
-Batı kanat: mutfak terası, mutfak, salon, kış bahçesi. Kuzey bar: teknik oda, çamaşır, depo, portmanto, rüzgarlık, masif çekirdek, misafir WC, giriş holünün nişi. Doğu kanat: üç yatak odası, ortak banyo, master, giyinme, ebeveyn banyosu. Orta: avlu ve havuz. Güney: ana teras. Giriş saçağı rüzgarlığın kuzeyindedir.
+Batı kanat: mutfak terası, mutfak, salon, kış bahçesi. Kuzey bar: teknik oda, çamaşır, depo, portmanto, rüzgarlık, klasovaya 2, misafir WC, giriş holünün nişi. Doğu kanat: üç yatak odası, ortak banyo, master, giyinme, ebeveyn banyosu. Orta: avlu ve havuz. Güney: ana teras. Giriş saçağı rüzgarlığın kuzeyindedir. Pafta yazıları Rusçadır. Akslar 300 mm taşıyıcı duvarın merkezindedir.
 
 Ebeveyn banyosu kendi odasındadır: iki lavabo, duş, küvet, dolap, klozet ve bide. Klozet ile bide ayrı bölmededir. Ortak banyo kendi odasındadır: lavabo, duş, klozet, bide, dolap.
 
@@ -33,27 +33,28 @@ Afiş sayıları kopyalanmadı. Ayrıntı `villa/GEOMETRY_VALIDATION.md` içinde
 
 | Mahal | m² |
 | --- | ---: |
-| Teknik oda | 10.16 |
-| Çamaşır odası | 5.53 |
-| Depo | 4.98 |
-| Portmanto | 6.26 |
-| Rüzgarlık | 8.15 |
-| Misafir WC | 5.62 |
-| Giriş holü | 27.84 |
-| Mutfak | 32.78 |
-| Salon | 58.24 |
-| Kış bahçesi | 29.51 |
-| Yatak odası 1 | 15.42 |
-| Yatak odası 2 | 17.05 |
-| Yatak odası 3 | 16.81 |
-| Ortak banyo | 11.33 |
-| Master yatak odası | 18.70 |
-| Giyinme odası | 10.80 |
-| Ebeveyn banyosu | 14.95 |
-| Avlu | 143.45 |
-| Ana teras | 57.72 |
-| Mutfak terası | 11.43 |
-| Giriş saçağı | 3.53 |
+| Техническое помещение | 10.16 |
+| Постирочная | 5.53 |
+| Кладовая | 4.98 |
+| Гардероб | 6.26 |
+| Тамбур | 8.15 |
+| Гостевой санузел | 5.62 |
+| Холл | 27.84 |
+| Кухня | 32.78 |
+| Гостиная | 58.24 |
+| Зимний сад | 29.51 |
+| Спальня 1 | 15.42 |
+| Спальня 2 | 17.05 |
+| Спальня 3 | 16.81 |
+| Общая ванная | 11.33 |
+| Спальня хозяев | 18.70 |
+| Гардеробная | 10.80 |
+| Ванная хозяев | 14.95 |
+| Внутренний двор | 143.45 |
+| Терраса | 57.72 |
+| Терраса кухни | 11.43 |
+| Кладовая 2 | 4.69 |
+| Козырёк входа | 3.53 |
 
 ## Kontroller
 
