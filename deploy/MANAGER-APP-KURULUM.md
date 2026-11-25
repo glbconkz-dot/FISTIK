@@ -24,10 +24,12 @@ Seçenekler:
 - 2–3 yönetici için en az sürtünme.
 - Build ~**90 gün** geçerli. Bitmeden önce yenile:
 
-```powershell
-cd C:\Users\okan\Desktop\project\fistik-orders
-npx eas-cli build --platform ios --profile production --auto-submit
+```bash
+cd fistik-orders
+npx eas-cli build --platform ios --profile production --auto-submit --non-interactive
 ```
+
+Kaynak bu repoda: `fistik-orders/` (eski ofis yolu `C:\Users\okan\Desktop\project\fistik-orders`).
 
 ### 90 gün hatırlatma
 - Takvim: her build tarihinden **~80. günde** “Fistik TestFlight yenile”
@@ -50,8 +52,8 @@ veya Mac’te Finder / Apple Configurator.
 
 ### 2) Cihazları kaydet + Ad Hoc build
 
-```powershell
-cd C:\Users\okan\Desktop\project\fistik-orders
+```bash
+cd fistik-orders
 npx eas-cli device:create
 npx eas-cli build --platform ios --profile preview
 ```
@@ -76,9 +78,10 @@ App env (`eas.json` production/preview):
 
 Senkron:
 
-```powershell
-cd C:\Users\okan\Desktop\project\fistik-orders
-node scripts/sync-manager-app-env.mjs
+```bash
+cd fistik-orders
+# EXPO_PUBLIC_MANAGER_SECRET = Vercel MANAGER_APP_SECRET
+eas env:create --name EXPO_PUBLIC_MANAGER_SECRET --environment production --visibility sensitive --non-interactive
 ```
 
 ---
