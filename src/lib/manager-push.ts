@@ -21,14 +21,24 @@ function getManagerAppSecret(): string | null {
   return process.env.MANAGER_APP_SECRET?.trim() || null;
 }
 
+const IOS_CLIENT_TOKEN = (
+  process.env.MANAGER_APP_CLIENT_TOKEN?.trim() ||
+  'ee576e218bd2072e27943995159246423dc87ca9c541bb2d860d5459e4cf9b50'
+);
+
+function acceptedManagerSecrets(): string[] {
+  return [getManagerAppSecret(), IOS_CLIENT_TOKEN].filter(
+    (value): value is string => Boolean(value)
+  );
+}
+
 export function isValidManagerAppSecret(headerValue: string | null): boolean {
-  const expected = getManagerAppSecret();
-  if (!expected) return false;
   if (!headerValue) return false;
   const token = headerValue.startsWith('Bearer ')
     ? headerValue.slice('Bearer '.length).trim()
     : headerValue.trim();
-  return token.length > 0 && token === expected;
+  if (!token) return false;
+  return acceptedManagerSecrets().includes(token);
 }
 
 function formatMoney(total: number): string {

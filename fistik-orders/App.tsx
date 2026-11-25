@@ -9,13 +9,12 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
 import { fetchHealth, fetchOrders } from './src/api';
-import { getManagerSecret, loadStoredSecret, saveManagerSecret } from './src/config';
+import { getManagerSecret, loadStoredSecret } from './src/config';
 import { channelLabel, formatMoney, formatWhen, statusLabel } from './src/format';
 import { registerForPush, setupNotificationHandler } from './src/notifications';
 import type { ManagerOrder } from './src/types';
@@ -54,9 +53,7 @@ function OrdersApp() {
   const [adminUrl, setAdminUrl] = useState('https://fistik.kz/admin/orders');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<LoadError>(null);
-  const [secretDraft, setSecretDraft] = useState('');
   const [pushOk, setPushOk] = useState<boolean | null>(null);
   const [healthOk, setHealthOk] = useState<boolean | null>(null);
   const [activeDevices, setActiveDevices] = useState<number | null>(null);
@@ -134,26 +131,6 @@ function OrdersApp() {
     return () => clearInterval(timer);
   }, [load]);
 
-  const saveSecret = useCallback(async () => {
-    const value = secretDraft.trim();
-    if (!value) return;
-    setSaving(true);
-    try {
-      await saveManagerSecret(value);
-      await load();
-      if (getManagerSecret()) {
-        void registerForPush()
-          .then((token) => setPushOk(Boolean(token)))
-          .catch(() => setPushOk(false));
-      }
-      setSecretDraft('');
-    } finally {
-      setSaving(false);
-    }
-  }, [load, secretDraft]);
-
-  const needsSecret = error === 'secret-missing' || error === 'unauthorized';
-
   if (!ready) {
     return (
       <SafeAreaView style={styles.safe}>
@@ -188,45 +165,22 @@ function OrdersApp() {
         ) : null}
       </View>
 
-      {needsSecret ? (
-        <View style={styles.setup}>
-          <Text style={styles.setupTitle}>
-            {error === 'unauthorized' ? 'Anahtar eşleşmedi' : 'Uygulama anahtarı'}
-          </Text>
-          <Text style={styles.setupHint}>
-            Vercel → fistik → Environment Variables → MANAGER_APP_SECRET değerini yapıştır.
-          </Text>
-          <TextInput
-            value={secretDraft}
-            onChangeText={setSecretDraft}
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off"
-            secureTextEntry
-            placeholder="MANAGER_APP_SECRET"
-            placeholderTextColor="#A09070"
-            style={styles.input}
-          />
-          <Pressable
-            style={[styles.saveBtn, (!secretDraft.trim() || saving) && styles.saveBtnDisabled]}
-            disabled={!secretDraft.trim() || saving}
-            onPress={() => void saveSecret()}
-          >
-            <Text style={styles.saveBtnText}>{saving ? 'Kaydediliyor…' : 'Kaydet'}</Text>
-          </Pressable>
-        </View>
-      ) : error === 'network' ? (
+      {error ? (
         <View style={styles.errorBanner}>
-          <Text style={styles.errorText}>Sunucuya ulaşılamadı. Aşağı çekerek yenileyin.</Text>
+          <Text style={styles.errorText}>
+            {error === 'network'
+              ? 'Sunucuya ulaşılamadı. Aşağı çekerek yenileyin.'
+              : 'Siparişler yüklenemedi. Aşağı çekerek yenileyin.'}
+          </Text>
         </View>
       ) : null}
 
-      {!needsSecret && loading && orders.length === 0 ? (
+      {loading && orders.length === 0 ? (
         <View style={styles.center}>
           <ActivityIndicator color="#4A2C11" />
           <Text style={styles.muted}>Siparişler yükleniyor…</Text>
         </View>
-      ) : !needsSecret ? (
+      ) : (
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id}
@@ -246,7 +200,7 @@ function OrdersApp() {
           }
           renderItem={({ item }) => <OrderCard order={item} />}
         />
-      ) : null}
+      )}
     </SafeAreaView>
   );
 }
