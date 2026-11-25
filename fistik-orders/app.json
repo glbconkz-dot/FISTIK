@@ -17,10 +17,12 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "kz.fistik.orders",
-      "buildNumber": "11",
+      "buildNumber": "12",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "android": {
