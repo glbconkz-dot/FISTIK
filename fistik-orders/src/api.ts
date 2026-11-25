@@ -1,4 +1,4 @@
-import { API_URL, authHeaders, MANAGER_SECRET } from './config';
+import { API_URL, authHeaders, getManagerSecret } from './config';
 import type { HealthResponse, ManagerOrder, OrdersResponse } from './types';
 
 export async function fetchHealth(): Promise<HealthResponse> {
@@ -15,7 +15,7 @@ export async function fetchOrders(): Promise<{
   orders: ManagerOrder[];
   adminUrl: string;
 }> {
-  if (!MANAGER_SECRET) {
+  if (!getManagerSecret()) {
     throw new Error('secret-missing');
   }
   const res = await fetch(`${API_URL}/api/manager/orders?limit=40`, {
@@ -39,7 +39,7 @@ export async function registerDevice(params: {
   deviceName: string;
   platform: string;
 }): Promise<void> {
-  if (!MANAGER_SECRET) {
+  if (!getManagerSecret()) {
     throw new Error('secret-missing');
   }
   const res = await fetch(`${API_URL}/api/manager/register-device`, {

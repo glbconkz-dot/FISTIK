@@ -20,7 +20,8 @@
       "environment": "production",
       "autoIncrement": true,
       "ios": {
-        "simulator": false
+        "simulator": false,
+        "image": "latest"
       },
       "env": {
         "EXPO_PUBLIC_API_URL": "https://fistik.kz"

@@ -3,17 +3,21 @@ import {
   ActivityIndicator,
   AppState,
   FlatList,
+  KeyboardAvoidingView,
   Linking,
+  Platform,
   Pressable,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
 import { fetchHealth, fetchOrders } from './src/api';
+import { getManagerSecret, loadStoredSecret, saveManagerSecret } from './src/config';
 import { channelLabel, formatMoney, formatWhen, statusLabel } from './src/format';
 import { registerForPush } from './src/notifications';
 import type { ManagerOrder } from './src/types';
@@ -21,11 +25,14 @@ import type { ManagerOrder } from './src/types';
 type LoadError = 'secret-missing' | 'unauthorized' | 'network' | null;
 
 export default function App() {
+  const [ready, setReady] = useState(false);
   const [orders, setOrders] = useState<ManagerOrder[]>([]);
   const [adminUrl, setAdminUrl] = useState('https://fistik.kz/admin/orders');
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<LoadError>(null);
+  const [secretDraft, setSecretDraft] = useState('');
   const [pushOk, setPushOk] = useState<boolean | null>(null);
   const [healthOk, setHealthOk] = useState<boolean | null>(null);
   const [activeDevices, setActiveDevices] = useState<number | null>(null);
@@ -37,6 +44,12 @@ export default function App() {
       const health = await fetchHealth().catch(() => null);
       setHealthOk(health?.ok ?? false);
       setActiveDevices(health?.activeDevices ?? null);
+
+      if (!getManagerSecret()) {
+        setError('secret-missing');
+        setOrders([]);
+        return;
+      }
 
       const data = await fetchOrders();
       setOrders(data.orders);
@@ -54,10 +67,16 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    void load();
-    void registerForPush()
-      .then((token) => setPushOk(Boolean(token)))
-      .catch(() => setPushOk(false));
+    void (async () => {
+      await loadStoredSecret();
+      setReady(true);
+      await load();
+      if (getManagerSecret()) {
+        void registerForPush()
+          .then((token) => setPushOk(Boolean(token)))
+          .catch(() => setPushOk(false));
+      }
+    })();
   }, [load]);
 
   useEffect(() => {
@@ -85,10 +104,40 @@ export default function App() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      void load(true);
+      if (getManagerSecret()) void load(true);
     }, 30_000);
     return () => clearInterval(timer);
   }, [load]);
+
+  const saveSecret = useCallback(async () => {
+    const value = secretDraft.trim();
+    if (!value) return;
+    setSaving(true);
+    try {
+      await saveManagerSecret(value);
+      await load();
+      if (getManagerSecret()) {
+        void registerForPush()
+          .then((token) => setPushOk(Boolean(token)))
+          .catch(() => setPushOk(false));
+      }
+      setSecretDraft('');
+    } finally {
+      setSaving(false);
+    }
+  }, [load, secretDraft]);
+
+  const needsSecret = error === 'secret-missing' || error === 'unauthorized';
+
+  if (!ready) {
+    return (
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.center}>
+          <ActivityIndicator color="#4A2C11" />
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -114,14 +163,48 @@ export default function App() {
         ) : null}
       </View>
 
-      {error ? <ErrorBanner error={error} /> : null}
+      {needsSecret ? (
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.setup}
+        >
+          <Text style={styles.setupTitle}>
+            {error === 'unauthorized' ? 'Anahtar eşleşmedi' : 'Uygulama anahtarı'}
+          </Text>
+          <Text style={styles.setupHint}>
+            Vercel → fistik → Environment Variables → MANAGER_APP_SECRET değerini yapıştır.
+          </Text>
+          <TextInput
+            value={secretDraft}
+            onChangeText={setSecretDraft}
+            autoCapitalize="none"
+            autoCorrect={false}
+            autoComplete="off"
+            secureTextEntry
+            placeholder="MANAGER_APP_SECRET"
+            placeholderTextColor="#A09070"
+            style={styles.input}
+          />
+          <Pressable
+            style={[styles.saveBtn, (!secretDraft.trim() || saving) && styles.saveBtnDisabled]}
+            disabled={!secretDraft.trim() || saving}
+            onPress={() => void saveSecret()}
+          >
+            <Text style={styles.saveBtnText}>{saving ? 'Kaydediliyor…' : 'Kaydet'}</Text>
+          </Pressable>
+        </KeyboardAvoidingView>
+      ) : error === 'network' ? (
+        <View style={styles.errorBanner}>
+          <Text style={styles.errorText}>Sunucuya ulaşılamadı. Aşağı çekerek yenileyin.</Text>
+        </View>
+      ) : null}
 
-      {loading && orders.length === 0 ? (
+      {!needsSecret && loading && orders.length === 0 ? (
         <View style={styles.center}>
           <ActivityIndicator color="#4A2C11" />
           <Text style={styles.muted}>Siparişler yükleniyor…</Text>
         </View>
-      ) : (
+      ) : !needsSecret ? (
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id}
@@ -141,7 +224,7 @@ export default function App() {
           }
           renderItem={({ item }) => <OrderCard order={item} />}
         />
-      )}
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -151,20 +234,6 @@ function StatusPill({ ok, label }: { ok: boolean | null; label: string }) {
   return (
     <View style={[styles.pill, tone]}>
       <Text style={styles.pillText}>{label}</Text>
-    </View>
-  );
-}
-
-function ErrorBanner({ error }: { error: Exclude<LoadError, null> }) {
-  const text =
-    error === 'secret-missing'
-      ? 'Uygulama anahtarı (MANAGER_APP_SECRET) build’e yazılmamış.'
-      : error === 'unauthorized'
-        ? 'Anahtar Vercel’deki MANAGER_APP_SECRET ile eşleşmiyor.'
-        : 'Sunucuya ulaşılamadı. fistik.kz /api/manager kontrol edin.';
-  return (
-    <View style={styles.errorBanner}>
-      <Text style={styles.errorText}>{text}</Text>
     </View>
   );
 }
@@ -234,6 +303,27 @@ const styles = StyleSheet.create({
   pillWait: { backgroundColor: '#E6DFC8' },
   pillText: { fontSize: 12, color: '#4A2C11', fontWeight: '600' },
   deviceCount: { fontSize: 12, color: '#6B5420' },
+  setup: { paddingHorizontal: 20, paddingTop: 12, gap: 12 },
+  setupTitle: { fontSize: 18, fontWeight: '700', color: '#4A2C11' },
+  setupHint: { fontSize: 14, color: '#6B5420', lineHeight: 20 },
+  input: {
+    backgroundColor: '#FFFdf6',
+    borderWidth: 1,
+    borderColor: '#E4DCC4',
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    color: '#2C2114',
+  },
+  saveBtn: {
+    backgroundColor: '#4A2C11',
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  saveBtnDisabled: { opacity: 0.45 },
+  saveBtnText: { color: '#F4F0E4', fontWeight: '700', fontSize: 16 },
   errorBanner: {
     marginHorizontal: 20,
     marginBottom: 8,
