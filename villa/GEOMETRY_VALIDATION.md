@@ -1,6 +1,6 @@
 # GEOMETRY_VALIDATION — Tek katlı avlu villa
 
-Durum tarihi: 24 Kasım 2026, 20:13 (Qyzylorda, UTC+5).
+Durum tarihi: 25 Kasım 2026, 11:51 (Qyzylorda, UTC+5).
 
 Bu rapor, onaylı afişin piksel izinden üretilen geometriyi kontrol eder. Yeni bir kat planı çizilmedi. 20 m × 40 m arsa sınırı kullanılmadı. Ölçüler tahmini olarak işaretlidir. Kazakistan СН РК ve СП РК uygunluğu iddia edilmez; ilgili hüküm bu çalışmada doğrulanmadı.
 
@@ -122,18 +122,19 @@ Sürgülü kanatta yay yoktur. Çift kanatta her kanat hedef mahalle açılır. 
 | geçti | Klozet ve bide ebeveyn banyosunun mahrem bölmesinde | — |
 | geçti | Köşe ve kalın-ince birleşim net, basamak yok | kısa kademe mm:  |
 | geçti | İstenen CAD katmanları duruyor | — |
-| geçti | Önizleme DXF dosyasından üretildi | 167220 |
-| geçti | DXF duvar çizgisi, kapı yayı ve yazı içeriyor | {'TEXT': 61, 'LWPOLYLINE': 32, 'CIRCLE': 1, 'HATCH': 51, 'LINE': 468, 'ARC': 22} |
+| geçti | Önizleme DXF dosyasından üretildi | 233631 |
+| geçti | DXF duvar çizgisi, kapı yayı ve yazı içeriyor | {'TEXT': 164, 'LWPOLYLINE': 35, 'CIRCLE': 23, 'HATCH': 53, 'LINE': 523, 'ARC': 22} |
 | geçti | Kapı boşluğundan duvar çizgisi geçmiyor | — |
 | geçti | Duvar çizgileri üst üste binmiyor | — |
 
 Kontrol listesindeki maddeler geçti.
 
-DXF varlıkları: {'TEXT': 61, 'LWPOLYLINE': 32, 'CIRCLE': 1, 'HATCH': 51, 'LINE': 468, 'ARC': 22}.
+DXF varlıkları: {'TEXT': 164, 'LWPOLYLINE': 35, 'CIRCLE': 23, 'HATCH': 53, 'LINE': 523, 'ARC': 22}.
 
 Üretim notları:
 
-- Duvarlar AP paftasındaki gibi tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde.
+- Duvarlar tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde.
+- Çizim düzeni, okunan АР-РП тип 2-2А paftasından alındı: katmanlar PS_Газоблок, PS_Монолит, PS_Штриховка, PS_Окна, PS_Двери, PS_Оси, PS_Размер, PS_Марки помещ, PS_Площади; tarama AR-CONC / ANSI31 / ANSI36; eksen balonu 8 mm; damga alanları «штамп Тип А». Konut albümünün adı, pafta kodu ve imza atan adlar bu villaya yazılmadı.
 
 ## Bilinçli sınır
 

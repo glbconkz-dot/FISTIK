@@ -42,21 +42,26 @@ INT_T = 140
 EXT_HALF = EXT_T / 2
 INT_HALF = INT_T / 2
 
+# Layer numbers are the ACI colors read from АР-РП тип 2-2А (layout АР.2-2А).
 LAYERS = {
-    "A-WALL-EXT": 250,
-    "A-WALL-INT": 8,
-    "A-DOOR": 30,
-    "A-WIND": 5,
-    "A-GLAZ": 4,
-    "A-FURN": 3,
-    "A-SANI": 6,
-    "A-DIMS": 2,
-    "A-TEXT": 7,
-    "A-AREA": 8,
-    "A-AXIS": 9,
-    "A-TERR": 40,
-    "A-POOL": 5,
-    "A-FIRE": 1,
+    "PS_Газоблок": 146,
+    "PS_Монолит": 204,
+    "PS_Штриховка": 254,
+    "PS_Утеплитель": 20,
+    "PS_Окна": 131,
+    "PS_Двери": 8,
+    "PS_Витражи": 154,
+    "PS_Оси": 1,
+    "PS_Размер": 192,
+    "PS_Текст": 7,
+    "PS_Марки помещ": 7,
+    "PS_Площади": 244,
+    "PS_Марки дверей": 51,
+    "PS_Марки окон": 5,
+    "АР_Сантехника": 79,
+    "PS_Оборудование": 8,
+    "PS_Облицовка": 250,
+    "RAMKA 125": 7,
 }
 
 POSTER = {
@@ -1083,7 +1088,13 @@ def main():
     if "ARCH" not in doc.styles:
         doc.styles.add("ARCH", font="DejaVuSans.ttf")
     for name, color in LAYERS.items():
-        doc.layers.add(name, color=color)
+        layer = doc.layers.add(name, color=color)
+        if name == "PS_Монолит":
+            layer.dxf.lineweight = 50
+        elif name == "PS_Газоблок":
+            layer.dxf.lineweight = 30
+        elif name == "RAMKA 125":
+            layer.dxf.lineweight = 35
     msp = doc.modelspace()
 
     def add_text(text, x, y, height, layer, align=TextEntityAlignment.MIDDLE_CENTER):
@@ -1176,40 +1187,54 @@ def main():
         "kısa kademe mm: " + ", ".join(str(item) for item in sorted(notch_edges)[:12]),
     )
     exterior_zone = unary_union([body for wall, body in bodies if wall.exterior]).buffer(2)
+    core_bodies = [body for wall, body in bodies if wall.thickness > 400]
+    core_zone = unary_union(core_bodies).buffer(2) if core_bodies else Polygon()
 
-    def edge_layer(p1, p2):
+    def edge_style(p1, p2):
         mid = Point((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
-        return "A-WALL-EXT" if exterior_zone.covers(mid) else "A-WALL-INT"
+        # The traced wood core is one thick solid, drawn as the album's monolith.
+        if not core_zone.is_empty and core_zone.covers(mid):
+            return "PS_Монолит", 50
+        # 300 mm exterior and 140 mm partitions stay on the gas-block layer.
+        # The album uses that layer for the 200 mm and 100 mm masonry.
+        return "PS_Газоблок", 30 if exterior_zone.covers(mid) else 18
 
-    for room in rooms.values():
-        # Room polygons sit on the wall face. Drawing them makes a second line
-        # on top of the wall, so the plan keeps the name and the area as text.
+    room_order = [
+        "teknik-oda", "camasir-odasi", "depo", "portmanto", "ruzgarlik", "misafir-wc",
+        "giris-holu", "mutfak", "salon", "kis-bahcesi", "yatak-1", "yatak-2", "yatak-3",
+        "ortak-banyo", "master", "giyinme", "ebeveyn-banyo", "avlu", "ana-teras",
+        "mutfak-terasi", "giris-sacagi",
+    ]
+    for number, rid in enumerate(room_order, start=1):
+        room = rooms[rid]
+        # The room polygon is the wall face. It is not drawn, so it does not
+        # sit on top of the wall line. The album puts the number, the name
+        # and an underlined area as three separate texts.
         c = room["polygon"].centroid
-        add_text(room["name"], c.x, c.y + 180, 220, "A-TEXT")
-        if room["clearHeightMm"]:
-            label = f"{room['areaM2']:.2f} m²  h={room['clearHeightMm']}"
-        else:
-            label = f"{room['areaM2']:.2f} m²"
-        add_text(label, c.x, c.y - 180, 180, "A-AREA")
+        add_text(str(number), c.x, c.y + 320, 350, "PS_Марки помещ")
+        add_text(room["name"], c.x, c.y, 200, "PS_Текст")
+        add_text(f"%%U{room['areaM2']:.1f}", c.x, c.y - 320, 250, "PS_Площади")
 
     for rid in ("ana-teras", "mutfak-terasi", "giris-sacagi"):
         terrace = rooms[rid]["polygon"].difference(raw_mass.buffer(40))
         for part in pieces(terrace):
             if part.area < 1000:
                 continue
-            msp.add_lwpolyline(ring_pts(part.exterior), close=True, dxfattribs={"layer": "A-TERR"})
+            msp.add_lwpolyline(ring_pts(part.exterior), close=True, dxfattribs={"layer": "PS_Облицовка"})
 
-    msp.add_lwpolyline(list(pool.exterior.coords)[:-1], close=True, dxfattribs={"layer": "A-POOL"})
-    add_text("HAVUZ", pool.centroid.x, pool.centroid.y, 180, "A-TEXT")
-    msp.add_circle(tree.centroid.coords[0], 1100, dxfattribs={"layer": "A-FURN"})
-    add_text("AĞAÇ", tree.centroid.x, tree.centroid.y, 160, "A-TEXT")
+    msp.add_lwpolyline(list(pool.exterior.coords)[:-1], close=True, dxfattribs={"layer": "PS_Витражи"})
+    add_text("HAVUZ", pool.centroid.x, pool.centroid.y + 400, 200, "PS_Текст")
+    msp.add_circle(tree.centroid.coords[0], 1100, dxfattribs={"layer": "PS_Оборудование"})
+    add_text("AĞAÇ", tree.centroid.x, tree.centroid.y, 180, "PS_Текст")
 
-    def add_wall_hatch(geom, layer):
+    def add_wall_hatch(geom, layer, pattern, scale):
         for part in pieces(geom):
             if part.area < 200:
                 continue
             hatch = msp.add_hatch(dxfattribs={"layer": layer})
-            hatch.set_solid_fill(color=250 if layer == "A-WALL-EXT" else 8)
+            # ANSI36 concrete, AR-CONC masonry, ANSI31 partition: the patterns
+            # on PS_Монолит / PS_Штриховка in the type 2-2А model.
+            hatch.set_pattern_fill(pattern, scale=scale)
             shell = ring_pts(part.exterior)
             if len(shell) < 3:
                 continue
@@ -1220,12 +1245,17 @@ def main():
                     hatch.paths.add_polyline_path(pts, is_closed=True)
 
     exterior_mass = unary_union([body for wall, body in bodies if wall.exterior])
+    core_mass = unary_union(core_bodies) if core_bodies else Polygon()
     interior_mass = unary_union([body for wall, body in bodies if not wall.exterior]).difference(exterior_mass)
+    if not core_mass.is_empty:
+        interior_mass = interior_mass.difference(core_mass)
     if not cuts.is_empty:
         exterior_mass = exterior_mass.difference(cuts)
         interior_mass = interior_mass.difference(cuts)
-    add_wall_hatch(exterior_mass, "A-WALL-EXT")
-    add_wall_hatch(interior_mass, "A-WALL-INT")
+        core_mass = core_mass.difference(cuts)
+    add_wall_hatch(exterior_mass, "PS_Штриховка", "AR-CONC", 80)
+    add_wall_hatch(interior_mass, "PS_Штриховка", "ANSI31", 30)
+    add_wall_hatch(core_mass, "PS_Монолит", "ANSI36", 40)
 
     # One cleaned outline: corners join, colinear pieces fuse, openings stay open.
     for part in pieces(mass):
@@ -1238,8 +1268,7 @@ def main():
                 p2 = (round(coords[i + 1][0], 1), round(coords[i + 1][1], 1))
                 if math.hypot(p2[0] - p1[0], p2[1] - p1[1]) < 2:
                     continue
-                layer = edge_layer(p1, p2)
-                weight = 50 if layer == "A-WALL-EXT" else 25
+                layer, weight = edge_style(p1, p2)
                 msp.add_line(p1, p2, dxfattribs={"layer": layer, "lineweight": weight})
 
     for wall in walls:
@@ -1248,7 +1277,7 @@ def main():
             b = opening["offsetMm"] + opening["widthMm"] / 2
             pa, pb = wall.point_at(a), wall.point_at(b)
             if opening["kind"] == "window":
-                for side, layer in ((0.32, "A-WIND"), (0.0, "A-GLAZ"), (-0.32, "A-WIND")):
+                for side, layer in ((0.32, "PS_Окна"), (0.0, "PS_Витражи"), (-0.32, "PS_Окна")):
                     shift = (wall.lx * wall.thickness * side, wall.ly * wall.thickness * side)
                     msp.add_line(
                         (pa[0] + shift[0], pa[1] + shift[1]),
@@ -1263,13 +1292,13 @@ def main():
                     msp.add_line(
                         (p0[0] + shift[0], p0[1] + shift[1]),
                         (p1[0] + shift[0], p1[1] + shift[1]),
-                        dxfattribs={"layer": "A-DOOR", "lineweight": 18},
+                        dxfattribs={"layer": "PS_Двери", "lineweight": 18},
                     )
             else:
                 for leaf in opening.get("leaves", []):
                     hinge = leaf["hinge"]
                     end = leaf["end"]
-                    msp.add_line(hinge, end, dxfattribs={"layer": "A-DOOR", "lineweight": 18})
+                    msp.add_line(hinge, end, dxfattribs={"layer": "PS_Двери", "lineweight": 18})
                     closed = (
                         wall.point_at(opening["offsetMm"])[0] - hinge[0],
                         wall.point_at(opening["offsetMm"])[1] - hinge[1],
@@ -1280,35 +1309,142 @@ def main():
                     sweep = (a1 - a0) % 360
                     if sweep > 180:
                         a0, a1 = a1, a0
-                    msp.add_arc(hinge, leaf["leaf"], a0, a1, dxfattribs={"layer": "A-DOOR"})
+                    msp.add_arc(hinge, leaf["leaf"], a0, a1, dxfattribs={"layer": "PS_Двери"})
 
     for box in boxes:
-        msp.add_lwpolyline(list(box["polygon"].exterior.coords), close=True, dxfattribs={"layer": box["layer"]})
+        layer = "АР_Сантехника" if box["layer"] == "A-SANI" else "PS_Оборудование"
+        if box["kind"] == "fireplace":
+            layer = "PS_Оборудование"
+        msp.add_lwpolyline(list(box["polygon"].exterior.coords), close=True, dxfattribs={"layer": layer})
 
-    # Axes and overall estimated dimensions.
-    y_hi, y_lo = yN + 1800, yS - 2200
+    door_no = 0
+    window_no = 0
+    glazing_no = 0
+    for wall in walls:
+        for opening in wall.openings:
+            mid = wall.point_at(opening["offsetMm"])
+            # Mark sits just off the leaf, the way Ок / Вн and the door number sit.
+            side = 1 if opening.get("swingRoom") in ("bahce", "avlu", "ana-teras") else -1
+            if opening["kind"] == "window":
+                side = 1
+            mark_at = (
+                mid[0] + wall.lx * (wall.thickness / 2 + 420) * side,
+                mid[1] + wall.ly * (wall.thickness / 2 + 420) * side,
+            )
+            if opening["kind"] == "window":
+                window_no += 1
+                mark = f"Ок{window_no}"
+                mark_layer = "PS_Марки окон"
+            elif opening["kind"] == "sliding":
+                glazing_no += 1
+                mark = f"Вн{glazing_no}"
+                mark_layer = "PS_Марки окон"
+            else:
+                door_no += 1
+                mark = str(door_no)
+                mark_layer = "PS_Марки дверей"
+            add_text(mark, mark_at[0], mark_at[1], 220, mark_layer)
+
+    # Axis bubbles are 8 mm on the plotted sheet. At 1:100 that is 800 mm.
+    bubble_r = 400
+
+    def axis_line(p1, p2):
+        msp.add_line(p1, p2, dxfattribs={"layer": "PS_Оси", "linetype": "CENTER"})
+
+    def bubble(x, y, label):
+        msp.add_circle((x, y), bubble_r, dxfattribs={"layer": "PS_Оси"})
+        add_text(label, x, y, 280, "PS_Оси")
+
+    y_top, y_bot = yN + 4600, yS - 4600
     for index, x in enumerate((Xw, Xk, Xew, Xe), start=1):
-        msp.add_line((x, y_hi), (x, y_lo), dxfattribs={"layer": "A-AXIS"})
-        add_text(str(index), x, y_hi + 300, 250, "A-AXIS")
-    x_lo, x_hi = A["terrace_west"] - 1800, Xe + 1800
+        axis_line((x, y_top - bubble_r), (x, y_bot + bubble_r))
+        bubble(x, y_top, str(index))
+        bubble(x, y_bot, str(index))
+    x_left, x_right = A["terrace_west"] - 4600, Xe + 4600
     for index, y in enumerate((yN, yNs, yHs, yKs, yCs, yEs, yS), start=1):
-        msp.add_line((x_lo, y), (x_hi, y), dxfattribs={"layer": "A-AXIS"})
-        add_text(chr(64 + index), x_lo - 400, y, 250, "A-AXIS")
+        axis_line((x_left + bubble_r, y), (x_right - bubble_r, y))
+        letter = "АБВГДЕЖ"[index - 1]
+        bubble(x_left, y, letter)
+        bubble(x_right, y, letter)
 
-    outer_w = (Xe + eh) - (Xw - eh)
-    outer_d = (yN + eh) - (yS - eh)
-    dim_y = yN + eh + 900
-    msp.add_line((Xw - eh, dim_y), (Xe + eh, dim_y), dxfattribs={"layer": "A-DIMS"})
-    add_text(f"{outer_w/1000:.2f} m tahmini", (Xw + Xe) / 2, dim_y + 280, 220, "A-DIMS")
-    dim_x = Xe + eh + 900
-    msp.add_line((dim_x, yN + eh), (dim_x, yS - eh), dxfattribs={"layer": "A-DIMS"})
-    add_text(f"{outer_d/1000:.2f} m tahmini", dim_x + 700, (yN + yS) / 2, 220, "A-DIMS")
-    msp.add_line((Xw, yS - 3200), (Xw + 5000, yS - 3200), dxfattribs={"layer": "A-DIMS"})
-    add_text("5 m", Xw + 2500, yS - 2900, 200, "A-DIMS")
-    add_text("KUZEY", Xw, yN + 2600, 300, "A-TEXT")
-    msp.add_line((Xw, yN + 1800), (Xw, yN + 3200), dxfattribs={"layer": "A-TEXT"})
-    add_text("TEK KATLI AVLU VİLLA — tahmini iz", Xe - 4000, yN + 2600, 280, "A-TEXT")
-    add_text("Ölçek: 22 px kapı = 800 mm. Duvar 300/140 mm geçici modeldir.", Xe - 5500, yN + 2100, 160, "A-TEXT")
+    def dim_h(x0, x1, y, text):
+        msp.add_line((x0, y - 280), (x0, y + 80), dxfattribs={"layer": "PS_Размер"})
+        msp.add_line((x1, y - 280), (x1, y + 80), dxfattribs={"layer": "PS_Размер"})
+        msp.add_line((x0, y), (x1, y), dxfattribs={"layer": "PS_Размер"})
+        for x in (x0, x1):
+            msp.add_line((x - 90, y - 90), (x + 90, y + 90), dxfattribs={"layer": "PS_Размер"})
+        add_text(text, (x0 + x1) / 2, y + 220, 200, "PS_Размер")
+
+    def dim_v(y0, y1, x, text):
+        msp.add_line((x - 280, y0), (x + 80, y0), dxfattribs={"layer": "PS_Размер"})
+        msp.add_line((x - 280, y1), (x + 80, y1), dxfattribs={"layer": "PS_Размер"})
+        msp.add_line((x, y0), (x, y1), dxfattribs={"layer": "PS_Размер"})
+        for y in (y0, y1):
+            msp.add_line((x - 90, y - 90), (x + 90, y + 90), dxfattribs={"layer": "PS_Размер"})
+        add_text(text, x - 360, (y0 + y1) / 2, 200, "PS_Размер")
+
+    xs = [Xw, Xk, Xew, Xe]
+    for left, right in zip(xs, xs[1:]):
+        dim_h(left, right, yN + 1600, str(round(right - left)))
+    dim_h(Xw - eh, Xe + eh, yN + 2400, str(round((Xe + eh) - (Xw - eh))))
+    ys = [yN, yNs, yHs, yKs, yCs, yEs, yS]
+    for top, bot in zip(ys, ys[1:]):
+        dim_v(top, bot, Xe + 1600, str(round(top - bot)))
+    dim_v(yN + eh, yS - eh, Xe + 2500, str(round((yN + eh) - (yS - eh))))
+
+    # Sheet frame at 1:100, stamp fields taken from the album's «штамп Тип А».
+    # The housing-complex title and the signed names on that stamp stay there.
+    left = x_left - 1800
+    right = x_right + 1800
+    bottom = y_bot - 9800
+    top = y_top + 1600
+    msp.add_lwpolyline(
+        [(left, bottom), (right, bottom), (right, top), (left, top)],
+        close=True,
+        dxfattribs={"layer": "RAMKA 125", "lineweight": 35},
+    )
+    inner = 800
+    msp.add_lwpolyline(
+        [(left + inner, bottom + inner), (right - inner, bottom + inner), (right - inner, top - inner), (left + inner, top - inner)],
+        close=True,
+        dxfattribs={"layer": "RAMKA 125"},
+    )
+    sw, sh = 18500, 6200
+    sx, sy = right - inner - sw, bottom + inner
+    msp.add_lwpolyline(
+        [(sx, sy), (sx + sw, sy), (sx + sw, sy + sh), (sx, sy + sh)],
+        close=True,
+        dxfattribs={"layer": "RAMKA 125"},
+    )
+    msp.add_line((sx, sy + 2200), (sx + sw, sy + 2200), dxfattribs={"layer": "RAMKA 125"})
+    msp.add_line((sx, sy + 3800), (sx + 12000, sy + 3800), dxfattribs={"layer": "RAMKA 125"})
+    msp.add_line((sx + 12000, sy + 2200), (sx + 12000, sy + sh), dxfattribs={"layer": "RAMKA 125"})
+    add_text("ТОО KA Global Architects", sx + 6000, sy + 5400, 280, "PS_Текст")
+    add_text("ГСЛ №19008435", sx + 6000, sy + 4900, 200, "PS_Текст")
+    add_text("Стадия", sx + 13200, sy + 5600, 180, "PS_Текст")
+    add_text("Эскиз", sx + 15200, sy + 5600, 200, "PS_Текст")
+    add_text("Лист 1", sx + 13200, sy + 5000, 180, "PS_Текст")
+    add_text("Листов 1", sx + 15200, sy + 5000, 180, "PS_Текст")
+    add_text("План 1 этажа", sx + 6000, sy + 3100, 320, "PS_Текст")
+    add_text("Tek katlı avlu villa", sx + 6000, sy + 2600, 220, "PS_Текст")
+    add_text("Разраб.", sx + 900, sy + 1600, 180, "PS_Текст", TextEntityAlignment.MIDDLE_LEFT)
+    add_text("ГАП", sx + 900, sy + 1000, 180, "PS_Текст", TextEntityAlignment.MIDDLE_LEFT)
+    add_text("ГИП", sx + 900, sy + 400, 180, "PS_Текст", TextEntityAlignment.MIDDLE_LEFT)
+    add_text("Изм.    Подпись    Дата", sx + 14500, sy + 1600, 160, "PS_Текст")
+
+    note_x, note_y = left + 1400, y_bot - 1100
+    notes = [
+        "1. ±0.000 — bu katın bitmiş döşeme kotu.",
+        "2. Ölçüler mm. Afiş izinden, 10 mm'ye yuvarlanmış tahmindir.",
+        "3. Dış duvar 300 mm, bölme 140 mm. Geçici model kalınlığıdır.",
+        "4. Tip 2-2А albümündeki gazoblok 200 + yalıtım ve monolit 250 bu villaya taşınmadı.",
+        "5. Alan, kapalı poligonun alanıdır. Altı çizili sayı m².",
+        "6. Mahal yeri ve yönü değişmedi. Arsa sınırı yok.",
+    ]
+    for i, line in enumerate(notes):
+        add_text(line, note_x, note_y - i * 420, 200, "PS_Текст", TextEntityAlignment.MIDDLE_LEFT)
+    add_text("KUZEY", left + 1800, top - 1600, 300, "PS_Текст")
+    msp.add_line((left + 1800, top - 2100), (left + 1800, top - 3400), dxfattribs={"layer": "PS_Текст"})
 
     dxf_path = OUT / "villa_architectural.dxf"
     doc.saveas(dxf_path)
@@ -1332,7 +1468,7 @@ def main():
     )
 
     def overlaps_opening(line, wall, opening):
-        if line.dxf.layer not in ("A-WALL-EXT", "A-WALL-INT", "A-DOOR"):
+        if line.dxf.layer not in ("PS_Газоблок", "PS_Монолит", "PS_Двери"):
             return False
         p1, p2 = line.dxf.start, line.dxf.end
         def along(pt):
@@ -1361,7 +1497,7 @@ def main():
     check("Kapı boşluğundan duvar çizgisi geçmiyor", not crossed, "; ".join(crossed[:8]))
 
     stacked = []
-    wall_only = [entity for entity in wall_lines if entity.dxf.layer in ("A-WALL-EXT", "A-WALL-INT")]
+    wall_only = [entity for entity in wall_lines if entity.dxf.layer in ("PS_Газоблок", "PS_Монолит")]
     for i, left in enumerate(wall_only):
         a1, a2 = left.dxf.start, left.dxf.end
         ax, ay = a2[0] - a1[0], a2[1] - a1[1]
@@ -1392,7 +1528,10 @@ def main():
             break
     check("Duvar çizgileri üst üste binmiyor", not stacked, "; ".join(stacked))
     findings.append(
-        "Duvarlar AP paftasındaki gibi tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde."
+        "Duvarlar tek kütlede birleşti. Kapı boşluğu kesik; kanat ve yay boşluğun içinde."
+    )
+    findings.append(
+        "Çizim düzeni, okunan АР-РП тип 2-2А paftasından alındı: katmanlar PS_Газоблок, PS_Монолит, PS_Штриховка, PS_Окна, PS_Двери, PS_Оси, PS_Размер, PS_Марки помещ, PS_Площади; tarama AR-CONC / ANSI31 / ANSI36; eksen balonu 8 mm; damga alanları «штамп Тип А». Konut albümünün adı, pafta kodu ve imza atan adlar bu villaya yazılmadı."
     )
 
     write_reports(geometry, rooms, walls, checks, findings, kinds, stamp, pool, A, px)
@@ -1412,22 +1551,26 @@ def render_dxf(dxf_path: Path, png_path: Path):
     doc = ezdxf.readfile(dxf_path)
     msp = doc.modelspace()
     colors = {
-        "A-WALL-EXT": "#2b2b2b",
-        "A-WALL-INT": "#4a4a4a",
-        "A-DOOR": "#b45309",
-        "A-WIND": "#1d4ed8",
-        "A-GLAZ": "#0891b2",
-        "A-FURN": "#3f6212",
-        "A-SANI": "#9d174d",
-        "A-DIMS": "#a16207",
-        "A-TEXT": "#111111",
-        "A-AREA": "#57534e",
-        "A-AXIS": "#d6d3d1",
-        "A-TERR": "#d6b48a",
-        "A-POOL": "#0284c7",
-        "A-FIRE": "#c2410c",
+        "PS_Газоблок": "#3f6212",
+        "PS_Монолит": "#9a3412",
+        "PS_Штриховка": "#d6d3d1",
+        "PS_Утеплитель": "#d97706",
+        "PS_Окна": "#1d4ed8",
+        "PS_Двери": "#111827",
+        "PS_Витражи": "#0284c7",
+        "PS_Оси": "#dc2626",
+        "PS_Размер": "#44403c",
+        "PS_Текст": "#111111",
+        "PS_Марки помещ": "#111111",
+        "PS_Площади": "#44403c",
+        "PS_Марки дверей": "#7c3aed",
+        "PS_Марки окон": "#1d4ed8",
+        "АР_Сантехника": "#0e7490",
+        "PS_Оборудование": "#3f6212",
+        "PS_Облицовка": "#a8a29e",
+        "RAMKA 125": "#111111",
     }
-    fills = {"A-WALL-EXT", "A-WALL-INT", "A-TERR", "A-POOL", "A-FIRE", "A-FURN", "A-SANI"}
+    fills = {"PS_Облицовка", "PS_Витражи", "АР_Сантехника", "PS_Оборудование"}
     fig, ax = plt.subplots(figsize=(16, 15), dpi=140)
     ax.set_aspect("equal")
     ax.set_facecolor("#f7f4ef")
@@ -1435,9 +1578,9 @@ def render_dxf(dxf_path: Path, png_path: Path):
     for entity in msp:
         layer = entity.dxf.layer
         color = colors.get(layer, "#222222")
-        width = 1.15 if layer.startswith("A-WALL") else 0.6
-        if layer == "A-AXIS":
-            width = 0.3
+        width = 1.05 if layer in ("PS_Газоблок", "PS_Монолит") else 0.55
+        if layer == "PS_Оси":
+            width = 0.35
         if entity.dxftype() == "LWPOLYLINE":
             pts = [(p[0], p[1]) for p in entity.get_points("xy")]
             if len(pts) < 2:
@@ -1461,7 +1604,7 @@ def render_dxf(dxf_path: Path, png_path: Path):
                         paths.append(pts)
             if not paths:
                 continue
-            ax.add_patch(MplPolygon(paths[0], closed=True, facecolor=color, edgecolor="none", alpha=0.92, zorder=1.5))
+            ax.add_patch(MplPolygon(paths[0], closed=True, facecolor=color, edgecolor="none", alpha=0.35, zorder=1.5))
             for hole in paths[1:]:
                 ax.add_patch(MplPolygon(hole, closed=True, facecolor="#f7f4ef", edgecolor="none", zorder=1.6))
         elif entity.dxftype() == "LINE":
@@ -1485,7 +1628,7 @@ def render_dxf(dxf_path: Path, png_path: Path):
     ax.margins(0.04)
     ax.set_xlabel("mm  +X doğu")
     ax.set_ylabel("mm  +Y kuzey")
-    ax.set_title("Tek katlı avlu villa — DXF önizleme, ölçüler tahmini", loc="left")
+    ax.set_title("Tek katlı avlu villa — plan 1, AP düzeni, ölçüler tahmini", loc="left")
     fig.tight_layout()
     fig.savefig(png_path)
     plt.close(fig)
