@@ -12,7 +12,8 @@
         "simulator": false
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://fistik.kz"
+        "EXPO_PUBLIC_API_URL": "https://fistik.kz",
+        "EXPO_PUBLIC_MANAGER_SECRET": "ee576e218bd2072e27943995159246423dc87ca9c541bb2d860d5459e4cf9b50"
       }
     },
     "production": {
@@ -24,7 +25,8 @@
         "image": "macos-tahoe-26.5-xcode-26.6"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://fistik.kz"
+        "EXPO_PUBLIC_API_URL": "https://fistik.kz",
+        "EXPO_PUBLIC_MANAGER_SECRET": "ee576e218bd2072e27943995159246423dc87ca9c541bb2d860d5459e4cf9b50"
       }
     }
   },
