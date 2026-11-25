@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Fıstık Sipariş",
+    "slug": "fistik-orders",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "fistik-orders",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#C5D46A"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "kz.fistik.orders",
+      "buildNumber": "20",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "package": "kz.fistik.orders",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#C5D46A"
+      }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#4A2C11",
+          "defaultChannel": "orders",
+          "sounds": [],
+          "enableBackgroundRemoteNotifications": true
+        }
+      ]
+    ]
+  }
+}

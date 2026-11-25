@@ -10,7 +10,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const envPath = join(root, '.env.local');
-const ordersEnvPath = join(root, '..', 'fistik-orders', '.env');
+const ordersEnvPath = join(root, 'fistik-orders', '.env');
 
 function loadEnvFile(path) {
   const vars = {};

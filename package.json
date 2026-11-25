@@ -15,7 +15,8 @@
     "sync:prices": "node scripts/sync-prices-to-supabase.mjs",
     "check:env": "node scripts/check-env.mjs",
     "release:check": "npm run check:env && npm run build",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:manager-ios": "npm --prefix fistik-orders run build:ios"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.11",
