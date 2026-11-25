@@ -2,6 +2,7 @@
   "expo": {
     "name": "Fıstık Sipariş",
     "slug": "fistik-orders",
+    "owner": "mirok1",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +17,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "kz.fistik.orders",
-      "buildNumber": "20",
+      "buildNumber": "11",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "UIBackgroundModes": ["remote-notification"]
@@ -40,6 +41,11 @@
           "enableBackgroundRemoteNotifications": true
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "aabf75fb-23f5-4ac9-99eb-6d2c5444527b"
+      }
+    }
   }
 }
